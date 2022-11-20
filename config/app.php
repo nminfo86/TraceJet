@@ -212,4 +212,20 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+
+
+
+    // TODO::change the conmment
+    /*
+    |--------------------------------------------------------------------------
+    | Application API KEY
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "API KEY" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services the application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'app_api_key' => env("APP_API_KEY"),
 ];
