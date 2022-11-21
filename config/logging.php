@@ -120,12 +120,12 @@ return [
 
 
         // this is created for logging our code in Controllers and views
-        // 'applicationLog' => [
-        //     'driver' => 'daily',
-        //     'path' => storage_path('logs/application.log'),
-        //     'level' => 'error',
-        //     'days' => 14,
-        // ],
+        'applicationLog' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/application.log'),
+            'level' => 'error',
+            'days' => 14,
+        ],
     ],
 
 ];

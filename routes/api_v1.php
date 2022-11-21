@@ -48,8 +48,7 @@ Route::group(
         /*                              Groupe controller                             */
         /* -------------------------------------------------------------------------- */
         Route::controller(AccessTokensController::class)->group(function () {
-            Route::delete('auth/logout/{token?}', 'destroy');
-            Route::delete('auth/logout_all_devices', 'destroyAll'); // NOTE::Get the team's opinion
+            Route::delete('auth/logout', 'logout');
         });
         /* -------------------------- End groupe controller ------------------------- */
 
