@@ -13,6 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/login', function () {
+    return view('pages.login');
+});
+
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware("auth");
+// Route::group(
+//     ['middleware' => ['auth:sanctum']],
+
+//     function () {
+
+//         Route::get('/', function () {
+//             return view('welcome');
+//     });
+// });
+// Route::fallback(function () {
+//     return view('pages.login');
+// });
