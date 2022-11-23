@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\api_v1;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,14 +14,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()) {
-            $users = User::paginate();
-            return response()->json($users, 200);
-        } else {
-            return response()->json('not jax');
-        }
+        $users = User::paginate();
+
+        //Send response with success
+        return $this->sendResponse(data: $users);
     }
 
     /**

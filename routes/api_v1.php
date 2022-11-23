@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\SectionController;
 use App\Http\Controllers\Api\AccessTokensController;
 
 /*
@@ -18,7 +19,11 @@ use App\Http\Controllers\Api\AccessTokensController;
 // Route::delete('auth/access_token/{token?}', [AccessTokensController::class, 'destroy'])->middleware('auth:sanctum');
 
 
-
+// Route::fallback(function () {
+//     return response()->json("Not found");
+//     // return abort(404);
+//     // return view('errors.404');  // incase you want to return view
+// });
 
 Route::post('auth/access_token', [AccessTokensController::class, 'login'])->middleware('guest:sanctum');
 
@@ -35,8 +40,9 @@ Route::group(
         /* -------------------------------------------------------------------------- */
         /*                       Begin Resource controller                            */
         /* -------------------------------------------------------------------------- */
-        Route::resources([
+        Route::apiResources([
             'users' => UserController::class,
+            'sections' => SectionController::class,
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 

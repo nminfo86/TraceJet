@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\api_v1;
 
 use PDOException;
-use App\Models\User;
-use App\Traits\ResponsTrait;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AccessTokensRequest;
 
 class AccessTokensController extends Controller
 {
-    use ResponsTrait;
+    use ResponseTrait;
 
     public function login(AccessTokensRequest $request)
     {

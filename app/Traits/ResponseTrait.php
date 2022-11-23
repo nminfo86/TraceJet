@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
-trait ResponsTrait
+trait ResponseTrait
 {
 
     protected function CatchExeption($e)

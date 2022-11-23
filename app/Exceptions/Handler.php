@@ -2,11 +2,17 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Exceptions\ExceptionTrait;
+use Exception;
 use Throwable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
+    use ExceptionTrait;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -45,6 +51,13 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (Exception $exception, $request) {
+
+            if ($request->expectsJson()) {
+                return $this->apiException($request, $exception);
+            }
         });
     }
 }

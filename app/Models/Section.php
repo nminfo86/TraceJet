@@ -14,4 +14,11 @@ class Section extends Model
      * @var array
      */
     protected $fillable = ['section_name'];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }
