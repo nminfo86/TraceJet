@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\WebAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,15 +12,24 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/login', function () {
-    return view('pages.login');
-});
-
-
+/***************default route *************************/
 Route::get('/', function () {
+    return view('pages.login');
+})->name('login');
+/****************************** ***********************/
+
+
+/*************************route to authenticate ******************/
+Route::post('authLogin', [WebAuthController::class, 'webLogin']);
+/************************** end ************************************/
+
+Route::get('/welcome', function () {
     return view('welcome');
-})->middleware("auth");
+})->middleware('auth');
+
+/*Route::get('/', function () {
+    return view('welcome');
+})->middleware("auth");*/
 // Route::group(
 //     ['middleware' => ['auth:sanctum']],
 

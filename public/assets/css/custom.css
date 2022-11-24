@@ -1,0 +1,35 @@
+label {
+    font-size: 1rem;
+}
+.dataTables_info{
+    float: right;
+}
+#main_table_paginate{
+float: left;
+}
+.dataTables_filter{
+    float: left;
+}
+.dataTables_length {
+    float: right;
+}
+.form-select-sm{
+    width: 100px !important;
+    /* direction: rtl;
+    text-align: start; */
+}
+.alert-message {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 300;
+    z-index: 1000;
+}
+
+dropdown-menu li {
+    text-align: right;
+          /*transition: none;
+          border: none;
+          border: 1px solid #007bff!important;*//*9c27b0*/
+          /*border-color: ;*/
+    }
