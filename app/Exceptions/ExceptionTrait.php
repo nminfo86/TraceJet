@@ -2,12 +2,14 @@
 
 namespace App\Exceptions;
 
-use App\Traits\ResponseTrait;
 use Error;
+use ErrorException;
+use BadMethodCallException;
+use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\QueryException;
-use Symfony\Component\HttpFoundation\Response;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -30,11 +32,18 @@ trait ExceptionTrait
         if ($this->isQuery($e)) {
             return $this->QueryResponse($e);
         }
+        if ($this->isUnauthorized($e)) {
+            return $this->UnauthorizedResponse($e);
+        }
         if ($this->isError($e)) {
-            return $this->QueryResponse($e);
+            return $this->ErrorResponse($e);
+        }
+        if ($this->isBadMethodCall($e)) {
+            return $this->BadMethodCallResponse($e);
         }
 
         return parent::render($request, $e);
+        // return true;
     }
 
 
@@ -55,9 +64,17 @@ trait ExceptionTrait
     {
         return $e instanceof QueryException;
     }
+    protected function isUnauthorized($e)
+    {
+        return $e instanceof UnauthorizedException;
+    }
     protected function isError($e)
     {
-        return $e instanceof Error;
+        return $e instanceof ErrorException;
+    }
+    protected function isBadMethodCall($e)
+    {
+        return $e instanceof BadMethodCallException;
     }
 
 
@@ -75,6 +92,7 @@ trait ExceptionTrait
 
     protected function HttpResponse($e)
     {
+        Log::channel('applicationLog')->error($e->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName());
         return response()->json(
             [
                 'status' => false,
@@ -95,10 +113,14 @@ trait ExceptionTrait
     }
     protected function ErrorResponse($e)
     {
+
+        Log::channel('applicationLog')->error($e->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName()  . ' Action : ' .  Route::currentRouteAction() . ' File : ' . $e->getFile() . ' at Line N° ' . $e->getLine());
+
+
         return response()->json(
             [
                 'status' => false,
-                'errors' => $e->getMessage()
+                'errors' => 'Error'
             ]
             // , Response::HTTP_NOT_FOUND
         );
@@ -113,6 +135,29 @@ trait ExceptionTrait
             [
                 'status' => false,
                 'errors' => 'Error code ' . $e->getCode()
+            ]
+            // , Response::HTTP_NOT_FOUND
+        );
+    }
+    protected function BadMethodCallResponse($e)
+    {
+        Log::channel('applicationLog')->error($e->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName()  . ' Action : ' .  Route::currentRouteAction());
+
+        return response()->json(
+            [
+                'status' => false,
+                'errors' => 'Error'
+            ]
+            // , Response::HTTP_NOT_FOUND
+        );
+    }
+
+    protected function UnauthorizedResponse($e)
+    {
+        return response()->json(
+            [
+                'status' => false,
+                'errors' => $e->getMessage()
             ]
             // , Response::HTTP_NOT_FOUND
         );

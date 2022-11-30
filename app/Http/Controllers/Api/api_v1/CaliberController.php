@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\Api\api_v1;
 
-use App\Models\Section;
+
+use App\Models\Caliber;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SectionRequest;
 
-class SectionController extends Controller
+class CaliberController extends Controller
 {
     use ResponseTrait;
-
-
     function __construct()
     {
-        $this->middleware('permission:section-list', ['only' => ['index']]);
-        $this->middleware('permission:section-create', ['only' => ['store']]);
-        $this->middleware('permission:section-edit', ['only' => ['show', 'update']]);
-        $this->middleware('permission:section-delete', ['only' => ['destroy']]);
+        // $this->middleware('permission:product-list', ['only' => ['index']]);
+        // $this->middleware('permission:product-create', ['only' => ['store']]);
+        // $this->middleware('permission:product-edit', ['only' => ['show', 'update']]);
+        // $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -27,7 +25,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $sections = Section::paginate();
+        $sections = Caliber::with('product')->get();
 
         //Send response with success
         return $this->sendResponse(data: $sections);
@@ -41,7 +39,7 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        $section = Section::create($request->all());
+        $section = Caliber::create($request->all());
 
         //Send response with success
         return $this->sendResponse("Created successfully", $section);
@@ -50,39 +48,38 @@ class SectionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Section  $section
+     * @param  \App\Models\Caliber  $caliber
      * @return \Illuminate\Http\Response
      */
-    public function show(Section $section)
+    public function show(Caliber $caliber)
     {
-        //Send response with success
-        return $this->sendResponse(data: $section);
+        return $this->sendResponse(data: $caliber);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Section  $section
+     * @param  \App\Models\Caliber  $caliber
      * @return \Illuminate\Http\Response
      */
-    public function update(SectionRequest $request, Section $section)
+    public function update(Request $request, Caliber $caliber)
     {
-        $section->update($request->all());
+        $caliber->update($request->all());
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $section);
+        return $this->sendResponse("Updated successfully", $caliber);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Section  $section
+     * @param  \App\Models\Caliber  $caliber
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Section $section)
+    public function destroy(Caliber $caliber)
     {
-        $section->delete();
+        $caliber->delete();
 
         //Send response with success
         return $this->sendResponse("Deleted successfully");

@@ -1,10 +1,9 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\SectionController;
-use App\Http\Controllers\Api\AccessTokensController;
+use App\Http\Controllers\Api\api_v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController};
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +15,9 @@ use App\Http\Controllers\Api\AccessTokensController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// Route::delete('auth/access_token/{token?}', [AccessTokensController::class, 'destroy'])->middleware('auth:sanctum');
-
-
-// Route::fallback(function () {
-//     return response()->json("Not found");
-//     // return abort(404);
-//     // return view('errors.404');  // incase you want to return view
-// });
 
 Route::post('auth/access_token', [AccessTokensController::class, 'login'])->middleware('guest:sanctum');
+Route::post('register', [AccessTokensController::class, 'register']);
 
 
 Route::group(
@@ -34,7 +26,12 @@ Route::group(
     function () {
 
         Route::get('user', function (Request $request) {
-            return $request->user();
+            $guards = array_keys(config('auth.guards'));
+            foreach ($guards as $guard) {
+                if (auth()->guard($guard)->check()) {
+                    return $guard;
+                }
+            }
         });
 
         /* -------------------------------------------------------------------------- */
@@ -43,6 +40,9 @@ Route::group(
         Route::apiResources([
             'users' => UserController::class,
             'sections' => SectionController::class,
+            'roles' => RoleController::class,
+            'products' => ProductController::class,
+            'calibers' => CaliberController::class,
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 
@@ -57,6 +57,8 @@ Route::group(
             Route::delete('auth/logout', 'logout');
         });
         /* -------------------------- End groupe controller ------------------------- */
+
+
 
 
 

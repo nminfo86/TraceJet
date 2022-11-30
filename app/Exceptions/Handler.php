@@ -2,13 +2,19 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\ExceptionTrait;
 use Exception;
 use Throwable;
+use ErrorException;
+use BadMethodCallException;
+use App\Exceptions\ExceptionTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\QueryException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -52,12 +58,18 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+        // $this->renderable(function (Exception $exception, $request) {
 
-        $this->renderable(function (Exception $exception, $request) {
-
-            if ($request->expectsJson()) {
-                return $this->apiException($request, $exception);
-            }
-        });
+        //     // if ($request->expectsJson()) {
+        //     if (
+        //         $request->expectsJson() &&
+        //         $exception instanceof ModelNotFoundException ||
+        //         $exception instanceof NotFoundHttpException ||
+        //         $exception instanceof MethodNotAllowedHttpException || $exception instanceof QueryException || $exception instanceof UnauthorizedException || $exception instanceof ErrorException ||
+        //         $exception instanceof BadMethodCallException
+        //     ) {
+        //         return $this->apiException($request, $exception);
+        //     }
+        // });
     }
 }
