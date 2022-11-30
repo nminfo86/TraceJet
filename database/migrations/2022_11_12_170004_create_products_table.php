@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+
+            // TODO::call nassim
             $table->unsignedBigInteger('section_id')->nullable();
             $table->string('product_name', 50)->unique();
             $table->string('product_code', 50)->unique();
-            $table->foreign('section_id')
-                ->references('id')
-                ->on('sections')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+
+
+            $table->foreign('section_id')->references('id')->on('sections')->nullOnDelete()->cascadeOnUpdate();
         });
     }
 

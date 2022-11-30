@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class Caliber extends Model
 {
     use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['section_name', 'observation'];
+    protected $fillable = ['caliber_code', 'caliber_name', 'product_id', 'box_quantity', 'observation'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -27,8 +28,8 @@ class Section extends Model
     /*                                relationShips                               */
     /* -------------------------------------------------------------------------- */
 
-    public function products()
+    public function product()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 }

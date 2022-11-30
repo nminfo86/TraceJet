@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
-trait ResponsTrait
+trait ResponseTrait
 {
 
     protected function CatchExeption($e)
@@ -27,8 +27,7 @@ trait ResponsTrait
     function sendResponse($message = null, $data = [], $status = true)
     {
         match ($status) {
-            // [ ]:Chouf m3a team about errors
-            false => $response = ["message" => $message, "errors" => "Chouf m3ahom"],
+            false => $response = ["message" => $message],
             !empty($data) && !is_null($message) => $response = ["message" => $message, "data" => $data],
             !empty($data) && is_null($message) => $response = ["data" => $data],
             empty($data) && !is_null($message) => $response = ["message" => $message],

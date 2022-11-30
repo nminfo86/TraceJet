@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class Product extends Model
 {
     use HasFactory;
     /**
@@ -13,7 +13,7 @@ class Section extends Model
      *
      * @var array
      */
-    protected $fillable = ['section_name', 'observation'];
+    protected $fillable = ['product_code', 'product_name', 'section_id'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -27,8 +27,12 @@ class Section extends Model
     /*                                relationShips                               */
     /* -------------------------------------------------------------------------- */
 
-    public function products()
+    public function section()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Section::class);
+    }
+    public function calibers()
+    {
+        return $this->hasMany(calibers::class);
     }
 }
