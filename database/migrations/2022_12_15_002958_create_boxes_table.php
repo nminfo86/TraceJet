@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('boxes', function (Blueprint $table) {
             $table->id();
-
-            // TODO::call nassim
-            $table->unsignedBigInteger('section_id');
-            $table->string('product_name', 50)->unique();
-            $table->string('product_code', 50)->unique();
-
-
-            $table->foreign('section_id')->references('id')->on('sections')->restrictOnDelete()->cascadeOnUpdate();
+            $table->unsignedBigInteger('of_id');
+            $table->string('box_quantity');
+            $table->string('status')->default('empty');
+            $table->timestamps();
         });
     }
 
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('boxes');
     }
 };

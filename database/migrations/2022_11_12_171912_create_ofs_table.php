@@ -13,26 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
+        // TODO:nassim
         Schema::create('ofs', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('caliber_id')->nullable();
-            $table->integer('of_number');
-            $table->string('of_code', 50)->unique();
-            $table->enum('status', ['New', 'InProd', 'Paused', 'Closed']);
-            $table->string('created_by', 50);
-            $table->string('updated_by', 50);
+            $table->bigIncrements('id');
+            // $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('caliber_id');
+            $table->string('of_number')->unique();
+            $table->string('of_code', 50)->unique()->nullable();
+            $table->text('status')->default('new');
+            $table->integer('quantity');
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
             $table->timestamps();
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
-            $table->foreign('caliber_id')
-                ->references('id')
-                ->on('calibers')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+
+
+            // $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('caliber_id')->references('id')->on('calibers')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 

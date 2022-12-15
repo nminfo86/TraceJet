@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Api\api_v1;
+namespace App\Http\Controllers\Api\v1;
+
+
 
 
 use App\Models\Caliber;
-use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequests\StoreCaliberRequest;
+use App\Http\Requests\UpdateRequests\UpdateCaliberRequest;
+
+
 
 class CaliberController extends Controller
 {
-    use ResponseTrait;
+
     function __construct()
     {
-        // $this->middleware('permission:product-list', ['only' => ['index']]);
-        // $this->middleware('permission:product-create', ['only' => ['store']]);
-        // $this->middleware('permission:product-edit', ['only' => ['show', 'update']]);
-        // $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:caliber-list', ['only' => ['index']]);
+        $this->middleware('permission:caliber-create', ['only' => ['store']]);
+        $this->middleware('permission:caliber-edit', ['only' => ['show', 'update']]);
+        $this->middleware('permission:caliber-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -37,7 +41,7 @@ class CaliberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCaliberRequest $request)
     {
         $section = Caliber::create($request->all());
 
@@ -63,7 +67,7 @@ class CaliberController extends Controller
      * @param  \App\Models\Caliber  $caliber
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Caliber $caliber)
+    public function update(UpdateCaliberRequest $request, Caliber $caliber)
     {
         $caliber->update($request->all());
 

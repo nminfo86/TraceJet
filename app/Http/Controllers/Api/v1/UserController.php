@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\api_v1;
+namespace App\Http\Controllers\Api\v1;
 
 use Exception;
 use App\Models\User;
@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+        $users = User::with('section')->get();
 
         //Send response with success
         return $this->sendResponse(data: $users);
@@ -51,18 +51,20 @@ class UserController extends Controller
             // DB::beginTransaction();
             // register user
             $user = User::create([
+                'section_id'          => $request->section_id,
                 'username'          => $request->username,
                 'name'          => $request->name,
                 'email'         => $request->email,
                 'password'      => Hash::make($request->password),
-                'roles_name' =>  $request->roles_name,
+                'roles_name' =>  [$request->roles_name],
             ]);
 
             // assign role
-            $user->assignRole($request->input('roles_name', 'super_admin'));
+            $user->assignRole($request->input('roles_name'));
             // DB::commit();
 
             // send response
+            // return new UserResource($user);
             return $this->sendResponse("Created successfully", $user);
         } catch (Exception $e) {
 

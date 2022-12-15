@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('calibers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('product_id');
             $table->string('caliber_name', 50)->unique();
             $table->string('caliber_code', 50)->unique();
             $table->integer('box_quantity');
@@ -23,7 +23,7 @@ return new class extends Migration
 
 
 
-            $table->foreign('product_id')->references('id')->on('products')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreign('product_id')->references('id')->on('products')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 

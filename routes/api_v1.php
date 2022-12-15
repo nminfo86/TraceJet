@@ -1,9 +1,13 @@
 <?php
 
-use App\Models\User;
+use App\Models\Of;
+use App\Models\Post;
+use App\Models\PostsType;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\api_v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController};
+use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +47,27 @@ Route::group(
             'roles' => RoleController::class,
             'products' => ProductController::class,
             'calibers' => CaliberController::class,
+            'ofs' => OfController::class,
+            'serial_numbers' => SerialNumberController::class,
+            'posts_types' => PostsTypeController::class,
+            'posts' => PostController::class,
+            'movements' => MovementController::class,
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 
 
+        // route::get('ofs_list', function () {
+        //     // return Of::pluck('of_number', 'id');
+        //     return Of::pluck('of_number', 'id');
+        // });
+        route::get('of_quantity/{id}', function ($id) {
+            return Of::findOrFail($id)->first(['quantity', 'of_code']);
+        });
 
 
 
+
+        route::get('check_qr', [SerialNumberController::class, 'checkQr']);
         /* -------------------------------------------------------------------------- */
         /*                              Groupe controller                             */
         /* -------------------------------------------------------------------------- */
@@ -62,12 +80,21 @@ Route::group(
 
 
 
+        // Route::get(
+        //     'getmacshellexec',
+        //     function () {
+        //         // $shellexec = shell_exec('getmac');
+        //         // dd(gethostname());
+        //     }
+        // );
 
-
-
-
-
-
+        // Route::get(
+        //     'getmacexec',
+        //     function () {
+        //         $shellexec = exec('getmac');
+        //         dd($shellexec);
+        //     }
+        // );
 
 
 
