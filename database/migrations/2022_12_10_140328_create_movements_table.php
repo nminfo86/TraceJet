@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('serial_number_id');
             $table->unsignedBigInteger('previous_post_id');
-            $table->string('previous_post_name');
+            // $table->string('previous_post_name');
             $table->text('result');
             $table->text('observation')->nullable();
             // $table->string('created_by', 50)->nullable();

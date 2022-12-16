@@ -52,7 +52,7 @@ class MovementController extends Controller
         // Get last movement of QR
         $qr_movements = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
-            ->latest()->first(['movements.id', 'previous_post_id', 'previous_post_name', 'qr', 'serial_number_id', 'result']);
+            ->latest()->first(['movements.id', 'previous_post_id', 'qr', 'serial_number_id', 'result']);
 
         // Not exist
         if (!$qr_movements) {
@@ -83,7 +83,7 @@ class MovementController extends Controller
         $inputs = [
             'serial_number_id'      => $qr_movements->serial_number_id,
             'previous_post_id'      => $post->id,
-            'previous_post_name'    => $post->post,
+            // 'previous_post_name'    => $post->post,
             'result'                => $request->only('result')['result']
         ];
 

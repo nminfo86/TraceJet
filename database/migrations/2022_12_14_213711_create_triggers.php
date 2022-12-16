@@ -22,7 +22,7 @@ return new class extends Migration
                         CREATE TRIGGER AFTER_UPDATE_CREATE_FIRST_MOVEMENT AFTER UPDATE ON serial_numbers
                         FOR EACH ROW BEGIN
                             IF (NEW.valid = 1 AND (select count(*) from movements WHERE serial_number_id=new.id)<1) THEN
-                                insert into `movements` (`serial_number_id`,`previous_post_id`,`previous_post_name`,`result`,`created_at`) values (new.id,1 , 'generator' , 'ok',CURRENT_TIMESTAMP);
+                                insert into `movements` (`serial_number_id`,`previous_post_id`,`result`,`created_at`) values (new.id,1 , 'ok',CURRENT_TIMESTAMP);
 
                             END IF;
                         END";
