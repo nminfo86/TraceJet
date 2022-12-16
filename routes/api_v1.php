@@ -6,7 +6,8 @@ use App\Models\PostsType;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController};
+
+use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController};
 
 
 /*
@@ -52,6 +53,7 @@ Route::group(
             'posts_types' => PostsTypeController::class,
             'posts' => PostController::class,
             'movements' => MovementController::class,
+            'boxes' => BoxController::class,
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 

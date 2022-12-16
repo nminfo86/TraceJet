@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

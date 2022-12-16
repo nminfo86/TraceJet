@@ -15,7 +15,10 @@ class BoxController extends Controller
      */
     public function index()
     {
-        //
+        $boxes = Box::with(['of:id,of_code,of_number'])->get();
+
+        //Send response with data
+        return $this->sendResponse($boxes);
     }
 
     /**
