@@ -24,4 +24,7 @@ class Controller extends BaseController
         $response['status'] = $status;
         return response()->json($response);
     }
+
+
+    public $success_msg = "Created successfully";
 }

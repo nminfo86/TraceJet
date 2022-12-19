@@ -8,7 +8,7 @@ use App\Models\Movement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
+use App\Models\SerialNumber;
 
 class MovementController extends Controller
 {
@@ -226,8 +226,15 @@ class MovementController extends Controller
             $this->createMovement($result, $sn_id, $post_id);
             $box = Box::create(['of_id' => $product_movements[0]['of_id'], "status" => "open", "box_qr" =>  $product_movements[0]['serial_number']]);
 
+            if ($box) {
+                $qr = SerialNumber::find($sn_id);
+                $qr->update(['box_id' => $box->id]);
+            }
+
+
+
             //Send response with success
-            return $this->sendResponse("Created successfully", $box);
+            return $this->sendResponse($this->success_msg);
             // DB::commit();
             // } catch (\Exception $e) {
             //     DB::rollBack();
@@ -237,6 +244,6 @@ class MovementController extends Controller
         // Create new movement
         $movement = Movement::create($inputs);
         //Send response with success
-        return $this->sendResponse("Created successfully", $movement);
+        return $this->sendResponse($this->success_msg, $movement);
     }
 }

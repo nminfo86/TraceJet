@@ -43,7 +43,7 @@ class PostsTypeController extends Controller
         $posts_type = PostsType::create($request->all());
 
         //Send response with success
-        return $this->sendResponse("Created successfully", $posts_type);
+        return $this->sendResponse($this->success_msg, $posts_type);
     }
 
     /**

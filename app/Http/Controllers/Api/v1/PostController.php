@@ -40,7 +40,7 @@ class PostController extends Controller
         $post = Post::create($request->all());
 
         //Send response with success
-        return $this->sendResponse("Created successfully", $post);
+        return $this->sendResponse($this->success_msg, $post);
     }
 
     /**

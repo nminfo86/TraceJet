@@ -48,7 +48,7 @@ class OfController extends Controller
         event(new CreateOFEvent($of));
 
         //Send response with success
-        return $this->sendResponse("Created successfully", $of);
+        return $this->sendResponse($this->success_msg, $of);
     }
 
     /**

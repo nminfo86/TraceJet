@@ -41,7 +41,7 @@ class ProductController extends Controller
         $section = Product::create($request->all());
 
         //Send response with success
-        return $this->sendResponse("Created successfully", $section);
+        return $this->sendResponse($this->success_msg, $section);
     }
 
     /**

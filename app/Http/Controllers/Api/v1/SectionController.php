@@ -43,7 +43,7 @@ class SectionController extends Controller
         $section = Section::create($request->all());
 
         //Send response with success
-        return $this->sendResponse("Created successfully", $section);
+        return $this->sendResponse($this->success_msg, $section);
     }
 
     /**

@@ -65,7 +65,7 @@ class UserController extends Controller
 
             // send response
             // return new UserResource($user);
-            return $this->sendResponse("Created successfully", $user);
+            return $this->sendResponse($this->success_msg, $user);
         } catch (Exception $e) {
 
             // DB::rollBack();

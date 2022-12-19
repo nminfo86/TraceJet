@@ -54,7 +54,7 @@ class SerialNumberController extends Controller
 
 
             //Send response with success
-            return $this->sendResponse("Created successfully", $create_first_record);
+            return $this->sendResponse($this->success_msg, $create_first_record);
         }
         //Send response with success
         return $this->sendResponse("Record already exist", status: false);
@@ -122,7 +122,7 @@ class SerialNumberController extends Controller
                 if ($new_record) {
 
                     //Send response with success
-                    return $this->sendResponse("Created successfully", $new_record);
+                    return $this->sendResponse($this->success_msg, $new_record);
                 }
             }
 
