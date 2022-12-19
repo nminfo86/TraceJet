@@ -29,8 +29,8 @@ class PermissionTableSeeder extends Seeder
             'section-delete'
         ];
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
-            // Permission::create(['name' => $permission, 'guard_name' => "api"]);
+            // Permission::create(['name' => $permission]);
+            Permission::create(['name' => $permission, 'guard_name' => "sanctum"]);
         }
         // , 'guard_name' => 'sanctum'
     }

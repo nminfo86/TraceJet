@@ -32,10 +32,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+        $users = User::get(['name','username','id']);
 
         //Send response with success
-        return $this->sendResponse(data: $users);
+        return json_encode(array('data'=>$users));
         // return UserCollection::make($users);
     }
 

@@ -1,0 +1,44 @@
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+ .form-control-placeholder {
+  position: absolute;
+  top: 0;
+  padding: 7px 0 0 13px;
+  transition: all 200ms;
+  opacity: 1;
+}
+.form-control:focus + .form-control-placeholder,
+.form-control:not(:placeholder-shown) + .form-control-placeholder {
+  font-size: 90%;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
+}
+.form-control:focus {
+    outline: 0;
+    box-shadow: none;
+}
+html,
+.fullscreen {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background: #001f3f;
+}
+.form-group input
+{
+	background: inherit !important;
+}
+.form-group input:focus, .form-group input:focus
+{
+	background-color: #001f3f;
+	border-width: 2px;
+}
+/* Center the content in the browser window */
+.container {
+  margin: auto;
+}

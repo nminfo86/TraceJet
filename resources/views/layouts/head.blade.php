@@ -1,18 +1,35 @@
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <title>
-        Soft UI Dashboard by Creative Tim
-    </title>
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <link id="pagestyle" href="../assets/css/all.min.css" rel="stylesheet" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.6" rel="stylesheet" />
-    <link rel="styleSheet" href="{{ asset('') }}assets/css/datatables/dataTables.bootstrap5.min.css">
-    <link rel="styleSheet" href="{{ asset('') }}assets/css/datatables/responsive.bootstrap.min.css">
-    <link rel="styleSheet" href="{{ asset('') }}assets/css/datatables/rowGroup.bootstrap5.min.css">
-    <link rel="styleSheet" href="{{ asset('') }}assets/css/select2.min.css">
-    <link rel="styleSheet" href="{{ asset('') }}assets/css/datepicker.css">
+    <title>{{ __('title') }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Favicon icon -->
+    <link rel="icon" href="assets/images/iso.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/icofont/css/icofont.css">
+
+    <link rel="stylesheet" type="text/css" href="assets/pages/notification/notification.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.mCustomScrollbar.css">
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/rowReorder.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/rowGroup.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/summernote-lite.css">
+    <style>
+        .table thead th {
+            border-top-style: none;
+        }
+
+        .btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
+    </style>
 </head>

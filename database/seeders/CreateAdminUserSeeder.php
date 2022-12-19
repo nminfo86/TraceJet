@@ -17,7 +17,7 @@ class CreateAdminUserSeeder extends Seeder
     public function run()
     {
         //    Super admin
-        $super_admin_role = Role::create(['name' => 'super_admin']);
+        $super_admin_role = Role::create(['name' => 'super_admin','guard_name'=>'sanctum']);
         $permissions = Permission::pluck('id', 'id');
         $super_admin_role->syncPermissions($permissions);
 
@@ -30,7 +30,7 @@ class CreateAdminUserSeeder extends Seeder
             'password' => bcrypt('123123'),
         ]);
 
-        $super_admin->assignRole(['name' => 'super_admin']);
+        $super_admin->assignRole($super_admin_role);
         // $super_admin->givePermissionTo(
         //     $permissions
         // );
