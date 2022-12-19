@@ -18,11 +18,7 @@ class CreateAdminUserSeeder extends Seeder
     public function run()
     {
         //    Super admin
-<<<<<<< HEAD
-        $super_admin_role = Role::create(['name' => 'super_admin','guard_name'=>'sanctum']);
-=======
         $super_admin_role = Role::create(['name' => 'super_admin', 'guard_name' => 'sanctum']);
->>>>>>> 43b24d0671115a2e9a8971c7326d52895dbcb217
         $permissions = Permission::pluck('id', 'id');
         $super_admin_role->syncPermissions($permissions);
 
@@ -37,14 +33,5 @@ class CreateAdminUserSeeder extends Seeder
         ]);
 
         $super_admin->assignRole($super_admin_role);
-<<<<<<< HEAD
-        // $super_admin->givePermissionTo(
-        //     $permissions
-        // );
-
-        // user role
-        // $user_role = Role::create(['name' => 'user', 'guard_name' => 'sanctum']);
-=======
->>>>>>> 43b24d0671115a2e9a8971c7326d52895dbcb217
     }
 }

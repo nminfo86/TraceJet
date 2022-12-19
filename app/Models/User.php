@@ -12,11 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-<<<<<<< HEAD
-    protected $guard_name ='sanctum';
-=======
     protected $guard_name = 'sanctum';
->>>>>>> 43b24d0671115a2e9a8971c7326d52895dbcb217
     /**
      * The attributes that are mass assignable.
      *
@@ -49,17 +45,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'roles_name' => 'array',
     ];
-<<<<<<< HEAD
-=======
-
-
-    /* -------------------------------------------------------------------------- */
-    /*                                relationShips                               */
-    /* -------------------------------------------------------------------------- */
-
-    public function section()
-    {
-        return $this->belongsTo(Section::class);
-    }
->>>>>>> 43b24d0671115a2e9a8971c7326d52895dbcb217
 }

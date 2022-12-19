@@ -32,12 +32,7 @@ class UserController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD:app/Http/Controllers/Api/api_v1/UserController.php
-        $users = User::get(['name','username','id']);
-=======
         $users = User::with('section')->get();
->>>>>>> 43b24d0671115a2e9a8971c7326d52895dbcb217:app/Http/Controllers/Api/v1/UserController.php
-
         //Send response with success
         return json_encode(array('data'=>$users));
         // return UserCollection::make($users);
