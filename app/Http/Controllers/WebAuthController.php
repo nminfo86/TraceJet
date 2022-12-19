@@ -6,7 +6,7 @@ use PDOException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\AccessTokensRequest;
-use App\Http\Controllers\Api\api_v1\AccessTokensController;
+use App\Http\Controllers\Api\v1\AccessTokensController;
 use GuzzleHttp\Psr7\Request;
 
 class WebAuthController extends AccessTokensController
@@ -18,8 +18,10 @@ class WebAuthController extends AccessTokensController
     {
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
-            $response=$this->login($request);
-            $request->session()->put('token',$response['message']['token']);
+            $response=json_decode($this->login($request));
+            //dd($response->token);
+            //dd($response['message']['token']);
+            $request->session()->put('token',$response->token);
             return redirect()->intended('/dashboard');
         }
        return redirect("/")->with('error','Login details are not valid');

@@ -36,7 +36,7 @@ class AccessTokensController extends Controller
         ];
 
         //  Send Response with data
-        return $this->sendResponse($data);
+        return json_encode($data);
     }
 
     public function logout()

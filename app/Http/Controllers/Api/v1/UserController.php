@@ -34,7 +34,9 @@ class UserController extends Controller
     {
         $users = User::with('section')->get();
         //Send response with success
-        return json_encode(array('data'=>$users));
+        // return array('data'=>$users);
+        return $this->sendResponse(data:$users);
+
         // return UserCollection::make($users);
     }
 
