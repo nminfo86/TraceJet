@@ -158,7 +158,7 @@ class MovementController extends Controller
         if ($last_movement->result !== 'ok') {
 
             //Send response with error
-            return $this->sendResponse('Transfer to repairer', status: false);
+            return $this->sendResponse('Last movement NOK, {post_name}', status: false);
         }
 
         // Check Post order
