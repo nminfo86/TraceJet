@@ -42,7 +42,7 @@ class OfController extends Controller
         if ($of_prod) {
 
             //Send response with message
-            return $this->sendResponse("Can't created, because another of in production", status: false);
+            return $this->sendResponse("Can't created, another of in production", status: false);
         }
         $of = Of::create($request->all());
         event(new CreateOFEvent($of));

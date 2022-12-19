@@ -63,7 +63,7 @@ Route::group(
         //     return Of::pluck('of_number', 'id');
         // });
         route::get('of_quantity/{id}', function ($id) {
-            return Of::findOrFail($id)->first(['quantity', 'of_code']);
+            return Of::latest()->findOrFail($id, ['quantity', 'of_code']);
         });
 
 

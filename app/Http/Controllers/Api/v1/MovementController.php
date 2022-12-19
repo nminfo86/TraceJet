@@ -102,11 +102,7 @@ class MovementController extends Controller
      */
     public function getCurrentPostInformation($mac_address)
     {
-        $post = Post::where('mac', $mac_address)->firstOrFail(); // [x]::add exeption of packaging posts
-        if ($post->previous_post == NULL) {
-            //Send response with message
-            return $this->sendResponse("Cannot create in this post", status: false);
-        }
+        $post = Post::where('mac', $mac_address)->firstOrFail();
         return $post;
     }
 
@@ -130,7 +126,7 @@ class MovementController extends Controller
         } else {
 
 
-            return $this->checkProductSteps($request, $last_movement, $post);
+            return $this->productStepsMsg($request, $last_movement, $post);
         }
     }
 
@@ -143,8 +139,15 @@ class MovementController extends Controller
      * @return \Illuminate\Http\Response
 
      */
-    public function checkProductSteps($request, $last_movement, $post)
+    public function productStepsMsg($request, $last_movement, $post)
     {
+        // Generator post
+        if ($post->previous_post == NULL) {
+
+            //Send response with error
+            return $this->sendResponse("Can't created on this post", status: false);
+        }
+
         if ($last_movement->previous_post_id == $post->id) {
 
             //Send response with error

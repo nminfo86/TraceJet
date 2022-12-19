@@ -26,5 +26,6 @@ class Controller extends BaseController
     }
 
 
+    // Used in success response
     public $success_msg = "Created successfully";
 }

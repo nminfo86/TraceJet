@@ -44,7 +44,8 @@ class SerialNumberController extends Controller
         if ($count === 0) {
 
             // Generate first sn
-            $request['serial_number'] = "SN0" . 1;
+            // $request['serial_number'] = "SN0" . 1;
+            $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
             $create_first_record = SerialNumber::create($request->except('of_quantity'));
 
             if ($create_first_record) {
@@ -94,47 +95,49 @@ class SerialNumberController extends Controller
         //
     }
 
-    public function checkQr(Request $request, SerialNumber $serialNumber)
+    public function checkQr(Request $request)
     {
         // $ex=str($request->qr)->explode('#');
         // Check qr
-        $find_by_qr = SerialNumber::where('of_id', $request->of_id)->where('qr', $request->qr)->first();
+        $product = SerialNumber::where('of_id', $request->of_id)->where('qr', $request->qr)->first();
 
-        if ($find_by_qr && $find_by_qr->valid == 0) {
+        if ($product && $product->valid == 0) {
 
             // Update valid
-            $find_by_qr->update(['valid' => 1]);
+            $product->update(['valid' => 1]);
 
-            // Count sn by of
-            $count = SerialNumber::where('of_id', $request->of_id)->valid(1)->count();
-
-
-            if ($count < $request->of_quantity) {
-
-                // Increment SN
-                $find_by_qr->serial_number++;
-
-                // Create new record (next serial number)
-                $new_record = $serialNumber->create([
-                    "of_id" => $find_by_qr->of_id,
-                    "serial_number" => $find_by_qr->serial_number++,
-                ]);
-                if ($new_record) {
-
-                    //Send response with success
-                    return $this->sendResponse($this->success_msg, $new_record);
-                }
-            }
-
-            // Change of table status to closed
-            // $of = Of::findOrFail($find_by_qr->of_id);
-            // $of->update(['status' => 'closed']);
-
-            //Send response with success
-            return $this->sendResponse("All product OF has been generated");
+            // Create new serial number after updated last record to valid=1
+            return $this->CreateNextSN($request, $product);
         }
 
         // Send response with error
-        return $this->sendResponse("Error Qr validated or doesn't exist ", status: false);
+        return $this->sendResponse("Product validated or doesn't exist", status: false);
+    }
+
+
+    public function CreateNextSN($request, $product)
+    {
+        // Count validated SN product  by of
+        $count = SerialNumber::where('of_id', $request->of_id)->valid(1)->count();
+
+        if ($count < $request->of_quantity) {
+            // Increment SN
+            $product->serial_number++;
+
+
+
+            // Create new sn (next serial number)
+            $new_sn = SerialNumber::create([
+                "of_id" => $product->of_id,
+                // "serial_number" => $product->serial_number++,
+                "serial_number" =>  str_pad($product->serial_number++, 3, 0, STR_PAD_LEFT),
+            ]);
+
+            //Send response with success
+            return $this->sendResponse($this->success_msg, $new_sn);
+        }
+
+        //Send response with error
+        return $this->sendResponse("All products has been generated");
     }
 }
