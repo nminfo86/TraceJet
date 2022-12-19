@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\api_v1;
+namespace App\Http\Controllers\Api\v1;
 
 
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class RoleController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission:role-list', ['only' => ['index']]);
+        // $this->middleware('permission:role-list', ['only' => ['index']]);
         $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:role-edit', ['only' => ['show', 'update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
@@ -68,7 +68,7 @@ class RoleController extends Controller
         //add a role
         // $testRole = Role::create(['guard_name' => 'web', 'name' => 'test_role']);
         //Send response with success
-        return $this->sendResponse("Created successfully", $role);
+        return $this->sendResponse($this->success_msg, $role);
     }
 
     /**

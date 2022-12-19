@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\api_v1;
+namespace App\Http\Controllers\Api\v1;
 
 use Exception;
 use App\Models\User;
@@ -32,7 +32,11 @@ class UserController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD:app/Http/Controllers/Api/api_v1/UserController.php
         $users = User::get(['name','username','id']);
+=======
+        $users = User::with('section')->get();
+>>>>>>> 43b24d0671115a2e9a8971c7326d52895dbcb217:app/Http/Controllers/Api/v1/UserController.php
 
         //Send response with success
         return json_encode(array('data'=>$users));
@@ -51,19 +55,21 @@ class UserController extends Controller
             // DB::beginTransaction();
             // register user
             $user = User::create([
+                'section_id'          => $request->section_id,
                 'username'          => $request->username,
                 'name'          => $request->name,
                 'email'         => $request->email,
                 'password'      => Hash::make($request->password),
-                'roles_name' =>  $request->roles_name,
+                'roles_name' =>  [$request->roles_name],
             ]);
 
             // assign role
-            $user->assignRole($request->input('roles_name', 'super_admin'));
+            $user->assignRole($request->input('roles_name'));
             // DB::commit();
 
             // send response
-            return $this->sendResponse("Created successfully", $user);
+            // return new UserResource($user);
+            return $this->sendResponse($this->success_msg, $user);
         } catch (Exception $e) {
 
             // DB::rollBack();

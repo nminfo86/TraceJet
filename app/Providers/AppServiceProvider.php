@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Of;
+use App\Observers\OfObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;

@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'name'      => $this->name,
             'email'     => $this->email,
             'roles'     => $this->roles->pluck('name') ?? [],
-            // 'roles.permissions' => $this->getPermissionsViaRoles()->pluck(['name']) ?? [],
+            'roles.permissions' => $this->getPermissionsViaRoles()->pluck(['name']) ?? [],
             'permissions' => UserCollection::make($this->whenLoaded('permissions'))
 
         ];

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\UpdateRequests;
+
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class UpdateSectionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,8 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "section_code" => "required|unique:sections,section_code," . $this->section->id,
+            "section_name" => "required|unique:sections,section_name," . $this->section->id,
         ];
     }
 }

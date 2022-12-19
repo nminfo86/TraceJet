@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Api\api_v1;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequests\StoreProductRequest;
+use App\Http\Requests\UpdateRequests\UpdateProductRequest;
 use App\Models\Product;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    use ResponseTrait;
     function __construct()
     {
-        // $this->middleware('permission:product-list', ['only' => ['index']]);
-        // $this->middleware('permission:product-create', ['only' => ['store']]);
-        // $this->middleware('permission:product-edit', ['only' => ['show', 'update']]);
-        // $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:product-list', ['only' => ['index']]);
+        $this->middleware('permission:product-create', ['only' => ['store']]);
+        $this->middleware('permission:product-edit', ['only' => ['show', 'update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -24,10 +24,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $sections = Product::paginate();
+        $products = Product::with('section')->get();
 
-        //Send response with success
-        return $this->sendResponse(data: $sections);
+        //Send response with data
+        return $this->sendResponse(data: $products);
     }
 
     /**
@@ -36,12 +36,12 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         $section = Product::create($request->all());
 
         //Send response with success
-        return $this->sendResponse("Created successfully", $section);
+        return $this->sendResponse($this->success_msg, $section);
     }
 
     /**
@@ -62,7 +62,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->all());
 

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\api_v1;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Section;
-use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SectionRequest;
+use App\Http\Requests\StoreRequests\StoreSectionRequest;
+use App\Http\Requests\UpdateRequests\UpdateSectionRequest;
 
 class SectionController extends Controller
 {
-    use ResponseTrait;
+    // use ResponseTrait;
 
 
     function __construct()
@@ -27,7 +26,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $sections = Section::paginate();
+        $sections = Section::get();
 
         //Send response with success
         return $this->sendResponse(data: $sections);
@@ -39,12 +38,12 @@ class SectionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSectionRequest $request)
     {
         $section = Section::create($request->all());
 
         //Send response with success
-        return $this->sendResponse("Created successfully", $section);
+        return $this->sendResponse($this->success_msg, $section);
     }
 
     /**
@@ -66,7 +65,7 @@ class SectionController extends Controller
      * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function update(SectionRequest $request, Section $section)
+    public function update(UpdateSectionRequest $request, Section $section)
     {
         $section->update($request->all());
 
