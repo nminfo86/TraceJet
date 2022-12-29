@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('posts_type_id');
             $table->string('post_name');
-            $table->integer('previous_post')->nullable();
+            $table->integer('previous_post_id')->nullable();
             $table->text('mac')->unique()->nullable();
 
 

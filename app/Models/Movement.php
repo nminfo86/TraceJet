@@ -15,7 +15,7 @@ class Movement extends Model
      *
      * @var array
      */
-    protected $fillable = ['serial_number_id', 'previous_post_id', 'previous_post_name', 'result', 'observation'];
+    protected $fillable = ['serial_number_id', 'movement_post_id', 'result', 'observation'];
 
 
 

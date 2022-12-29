@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('valid')->default(0);
 
             $table->foreign('of_id')->references('id')->on('ofs')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('box_id')->references('id')->on('boxes')->restrictOnDelete()->cascadeOnUpdate();
 
 
             // $table->timestamps();

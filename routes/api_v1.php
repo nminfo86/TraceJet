@@ -1,14 +1,18 @@
 <?php
 
 use App\Models\Of;
+use App\Models\Box;
 use App\Models\Post;
+
+use App\Models\Caliber;
 use App\Models\PostsType;
 
+use App\Models\SerialNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController};
-
+// use App\Http\Controllers\api\v1\AjaxPluckController;
+use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController};
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +69,10 @@ Route::group(
         route::get('of_quantity/{id}', function ($id) {
             return Of::latest()->findOrFail($id, ['quantity', 'of_code']);
         });
+        route::get('of/{id}', function ($id) {
+
+            return  $sn_in_box = SerialNumber::query()->get();
+        });
 
 
 
@@ -78,6 +86,11 @@ Route::group(
         });
         /* -------------------------- End groupe controller ------------------------- */
 
+
+
+        Route::controller(PluckController::class)->group(function () {
+            Route::get('pluck/{model_name}', 'pluckData');
+        });
 
 
 

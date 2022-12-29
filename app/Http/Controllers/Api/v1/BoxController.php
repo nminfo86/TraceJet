@@ -29,7 +29,9 @@ class BoxController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $box = Box::create($request->all());
+        //Send response with data
+        return $this->sendResponse($this->success_msg, $box);
     }
 
     /**

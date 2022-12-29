@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Of;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Caliber extends Model
 {
@@ -31,5 +32,9 @@ class Caliber extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    public function ofs()
+    {
+        return $this->hasMany(Of::class);
     }
 }
