@@ -5,17 +5,15 @@ namespace App\Http\Controllers\Api\v1;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Resources\UserCollection;
+use App\Exceptions\ExceptionTrait;
 
 class UserController extends Controller
 {
-    use ResponseTrait;
+    use ExceptionTrait;
 
     function __construct()
     {
@@ -48,7 +46,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         try {
-            // DB::beginTransaction();
+            DB::beginTransaction();
             // register user
             $user = User::create([
                 'section_id'          => $request->section_id,
@@ -61,18 +59,14 @@ class UserController extends Controller
 
             // assign role
             $user->assignRole($request->input('roles_name'));
-            // DB::commit();
+            DB::commit();
 
             // send response
             // return new UserResource($user);
             return $this->sendResponse($this->success_msg, $user);
         } catch (Exception $e) {
-
-            // DB::rollBack();
-            return response([
-                'error' => false,
-                'message' => $e->getMessage()
-            ]);
+            DB::rollBack();
+            return $this->apiException($request, $e);
         }
     }
 
@@ -97,7 +91,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // dd($user);
         $user->update($request->all());
 
         DB::table('model_has_roles')->where('model_id', $user->id)->delete();

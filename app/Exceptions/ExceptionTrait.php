@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Error;
 use ErrorException;
 use BadMethodCallException;
-use App\Traits\ResponseTrait;
+// use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\QueryException;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 trait ExceptionTrait
 {
-    use ResponseTrait;
+    // use ResponseTrait;
     public function apiException($request, $e)
     {
         if ($this->isModel($e)) {
