@@ -45,4 +45,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'roles_name' => 'array',
     ];
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
 }

@@ -1,17 +1,17 @@
 <!-- included js files -->
 <script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+{{-- <script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js"></script> --}}
 <script type="text/javascript" src="assets/js/popper.js/popper.min.js"></script>
 <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js"></script>
 <!-- jquery slimscroll js -->
 <script type="text/javascript" src="assets/js/jquery-slimscroll/jquery.slimscroll.js"></script>
 <!-- modernizr js -->
-<script type="text/javascript" src="assets/js/modernizr/modernizr.js"></script>
-<script type="text/javascript" src="assets/js/modernizr/css-scrollbars.js"></script>
+{{-- <script type="text/javascript" src="assets/js/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="assets/js/modernizr/css-scrollbars.js"></script> --}}
 <!-- classie js -->
 <script type="text/javascript" src="assets/js/classie/classie.js"></script>
 <script type="text/javascript" src="assets/js/bootstrap-growl.min.js"></script>
-<script type="text/javascript" src="assets/pages/notification/notification.js"></script>
+{{-- <script type="text/javascript" src="assets/pages/notification/notification.js"></script> --}}
 <script type="text/javascript" src="assets/js/script.js"></script>
 <script src="assets/js/pcoded.min.js"></script>
 <script src="assets/js/demo-12.js"></script>
@@ -22,6 +22,8 @@
 <script src="assets/js/dataTables.rowReorder.min.js"></script>
 <script src="assets/js/dataTables.rowGroup.min.js"></script>
 <script src="assets/js/bootstrap-select.min.js"></script>
+{{-- font awesome icon js --}}
+<script src="assets/js/all.min.js"></script>
 <script src="assets/js/chart.min.js"></script>
 <script src="assets/js/summernote-lite.js"></script>
 <script src="assets/js/appCore.js"></script>

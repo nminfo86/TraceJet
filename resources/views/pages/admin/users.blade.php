@@ -12,9 +12,9 @@
                     <tr class="">
                         {{-- <th>#</th> --}}
                         <th>{{ __('Nom d\'utilisateur') }}</th>
+                        <th>{{ __('section') }}</th>
                         <th>{{ __('Role') }}</th>
-                        <th>{{ __('Role') }}</th>
-                        {{-- <th>{{ __('opt') }}</th> --}}
+                        <th>{{ __('opt') }}</th>
                     </tr>
                 </thead>
             </table>
@@ -40,16 +40,16 @@
                             <form id="main_form">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-12">
-                                            <label>{{ __('name') }}:*</label>
+                                        <div class="col-lg-6 mb-2">
+                                            <label>{{ __('Nom') }}:*</label>
                                             <input type="text" name="name" id="name" class="form-control"
                                                 placeholder="{{ __('Nom et prénom') }}" />
                                             <span class="invalid-feedback" role="alert">
                                                 <strong id="name-error"></strong>
                                             </span>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <label>{{ __('username') }}:*</label>
+                                        <div class="col-lg-6 mb-2">
+                                            <label>{{ __('Nom d\'utilisateur') }}:*</label>
                                             <input type="text" name="username" id="username" class="form-control"
                                                 placeholder="{{ __('Nom d\'utilisateur') }}" />
                                             <span class="invalid-feedback" role="alert">
@@ -57,19 +57,27 @@
                                             </span>
                                         </div>
                                         <div class="col-lg-6">
-                                            <label>{{ __('Password') }}:*</label>
+                                            <label>{{ __('Mot de passe') }}:*</label>
                                             <input type="password" name="password" id="password" class="form-control"
                                                 placeholder="{{ __('Mot de passe') }}" />
                                             <span class="invalid-feedback" role="alert">
                                                 <strong id="password-error"></strong>
                                             </span>
                                         </div>
+                                        <div class="col-lg-6">
+                                            <label>{{ __('Confirmer le mot de passe') }}:*</label>
+                                            <input type="password" name="confirmPassword" id="confirmPassword"
+                                                class="form-control" placeholder="{{ __('Confirmer le mot de passe') }}" />
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong id="confirmPassword-error"></strong>
+                                            </span>
+                                        </div>
                                         <div class="col-12">
                                             <label>{{ __('Rôle') }}:*</label>
-                                            <select id="role" class="form-control" name="role">
+                                            <select id="role" class="form-control select2" name="role">
                                             </select>
                                             <span class="invalid-feedback" role="alert">
-                                                <strong id=""></strong>
+                                                <strong id="role-error"></strong>
                                             </span>
                                         </div>
                                     </div>
@@ -103,11 +111,6 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            tableColumns = ["name", "username",
-                /*, "status", "created_by", "created_at", "updated_by",
-                                "updated_at",*/
-                "email"
-            ],
             form_title = " {{ __('student') }}",
             url = 'api/v1/users';
 
@@ -149,23 +152,21 @@
         table.dataTable({
             "ajax": url,
             columns: [{
-                    data: 'name'
-                },
-                {
                     data: 'username'
                 },
                 {
-                    data: 'user_id'
+                    data: 'section_name'
+                }, {
+                    data: 'roles_name'
                 },
-                // {
-                //     data: 'extn'
-                // },
-                // {
-                //     data: 'start_date'
-                // },
-                // {
-                //     data: 'salary'
-                // },
+                {
+                    data: 'id',
+                    render: function(data, type, row) {
+                        return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
+                        <div type="button" id = ${data} class="d-inline pl-3 text-white delete" data-bs-toggle="modal"
+                        data-bs-target="#confirmDelete"><i class="fas fa-trash text-danger"></i> </div>`;
+                    }
+                },
             ],
         });
         // Prepare datatable columns

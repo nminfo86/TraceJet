@@ -18,10 +18,10 @@ class WebAuthController extends AccessTokensController
     {
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
-            $response=json_decode($this->login($request));
-            //dd($response->token);
+            $content=$this->login($request)->getContent();
+            $response=json_decode($content,true);
             //dd($response['message']['token']);
-            $request->session()->put('token',$response->token);
+            $request->session()->put('token',$response['token']);
             return redirect()->intended('/dashboard');
         }
        return redirect("/")->with('error','Login details are not valid');
