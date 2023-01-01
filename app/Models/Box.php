@@ -51,7 +51,13 @@ class Box extends Model
             $author = Auth::user()->name ??  'BlmDev';
             $model->created_by = $author;
             $model->updated_by = NULL;
+
+            // generate box SN
+            $new_box_code = Box::count() + 1;
+            $of_code = Of::findOrFail($model->of_id)->of_code;
+            $model->box_qr = "$of_code#$new_box_code";
         });
+
         self::updating(function ($model) {
 
             $author = Auth::user()->name ??  'BlmDev';

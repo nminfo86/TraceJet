@@ -1,14 +1,9 @@
 <?php
 
 use App\Models\Of;
-use App\Models\Post;
-use App\Models\PostsType;
-
-use Illuminate\Http\Request;
+use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController};
-
+use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController};
 
 /*
 |--------------------------------------------------------------------------
@@ -30,15 +25,6 @@ Route::group(
 
     function () {
 
-        Route::get('user', function (Request $request) {
-            $guards = array_keys(config('auth.guards'));
-            foreach ($guards as $guard) {
-                if (auth()->guard($guard)->check()) {
-                    return $guard;
-                }
-            }
-        });
-
         /* -------------------------------------------------------------------------- */
         /*                       Begin Resource controller                            */
         /* -------------------------------------------------------------------------- */
@@ -57,26 +43,32 @@ Route::group(
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 
-
-        // route::get('ofs_list', function () {
-        //     // return Of::pluck('of_number', 'id');
-        //     return Of::pluck('of_number', 'id');
-        // });
-        route::get('of_quantity/{id}', function ($id) {
-            return Of::latest()->findOrFail($id, ['quantity', 'of_code']);
-        });
-
-
-
-
-        route::get('check_qr', [SerialNumberController::class, 'checkQr']);
         /* -------------------------------------------------------------------------- */
         /*                              Groupe controller                             */
         /* -------------------------------------------------------------------------- */
         Route::controller(AccessTokensController::class)->group(function () {
             Route::delete('auth/logout', 'logout');
         });
+
+        Route::controller(PluckController::class)->group(function () {
+            Route::get('pluck/{model_name}', 'pluckData');
+        });
         /* -------------------------- End groupe controller ------------------------- */
+
+
+        route::get('of_quantity/{id}', function ($id) {
+            return Of::latest()->findOrFail($id, ['quantity', 'of_code']);
+        });
+        route::get('of/{id}', function ($id) {
+
+            return  $sn_in_box = SerialNumber::query()->get();
+        });
+
+
+        route::get('check_qr', [SerialNumberController::class, 'checkQr']);
+
+
+
 
 
 

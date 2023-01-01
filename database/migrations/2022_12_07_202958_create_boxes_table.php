@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('of_id');
             $table->string('box_qr')->nullable()->unique();
-            $table->string('status')->default('empty');
+            $table->string('status')->default('open');
             $table->string('created_by', 50)->nullable();
             $table->string('updated_by', 50)->nullable();
             $table->timestamps();

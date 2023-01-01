@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('serial_number_id');
-            $table->unsignedBigInteger('previous_post_id');
-            // $table->string('previous_post_name');
+            $table->unsignedBigInteger('movement_post_id');
+            // $table->string('movement_post_name');
             $table->text('result');
             $table->text('observation')->nullable();
             // $table->string('created_by', 50)->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
 
 
             $table->foreign('serial_number_id')->references('id')->on('serial_numbers')->restrictOnDelete()->cascadeOnUpdate();
-            $table->foreign('previous_post_id')->references('id')->on('posts')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('movement_post_id')->references('id')->on('posts')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 
