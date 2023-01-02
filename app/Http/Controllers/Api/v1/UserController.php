@@ -63,7 +63,7 @@ class UserController extends Controller
 
             // send response
             // return new UserResource($user);
-            return $this->sendResponse($this->success_msg, $user);
+            return $this->sendResponse($this->create_success_msg, $user);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->apiException($request, $e);
@@ -98,7 +98,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles_name'));
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $user);
+        return $this->sendResponse($this->update_success_msg, $user);
     }
 
     /**
@@ -112,6 +112,6 @@ class UserController extends Controller
         $user->delete();
 
         //Send response with success
-        return $this->sendResponse("Deleted successfully");
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

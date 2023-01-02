@@ -41,7 +41,7 @@ class ProductController extends Controller
         $section = Product::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->success_msg, $section);
+        return $this->sendResponse($this->create_success_msg, $section);
     }
 
     /**
@@ -67,7 +67,7 @@ class ProductController extends Controller
         $product->update($request->all());
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $product);
+        return $this->sendResponse($this->update_success_msg, $product);
     }
 
     /**
@@ -81,6 +81,6 @@ class ProductController extends Controller
         $product->delete();
 
         //Send response with success
-        return $this->sendResponse("Deleted successfully");
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

@@ -3,7 +3,8 @@
 use App\Models\Of;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController};
+use App\Http\Controllers\Api\v1\PartController;
+use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,8 @@ Route::group(
             'posts' => PostController::class,
             'movements' => MovementController::class,
             'boxes' => BoxController::class,
+            'parts' => PartController::class,
+            'sn_parts' => SerialNumbersPartController::class,
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 

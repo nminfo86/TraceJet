@@ -43,7 +43,7 @@ class SectionController extends Controller
         $section = Section::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->success_msg, $section);
+        return $this->sendResponse($this->create_success_msg, $section);
     }
 
     /**
@@ -70,7 +70,7 @@ class SectionController extends Controller
         $section->update($request->all());
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $section);
+        return $this->sendResponse($this->update_success_msg, $section);
     }
 
     /**
@@ -84,6 +84,6 @@ class SectionController extends Controller
         $section->delete();
 
         //Send response with success
-        return $this->sendResponse("Deleted successfully");
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

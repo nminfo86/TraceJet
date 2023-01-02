@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\api\v1;
+namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Models\Box;
+
+
 use Illuminate\Http\Request;
+use App\Models\SerialNumbersPart;
+use App\Http\Controllers\Controller;
 
-class BoxController extends Controller
+class SerialNumbersPartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +17,10 @@ class BoxController extends Controller
      */
     public function index()
     {
-        $boxes = Box::with(['of:id,of_code,of_number'])->get();
+        $data = SerialNumbersPart::get();
 
-        //Send response with data
-        return $this->sendResponse($boxes);
+        //Send response with success
+        return $this->sendResponse(data: $data);
     }
 
     /**
@@ -29,18 +31,16 @@ class BoxController extends Controller
      */
     public function store(Request $request)
     {
-        $box = Box::create($request->all());
-        //Send response with data
-        return $this->sendResponse($this->create_success_msg, $box);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Box  $box
+     * @param  \App\Models\SerialNumbersPart  $serialNumbersPart
      * @return \Illuminate\Http\Response
      */
-    public function show(Box $box)
+    public function show(SerialNumbersPart $serialNumbersPart)
     {
         //
     }
@@ -49,10 +49,10 @@ class BoxController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Box  $box
+     * @param  \App\Models\SerialNumbersPart  $serialNumbersPart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Box $box)
+    public function update(Request $request, SerialNumbersPart $serialNumbersPart)
     {
         //
     }
@@ -60,10 +60,10 @@ class BoxController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Box  $box
+     * @param  \App\Models\SerialNumbersPart  $serialNumbersPart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Box $box)
+    public function destroy(SerialNumbersPart $serialNumbersPart)
     {
         //
     }

@@ -68,7 +68,7 @@ class MovementController extends Controller
         $movement->update($request->all());
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $movement);
+        return $this->sendResponse($this->update_success_msg, $movement);
     }
 
     /**
@@ -82,6 +82,6 @@ class MovementController extends Controller
         $movement->delete();
 
         //Send response with success
-        return $this->sendResponse("Deleted successfully");
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

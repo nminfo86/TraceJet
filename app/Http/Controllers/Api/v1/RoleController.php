@@ -68,7 +68,7 @@ class RoleController extends Controller
         //add a role
         // $testRole = Role::create(['guard_name' => 'web', 'name' => 'test_role']);
         //Send response with success
-        return $this->sendResponse($this->success_msg, $role);
+        return $this->sendResponse($this->create_success_msg, $role);
     }
 
     /**
