@@ -72,12 +72,20 @@
                                                 <strong id="confirmPassword-error"></strong>
                                             </span>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-lg-6">
                                             <label>{{ __('Rôle') }}:*</label>
                                             <select id="role" class="form-control select2" name="role">
                                             </select>
                                             <span class="invalid-feedback" role="alert">
                                                 <strong id="role-error"></strong>
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>{{ __('Section') }}:*</label>
+                                            <select id="section" class="form-control select2" name="section">
+                                            </select>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong id="section-error"></strong>
                                             </span>
                                         </div>
                                     </div>
@@ -116,7 +124,40 @@
 
 
 
-
+        $(document).ready(function() {
+            $.ajax({
+                url: 'api/v1/pluck/roles',
+                type: "GET",
+                dataType: ajaxDataType,
+                success: function(response) {
+                    $.each(response.data, function(key, val) {
+                        $('#role').append(
+                            '<option value=' + key + '>' + val +
+                            '</option>'
+                        )
+                    });
+                },
+                error: function(jqXHR, exception) {
+                    showAjaxAndValidationErrors(jqXHR, exception);
+                }
+            });
+            $.ajax({
+                url: 'api/v1/pluck/sections',
+                type: "GET",
+                dataType: ajaxDataType,
+                success: function(response) {
+                    $.each(response.data, function(key, val) {
+                        $('#section').append(
+                            '<option value=' + key + '>' + val +
+                            '</option>'
+                        )
+                    });
+                },
+                error: function(jqXHR, exception) {
+                    showAjaxAndValidationErrors(jqXHR, exception);
+                }
+            });
+        });
         formToggle(form, true);
         form.on('submit', function(e) {
             e.preventDefault();
@@ -141,14 +182,6 @@
             });
         });
 
-
-        /* -------------------------------------------------------------------------- */
-        /*                                Student Table                               */
-        /* -------------------------------------------------------------------------- */
-        // table.Datatable({
-        //     url: url,
-        //     columns: setTableColumn(tableColumns)
-        // })
         table.dataTable({
             "ajax": url,
             columns: [{
@@ -169,15 +202,5 @@
                 },
             ],
         });
-        // Prepare datatable columns
-        // datatableSettings.columns = setTableColumn(tableColumns);
-
-        // // Set style to table
-        // datatableSettings.order = [0, 'desc'];
-
-        // // get data
-        // // table = table.DataTable();
-
-        // console.log(initializeTable(datatableSettings, url)); //);
     </script>
 @endpush

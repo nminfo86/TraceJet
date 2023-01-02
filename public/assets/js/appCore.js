@@ -109,9 +109,9 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
         $.each(response.errors, function (key, val) {
             /* replace the dote of dynamique input with _ to match id of error show */
             key = key.replace(/\./g, '_');
-            if (key == 'regiment') {
-                $(document).find('.btn-prev').click();
-            }
+            // if (key == 'regiment') {
+            //     $(document).find('.btn-prev').click();
+            // }
             $('#' + key + "_error").text(val);
             $('#' + key + "_error").closest('.alert-danger').removeClass('d-none');
             // got to the first error occured

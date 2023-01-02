@@ -76,15 +76,6 @@ $(document).ready(function() {
         $("#morphsearch").removeClass('open');
     });
     // card js end
-    $.mCustomScrollbar.defaults.axis = "yx";
-    $("#styleSelector .style-cont").mCustomScrollbar({
-        setTop: "10px",
-        setHeight: "calc(100% - 200px)",
-    });
-    $(".main-menu").mCustomScrollbar({
-        setTop: "10px",
-        setHeight: "calc(100% - 80px)",
-    });
 });
 $(document).ready(function() {
     $(function() {
@@ -124,16 +115,3 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
     event.preventDefault();
     $(this).ekkoLightbox();
 });
-
-
-// Upgrade Button
-/*var $window = $(window);
-var nav = $('.fixed-button');
-    $window.scroll(function(){
-        if ($window.scrollTop() >= 200) {
-         nav.addClass('active');
-     }
-     else {
-         nav.removeClass('active');
-     }
- });*/
