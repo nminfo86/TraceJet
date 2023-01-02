@@ -48,7 +48,7 @@ class OfController extends Controller
         event(new CreateOFEvent($of));
 
         //Send response with success
-        return $this->sendResponse($this->success_msg, $of);
+        return $this->sendResponse($this->create_success_msg, $of);
     }
 
     /**
@@ -80,7 +80,7 @@ class OfController extends Controller
         }
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $of);
+        return $this->sendResponse($this->update_success_msg, $of);
     }
 
     /**
@@ -94,6 +94,6 @@ class OfController extends Controller
         $of->delete();
 
         //Send response with success
-        return $this->sendResponse("Deleted successfully");
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

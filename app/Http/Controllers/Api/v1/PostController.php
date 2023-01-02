@@ -40,7 +40,7 @@ class PostController extends Controller
         $post = Post::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->success_msg, $post);
+        return $this->sendResponse($this->create_success_msg, $post);
     }
 
     /**
@@ -67,7 +67,7 @@ class PostController extends Controller
         $post->update($request->all());
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $post);
+        return $this->sendResponse($this->update_success_msg, $post);
     }
 
     /**
@@ -81,6 +81,6 @@ class PostController extends Controller
         $post->delete();
 
         //Send response with success
-        return $this->sendResponse("Deleted successfully");
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

@@ -14,7 +14,9 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     // Used in success response
-    public $success_msg = "Created successfully";
+    public $create_success_msg = "Created successfully";
+    public $update_success_msg = "Updated successfully";
+    public $delete_success_msg = "Deleted successfully";
 
     function sendResponse($message = null, $data = [], $status = true)
     {

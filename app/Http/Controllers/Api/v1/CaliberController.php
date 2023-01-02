@@ -46,7 +46,7 @@ class CaliberController extends Controller
         $section = Caliber::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->success_msg, $section);
+        return $this->sendResponse($this->create_success_msg, $section);
     }
 
     /**
@@ -72,7 +72,7 @@ class CaliberController extends Controller
         $caliber->update($request->all());
 
         //Send response with success
-        return $this->sendResponse("Updated successfully", $caliber);
+        return $this->sendResponse($this->update_success_msg, $caliber);
     }
 
     /**
@@ -86,6 +86,6 @@ class CaliberController extends Controller
         $caliber->delete();
 
         //Send response with success
-        return $this->sendResponse("Deleted successfully");
+        return $this->sendResponse($this->delete_success_msg);
     }
 }
