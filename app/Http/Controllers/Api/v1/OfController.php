@@ -38,7 +38,7 @@ class OfController extends Controller
     public function store(StoreOfRequest $request)
     {
         // Check if any of in production
-        $of_prod = Of::where('status', 'inProd')->exists();
+        $of_prod = Of::whereStatus('inProd')->whereCaliberId($request->caliber_id)->exists();
         if ($of_prod) {
 
             //Send response with message

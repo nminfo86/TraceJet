@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\UpdateRequests;
+
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +25,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string',
-            'password' => 'required|string|min:6',
+            'username' => "required|string|unique:users,username," . $this->user->id,
+            'password' => 'required_with:password_confirmation|string|min:6|confirmed',
             'device_name' => 'string'
         ];
     }

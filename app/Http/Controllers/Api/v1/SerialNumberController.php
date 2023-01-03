@@ -19,14 +19,11 @@ class SerialNumberController extends Controller
     // [x]::Opinion of frontman
     public function index()
     {
-        $data['serialNumber '] = SerialNumber::get();
-        $data['ofs_list'] = Of::pluck('of_number', 'id');
-
-
-        // $serialNumber = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')->get();
+        // $serialNumber = SerialNumber::get();
+        $serialNumber = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')->get();
 
         //Send response with data
-        return $this->sendResponse(data: $data);
+        return $this->sendResponse(data: $serialNumber);
     }
 
     /**
