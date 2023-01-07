@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
+            $table->string('section_code', 50)->unique();
             $table->string('section_name', 50)->unique();
+            $table->text('observation')->nullable();
         });
     }
 

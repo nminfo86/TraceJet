@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('posts_types', function (Blueprint $table) {
             $table->id();
-            $table->enum('role', ['Administrator', 'Lancer', 'Operator']);
+            $table->text('posts_type')->unique();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('posts_types');
     }
 };

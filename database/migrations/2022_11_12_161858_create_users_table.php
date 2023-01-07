@@ -15,19 +15,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('role_id')->nullable();
+            $table->unsignedBigInteger('section_id');
             $table->string('username', 50)->unique();
             $table->string('password');
             $table->string('name');
             $table->string('email')->unique()->nullable();
+            $table->text('roles_name');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('role_id')
-                ->references('id')
-                ->on('roles')
-                ->onDelete('set null')
-                ->onUpdate('cascade');
+
+
+            $table->foreign('section_id')->references('id')->on('sections')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 

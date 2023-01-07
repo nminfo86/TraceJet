@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Of;
+use App\Observers\OfObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //ADD by nminfo to prevent migration run error in my mysql version
         Schema::defaultStringLength(191);
+        // JsonResource::withoutWrapping();
         //
     }
 }
