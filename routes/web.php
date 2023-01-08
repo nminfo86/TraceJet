@@ -13,12 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/***************default route *************************/
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('pages.login');
+})->name('login');
+/****************************** ***********************/
 
 
-Route::get('/users', function () {
-    return view('pages/users');
-});
+/*************************route to authenticate ******************/
+Route::post('authLogin', [WebAuthController::class, 'webLogin']);
+/************************** end ************************************/
+
+Route::group(
+    ['middleware' => ['auth:sanctum']],
+
+    function () {
+        Route::get('/dashboard', function () {
+            return view('welcome');
+        });
+        Route::get('/logout', [WebAuthController::class, 'webLogout'] );
+        Route::get('/users', function () {
+            return view('pages.admin.users');
+        });
+    });
 
