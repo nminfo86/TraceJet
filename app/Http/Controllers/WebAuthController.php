@@ -22,7 +22,7 @@ class WebAuthController extends AccessTokensController
             $response=json_decode($content,true);
             //dd($response['message']['token']);
             $request->session()->put('token',$response['token']);
-            return redirect()->intended('/');
+            return redirect()->intended('/dashboard');
         }
        return redirect("/")->with('error','Login details are not valid');
     }

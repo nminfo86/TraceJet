@@ -10,7 +10,7 @@
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{ url('/') }}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                             class="hide-menu">Dashboard</span></a></li>
-                <h6 class="text-uppercase text-muted pb-1 bs--2">adminstration</h6>
+                <h6 class="text-uppercase text-muted pb-1">adminstration</h6>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{ url('/users') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span
                             class="hide-menu"> {{ __('Utilisateurs') }} </span></a>
