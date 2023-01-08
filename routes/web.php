@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WebAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,9 @@ Route::get('/', function () {
 Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 /************************** end ************************************/
 
-/*************************route to logout ******************/
-Route::get('logout', [WebAuthController::class, 'webLogout']);
-/************************** end ************************************/
+// /*************************route to logout ******************/
+// Route::get('logout', [WebAuthController::class, 'webLogout']);
+// /************************** end ************************************/
 
 Route::group(
     ['middleware' => ['auth:sanctum']],
