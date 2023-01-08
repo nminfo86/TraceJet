@@ -11,3 +11,8 @@
  <script src="../dist/js/sidebarmenu.js"></script>
  <!--Custom JavaScript -->
  <script src="../dist/js/custom.js"></script>
+ <script src="../dist/js/appCore.js"></script>
+
+ <!-- Costum js code for each child-->
+ @stack('custom_js')
+ <!-- END: Costum js code -->

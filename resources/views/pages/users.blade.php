@@ -4,17 +4,17 @@
     <li class="breadcrumb-item active" aria-current="page">{{ __('Utilisateurs') }}</li>
 @endsection
 @section('btns_actions')
-    <div class="text-end upgrade-btn">
+    <div class="text-end upgrade-btn toggle-show">
         {{-- <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
             target="_blank">Upgrade to Pro</a> --}}
-        <button class="btn btn-primary" id="btn-add">{{ __('nouvel utilisateur') }}</button>
+        <button class="btn btn-primary" id="add_btn">{{ __('nouvel utilisateur') }}</button>
     </div>
 @endsection
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
     <!-- ============================================================== -->
-    <div class="row">
+    <div class="row toggle-show">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -47,6 +47,7 @@
             form_title = " {{ __('student') }}",
             url = 'api/v1/users';
         $(document).ready(function() {
+            formToggle(form);
             $.ajax({
                 url: 'api/v1/pluck/roles',
                 type: "GET",
