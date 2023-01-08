@@ -24,6 +24,10 @@ Route::get('/', function () {
 Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 /************************** end ************************************/
 
+/*************************route to logout ******************/
+Route::get('logout', [WebAuthController::class, 'webLogout']);
+/************************** end ************************************/
+
 Route::group(
     ['middleware' => ['auth:sanctum']],
 
@@ -33,7 +37,7 @@ Route::group(
         });
         Route::get('/logout', [WebAuthController::class, 'webLogout'] );
         Route::get('/users', function () {
-            return view('pages.admin.users');
+            return view('pages.users');
         });
     });
 
