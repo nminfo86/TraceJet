@@ -167,7 +167,7 @@ function formToggle() {
     $(document).on('click', "#add_btn", (e) => {
         e.preventDefault();
         $(".toggle-show").toggleClass('d-none');
-        $('#title').text("{{ __('labels.Add record', ['record' => __('labels." + form_title + "')]) }}");
+        $('#title').text(form_title);
         id = 0;
     }).on('click', ".close-btn", (e) => {
         e.preventDefault();
