@@ -28,7 +28,7 @@
              [0, 'desc']
          ],
          language: {
-             url: "{{ asset('') }}assets/ar.json"
+             url: "{{ asset('') }}assets/locale/fr.json"
          }
      });
  </script>
