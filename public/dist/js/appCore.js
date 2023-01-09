@@ -102,8 +102,10 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
             // if (key == 'regiment') {
             //     $(document).find('.btn-prev').click();
             // }
-            $('#' + key + "_error").text(val);
-            $('#' + key + "_error").closest('.alert-danger').removeClass('d-none');
+            alert(key);
+            $('#'+key).addClass('is-invalid');
+            $('#' + key + "-error").text(val);
+            //$('#' + key + "_error").closest('.alert-danger').removeClass('d-none');
             // got to the first error occured
             // if (i < 1) {
             //     $(window).scrollTop($('#' + key).offset().top - 30);
@@ -139,7 +141,7 @@ function getAjaxErrorMessage(jqXHR, exception) {
         msg = '';
     }
     else {
-        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        msg = jqXHR.responseText;
     }
     return msg;
 }
@@ -153,7 +155,7 @@ function cleanValidationAlert() {
     $('.alert-validation-msg').text('');
 }
 
-function formToggle() {
+function formToggle(form_title) {
     $(document).on('click', "#add_btn", (e) => {
         e.preventDefault();
         $(".toggle-show").toggleClass('d-none');
@@ -167,13 +169,14 @@ function formToggle() {
     });
 }
 
-function storObject(url, formData, id = 0,success_message) {
+function storObject(url, formData, id = 0,success_store_message,success_update_message) {
 
     cleanValidationAlert();
-
+    let message=success_store_message;
     if (id !== 0) {
         formData.append('_method', 'PUT');
         url = url + '/' + id;
+        message=success_update_message;
     }
     formData.append('id', id);
     var check = false;
@@ -189,11 +192,9 @@ function storObject(url, formData, id = 0,success_message) {
         processData: false,
         success: function (response) {
             check = true;
-            // table.draw();
-            form[0].reset();
             table.ajax.reload();
-            Success(success_message);
-            $('#close_btn').click();
+            Success(message);
+            $('.close-btn:first').click();
         },
         error: function (jqXHR, exception) {
             showAjaxAndValidationErrors(jqXHR, exception)

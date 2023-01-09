@@ -25,9 +25,9 @@
                                 <tr class="">
                                     {{-- <th>#</th> --}}
                                     <th>{{ __('Nom d\'utilisateur') }}</th>
-                                    <th>{{ __('section') }}</th>
+                                    <th>{{ __('Section') }}</th>
                                     <th>{{ __('Role') }}</th>
-                                    <th>{{ __('opt') }}</th>
+                                    <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -50,7 +50,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="text-white form-title" id="title"></div>
                         <div>
-                            <div type="button" class=" text-white closebtn"><i class="fas fa-times"></i>
+                            <div type="button" class=" text-white close-btn"><i class="fas fa-times"></i>
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                                 <input type="text" name="name" id="name" class="form-control"
                                     placeholder="{{ __('Nom et prénom') }}" />
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="name-error"></strong>
+                                    <strong id="name-error">dd</strong>
                                 </span>
                             </div>
                             <div class="col-lg-6 mb-2">
@@ -84,10 +84,10 @@
                             </div>
                             <div class="col-lg-6">
                                 <label>{{ __('Confirmer le mot de passe') }}:*</label>
-                                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
-                                    placeholder="{{ __('Confirmer le mot de passe') }}" />
+                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                    class="form-control" placeholder="{{ __('Confirmer le mot de passe') }}" />
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="confirmPassword-error"></strong>
+                                    <strong id="password_confirmation-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-6">
@@ -109,9 +109,9 @@
                         </div>
                     </div>
                     <div class="card-footer float-right">
-                        <button type="submit" class="btn btn-success h6 px-3 py-2"> <i class="fa fa-save"></i>
+                        <button type="submit" class="btn btn-success text-white h6 px-3 py-2"> <i class="fa fa-save"></i>
                             {{ __('Confirmer') }}</button>
-                        <button type="button" id="close-btn" class="btn btn-danger close-btn h6 py-2 px-3"><i
+                        <button type="button" id="close-btn" class="btn btn-danger text-white close-btn h6 py-2 px-3"><i
                                 class="fa fa-times"></i>
                             <span class="pe-2"> {{ __('Fermer') }} </span></button>
                     </div>
@@ -129,7 +129,7 @@
             table = $('#main_table'),
             form_title = " {{ __('Nouvel Utilisateur') }}",
             url = 'api/v1/users';
-        formToggle();
+        formToggle(form_title);
         $(document).ready(function() {
             /*--------------------- get role list ------------------------*/
             callAjax('GET', 'api/v1/pluck/roles', {}).done(function(response) {
@@ -140,7 +140,6 @@
                     )
                 });
             });
-
             /*----------------------get sections list ---------------------------*/
             callAjax('GET', 'api/v1/pluck/sections', {}).done(function(response) {
                 $.each(response.data, function(key, val) {
@@ -154,7 +153,8 @@
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            storObject(url, formData, id, "{{ __('Utilisateur ajouté avec succès') }}");
+            storObject(url, formData, id, "{{ __('Utilisateur ajouté avec succès') }}",
+                "{{ __('Utilisateur modifié avec succès') }}");
         });
 
         /* ---------------------------------- Edit ---------------------------------- */
@@ -162,7 +162,7 @@
             e.preventDefault()
             id = $(this).attr('id');
             form_title = " {{ __('Modification Utilisateur') }}";
-            editObject(url + '/' + id, form_title)
+            editObject(url + '/' + id, form_title);
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
