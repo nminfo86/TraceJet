@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('serial_numbers_parts', function (Blueprint $table) {
-            // $table->increments('id')->unsigned();
+            $table->increments("id");
             $table->unsignedBigInteger('serial_number_id');
             $table->unsignedBigInteger('part_id');
-            $table->primary(['serial_number_id', 'part_id']);
 
             $table->foreign('serial_number_id')->references('id')->on('serial_numbers')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreign('part_id')->references('id')->on('parts')->restrictOnDelete()->cascadeOnUpdate();
+            $table->primary(['serial_number_id', 'part_id']);
         });
     }
 
