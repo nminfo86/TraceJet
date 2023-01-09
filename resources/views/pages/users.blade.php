@@ -46,8 +46,9 @@
             table = $('#main_table'),
             form_title = " {{ __('student') }}",
             url = 'api/v1/users';
+        formToggle();
         $(document).ready(function() {
-            formToggle(form);
+
             $.ajax({
                 url: 'api/v1/pluck/roles',
                 type: "GET",
@@ -81,7 +82,6 @@
                 }
             });
         });
-        formToggle(form, true);
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -105,25 +105,25 @@
             });
         });
 
-        table.dataTable({
-            "ajax": url,
-            columns: [{
-                    data: 'username'
-                },
-                {
-                    data: 'section_name'
-                }, {
-                    data: 'roles_name'
-                },
-                {
-                    data: 'id',
-                    render: function(data, type, row) {
-                        return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                        <div type="button" id = ${data} class="d-inline pl-3 text-white delete" data-bs-toggle="modal"
-                        data-bs-target="#confirmDelete"><i class="fas fa-trash text-danger"></i> </div>`;
-                    }
-                },
-            ],
-        });
+        // table = table.DataTable({
+        //     "ajax": url,
+        //     columns: [{
+        //             data: 'username'
+        //         },
+        //         {
+        //             data: 'section_name'
+        //         }, {
+        //             data: 'roles_name'
+        //         },
+        //         {
+        //             data: 'id',
+        //             render: function(data, type, row) {
+        //                 return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
+    //                 <div type="button" id = ${data} class="d-inline pl-3 text-white delete" data-bs-toggle="modal"
+    //                 data-bs-target="#confirmDelete"><i class="fas fa-trash text-danger"></i> </div>`;
+        //             }
+        //         },
+        //     ],
+        // });
     </script>
 @endpush
