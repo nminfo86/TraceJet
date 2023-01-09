@@ -23,7 +23,7 @@
          }
      });
      $.extend(true, $.fn.dataTable.defaults, {
-         processing: true,
+         //processing: true,
          order: [
              [0, 'desc']
          ],

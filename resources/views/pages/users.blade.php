@@ -154,7 +154,7 @@
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            storObject(url, formData, id);
+            storObject(url, formData, id, "{{ __('Utilisateur ajouté avec succès') }}");
         });
 
         /* ---------------------------------- Edit ---------------------------------- */
@@ -162,15 +162,17 @@
             e.preventDefault()
             id = $(this).attr('id');
             form_title = " {{ __('Modification Utilisateur') }}";
-            editObject(url + '/' + id, form_title, true)
+            editObject(url + '/' + id, form_title)
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
             //Fire alert to user about delete warning
-            Dialog("{{ __('Confirmer la suppression') }}").then((result) => {
+            Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}").then((
+                result) => {
                 // if he confirme deleting modal we start delete action
                 if (result.isConfirmed) {
-                    deleteObject(url + '/' + id);
+                    deleteObject(url + '/' + id, "{{ __('Utilisateur supprimé') }}",
+                        "{{ __('suppression impossible') }}");
                 }
             });
         });

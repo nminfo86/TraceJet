@@ -60,15 +60,15 @@ function Info($title) {
     });
 }
 
-function Dialog($title) {
+function Dialog($title,yes,no) {
     return Swal.fire({
         title: $title,
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'YES',
-        cancelButtonText: 'Close',
+        confirmButtonText: yes,
+        cancelButtonText: no,
     })
 }
 
@@ -88,16 +88,6 @@ function callAjax(method, url, data) {
         // Triggered if response status code is NOT 200 (OK)
         showAjaxAndValidationErrors(jqXHR, exception);
     })
-}
-
-function basicFormInputs(response, title = '', hasSelectPicker = false) {
-    $.each(response, function (key, val) {
-        $('#' + key).val(val);
-    });
-    if (hasSelectPicker) $(".selectpicker").selectpicker('refresh');
-
-    $('#title').text("{{ __('labels.Edit record', ['record' => __('labels.'" + form_title + ")]) }}");
-    $(".toggle-show").toggleClass('d-none');
 }
 
 // This function is used to process ajax and validation errors
@@ -177,7 +167,7 @@ function formToggle() {
     });
 }
 
-function storObject(url, formData, id = 0) {
+function storObject(url, formData, id = 0,success_message) {
 
     cleanValidationAlert();
 
@@ -200,9 +190,9 @@ function storObject(url, formData, id = 0) {
         success: function (response) {
             check = true;
             // table.draw();
-
+            form[0].reset();
             table.ajax.reload();
-            Success(response);
+            Success(success_message);
             $('#close_btn').click();
         },
         error: function (jqXHR, exception) {
@@ -214,15 +204,29 @@ function storObject(url, formData, id = 0) {
 
 function editObject(url, title, hasSelectPicker = false) {
     callAjax('GET', url).done(function (response) {
-        basicFormInputs(response, title, hasSelectPicker);
+        editBasicForm(response.data, title, hasSelectPicker);
     });
 };
 
+function editBasicForm(response, title = '', hasSelectPicker = false) {
+    $.each(response, function (key, val) {
+        $('#' + key).val(val);
+    });
+    //if (hasSelectPicker) $(".selectpicker").selectpicker('refresh');
+
+    $('#title').text(title);
+    $(".toggle-show").toggleClass('d-none');
+}
 //Function thats delete an object
-function deleteObject(url) {
+function deleteObject(url,success_message,error_message) {
     callAjax('DELETE', url).done(function (response) {
         table.ajax.reload();
-        Success(response);
+        if(response.status==true)
+        Success(success_message);
+        else
+        {
+        Error(error_message);
+        }
     });
 }
 
