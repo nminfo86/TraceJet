@@ -30,7 +30,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('section')->get();
+        // $users = User::with('section')->get();
+        $users = User::join("sections", function ($join) {
+            $join->on('users.section_id', '=', 'sections.id');
+        })->get(["users.id", "username", "name", "status", "section_name", "roles_name"]);
 
         //Send response with success
         return $this->sendResponse(data: $users);
