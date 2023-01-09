@@ -20,56 +20,56 @@ function Success($title) {
 }
 
 function Error($title) {
-    // return Swal.fire({
-    //     title: $title,
-    //     toast: true,
-    //     icon: 'error',
-    //     position: 'top-end',
-    //     showConfirmButton: false,
-    //     showCloseButton: true,
-    //     background: /*'#22c44687',// '#cf5858'*/ '#fbdddd',
-    //     timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
-    //     timerProgressBar: true,
-    // });
+    return Swal.fire({
+        title: $title,
+        toast: true,
+        icon: 'error',
+        position: 'top-end',
+        showConfirmButton: false,
+        showCloseButton: true,
+        background: /*'#22c44687',// '#cf5858'*/ '#fbdddd',
+        timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
+        timerProgressBar: true,
+    });
 }
 
 function SessionErrors($title) {
-    // return Swal.fire({
-    //     title: $title,
-    //     toast: true,
-    //     width: 1000,
-    //     icon: 'error',
-    //     position: 'top',
-    //     showConfirmButton: false,
-    //     showCloseButton: true,
-    //     background: /*'#22c44687',// '#cf5858'*/ '#fbdddd'
-        // timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
-        // timerProgressBar: true,
-    //});
+    return Swal.fire({
+        title: $title,
+        toast: true,
+        width: 1000,
+        icon: 'error',
+        position: 'top',
+        showConfirmButton: false,
+        showCloseButton: true,
+        background: /*'#22c44687',// '#cf5858'*/ '#fbdddd',
+        timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
+        timerProgressBar: true,
+    });
 }
 
 function Info($title) {
-    // return Swal.fire({
-    //     text: $title,
-    //     // toast: true,
-    //     icon: 'info',
-    //     position: 'center',
-    //     showConfirmButton: false,
-    //     // background: /*'#22c44687',// '#cf5858'*/ '#e74a3b',
-    //     // timer: 4500 // 4500 is bigger than success and info (3000) because errors must be read slowly
-    // });
+    return Swal.fire({
+        text: $title,
+        // toast: true,
+        icon: 'info',
+        position: 'center',
+        showConfirmButton: false,
+        // background: /*'#22c44687',// '#cf5858'*/ '#e74a3b',
+        // timer: 4500 // 4500 is bigger than success and info (3000) because errors must be read slowly
+    });
 }
 
 function Dialog($title) {
-    // return Swal.fire({
-    //     title: $title,
-    //     icon: 'question',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'YES',
-    //     cancelButtonText: 'Close',
-    // })
+    return Swal.fire({
+        title: $title,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'YES',
+        cancelButtonText: 'Close',
+    })
 }
 
 

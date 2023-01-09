@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <h4 class="card-title">{{ __('Liste des utilisateurs') }}</h4>
                     <div class="table-responsive">
-                        <table id="main_table" class="table table-striped   dt-responsive nowrap " width="100%">
+                        <table id="main_table" class="table  dt-responsive nowrap " width="100%">
                             <thead class="">
                                 <tr class="">
                                     {{-- <th>#</th> --}}
@@ -46,7 +46,7 @@
     <div class="d-flex justify-content-center toggle-show d-none">
         <div class=" d-flex w-50">
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">
                         <div class="text-white form-title" id="title"></div>
                         <div>
@@ -92,18 +92,18 @@
                             </div>
                             <div class="col-lg-6">
                                 <label>{{ __('Rôle') }}:*</label>
-                                <select id="role" class="form-control select2" name="role">
+                                <select id="roles_name" class="form-control select2" name="roles_name">
                                 </select>
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="role-error"></strong>
+                                    <strong id="roles_name-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-6">
                                 <label>{{ __('Section') }}:*</label>
-                                <select id="section" class="form-control select2" name="section">
+                                <select id="section_id" class="form-control select2" name="section_id">
                                 </select>
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="section-error"></strong>
+                                    <strong id="section_id-error"></strong>
                                 </span>
                             </div>
                         </div>
@@ -131,38 +131,24 @@
             url = 'api/v1/users';
         formToggle();
         $(document).ready(function() {
-
-            $.ajax({
-                url: 'api/v1/pluck/roles',
-                type: "GET",
-                dataType: ajaxDataType,
-                success: function(response) {
-                    $.each(response.data, function(key, val) {
-                        $('#role').append(
-                            '<option value=' + key + '>' + val +
-                            '</option>'
-                        )
-                    });
-                },
-                error: function(jqXHR, exception) {
-                    showAjaxAndValidationErrors(jqXHR, exception);
-                }
+            /*--------------------- get role list ------------------------*/
+            callAjax('GET', 'api/v1/pluck/roles', {}).done(function(response) {
+                $.each(response.data, function(key, val) {
+                    $('#roles_name').append(
+                        '<option value=' + val + '>' + val +
+                        '</option>'
+                    )
+                });
             });
-            $.ajax({
-                url: 'api/v1/pluck/sections',
-                type: "GET",
-                dataType: ajaxDataType,
-                success: function(response) {
-                    $.each(response.data, function(key, val) {
-                        $('#section').append(
-                            '<option value=' + key + '>' + val +
-                            '</option>'
-                        )
-                    });
-                },
-                error: function(jqXHR, exception) {
-                    showAjaxAndValidationErrors(jqXHR, exception);
-                }
+
+            /*----------------------get sections list ---------------------------*/
+            callAjax('GET', 'api/v1/pluck/sections', {}).done(function(response) {
+                $.each(response.data, function(key, val) {
+                    $('#section_id').append(
+                        '<option value=' + key + '>' + val +
+                        '</option>'
+                    )
+                });
             });
         });
         form.on('submit', function(e) {
@@ -181,7 +167,7 @@
             e.preventDefault();
             id = $(this).attr("id");
             //Fire alert to user about delete warning
-            Dialog("{{ __('labels.title-confirme') }}").then((result) => {
+            Dialog("{{ __('Confirmer la suppression') }}").then((result) => {
                 // if he confirme deleting modal we start delete action
                 if (result.isConfirmed) {
                     deleteObject(url + '/' + id);
@@ -189,25 +175,24 @@
             });
         });
 
-        // table = table.DataTable({
-        //     "ajax": url,
-        //     columns: [{
-        //             data: 'username'
-        //         },
-        //         {
-        //             data: 'section_name'
-        //         }, {
-        //             data: 'roles_name'
-        //         },
-        //         {
-        //             data: 'id',
-        //             render: function(data, type, row) {
-        //                 return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-    //                 <div type="button" id = ${data} class="d-inline pl-3 text-white delete" data-bs-toggle="modal"
-    //                 data-bs-target="#confirmDelete"><i class="fas fa-trash text-danger"></i> </div>`;
-        //             }
-        //         },
-        //     ],
-        // });
+        table = table.DataTable({
+            "ajax": url,
+            columns: [{
+                    data: 'username'
+                },
+                {
+                    data: 'section.section_name'
+                }, {
+                    data: 'roles_name'
+                },
+                {
+                    data: 'id',
+                    render: function(data, type, row) {
+                        return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
+                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
+                    }
+                },
+            ],
+        });
     </script>
 @endpush

@@ -12,8 +12,26 @@
  <script src="../dist/js/sidebarmenu.js"></script>
  <!--Custom JavaScript -->
  <script src="../dist/js/custom.js"></script>
+ <script src="../dist/js/sweetalert2.all.min.js"></script>
  <script src="../dist/js/appCore.js"></script>
 
+ <script>
+     $.ajaxSetup({
+         headers: {
+             // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             'Authorization': 'Bearer ' + '{{ Session::get('token') }}'
+         }
+     });
+     $.extend(true, $.fn.dataTable.defaults, {
+         processing: true,
+         order: [
+             [0, 'desc']
+         ],
+         language: {
+             url: "{{ asset('') }}assets/ar.json"
+         }
+     });
+ </script>
  <!-- Costum js code for each child-->
  @stack('custom_js')
  <!-- END: Costum js code -->
