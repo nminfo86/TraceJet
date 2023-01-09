@@ -24,7 +24,10 @@ class OfController extends Controller
      */
     public function index()
     {
-        $ofs = Of::with('caliber')->get();
+        // $ofs = Of::with('caliber')->get();
+        $ofs = Of::join('calibers', function ($join) {
+            $join->on('calibers.id', '=', 'ofs.caliber_id');
+        })->get(["of_number", "of_code", "status", "quantity", "caliber_code", "updated_at"]);
 
         //Send response with success
         return $this->sendResponse(data: $ofs);

@@ -67,8 +67,8 @@ class MovementService extends Controller
      */
     public function productStepsControl(Object $request, Object $last_movement, Object $post)
     {
-        // Is generator post
-        if ($post->previous_post_id == NULL || $last_movement->movement_post_id == $post->id) {
+        // movement exist with this post
+        if ($last_movement->movement_post_id == $post->id) {
             //Send response with error
             return $this->sendResponse('Product already executed on this post', status: false);
         }
@@ -76,8 +76,16 @@ class MovementService extends Controller
         // Get name of last post executed
         $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
 
-        // Check result if Nok i last movement
-        if ($last_movement->result !== 'ok') {
+        // Check result if Nok in last movement
+        if ($last_movement->result == 'NOK') {
+
+            # Reparation post_type_id = 4
+            if ($post->posts_type_id === 4) {
+
+                $last_movement->update(["result" => "rebut"]);
+                //Send response with data
+                return $this->sendResponse("Product destroyed");
+            }
             //Send response with error
             return $this->sendResponse("Product NOK on, $post_name", status: false);
         }
@@ -126,7 +134,6 @@ class MovementService extends Controller
 
         // Create last movement (packaging) and boxing
         if ($product_movements->count() === $operator_post_count + 1) {
-
             return $this->createMovement($request->result, $last_movement->serial_number_id, $post_id, true, $product_movements);
         }
     }

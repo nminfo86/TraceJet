@@ -28,6 +28,7 @@ class CreateAdminUserSeeder extends Seeder
             'name' => 'super_admin',
             'username' => 'super_admin',
             'email' => 'admin@local.com',
+            'status' => 1,
             'roles_name' => [$super_admin_role->name],
             'password' => Hash::make('123123'),
         ]);
