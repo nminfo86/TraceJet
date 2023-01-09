@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('serial_numbers_parts', function (Blueprint $table) {
-            $table->increments("id");
+            //$table->increments("id");
+            //$table->dropPrimary("serial_numbers_parts_id_primary");
             $table->unsignedBigInteger('serial_number_id');
             $table->unsignedBigInteger('part_id');
 

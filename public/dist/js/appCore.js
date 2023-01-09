@@ -146,8 +146,10 @@ function getAjaxErrorMessage(jqXHR, exception) {
 /* -------------------------------------------------------------------------- */
 
 function cleanValidationAlert() {
-    $('.alert-danger').addClass('d-none');
-    $('.alert-validation-msg').text('');
+    // $('.is-invalid').addClass('d-none');
+    $('.is-invalid').removeClass('is-invalid');
+
+    //$('.alert-validation-msg').text('');
 }
 
 function formToggle(form_title) {

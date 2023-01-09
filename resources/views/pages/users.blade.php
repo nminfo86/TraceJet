@@ -27,6 +27,7 @@
                                     <th>{{ __('Nom d\'utilisateur') }}</th>
                                     <th>{{ __('Section') }}</th>
                                     <th>{{ __('Role') }}</th>
+                                    <th>{{ __('acitve') }}</th>
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
@@ -106,6 +107,16 @@
                                     <strong id="section_id-error"></strong>
                                 </span>
                             </div>
+                            <div class="col-12 pt-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="status" on="1"
+                                        off="0" checked value="1" role="switch" id="flexSwitchCheckDefault">
+                                    <label class="form-check-label"
+                                        for="flexSwitchCheckDefault">{{ __('Etat d\'utilisateur actif') }}
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="card-footer float-right">
@@ -177,15 +188,25 @@
             });
         });
 
+        var yes = "{{ __('Oui') }}";
+        var no = "{{ __('Non') }}";
         table = table.DataTable({
             "ajax": url,
             columns: [{
                     data: 'username'
                 },
                 {
-                    data: 'section.section_name'
+                    data: 'section_name'
                 }, {
                     data: 'roles_name'
+                },
+                {
+                    data: 'status',
+                    render: function(data, type, row) {
+                        return data == 1 ?
+                            `<label class="badge bg-success">${yes}</label>` :
+                            `<label class="badge bg-danger">${no}</label>`;
+                    }
                 },
                 {
                     data: 'id',
