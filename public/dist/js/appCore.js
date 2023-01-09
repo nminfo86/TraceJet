@@ -99,19 +99,14 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
         $.each(response.errors, function (key, val) {
             /* replace the dote of dynamique input with _ to match id of error show */
             key = key.replace(/\./g, '_');
-            // if (key == 'regiment') {
-            //     $(document).find('.btn-prev').click();
-            // }
-            alert(key);
             $('#'+key).addClass('is-invalid');
             $('#' + key + "-error").text(val);
-            //$('#' + key + "_error").closest('.alert-danger').removeClass('d-none');
-            // got to the first error occured
-            // if (i < 1) {
-            //     $(window).scrollTop($('#' + key).offset().top - 30);
-            //     i++;
-            // }
+
         });
+
+         // got to the first error occured
+        $(window).scrollTop($('.is-invalid:first').offset().top - 30);
+
         // if error is not validation, we show them in SweetAlert
     } else {
         SessionErrors(getAjaxErrorMessage(jqXHR, exception));
