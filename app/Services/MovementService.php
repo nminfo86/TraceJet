@@ -157,7 +157,7 @@ class MovementService extends Controller
 
                 // return   $this->closeOf($of_id);
                 //Send response with success
-                return $this->sendResponse($this->success_msg);
+                return $this->sendResponse($this->create_success_msg);
             } catch (\Exception $e) {
                 DB::rollBack();
                 throw $e;
@@ -175,7 +175,7 @@ class MovementService extends Controller
 
 
         //Send response with success
-        return $this->sendResponse($this->success_msg, $movement);
+        return $this->sendResponse($this->create_success_msg, $movement);
     }
 
 
@@ -212,7 +212,7 @@ class MovementService extends Controller
         }
     }
 
-    //TODO::Change id to code ;
+    //TODO::Change id to code valid ;
 
     /**
      * Count all operation (simple) posts

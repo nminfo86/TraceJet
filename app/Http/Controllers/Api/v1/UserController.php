@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Api\v1;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\UserRequest;
+use App\Exceptions\ExceptionTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Exceptions\ExceptionTrait;
+use App\Http\Requests\StoreRequests\StoreUserRequest;
 
 class UserController extends Controller
 {
@@ -43,7 +43,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(StoreUserRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -91,14 +91,29 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->update($request->all());
+        if (!$request->has('password')) {
+            // removes the password key from the request if password field is empty
+            $request->except(['password']);
+        }
 
-        DB::table('model_has_roles')->where('model_id', $user->id)->delete();
+        try {
+            DB::beginTransaction();
+            // update user
+            $user->update($request->all());
 
-        $user->assignRole($request->input('roles_name'));
+            // delete role from this user
+            DB::table('model_has_roles')->where('model_id', $user->id)->delete();
 
-        //Send response with success
-        return $this->sendResponse($this->update_success_msg, $user);
+            // assign new role
+            $user->assignRole($request->input('roles_name'));
+            DB::commit();
+
+            //Send response with success
+            return $this->sendResponse($this->update_success_msg, $user);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->apiException($request, $e);
+        }
     }
 
     /**
