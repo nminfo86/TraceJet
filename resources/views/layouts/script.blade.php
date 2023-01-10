@@ -14,7 +14,8 @@
  <script src="../dist/js/custom.js"></script>
  <script src="../dist/js/sweetalert2.all.min.js"></script>
  <script src="../dist/js/appCore.js"></script>
- <script src="../dist/js/select2.min.js"></script>
+ <script src="../dist/js/select2/select2.min.js"></script>
+ <script src="../dist/js/select2/fr.js"></script>
 
  <script>
      $.ajaxSetup({

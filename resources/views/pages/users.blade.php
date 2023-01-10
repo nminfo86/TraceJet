@@ -93,7 +93,9 @@
                             </div>
                             <div class="col-lg-6">
                                 <label>{{ __('Rôle') }}:*</label>
-                                <select id="roles_name" class="form-control select2" name="roles_name">
+                                <select id="roles_name" class="form-control select2"
+                                    data-placeholder="{{ __('Selection un role') }}" name="roles_name">
+                                    <option></option>
                                 </select>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="roles_name-error"></strong>
@@ -102,8 +104,8 @@
                             <div class="col-lg-6">
                                 <label>{{ __('Section') }}:*</label>
                                 <div class="input-group mb-3">
-                                    <select id="section_id" class="select2"
-                                        placeholder="{{ __('Selectionner une section') }}" name="section_id">
+                                    <select id="section_id" class=""
+                                        data-placeholder="{{ __('Selectionner une section') }}" name="section_id">
                                         <option></option>
                                     </select>
                                     <button class="input-group-text btn btn-success" id="basic-addon2"><i
@@ -115,10 +117,9 @@
                             </div>
                             <div class="col-12 pt-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="status" checked value="1"
-                                        role="switch" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label"
-                                        for="flexSwitchCheckDefault">{{ __('Etat d\'utilisateur actif') }}
+                                    <input class="form-check-input" type="checkbox" id="status" role="switch"
+                                        value="1" checked>
+                                    <label class="form-check-label" for="status">{{ __('Etat d\'utilisateur actif') }}
                                     </label>
                                 </div>
                             </div>
@@ -167,16 +168,25 @@
                     )
                 });
             });
-            $('#section_id').select2({
+
+            $('select').select2({
                 theme: "bootstrap-5",
                 width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
                     'style',
                 placeholder: $(this).data('placeholder'),
+                language: 'fr'
             });
+        });
+        $(document).on('click', '.form-check-input', function(e) {
+            if ($(this).is(':checked'))
+                $(this).val(1);
+            else
+                $(this).val(0);
         });
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
+            //formData.append("status", $("#status").val());
             storObject(url, formData, id, "{{ __('Utilisateur ajouté avec succès') }}",
                 "{{ __('Utilisateur modifié avec succès') }}");
         });
