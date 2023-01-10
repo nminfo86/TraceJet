@@ -101,22 +101,27 @@
                             </div>
                             <div class="col-lg-6">
                                 <label>{{ __('Section') }}:*</label>
-                                <select id="section_id" class="form-control select2" name="section_id">
-                                </select>
+                                <div class="input-group mb-3">
+                                    <select id="section_id" class="select2"
+                                        placeholder="{{ __('Selectionner une section') }}" name="section_id">
+                                        <option></option>
+                                    </select>
+                                    <button class="input-group-text btn btn-success" id="basic-addon2"><i
+                                            class="fa fa-plus"></i></button>
+                                </div>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="section_id-error"></strong>
                                 </span>
                             </div>
                             <div class="col-12 pt-3">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="status" on="1"
-                                        off="0" checked value="1" role="switch" id="flexSwitchCheckDefault">
+                                    <input class="form-check-input" type="checkbox" name="status" checked value="1"
+                                        role="switch" id="flexSwitchCheckDefault">
                                     <label class="form-check-label"
                                         for="flexSwitchCheckDefault">{{ __('Etat d\'utilisateur actif') }}
                                     </label>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="card-footer float-right">
@@ -141,6 +146,7 @@
             form_title = " {{ __('Nouvel Utilisateur') }}",
             url = 'api/v1/users';
         formToggle(form_title);
+
         $(document).ready(function() {
             /*--------------------- get role list ------------------------*/
             callAjax('GET', 'api/v1/pluck/roles', {}).done(function(response) {
@@ -151,6 +157,7 @@
                     )
                 });
             });
+
             /*----------------------get sections list ---------------------------*/
             callAjax('GET', 'api/v1/pluck/sections', {}).done(function(response) {
                 $.each(response.data, function(key, val) {
@@ -159,6 +166,12 @@
                         '</option>'
                     )
                 });
+            });
+            $('#section_id').select2({
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
+                    'style',
+                placeholder: $(this).data('placeholder'),
             });
         });
         form.on('submit', function(e) {

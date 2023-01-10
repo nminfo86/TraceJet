@@ -6,7 +6,7 @@ var id = 0, ajaxDataType = 'json';
 /* -------------------------------------------------------------------------- */
 /*                              SWEETALERT CONFIG                             */
 /* -------------------------------------------------------------------------- */
-function Success($title) {
+function ajaxSuccess($title) {
     return Swal.fire({
         title: $title,
         icon: 'success',
@@ -19,7 +19,7 @@ function Success($title) {
     });
 }
 
-function Error($title) {
+function ajaxError($title) {
     return Swal.fire({
         title: $title,
         toast: true,
@@ -190,7 +190,7 @@ function storObject(url, formData, id = 0,success_store_message,success_update_m
         success: function (response) {
             check = true;
             table.ajax.reload();
-            Success(message);
+            ajaxSuccess(message);
             $('.close-btn:first').click();
         },
         error: function (jqXHR, exception) {
@@ -220,10 +220,10 @@ function deleteObject(url,success_message,error_message) {
     callAjax('DELETE', url).done(function (response) {
         table.ajax.reload();
         if(response.status==true)
-        Success(success_message);
+        ajaxSuccess(success_message);
         else
         {
-        Error(error_message);
+        ajaxError(error_message);
         }
     });
 }

@@ -18,6 +18,8 @@
         href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/r-2.4.0/rg-1.3.0/sl-1.5.0/datatables.min.css" /> --}}
 
     <link href="../dist/css/style.min.css" rel="stylesheet">
+    <link href="../dist/css/select2.min.css" rel="stylesheet">
+    <link href="../dist/css/select2-bootstrap-5-theme.min.css" rel="stylesheet">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
