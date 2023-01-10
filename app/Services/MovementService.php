@@ -79,13 +79,13 @@ class MovementService extends Controller
         // Check result if Nok in last movement
         if ($last_movement->result == 'NOK') {
 
-            # Reparation post_type_id = 4
-            if ($post->posts_type_id === 4) {
+            // # Reparation post_type_id = 4
+            // if ($post->posts_type_id === 4) {
 
-                $last_movement->update(["result" => "rebut"]);
-                //Send response with data
-                return $this->sendResponse("Product destroyed");
-            }
+            //     $last_movement->update(["result" => "rebut"]);
+            //     //Send response with data
+            //     return $this->sendResponse("Product destroyed");
+            // }
             //Send response with error
             return $this->sendResponse("Product NOK on, $post_name", status: false);
         }

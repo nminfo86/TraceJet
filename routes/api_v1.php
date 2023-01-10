@@ -6,6 +6,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\PartController;
 use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,9 +74,32 @@ Route::group(
 
 
 
+        /* -------------------------------------------------------------------------- */
+        /*                                    TEST                                    */
+        /* -------------------------------------------------------------------------- */
+        #reparation post get part of sn
         route::get('many', function () {
 
             return SerialNumber::with("parts")->get();
+        });
+        Route::controller(SerialNumber::class)->group(function () {
+            Route::get('getSnParts', function () {
+                return SerialNumber::with("parts")->get();
+            });
+
+            route::get('store/', function () {
+
+                $sn = SerialNumber::find(1);
+                $sn->parts()->attach([1 => [
+                    'part_id' => 1,
+                    "quantity" => 20
+                ], [
+                    'part_id' => 2,
+                    "quantity" => 20
+                ]]);
+                return $sn;
+                // return SerialNumber::with("parts")->get();
+            });
         });
 
 

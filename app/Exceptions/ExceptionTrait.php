@@ -84,7 +84,7 @@ trait ExceptionTrait
         return response()->json(
             [
                 'status' => false,
-                'errors' => 'Model not found'
+                'message' => 'Model not found'
             ]
             // , Response::HTTP_NOT_FOUND
         );
@@ -96,17 +96,18 @@ trait ExceptionTrait
         return response()->json(
             [
                 'status' => false,
-                'errors' => 'Not found'
+                'message' => 'Not found'
             ]
             // , Response::HTTP_NOT_FOUND
         );
     }
     protected function MethodResponse($e)
     {
+        Log::channel('applicationLog')->error($e->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName());
         return response()->json(
             [
                 'status' => false,
-                'errors' => 'The specified method for the request is invalid'
+                'message' => 'The specified method for the request is invalid'
             ]
             // , Response::HTTP_NOT_FOUND
         );
@@ -120,7 +121,7 @@ trait ExceptionTrait
         return response()->json(
             [
                 'status' => false,
-                'errors' => 'Error'
+                'message' => 'Error'
             ]
             // , Response::HTTP_NOT_FOUND
         );
@@ -134,7 +135,7 @@ trait ExceptionTrait
         return response()->json(
             [
                 'status' => false,
-                'errors' => 'Error code ' . $e->getCode()
+                'message' => 'Error code ' . $e->getCode()
             ]
             // , Response::HTTP_NOT_FOUND
         );
@@ -146,7 +147,7 @@ trait ExceptionTrait
         return response()->json(
             [
                 'status' => false,
-                'errors' => 'Error'
+                'message' => 'Error'
             ]
             // , Response::HTTP_NOT_FOUND
         );
@@ -157,7 +158,7 @@ trait ExceptionTrait
         return response()->json(
             [
                 'status' => false,
-                'errors' => $e->getMessage()
+                'message' => $e->getMessage()
             ]
             // , Response::HTTP_NOT_FOUND
         );
