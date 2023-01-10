@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\SerialNumber;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Part extends Model
 {
@@ -17,9 +19,27 @@ class Part extends Model
     public $timestamps = false;
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['pivot'];
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['part', 'observation'];
+
+
+
+    /**
+     * Get all of the serial_numbers for the Part
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function serial_numbers()
+    {
+        return $this->belongsToMany(SerialNumber::class);
+    }
 }

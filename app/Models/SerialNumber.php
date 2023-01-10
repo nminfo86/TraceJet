@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use App\Models\Of;
+use App\Models\Part;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SerialNumber extends Model
 {
@@ -21,16 +25,39 @@ class SerialNumber extends Model
      */
     protected $fillable = ['of_id', 'box_id', 'valid', 'serial_number', 'qr'];
 
+
+    // /**
+    //  * The attributes that should be hidden for arrays.
+    //  *
+    //  * @var array
+    //  */
+    // protected $hidden = ['pivot'];
+    /* -------------------------------------------------------------------------- */
+    /*                                RelationShips                               */
+    /* -------------------------------------------------------------------------- */
     /**
      * Get all of the ofs  for the SerialNumber
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function of()
+    public function of(): BelongsTo
     {
         return $this->belongsTo(Of::class);
     }
 
+    /**
+     * The parts that belong to the SerialNumber
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function parts(): BelongsToMany
+    {
+        return $this->belongsToMany(Part::class)->withPivot(['quantity'])->select(["part_id", "quantity"]);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                   Scoops                                   */
+    /* -------------------------------------------------------------------------- */
     /**
      * Scope a query to only include
      *
@@ -41,6 +68,8 @@ class SerialNumber extends Model
     {
         return $query->where('valid', $value);
     }
+
+
 
     public static function boot()
     {

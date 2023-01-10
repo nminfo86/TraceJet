@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Of;
+use App\Models\Part;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\PartController;
@@ -72,8 +73,10 @@ Route::group(
 
 
 
+        route::get('many', function () {
 
-
+            return SerialNumber::with("parts")->get();
+        });
 
 
 
