@@ -30,7 +30,7 @@ class StoreUserRequest extends FormRequest
             'password' => 'required_with:password_confirmation|string|min:6|confirmed',
             'roles_name' => 'required',
             'name' => 'required',
-            'section_name' => 'required',
+            'section_id' => 'required',
             'device_name' => 'string'
         ];
     }
