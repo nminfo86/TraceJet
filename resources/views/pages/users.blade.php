@@ -108,8 +108,12 @@
                                         data-placeholder="{{ __('Selectionner une section') }}" name="section_id">
                                         <option></option>
                                     </select>
-                                    <button class="input-group-text btn btn-success" id="basic-addon2"><i
-                                            class="fa fa-plus"></i></button>
+                                    <button type="button" class="input-group-text btn-circle btn btn-success"
+                                        id="basic-addon2"><i class="fa fa-plus"></i></button>
+                                    {{-- <button type="button" class="input-group-text btn btn-warning" id="basic-addon2"><i
+                                            class="fa fa-edit"></i></button> --}}
+                                    <button type="button" class="input-group-text btn btn-danger" id="basic-addon2"><i
+                                            class="fa fa-minus"></i></button>
                                 </div>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="section_id-error"></strong>
@@ -121,14 +125,14 @@
                                         value="1" checked>
                                     <label class="form-check-label" for="status">{{ __('Etat d\'utilisateur actif') }}
                                     </label>
-                                    {{-- <input type="hidden" id="status" name="status" value="1" /> --}}
                                 </div>
 
                             </div>
                         </div>
                     </div>
                     <div class="card-footer float-right">
-                        <button type="submit" class="btn btn-success text-white h6 px-3 py-2"> <i class="fa fa-save"></i>
+                        <button type="submit" class="btn btn-success text-white h6 px-3 py-2"> <i
+                                class="fa fa-save"></i>
                             {{ __('Confirmer') }}</button>
                         <button type="button" id="close-btn" class="btn btn-danger text-white close-btn h6 py-2 px-3"><i
                                 class="fa fa-times"></i>
@@ -237,6 +241,10 @@
                     }
                 },
             ],
+        });
+        $(document).on('change', '#section_d', function(e) {
+            preventDefault(e)
+
         });
     </script>
 @endpush
