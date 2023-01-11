@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Models\Of;
 use App\Models\Part;
+use App\Models\Movement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SerialNumber extends Model
@@ -43,6 +44,16 @@ class SerialNumber extends Model
     public function of(): BelongsTo
     {
         return $this->belongsTo(Of::class);
+    }
+
+    /**
+     * Get the movement that owns the SerialNumber
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function movement(): HasMany
+    {
+        return $this->hasMany(Movement::class);
     }
 
     /**

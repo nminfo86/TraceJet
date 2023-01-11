@@ -24,7 +24,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('section')->get();
+        // $products = Product::with('section')->get();
+        $products = Product::join('sections', function ($join) {
+            $join->on('products.section_id', '=', 'sections.id');
+        })->get();
 
         //Send response with data
         return $this->sendResponse(data: $products);

@@ -13,7 +13,7 @@ class Section extends Model
      *
      * @var array
      */
-    protected $fillable = ['section_name', 'section_code', 'observation'];
+    protected $fillable = ['section_name', 'section_code'];
 
     /**
      * Indicates if the model should be timestamped.

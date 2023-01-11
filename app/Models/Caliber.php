@@ -15,7 +15,7 @@ class Caliber extends Model
      *
      * @var array
      */
-    protected $fillable = ['caliber_code', 'caliber_name', 'product_id', 'box_quantity', 'observation'];
+    protected $fillable = ['caliber_code', 'caliber_name', 'product_id', 'box_quantity'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -29,12 +29,12 @@ class Caliber extends Model
     /*                                relationShips                               */
     /* -------------------------------------------------------------------------- */
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
-    public function ofs()
-    {
-        return $this->hasMany(Of::class);
-    }
+    // public function product()
+    // {
+    //     return $this->belongsTo(Product::class);
+    // }
+    // public function ofs()
+    // {
+    //     return $this->hasMany(Of::class);
+    // }
 }

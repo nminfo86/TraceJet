@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Movement extends Model
@@ -19,6 +20,15 @@ class Movement extends Model
 
 
 
+    /**
+     * Get the serialnumber that owns the Movement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function serialnumber()
+    {
+        return $this->hasMany(SerialNumber::class);
+    }
 
     // [x]::change later
     public static function boot()

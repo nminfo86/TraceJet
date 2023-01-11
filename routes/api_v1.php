@@ -6,6 +6,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\PartController;
 use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};
+use App\Http\Controllers\RepairController;
 use Illuminate\Http\Request;
 
 /*
@@ -45,6 +46,7 @@ Route::group(
             'boxes' => BoxController::class,
             'parts' => PartController::class,
             'sn_parts' => SerialNumbersPartController::class,
+            'repairs' => RepairController::class,
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 
@@ -89,8 +91,8 @@ Route::group(
 
             route::get('store/', function () {
 
-                $sn = SerialNumber::find(1);
-                $sn->parts()->attach([1 => [
+                $sn = SerialNumber::find(2);
+                $sn->parts()->attach([$sn->id => [
                     'part_id' => 1,
                     "quantity" => 20
                 ], [
