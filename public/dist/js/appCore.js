@@ -78,12 +78,13 @@ function Dialog($title,yes,no) {
 /*                            Global ajax messages                            */
 /* -------------------------------------------------------------------------- */
 
-function callAjax(method, url, data) {
+function callAjax(method, url, data={},is_async=true) {
     return $.ajax({
         url: url,
         type: method,
         data: data,
         dataType: ajaxDataType,
+        async:is_async,
     }).fail(function (jqXHR, exception) {
         // Triggered if response status code is NOT 200 (OK)
         showAjaxAndValidationErrors(jqXHR, exception);
@@ -148,8 +149,8 @@ function getAjaxErrorMessage(jqXHR, exception) {
 function cleanValidationAlert() {
     // $('.is-invalid').addClass('d-none');
     $('.is-invalid').removeClass('is-invalid');
-
-    //$('.alert-validation-msg').text('');
+    form.find('select').val('').trigger('change');
+    form.find('.form-check-input').trigger('change');
 }
 
 function formToggle(form_title) {
@@ -201,17 +202,17 @@ function storObject(url, formData, id = 0,success_store_message,success_update_m
 }
 
 function editObject(url, title, hasSelectPicker = false) {
-    callAjax('GET', url).done(function (response) {
+    callAjax('GET', url,{},false).done(function (response) {
         editBasicForm(response.data, title, hasSelectPicker);
     });
 };
 
-function editBasicForm(response, title = '', hasSelectPicker = false) {
+function editBasicForm(response, title = '') {
     $.each(response, function (key, val) {
         $('#' + key).val(val);
     });
-    //if (hasSelectPicker) $(".selectpicker").selectpicker('refresh');
-
+    $('select').trigger('change');
+    //form.find('.form-check-input:first')
     $('#title').text(title);
     $(".toggle-show").toggleClass('d-none');
 }
@@ -279,6 +280,19 @@ function x(table_settings = {}, url = '') {
     // console.log(table_settings);
     return table_settings;
 }
-
-
+function customSelect2(lang) {
+    $('select').select2({
+        theme: "bootstrap-5",
+        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ?
+            '100%' : 'style',
+        placeholder: $(this).data('placeholder'),
+        language: lang
+    });
+}
+$(document).on('change', '.form-check-input', function(e) {
+    if ($(this).is(':checked'))
+        $(this).val(1);
+    else
+        $(this).val(0);
+});
 

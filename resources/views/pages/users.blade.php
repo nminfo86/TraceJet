@@ -121,7 +121,9 @@
                                         value="1" checked>
                                     <label class="form-check-label" for="status">{{ __('Etat d\'utilisateur actif') }}
                                     </label>
+                                    {{-- <input type="hidden" id="status" name="status" value="1" /> --}}
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -169,24 +171,14 @@
                 });
             });
 
-            $('select').select2({
-                theme: "bootstrap-5",
-                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
-                    'style',
-                placeholder: $(this).data('placeholder'),
-                language: 'fr'
-            });
+            /*-----------------------intialize select fields ------------------------*/
+            customSelect2("{{ __('fr') }}");
         });
-        $(document).on('click', '.form-check-input', function(e) {
-            if ($(this).is(':checked'))
-                $(this).val(1);
-            else
-                $(this).val(0);
-        });
+
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            //formData.append("status", $("#status").val());
+            formData.append("status", $("#status").val());
             storObject(url, formData, id, "{{ __('Utilisateur ajouté avec succès') }}",
                 "{{ __('Utilisateur modifié avec succès') }}");
         });
@@ -197,6 +189,12 @@
             id = $(this).attr('id');
             form_title = " {{ __('Modification Utilisateur') }}";
             editObject(url + '/' + id, form_title);
+            //if (form.find('.form-check-input:first').val() != 0)
+            if ($('#status').val() == 0)
+                $('#status').prop('checked', false);
+            else
+                $('#status').prop('checked', true);
+            //form.find('.form-check-input:first').attr('checked', false)
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
