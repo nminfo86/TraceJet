@@ -26,9 +26,11 @@
      });
      $.extend(true, $.fn.dataTable.defaults, {
          //processing: true,
-         order: [
-             [0, 'desc']
-         ],
+         columnDefs: [{
+             targets: -1,
+             className: "text-center"
+         }, ],
+
          language: {
              url: "{{ asset('') }}assets/locale/fr.json"
          }

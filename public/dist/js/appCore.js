@@ -149,8 +149,6 @@ function getAjaxErrorMessage(jqXHR, exception) {
 function cleanValidationAlert() {
     // $('.is-invalid').addClass('d-none');
     $('.is-invalid').removeClass('is-invalid');
-    form.find('select').val('').trigger('change');
-    form.find('.form-check-input').trigger('change');
 }
 
 function formToggle(form_title) {
@@ -162,6 +160,8 @@ function formToggle(form_title) {
     }).on('click', ".close-btn", (e) => {
         e.preventDefault();
         form[0].reset();
+        form.find('select').val('').trigger('change');
+        form.find('.form-check-input').trigger('change');
         cleanValidationAlert();
         $(".toggle-show").toggleClass('d-none');
     });
@@ -280,6 +280,8 @@ function x(table_settings = {}, url = '') {
     // console.log(table_settings);
     return table_settings;
 }
+
+customSelect2("fr");
 function customSelect2(lang) {
     $('select').select2({
         theme: "bootstrap-5",
@@ -295,4 +297,12 @@ $(document).on('change', '.form-check-input', function(e) {
     else
         $(this).val(0);
 });
+function appendToSelect(data,select_id) {
+    $.each(data, function(key, val) {
+        $(select_id).append(
+            '<option value=' + val + '>' + val +
+            '</option>'
+        )
+    });
+}
 

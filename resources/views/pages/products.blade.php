@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item" aria-current="page">{{ __('Administration') }}</li>
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Utilisateurs') }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ __('Produits') }}</li>
 @endsection
 @section('btns_actions')
     <div class="text-end upgrade-btn toggle-show">
@@ -18,7 +17,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ __('Liste des utilisateurs') }}</h4>
+                    <h4 class="card-title">{{ __('Liste des produits') }}</h4>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>

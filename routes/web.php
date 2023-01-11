@@ -40,5 +40,9 @@ Route::group(
         Route::get('/users', function () {
             return view('pages.users');
         });
+
+        Route::get('/products', function () {
+            return view('pages.products');
+        });
     });
 
