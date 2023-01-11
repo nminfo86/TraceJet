@@ -297,12 +297,20 @@ $(document).on('change', '.form-check-input', function(e) {
     else
         $(this).val(0);
 });
-function appendToSelect(data,select_id) {
+function appendToSelect(data,select_id,by_val=false) {
+    if(!by_val)
+    $.each(data, function(key, val) {
+        $(select_id).append(
+            '<option value=' + key + '>' + val +
+            '</option>'
+        )
+    })
+    else
     $.each(data, function(key, val) {
         $(select_id).append(
             '<option value=' + val + '>' + val +
             '</option>'
         )
-    });
+    })
 }
 

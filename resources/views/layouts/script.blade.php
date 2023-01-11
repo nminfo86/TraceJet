@@ -35,6 +35,9 @@
              url: "{{ asset('') }}assets/locale/fr.json"
          }
      });
+     var yes = "{{ __('Oui') }}";
+     var no = "{{ __('Non') }}";
+     var base_url = "api/v1";
  </script>
  <!-- Costum js code for each child-->
  @stack('custom_js')

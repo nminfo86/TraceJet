@@ -23,10 +23,9 @@
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __('Nom d\'utilisateur') }}</th>
+                                    <th>{{ __('Code') }}</th>
+                                    <th>{{ __('Produit') }}</th>
                                     <th>{{ __('Section') }}</th>
-                                    <th>{{ __('Role') }}</th>
-                                    <th>{{ __('Actif') }}</th>
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
@@ -60,48 +59,22 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Nom') }}:*</label>
-                                <input type="text" name="name" id="name" class="form-control"
-                                    placeholder="{{ __('Nom et prénom') }}" />
+                                <label>{{ __('Code') }}:*</label>
+                                <input type="text" name="product_code" id="product_code" class="form-control"
+                                    placeholder="{{ __('Code') }}" />
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="name-error">dd</strong>
+                                    <strong id="product_code-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Nom d\'utilisateur') }}:*</label>
-                                <input type="text" name="username" id="username" class="form-control"
-                                    placeholder="{{ __('Nom d\'utilisateur') }}" />
+                                <label>{{ __('Produit') }}:*</label>
+                                <input type="text" name="product_name" id="product_name" class="form-control"
+                                    placeholder="{{ __('Produit') }}" />
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="username-error"></strong>
+                                    <strong id="product_name-error"></strong>
                                 </span>
                             </div>
-                            <div class="col-lg-6">
-                                <label>{{ __('Mot de passe') }}:*</label>
-                                <input type="password" name="password" id="password" class="form-control"
-                                    placeholder="{{ __('Mot de passe') }}" />
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="password-error"></strong>
-                                </span>
-                            </div>
-                            <div class="col-lg-6">
-                                <label>{{ __('Confirmer le mot de passe') }}:*</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation"
-                                    class="form-control" placeholder="{{ __('Confirmer le mot de passe') }}" />
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="password_confirmation-error"></strong>
-                                </span>
-                            </div>
-                            <div class="col-lg-6">
-                                <label>{{ __('Rôle') }}:*</label>
-                                <select id="roles_name" class="form-control select2"
-                                    data-placeholder="{{ __('Selection un role') }}" name="roles_name">
-                                    <option></option>
-                                </select>
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="roles_name-error"></strong>
-                                </span>
-                            </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <label>{{ __('Section') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="section_id" class=""
@@ -113,15 +86,14 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-12 pt-3">
+                            {{-- <div class="col-12 pt-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="status" role="switch"
                                         value="1" checked>
-                                    <label class="form-check-label" for="status">{{ __('Etat d\'utilisateur actif') }}
+                                    <label class="form-check-label" for="status">{{ __('Actif') }}
                                     </label>
                                 </div>
-
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     @include('components.footer_form')
@@ -137,23 +109,17 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            form_title = " {{ __('Nouvel Utilisateur') }}",
-            url = 'api/v1/users';
-        var yes = "{{ __('Oui') }}";
-        var no = "{{ __('Non') }}";
+            form_title = " {{ __('Nouveau Produit') }}",
+            url = base_url + '/products';
+
         formToggle(form_title);
 
         $(document).ready(function() {
-            /*--------------------- get role list ------------------------*/
-            callAjax('GET', 'api/v1/pluck/roles').done(function(response) {
-                appendToSelect(response.data, "#roles_name");
-            });
-
             /*----------------------get sections list ---------------------------*/
-            callAjax('GET', 'api/v1/pluck/sections').done(function(response) {
+            callAjax('GET', base_url + '/pluck/sections').done(function(response) {
                 appendToSelect(response.data, "#section_id");
             });
-
+            //alert(url);
             /*-----------------------intialize select fields ------------------------*/
             //customSelect2("fr");
         });
@@ -161,16 +127,16 @@
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            formData.append("status", $("#status").val());
-            storObject(url, formData, id, "{{ __('Utilisateur ajouté avec succès') }}",
-                "{{ __('Utilisateur modifié avec succès') }}");
+            // formData.append("status", $("#status").val());
+            storObject(url, formData, id, "{{ __('Produit ajouté avec succès') }}",
+                "{{ __('Produit modifié avec succès') }}");
         });
 
         /* ---------------------------------- Edit ---------------------------------- */
         $(document).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
-            form_title = " {{ __('Modification Utilisateur') }}";
+            form_title = " {{ __('Modification Produit') }}";
             editObject(url + '/' + id, form_title);
             /*----------------- checkbox value set --------------------*/
             if ($('#status').val() == 0)
@@ -180,13 +146,14 @@
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
+            alert(id);
             /* ----------------- Fire alert to user about delete warning ---------------- */
             Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}").then((
                 result) => {
                 /* ---------- if he confirme deleting modal we start delete action ---------- */
                 if (result.isConfirmed) {
-                    deleteObject(url + '/' + id, "{{ __('Utilisateur supprimé') }}",
-                        "{{ __('suppression impossible') }}");
+                    deleteObject(url + '/' + id, "{{ __('Produit supprimé') }}",
+                        "{{ __('Suppression impossible') }}");
                 }
             });
         });
@@ -194,21 +161,21 @@
         table = table.DataTable({
             "ajax": url,
             columns: [{
-                    data: 'username'
+                    data: 'product_code'
                 },
                 {
-                    data: 'section_name'
+                    data: 'product_name'
                 }, {
-                    data: 'roles_name'
+                    data: 'section_name'
                 },
-                {
-                    data: 'status',
-                    render: function(data, type, row) {
-                        return data == 1 ?
-                            `<label class="badge bg-success">${yes}</label>` :
-                            `<label class="badge bg-danger">${no}</label>`;
-                    }
-                },
+                // {
+                //     data: 'status',
+                //     render: function(data, type, row) {
+                //         return data == 1 ?
+                //             `<label class="badge bg-success">${yes}</label>` :
+                //             `<label class="badge bg-danger">${no}</label>`;
+                //     }
+                // },
                 {
                     data: 'id',
                     render: function(data, type, row) {

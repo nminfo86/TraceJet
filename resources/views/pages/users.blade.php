@@ -38,13 +38,6 @@
             </div>
         </div>
     </div>
-    {{-- <table class="d-none toggle-show w-100" style="height: calc(100vh - 700px);">
-        <tbody>
-            <td class="align-middle">
-
-            </td>
-        </tbody>
-    </table> --}}
     <div class="d-flex justify-content-center toggle-show d-none">
         <div class=" d-flex w-50">
             <div class="card">
@@ -140,14 +133,12 @@
             table = $('#main_table'),
             form_title = " {{ __('Nouvel Utilisateur') }}",
             url = 'api/v1/users';
-        var yes = "{{ __('Oui') }}";
-        var no = "{{ __('Non') }}";
         formToggle(form_title);
 
         $(document).ready(function() {
             /*--------------------- get role list ------------------------*/
             callAjax('GET', 'api/v1/pluck/roles').done(function(response) {
-                appendToSelect(response.data, "#roles_name");
+                appendToSelect(response.data, "#roles_name", true);
             });
 
             /*----------------------get sections list ---------------------------*/
