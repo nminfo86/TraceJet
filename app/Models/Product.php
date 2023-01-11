@@ -27,12 +27,12 @@ class Product extends Model
     /*                                relationShips                               */
     /* -------------------------------------------------------------------------- */
 
-    public function section()
-    {
-        return $this->belongsTo(Section::class);
-    }
-    public function calibers()
-    {
-        return $this->hasMany(calibers::class);
-    }
+    // public function section()
+    // {
+    //     return $this->belongsTo(Section::class);
+    // }
+    // public function calibers()
+    // {
+    //     return $this->hasMany(calibers::class);
+    // }
 }

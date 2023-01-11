@@ -29,8 +29,10 @@ class CaliberController extends Controller
      */
     public function index()
     {
-        $sections = Caliber::with('product')->get();
-
+        // $sections = Caliber::with('product')->get();
+        $sections = Caliber::join('products', function ($join) {
+            $join->on('calibers.product_id', '=', 'products.id');
+        })->get(["calibers.id", "caliber_code", "caliber_name", "box_quantity", "product_name"]);
         //Send response with success
         return $this->sendResponse(data: $sections);
     }

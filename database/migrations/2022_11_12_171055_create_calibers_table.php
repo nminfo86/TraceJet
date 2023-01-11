@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('caliber_name', 50)->unique();
             $table->string('caliber_code', 50)->unique();
             $table->integer('box_quantity');
-            $table->text('observation')->nullable();
+            // $table->text('observation')->nullable();
 
 
 

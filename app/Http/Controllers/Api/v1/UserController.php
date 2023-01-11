@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreRequests\StoreUserRequest;
+use App\Http\Requests\UpdateRequests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -93,16 +94,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        if (!$request->has('password')) {
-            // removes the password key from the request if password field is empty
-            $request->except(['password']);
-        }
 
         try {
             DB::beginTransaction();
             // update user
+            $request['password'] = hash::make($request->password);
             $user->update($request->all());
 
             // delete role from this user
@@ -116,6 +114,7 @@ class UserController extends Controller
             return $this->sendResponse($this->update_success_msg, $user);
         } catch (Exception $e) {
             DB::rollBack();
+            // return $e->getMessage();
             return $this->apiException($request, $e);
         }
     }
