@@ -19,6 +19,9 @@
                         href="{{ url('products') }}" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
                             class="hide-menu">Produits</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="{{ url('ofs') }}" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
+                            class="hide-menu">Ofs</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="table-basic.html" aria-expanded="false"><i class="mdi mdi-border-all"></i><span
                             class="hide-menu">Table</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"

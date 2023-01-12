@@ -27,7 +27,7 @@ class ProductController extends Controller
         // $products = Product::with('section')->get();
         $products = Product::join('sections', function ($join) {
             $join->on('products.section_id', '=', 'sections.id');
-        })->get();
+        })->get(["products.id", "section_name", "product_code", "product_name"]);
 
         //Send response with data
         return $this->sendResponse(data: $products);

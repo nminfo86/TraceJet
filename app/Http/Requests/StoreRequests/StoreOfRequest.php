@@ -25,9 +25,9 @@ class StoreOfRequest extends FormRequest
     public function rules()
     {
         return [
-            "of_number" =>  'required|unique:ofs,of_number',
+            // "of_number" =>  'required|unique:ofs,of_number',
             "caliber_id" => 'required',
-            "quantity" => "required"
+            "quantity" => "required|numeric"
         ];
     }
 }

@@ -27,7 +27,7 @@ class OfController extends Controller
         // $ofs = Of::with('caliber')->get();
         $ofs = Of::join('calibers', function ($join) {
             $join->on('calibers.id', '=', 'ofs.caliber_id');
-        })->get(["of_number", "of_code", "status", "quantity", "caliber_code", "updated_at"]);
+        })->orderBy("ofs.id", "desc")->get(["ofs.id", "of_number", "of_code", "status", "quantity", "caliber_name", "updated_at"]);
 
         //Send response with success
         return $this->sendResponse(data: $ofs);
@@ -40,14 +40,24 @@ class OfController extends Controller
      */
     public function store(StoreOfRequest $request)
     {
-        // Check if any of in production
-        $of_prod = Of::whereStatus('inProd')->whereCaliberId($request->caliber_id)->exists();
-        if ($of_prod) {
+        // Get last OF
+        $last_of = Of::orderBy("id", "desc")->first();
+        if ($last_of) {
 
-            //Send response with message
-            return $this->sendResponse("Can't created, another of in production", status: false);
+            // Check if any of in production
+            if ($last_of->status == "inProd" && $last_of->caliber_id == $request->caliber_id) {
+                //Send response with message
+                return $this->sendResponse("Can't created, another of in production", status: false);
+            }
+            $request["of_number"] =  $last_of->of_number + 1;
+        } else {
+            $request["of_number"] = 1;
         }
+
+        // store in db
         $of = Of::create($request->all());
+
+        // This event generated of_code
         event(new CreateOFEvent($of));
 
         //Send response with success

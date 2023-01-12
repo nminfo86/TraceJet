@@ -36,7 +36,8 @@ Route::group(
         Route::get('/dashboard', function () {
             return view('welcome');
         });
-        Route::get('/logout', [WebAuthController::class, 'webLogout'] );
+        Route::get('/logout', [WebAuthController::class, 'webLogout']);
+
         Route::get('/users', function () {
             return view('pages.users');
         });
@@ -44,5 +45,8 @@ Route::group(
         Route::get('/products', function () {
             return view('pages.products');
         });
-    });
-
+        Route::get('ofs', function () {
+            return view('pages.ofs');
+        });
+    }
+);

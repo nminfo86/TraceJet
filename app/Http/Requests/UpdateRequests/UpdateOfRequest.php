@@ -26,7 +26,7 @@ class UpdateOfRequest extends FormRequest
     public function rules()
     {
         return [
-            "of_number" =>  "required|unique:ofs,of_number," . $this->of->id,
+            // "of_number" =>  "unique:ofs,of_number," . $this->of->id,
             "caliber_id" => 'required',
             "quantity" => "required"
         ];
