@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+
 enum OfStatusEnum: string
 {
     case New = 'new';

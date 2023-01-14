@@ -88,6 +88,21 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="col-lg-12">
+                                <label>{{ __('Status') }}:*</label>
+                                <div class="input-group mb-3">
+                                    <select id="status" class=""
+                                        data-placeholder="{{ __('Selectionner un status') }}" name="status">
+                                        <option></option>
+                                        @foreach (\App\Enums\OfStatusEnum::cases() as $status)
+                                            <option value="{{ $status->value }}">{{ $status->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="status-error"></strong>
+                                    </span>
+                                </div>
+                            </div>
                             {{-- <div class="col-12 pt-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="status" role="switch"
@@ -137,11 +152,10 @@
             id = $(this).attr('id');
             form_title = " {{ __('Modification Of') }}";
             editObject(url + '/' + id, form_title);
-            /*----------------- checkbox value set --------------------*/
-            if ($('#status').val() == 0)
-                $('#status').prop('checked', false);
-            else
-                $('#status').prop('checked', true);
+            // TODO::samir
+            /*----------------- status value set --------------------*/
+            $("#status").removeAttr("disabled");
+
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
@@ -173,11 +187,11 @@
                 },
                 {
                     data: 'status',
-                    render: function(data, type, row) {
-                        return data == 1 ?
-                            `<label class="badge bg-success">${yes}</label>` :
-                            `<label class="badge bg-danger">${no}</label>`;
-                    }
+                    // render: function(data, type, row) {
+                    //     return data == 1 ?
+                    //         `<label class="badge bg-success">${yes}</label>` :
+                    //         `<label class="badge bg-danger">${no}</label>`;
+                    // }
                 },
                 {
                     data: 'id',

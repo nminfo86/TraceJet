@@ -28,7 +28,7 @@ class UpdateOfRequest extends FormRequest
         return [
             // "of_number" =>  "unique:ofs,of_number," . $this->of->id,
             "caliber_id" => 'required',
-            "quantity" => "required"
+            "quantity" => "required|min:1|numeric|gte:" . $this->of->quantity
         ];
     }
 }

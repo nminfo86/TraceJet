@@ -16,7 +16,7 @@ class SerialNumberController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // [x]::Opinion of frontman
+    // [x]::Opinion of frontman and aff ids
     public function index()
     {
         // $serialNumber = SerialNumber::get();
