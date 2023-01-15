@@ -12,6 +12,10 @@
                             class="hide-menu">Dashboard</span></a></li>
                 <h6 class="text-uppercase text-muted pb-1">adminstration</h6>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="{{ url('/roles') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span
+                            class="hide-menu"> {{ __('Rôles') }} </span></a>
+                </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{ url('/users') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span
                             class="hide-menu"> {{ __('Utilisateurs') }} </span></a>
                 </li>
