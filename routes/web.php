@@ -42,11 +42,17 @@ Route::group(
             return view('pages.users');
         });
 
+        Route::get('calibers', function () {
+            return view('pages.calibers');
+        });
         Route::get('/products', function () {
             return view('pages.products');
         });
         Route::get('ofs', function () {
             return view('pages.ofs');
+        });
+        Route::get('serial_numbers', function () {
+            return view('pages.serial_numbers');
         });
     }
 );

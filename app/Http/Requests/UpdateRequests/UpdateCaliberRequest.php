@@ -25,10 +25,10 @@ class UpdateCaliberRequest extends FormRequest
     public function rules()
     {
         return [
-            "caliber_code" => "required|unique:calibers,caliber_code," . $this->caliber->id,
-            "caliber_name" => "required|unique:calibers,caliber_name," . $this->caliber->id,
-            "product_id"        => "required",
-            "box_quantity"      => "required",
+            "caliber_code" => "required|string|max:50|unique:calibers,caliber_code," . $this->caliber->id,
+            "caliber_name" => "required|string|max:50|unique:calibers,caliber_name," . $this->caliber->id,
+            "product_id"   => "required",
+            "box_quantity" => "required",
         ];
     }
 }

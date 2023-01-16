@@ -65,7 +65,10 @@ class Handler extends ExceptionHandler
                 $request->expectsJson() &&
                 $exception instanceof ModelNotFoundException ||
                 $exception instanceof NotFoundHttpException ||
-                $exception instanceof MethodNotAllowedHttpException || $exception instanceof QueryException || $exception instanceof UnauthorizedException || $exception instanceof ErrorException ||
+                $exception instanceof MethodNotAllowedHttpException ||
+                $exception instanceof QueryException ||
+                $exception instanceof UnauthorizedException ||
+                $exception instanceof ErrorException ||
                 $exception instanceof BadMethodCallException
             ) {
                 return $this->apiException($request, $exception);

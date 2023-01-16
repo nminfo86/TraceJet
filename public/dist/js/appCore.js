@@ -157,9 +157,6 @@ function formToggle(form_title) {
         $(".toggle-show").toggleClass('d-none');
         $('#title').text(form_title);
         id = 0;
-
-        // TODO::samir
-        $("#status").attr("disabled", true);
     }).on('click', ".close-btn", (e) => {
         e.preventDefault();
         form[0].reset();
@@ -167,6 +164,7 @@ function formToggle(form_title) {
         form.find('.form-check-input').trigger('change');
         cleanValidationAlert();
         $(".toggle-show").toggleClass('d-none');
+
     });
 }
 
