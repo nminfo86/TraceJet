@@ -93,7 +93,7 @@
                         actions[indexInArray] = newPermission + ' ' + permission[0];
                     } else {
                         appendPermissions += `<div class="col-md-6 col-lg-3 mb-4" >
-                            <ul class="list-group">
+                            <ul class="list-group list-group-flush">
                                 `;
                         // <li class="list-group-item active bg-secondary ">${permission[0]}</li>
                         $.each(actions, function(index, value) {
@@ -114,7 +114,7 @@
                     oldPermission = permission[0];
                 });
                 appendPermissions += `<div class="col-md-6 col-lg-3 mb-4" >
-                            <ul class="list-group ">
+                            <ul class="list-group list-group-flush">
                                 `;
                 // <li class="list-group-item active bg-secondary ">${permission[0]}</li>
                 $.each(actions, function(index, value) {
