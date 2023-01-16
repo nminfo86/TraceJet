@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\v1;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Requests\RoleRequest;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
@@ -45,13 +46,11 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        // dd($request->toArray());
-        $role = Role::create(['name' => $request->name]);
+        // DB::beginTransaction();
 
-        // affect permissions to the role
-        $role->givePermissionTo($request->permissions);
+        // db::commit();
 
-        return new RoleResource($role);
+        // return new RoleResource($role);
         // $role->givePermissionTo(
         //     $permissions
         // );
@@ -68,7 +67,7 @@ class RoleController extends Controller
         //add a role
         // $testRole = Role::create(['guard_name' => 'web', 'name' => 'test_role']);
         //Send response with success
-        return $this->sendResponse($this->create_success_msg, $role);
+        // return $this->sendResponse($this->create_success_msg, $role);
     }
 
     /**
@@ -77,16 +76,20 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
-        $role = Role::find($id, ["id", "name"]);
+        // $role = Role::findOrFail($id);
 
-        $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
-            ->where("role_has_permissions.role_id", $id)
-            ->get(["id", "name"]);
+        return new RoleResource($role);
+        // $role = Role::find($id, ["id", "name"]);
 
-        //Send response with data
-        return $this->sendResponse(data: array('role' => $role, 'permissions' => $rolePermissions));
+        // $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
+        //     ->where("role_has_permissions.role_id", $id)
+        //     ->get(["id", "name"]);
+
+        // return $this->sendResponse(data: RoleResource::collection($roles));
+        // //Send response with data
+        // return $this->sendResponse(data: array('role' => $role, 'permissions' => $rolePermissions));
     }
 
     /**
@@ -98,7 +101,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        /* get role by id */
+        $role = Role::find($id);
+        /* update role name */
+        $role->name = $request->input('name');
+        /* sync permission to the role */
+        $role->syncPermissions($request->permissions);
     }
 
     /**
@@ -107,8 +115,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        //Send response with success
+        return $this->sendResponse($this->delete_success_msg);
     }
 }
