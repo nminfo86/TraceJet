@@ -99,12 +99,12 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Role $role, Request $request)
     {
         /* get role by id */
-        $role = Role::find($id);
+        // $role = Role::find($id);
         /* update role name */
-        $role->name = $request->input('name');
+        $role->name = $request->name;
         /* sync permission to the role */
         $role->syncPermissions($request->permissions);
     }
