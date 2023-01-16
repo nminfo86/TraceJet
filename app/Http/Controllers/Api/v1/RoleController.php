@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 
+use Exception;
+use App\Exceptions\ExceptionTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Requests\RoleRequest;
@@ -32,10 +34,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::get();
-        // return ;
+        $roles = Role::get(["id", "name"]);
+        // $roles = Role::with('permissions:id,name')->select(['roles.id', 'roles.name'])->get();
+
         //Send response with data
-        return $this->sendResponse(data: RoleResource::collection($roles));
+        return $this->sendResponse(data: $roles);
     }
 
     /**
@@ -46,28 +49,22 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        // DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
-        // db::commit();
+            $role = Role::create(['name' => $request->name]);
 
-        // return new RoleResource($role);
-        // $role->givePermissionTo(
-        //     $permissions
-        // );
+            // affect permissions to the role
+            $role->syncPermissions($request->input('permissions'));
 
-        // dd($permissions->pluck('name'));
+            DB::commit();
 
-        // return new UserResource($role);
-        // Reset cached roles and permissions
-
-        //add a permission
-        // $testPermission = 'all-permissions';
-        // Permission::create(['guard_name' => 'web', 'name' => $testPermission]);
-
-        //add a role
-        // $testRole = Role::create(['guard_name' => 'web', 'name' => 'test_role']);
-        //Send response with success
-        // return $this->sendResponse($this->create_success_msg, $role);
+            //Send response with data
+            return $this->sendResponse($this->create_success_msg, data: new RoleResource($role));
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->apiException($request, $e);
+        }
     }
 
     /**
@@ -78,18 +75,8 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        // $role = Role::findOrFail($id);
-
-        return new RoleResource($role);
-        // $role = Role::find($id, ["id", "name"]);
-
-        // $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
-        //     ->where("role_has_permissions.role_id", $id)
-        //     ->get(["id", "name"]);
-
-        // return $this->sendResponse(data: RoleResource::collection($roles));
         // //Send response with data
-        // return $this->sendResponse(data: array('role' => $role, 'permissions' => $rolePermissions));
+        return $this->sendResponse(data: new RoleResource($role));
     }
 
     /**
@@ -101,12 +88,22 @@ class RoleController extends Controller
      */
     public function update(Role $role, Request $request)
     {
-        /* get role by id */
-        // $role = Role::find($id);
-        /* update role name */
-        $role->name = $request->name;
-        /* sync permission to the role */
-        $role->syncPermissions($request->permissions);
+        try {
+            DB::beginTransaction();
+
+            $role->update(["name" => $request->name]);
+
+            // affect permissions to the role
+            $role->syncPermissions($request->permissions);
+
+            DB::commit();
+
+            //Send response with data
+            return $this->sendResponse($this->update_success_msg, data: new RoleResource($role));
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $this->apiException($request, $e);
+        }
     }
 
     /**
@@ -118,7 +115,6 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
-
         //Send response with success
         return $this->sendResponse($this->delete_success_msg);
     }
