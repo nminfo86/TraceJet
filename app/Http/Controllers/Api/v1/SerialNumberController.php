@@ -16,11 +16,13 @@ class SerialNumberController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // [x]::Opinion of frontman and aff ids
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->of_id);
         // $serialNumber = SerialNumber::get();
-        $serialNumber = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')->get();
+        $serialNumber = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
+            ->where("serial_numbers.of_id", $request->of_id)
+            ->get(["of_code", "serial_numbers.id", "serial_number", "qr", "valid"]);
 
         //Send response with data
         return $this->sendResponse(data: $serialNumber);
@@ -49,7 +51,6 @@ class SerialNumberController extends Controller
                 $of = Of::findOrFail($create_first_record->of_id);
                 $of->update(['status' => 'inProd']);
             }
-
 
             //Send response with success
             return $this->sendResponse($this->create_success_msg, $create_first_record);

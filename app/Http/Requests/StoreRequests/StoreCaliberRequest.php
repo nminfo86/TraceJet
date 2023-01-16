@@ -26,8 +26,8 @@ class StoreCaliberRequest extends FormRequest
     public function rules()
     {
         return [
-            "caliber_code"      => "required|unique:calibers,caliber_code",
-            "caliber_name"      => "required|unique:calibers,caliber_name",
+            "caliber_code"      => "required|string|max:50|unique:calibers,caliber_code",
+            "caliber_name"      => "required|string|max:50|unique:calibers,caliber_name",
             "product_id"        => "required",
             "box_quantity"      => "required",
         ];

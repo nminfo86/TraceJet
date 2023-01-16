@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\OfStatusEnum;
 use App\Models\Of;
 use App\Models\Part;
 use App\Models\SerialNumber;
@@ -68,11 +69,17 @@ Route::group(
         });
         route::get('of/{id}', function ($id) {
 
-            return  $sn_in_box = SerialNumber::query()->get();
+            return SerialNumber::query()->get();
         });
-
-
         route::get('check_qr', [SerialNumberController::class, 'checkQr']);
+
+        /* -------------------------------------------------------------------------- */
+        /*                                    Enums                                   */
+        /* -------------------------------------------------------------------------- */
+        route::get('of_status', function () {
+            // return 'jlksdjfs';
+            return OfStatusEnum::cases();
+        });
 
 
 
@@ -80,10 +87,7 @@ Route::group(
         /*                                    TEST                                    */
         /* -------------------------------------------------------------------------- */
         #reparation post get part of sn
-        route::get('many', function () {
 
-            return SerialNumber::with("parts")->get();
-        });
         Route::controller(SerialNumber::class)->group(function () {
             Route::get('getSnParts', function () {
                 return SerialNumber::with("parts")->get();

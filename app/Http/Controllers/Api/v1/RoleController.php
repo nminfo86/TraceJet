@@ -79,7 +79,14 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = Role::find($id, ["id", "name"]);
+
+        $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
+            ->where("role_has_permissions.role_id", $id)
+            ->get(["id", "name"]);
+
+        //Send response with data
+        return $this->sendResponse(data: array('role' => $role, 'permissions' => $rolePermissions));
     }
 
     /**
