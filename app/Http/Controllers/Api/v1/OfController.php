@@ -70,8 +70,9 @@ class OfController extends Controller
      * @param  \App\Models\Ofs  $ofs
      * @return \Illuminate\Http\Response
      */
-    public function show(Of $of)
+    public function show($id)
     {
+        $of = Of::findOrFail($id, ["caliber_id", "status", "quantity"]);
         //Send response with data
         return $this->sendResponse(data: $of);
     }

@@ -78,7 +78,7 @@ Route::group(
         /* -------------------------------------------------------------------------- */
         route::get('of_status', function () {
             // return 'jlksdjfs';
-            return OfStatusEnum::cases();
+            return OfStatusEnum::values();
         });
 
 

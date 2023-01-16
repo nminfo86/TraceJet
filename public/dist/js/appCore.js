@@ -164,6 +164,8 @@ function formToggle(form_title) {
         form.find('.form-check-input').trigger('change');
         cleanValidationAlert();
         $(".toggle-show").toggleClass('d-none');
+        $(".status").remove();
+
 
     });
 }
