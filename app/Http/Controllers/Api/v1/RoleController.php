@@ -45,7 +45,7 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        // dd($request->toArray());
+        //dd($request->toArray());
         $role = Role::create(['name' => $request->name]);
 
         // affect permissions to the role

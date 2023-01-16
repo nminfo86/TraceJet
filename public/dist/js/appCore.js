@@ -293,12 +293,7 @@ function customSelect2(lang) {
         language: lang
     });
 }
-$(document).on('change', '.form-check-input', function (e) {
-    if ($(this).is(':checked'))
-        $(this).val(1);
-    else
-        $(this).val(0);
-});
+
 function appendToSelect(data, select_id, by_val = false) {
     if (!by_val)
         $.each(data, function (key, val) {
