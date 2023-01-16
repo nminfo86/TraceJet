@@ -68,6 +68,27 @@
             </div>
         </div>
     </div>
+    {{-- ------------------------ modal to show role détail -----------------------  --}}
+    {{-- <div class="modal fade" data-bs-backdrop="static" id="showRoleModal" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="showBody">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
@@ -144,7 +165,6 @@
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            formData.append("status", $("#status").val());
             storObject(url, formData, id, "{{ __('Rôle ajouté avec succès') }}",
                 "{{ __('Rôle modifié avec succès') }}");
         });
@@ -156,9 +176,10 @@
             form_title = " {{ __('Modification de rôle') }}";
             callAjax('GET', url + "/" + id, {}).done(function(response) {
                 //$.each(response.role, function(key, val) {
-                $('#name').val(response.data.role.name);
+                $('#name').val(response.data.name);
                 $.each(response.data.permissions, function(index, value) {
-
+                    $('#appendPermission #' + value).prop('checked', true);
+                    //console.log(value);
                 });
                 $('#title').text(form_title);
                 $(".toggle-show").toggleClass('d-none');
@@ -176,6 +197,28 @@
                             "{{ __('suppression impossible') }}");
                     }
                 });
+        }).on('click', '.show', function(e) {
+            e.preventDefault()
+            id = $(this).attr('id');
+            form_title = " {{ __('Voir le rôle') }}";
+
+            callAjax('GET', url + "/" + id, {}).done(function(response) {
+                //$.each(response.role, function(key, val) {
+                $('#name').val(response.data.name);
+                $.each(response.data.permissions, function(index, value) {
+                    $('#appendPermission #' + value).prop('checked', true);
+                    //console.log(value);
+                });
+                $('#title').text(form_title);
+                form.find('label:first').addClass('d-none');
+                form.find('input').attr('disabled', true);
+                form.find('.btn-confirm:first').addClass('d-none');
+                $(".toggle-show").toggleClass('d-none');
+            });
+        }).on('click', ".close-btn", (e) => {
+            form.find('label:first').removeClass('d-none');
+            form.find('input').attr('disabled', false);
+            form.find('.btn-confirm:first').removeClass('d-none');
         });
 
         table = table.DataTable({
