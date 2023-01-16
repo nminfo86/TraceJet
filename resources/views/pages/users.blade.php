@@ -210,5 +210,12 @@
                 },
             ]
         });
+
+        $(document).on('change', '.form-check-input', function(e) {
+            if ($(this).is(':checked'))
+                $(this).val(1);
+            else
+                $(this).val(0);
+        });
     </script>
 @endpush

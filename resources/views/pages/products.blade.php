@@ -119,9 +119,6 @@
             callAjax('GET', base_url + '/pluck/sections').done(function(response) {
                 appendToSelect(response.data, "#section_id");
             });
-            //alert(url);
-            /*-----------------------intialize select fields ------------------------*/
-            //customSelect2("fr");
         });
 
         form.on('submit', function(e) {
@@ -146,7 +143,6 @@
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
-            alert(id);
             /* ----------------- Fire alert to user about delete warning ---------------- */
             Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}").then((
                 result) => {
@@ -168,14 +164,6 @@
                 }, {
                     data: 'section_name'
                 },
-                // {
-                //     data: 'status',
-                //     render: function(data, type, row) {
-                //         return data == 1 ?
-                //             `<label class="badge bg-success">${yes}</label>` :
-                //             `<label class="badge bg-danger">${no}</label>`;
-                //     }
-                // },
                 {
                     data: 'id',
                     render: function(data, type, row) {
