@@ -51,6 +51,9 @@ Route::group(
         Route::get('ofs', function () {
             return view('pages.ofs');
         });
+        Route::get('roles', function () {
+            return view('pages.roles');
+        });
         Route::get('serial_numbers', function () {
             return view('pages.serial_numbers');
         });

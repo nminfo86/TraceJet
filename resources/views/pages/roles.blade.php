@@ -154,12 +154,15 @@
             e.preventDefault()
             id = $(this).attr('id');
             form_title = " {{ __('Modification de rôle') }}";
-            editObject(url + '/' + id, form_title);
-            /*----------------- checkbox value set --------------------*/
-            if ($('#status').val() == 0)
-                $('#status').prop('checked', false);
-            else
-                $('#status').prop('checked', true);
+            callAjax('GET', url + "/" + id, {}).done(function(response) {
+                //$.each(response.role, function(key, val) {
+                $('#name').val(response.data.role.name);
+                $.each(response.data.permissions, function(index, value) {
+
+                });
+                $('#title').text(form_title);
+                $(".toggle-show").toggleClass('d-none');
+            });
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
@@ -181,7 +184,7 @@
                     data: 'name'
                 },
                 {
-                    data: 'role_id',
+                    data: 'id',
                     render: function(data, type, row) {
                         return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
                         <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>
