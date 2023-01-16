@@ -80,21 +80,18 @@
                                     <strong id="quantity-error"></strong>
                                 </span>
                             </div>
-                            <div class="col-lg-12 status d-none">
+                            {{-- <div class="col-lg-12 status">
                                 <label>{{ __('Status') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="status" class=""
-                                        data-placeholder="{{ __('Selectionner un status') }}" name="status">
+                                        data-placeholder="{{ __('Selectionner un status') }}">
                                         <option></option>
-                                        {{-- @foreach (\App\Enums\OfStatusEnum::cases() as $status)
-                                            <option value="{{ $status->value }}">{{ $status->name }}</option>
-                                        @endforeach --}}
                                     </select>
                                     <span class="invalid-feedback" role="alert">
                                         <strong id="status-error"></strong>
                                     </span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     @include('components.footer_form')
@@ -126,32 +123,53 @@
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            // formData.append("status", $("#status").val());
             storObject(url, formData, id, "{{ __('Of ajouté avec succès') }}",
                 "{{ __('Of modifié avec succès') }}");
         });
 
         /* ---------------------------------- Edit ---------------------------------- */
         $(document).on('click', "#add_btn", (e) => {
-            $(".status").addClass("d-none");
+            // form.find(".row").last().html("klklk");
+            $(".status").remove();
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
             form_title = " {{ __('Modification Of') }}";
-            editObject(url + '/' + id, form_title);
 
-            /*----------------- status value set --------------------*/
+            /*----------------- Get of status list (Enum) --------------------*/
             callAjax('GET', base_url + '/of_status').done(function(response) {
-                // appendToSelect(response, "#status");
-                $.each(data, function(key, val) {
-                    $("select_id").append(
-                        '<option value=' + key + '>' + val +
-                        '</option>'
-                    )
-                })
-            });
-            $(".status").removeClass("d-none");
 
+                let opt = ``;
+                $.each(response, function(key, val) {
+                    opt += ` <option value=${key}>${val} </option>`;
+                });
+
+                let select = `<div class="col-lg-12 status">
+                        <label>{{ __('Status') }}:*</label>
+
+                            <select id="status" name="status"
+                                data-placeholder="{{ __('Selectionner un status') }}">
+                                <option></option>
+                                ${opt}
+                            </select>
+                            <span class="invalid-feedback" role="alert">
+                                <strong id="status-error"></strong>
+                            </span>
+                        </div>`;
+                $('select').trigger('change');
+
+                form.find('.row').append(select);
+            });
+
+            /* ------------------------------ Get Of values ----------------------------- */
+            callAjax('GET', url + '/' + id).done(function(response) {
+                $(".toggle-show").toggleClass('d-none');
+                $.each(response.data, function(key, val) {
+                    $('#' + key).val(val);
+                });
+                $('select').trigger('change');
+                $('#title').text(form_title);
+            });
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
@@ -183,11 +201,27 @@
                 },
                 {
                     data: 'status',
-                    // render: function(data, type, row) {
-                    //     return data == 1 ?
-                    //         `<label class="badge bg-success">${yes}</label>` :
-                    //         `<label class="badge bg-danger">${no}</label>`;
-                    // }
+                    render: function(data, type, row) {
+                        // return data == 1 ?
+                        //     `<label class="badge bg-success">${yes}</label>` :
+                        //     `<label class="badge bg-danger">${no}</label>`;
+                        switch (data) {
+                            case "inProd":
+                                return `<label class="badge bg-primary">inProduction</label>`;
+                                break;
+                            case "new":
+                                return `<label class="badge bg-info">Vide</label>`;
+                                break;
+                            case "closed":
+                                return `<label class="badge bg-success">Fermé</label>`;
+                                break;
+                            case "posed":
+                                return `<label class="badge bg-warning">Pause</label>`;
+                                break;
+                                // default:
+                                //     break;
+                        }
+                    }
                 },
                 {
                     data: 'id',
