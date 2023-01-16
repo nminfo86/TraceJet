@@ -60,22 +60,6 @@
                 <form id="main_form">
                     <div class="card-body">
                         <div class="row">
-                            {{-- <div class="col-lg-6 mb-2">
-                                <label>{{ __('N°') }}:*</label>
-                                <input type="text" name="of_number" id="of_number" class="form-control"
-                                    placeholder="{{ __('Numéro OF') }}" />
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="of_number-error"></strong>
-                                </span>
-                            </div> --}}
-                            <div class="col-lg-12">
-                                <label>{{ __('OF Quantité') }}:*</label>
-                                <input type="number" name="quantity" id="quantity" class="form-control"
-                                    placeholder="{{ __('Quantité') }}" />
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="quantity-error"></strong>
-                                </span>
-                            </div>
                             <div class="col-lg-12">
                                 <label>{{ __('Calibre') }}:*</label>
                                 <div class="input-group mb-3">
@@ -89,28 +73,28 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
+                                <label>{{ __('OF Quantité') }}:*</label>
+                                <input type="number" name="quantity" id="quantity" class="form-control"
+                                    placeholder="{{ __('Quantité') }}" />
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="quantity-error"></strong>
+                                </span>
+                            </div>
+                            <div class="col-lg-12 status d-none">
                                 <label>{{ __('Status') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="status" class=""
                                         data-placeholder="{{ __('Selectionner un status') }}" name="status">
                                         <option></option>
-                                        @foreach (\App\Enums\OfStatusEnum::cases() as $status)
+                                        {{-- @foreach (\App\Enums\OfStatusEnum::cases() as $status)
                                             <option value="{{ $status->value }}">{{ $status->name }}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                     <span class="invalid-feedback" role="alert">
                                         <strong id="status-error"></strong>
                                     </span>
                                 </div>
                             </div>
-                            {{-- <div class="col-12 pt-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="status" role="switch"
-                                        value="1" checked>
-                                    <label class="form-check-label" for="status">{{ __('Actif') }}
-                                    </label>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                     @include('components.footer_form')
@@ -132,6 +116,7 @@
         formToggle(form_title);
 
         $(document).ready(function() {
+
             /*----------------------get calibers list ---------------------------*/
             callAjax('GET', base_url + '/pluck/calibers').done(function(response) {
                 appendToSelect(response.data, "#caliber_id");
@@ -147,14 +132,25 @@
         });
 
         /* ---------------------------------- Edit ---------------------------------- */
-        $(document).on('click', '.edit', function(e) {
+        $(document).on('click', "#add_btn", (e) => {
+            $(".status").addClass("d-none");
+        }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
             form_title = " {{ __('Modification Of') }}";
             editObject(url + '/' + id, form_title);
-            // TODO::samir
+
             /*----------------- status value set --------------------*/
-            $("#status").removeAttr("disabled");
+            callAjax('GET', base_url + '/of_status').done(function(response) {
+                // appendToSelect(response, "#status");
+                $.each(data, function(key, val) {
+                    $("select_id").append(
+                        '<option value=' + key + '>' + val +
+                        '</option>'
+                    )
+                })
+            });
+            $(".status").removeClass("d-none");
 
         }).on('click', '.delete', function(e) {
             e.preventDefault();
