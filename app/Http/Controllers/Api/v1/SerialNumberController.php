@@ -18,11 +18,10 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request->of_id);
-        // $serialNumber = SerialNumber::get();
+
         $serialNumber = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
             ->where("serial_numbers.of_id", $request->of_id)
-            ->get(["of_code", "serial_numbers.id", "serial_number", "qr", "valid"]);
+            ->get(["of_code", "serial_numbers.id", "serial_number", "qr"]);
 
         //Send response with data
         return $this->sendResponse(data: $serialNumber);
@@ -37,26 +36,25 @@ class SerialNumberController extends Controller
     public function store(StoreSerialNumberRequest $request)
     {
 
-        // Count sn by ofs
-        $count = SerialNumber::where('of_id', $request->of_id)->count();
+        // Check if sn_of_OF exist
+        $sn_not_exist = SerialNumber::whereOfId($request->of_id)->doesntExist();
 
-        if ($count === 0) {
+        if ($sn_not_exist) {
 
             // Generate first sn
-            // $request['serial_number'] = "SN0" . 1;
             $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
             $create_first_record = SerialNumber::create($request->except('of_quantity'));
 
+            // Update of status
             if ($create_first_record) {
                 $of = Of::findOrFail($create_first_record->of_id);
                 $of->update(['status' => 'inProd']);
             }
-
             //Send response with success
             return $this->sendResponse($this->create_success_msg, $create_first_record);
         }
         //Send response with success
-        return $this->sendResponse("Record already exist", status: false);
+        return $this->sendResponse("Serial number already exist", status: false);
     }
 
     /**

@@ -18,13 +18,19 @@ class WebAuthController extends AccessTokensController
     {
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
-            $content=$this->login($request)->getContent();
-            $response=json_decode($content,true);
+            $content = $this->login($request)->getContent();
+            $response = json_decode($content, true);
             //dd($response['message']['token']);
-            $request->session()->put('token',$response['token']);
+            $request->session()->put('token', $response['token']);
+            // request()->ip=="192.168.100.3";
+            if (request()->ip() == "192.168.100.5") {
+                return redirect()->intended("/serial_numbers");
+            } else if (request()->ip() == "192.168.100.3") {
+                return redirect()->intended("/users");
+            }
             return redirect()->intended('/dashboard');
         }
-       return redirect("/")->with('error','Login details are not valid');
+        return redirect("/")->with('error', 'Login details are not valid');
     }
 
     public function webLogout()
