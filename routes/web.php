@@ -30,7 +30,7 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 // /************************** end ************************************/
 
 Route::group(
-    ['middleware' => ['auth:sanctum']],
+    ['middleware' => ['auth:sanctum'/*, 'check_ip_client'*/]],
 
     function () {
         Route::get('/dashboard', function () {
@@ -40,7 +40,7 @@ Route::group(
 
         Route::get('/users', function () {
             return view('pages.users');
-        });
+        })->name("users");
 
         Route::get('calibers', function () {
             return view('pages.calibers');

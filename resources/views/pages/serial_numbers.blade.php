@@ -14,39 +14,151 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
 
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                {{-- <div class="col-lg-12"> --}}
-                <div class="mb-3 row">
-                    <label for="inputPassword" class="col-2 col-form-label">OF N° :</label>
-                    <div class="col-lg-8">
-                        <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}" name="of_id">
-                            <option></option>
-                        </select>
-                        <span class="invalid-feedback" role="alert">
-                            <strong id="of_id-error"></strong>
-                        </span>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            {{-- <div class="col-lg-12"> --}}
+                            <div class=" row">
+                                <label for="inputPassword" class="col-md-4 col-form-label">OF N° :</label>
+                                <div class="col-md-8">
+                                    <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}"
+                                        name="of_id">
+                                        <option></option>
+                                    </select>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="of_id-error"></strong>
+                                    </span>
+                                </div>
+                                {{-- <div class="col-lg-2">
+
+                            </div> --}}
+                            </div>
+                            {{-- </div> --}}
+                        </div>
                     </div>
                 </div>
-                {{-- </div> --}}
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div class="row border-bottom mt-4 gx-0">
+                                    <div class="col-4 pb-3 border-end">
+                                        <h6 class="fw-normal text-muted mb-0">{{ __('Date lancement') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-dark">Oct 23, 2021</span>
+                                    </div>
+                                    <div class="col-4 pb-3 border-end ps-3">
+                                        <h6 class="fw-normal text-muted mb-0">{{ __('Produit') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-dark">$63,000</span>
+                                    </div>
+                                    <div class="col-4 pb-3 border-end ps-3">
+                                        <h6 class="fw-normal text-muted mb-0">{{ __('Calibre') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-dark">$98,500</span>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-lg-6">
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="d-flex flex-row align-items-center">
+                                                            <div
+                                                                class="
+                                                          round
+                                                          rounded-circle
+                                                          text-white
+                                                          d-inline-block
+                                                          text-center
+                                                          bg-danger
+                                                        ">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24" fill="none"
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="feather feather-calendar feather-sm fill-white">
+                                                                    <rect x="3" y="4" width="18"
+                                                                        height="18" rx="2" ry="2"></rect>
+                                                                    <line x1="16" y1="2" x2="16"
+                                                                        y2="6"></line>
+                                                                    <line x1="8" y1="2" x2="8"
+                                                                        y2="6"></line>
+                                                                    <line x1="3" y1="10" x2="21"
+                                                                        y2="10"></line>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="ms-3 align-self-center">
+                                                                <h3 class="mb-0">20 march</h3>
+                                                                <span class="text-muted">My birthday</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="d-flex flex-row align-items-center">
+                                                            <div
+                                                                class="
+                                                          round
+                                                          rounded-circle
+                                                          text-white
+                                                          d-inline-block
+                                                          text-center
+                                                          bg-danger
+                                                        ">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24" fill="none"
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="feather feather-calendar feather-sm fill-white">
+                                                                    <rect x="3" y="4" width="18"
+                                                                        height="18" rx="2" ry="2"></rect>
+                                                                    <line x1="16" y1="2" x2="16"
+                                                                        y2="6"></line>
+                                                                    <line x1="8" y1="2" x2="8"
+                                                                        y2="6"></line>
+                                                                    <line x1="3" y1="10" x2="21"
+                                                                        y2="10"></line>
+                                                                </svg>
+                                                            </div>
+                                                            <div class="ms-3 align-self-center">
+                                                                <h3 class="mb-0">20 march</h3>
+                                                                <span class="text-muted">My birthday</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row main_table d-none">
-        <div class="col-12">
+        <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ __('Liste des produits') }}</h4>
+                    {{-- <h4 class="card-title">{{ __('Liste des produits') }}</h4> --}}
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __('QR') }}</th>
                                     <th>{{ __('serial_number') }}</th>
-                                    <th>{{ __('OF') }}</th>
-                                    <th>{{ __('Etat') }}</th>
+                                    <th>{{ __('QR') }}</th>
+                                    {{-- <th>{{ __('OF') }}</th> --}}
+                                    {{-- <th>{{ __('Etat') }}</th> --}}
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
@@ -57,49 +169,7 @@
             </div>
         </div>
     </div>
-    {{-- <table class="d-none toggle-show w-100" style="height: calc(100vh - 700px);">
-        <tbody>
-            <td class="align-middle">
-
-            </td>
-        </tbody>
-    </table> --}}
-    {{-- <div class="d-flex justify-content-center toggle-show d-none">
-        <div class=" d-flex w-50">
-            <div class="card">
-                <div class="card-header bg-info">
-                    <div class="d-flex justify-content-between">
-                        <div class="text-white form-title" id="title"></div>
-                        <div>
-                            <div type="button" class=" text-white close-btn"><i class="fas fa-times"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form id="main_form">
-                    <div class="card-body">
-                        <div class="row">
-
-                            <div class="col-lg-12">
-                                <label>{{ __('Of') }}:*</label>
-                                <div class="input-group mb-3">
-                                    <select id="of_id" class="" data-placeholder="{{ __('Selectionner une of') }}"
-                                        name="of_id">
-                                        <option></option>
-                                    </select>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong id="of_id-error"></strong>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @include('components.footer_form')
-                </form>
-            </div>
-        </div>
-    </div> --}}
-    <!-- ============================================================== -->
+    <!--==============================================================-->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
 @endsection
@@ -171,27 +241,17 @@
                 },
 
                 columns: [{
+                        data: 'serial_number'
+                    },
+                    {
                         data: 'qr'
                     },
                     {
-                        data: 'serial_number'
-                    }, {
-                        data: 'of_code'
-                    },
-                    {
-                        data: 'valid',
-                        render: function(data, type, row) {
-                            return data == 1 ?
-                                `<label class="badge bg-success">${yes}</label>` :
-                                `<label class="badge bg-danger">${no}</label>`;
-                        }
-                    },
-                    {
                         data: 'id',
-                        // render: function(data, type, row) {
-                        //     return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    // <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
-                        // }
+                        render: function(data, type, row) {
+                            return `<div type="button" id="${data}" class="d-inline text-white print_qr"> <i class="mdi mdi-printer-settings text-primary"></i></div>
+                    `;
+                        }
                     },
                 ],
                 destroy: true,

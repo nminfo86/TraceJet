@@ -18,7 +18,7 @@ class PluckController extends Controller
             "sections" => Section::pluck('section_name', 'id'),
             "permissions" => Permission::pluck('name', 'id'),
             "roles" => Role::pluck('name', 'id'),
-            "ofs" => Of::pluck('of_code', 'id'),
+            "ofs" => Of::whereStatus("inProd")->orWhere("status", "new")->pluck('of_code', 'id'),
             "calibers" => Caliber::pluck('caliber_name', 'id'),
             default => 'Unknown error: ' . $model_name
         };
