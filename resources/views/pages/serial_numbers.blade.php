@@ -13,28 +13,26 @@
     <!-- ============================================================== -->
     <!-- Start Page Content -->
     <!-- ============================================================== -->
-
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                {{-- <div class="col-lg-12"> --}}
-                <div class="mb-3 row">
-                    <label for="inputPassword" class="col-2 col-form-label">OF N° :</label>
-                    <div class="col-lg-8">
-                        <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}" name="of_id">
-                            <option></option>
-                        </select>
-                        <span class="invalid-feedback" role="alert">
-                            <strong id="of_id-error"></strong>
-                        </span>
+    <div class="row">
+        <div class="col-6">
+            <div class="card border-primary">
+                <div class="card-body ">
+                    <div class="row">
+                        <label for="inputPassword" class="col-2 col-form-label">OF N° :</label>
+                        <div class="col-lg-10">
+                            <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}" name="of_id"
+                                width="100%">
+                                <option></option>
+                            </select>
+                            <span class="invalid-feedback" role="alert">
+                                <strong id="of_id-error"></strong>
+                            </span>
+                        </div>
                     </div>
                 </div>
-                {{-- </div> --}}
             </div>
         </div>
-    </div>
-    <div class="row main_table d-none">
-        <div class="col-12">
+        <div class="col-6 main_table">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ __('Liste des produits') }}</h4>
@@ -57,6 +55,7 @@
             </div>
         </div>
     </div>
+
     {{-- <table class="d-none toggle-show w-100" style="height: calc(100vh - 700px);">
         <tbody>
             <td class="align-middle">
