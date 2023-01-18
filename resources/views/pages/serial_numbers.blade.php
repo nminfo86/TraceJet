@@ -32,7 +32,7 @@
                                         <span class="fs-3 font-weight-medium text-info" id="of_number"></span> --}}
                                 {{-- <div class="row border-bottom mt-4 gx-0"> --}}
                                 <div class="col-md-6  of_number d-none ">
-                                    <div class="col-4 pb-3 border-start float-end ">
+                                    <div class="col-4  border-start float-end ">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="of_number"></span>
                                     </div>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 d-none of_info">
+                <div class="col-12 d- of_info">
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -80,7 +80,7 @@
                                         <span class="fs-3 font-weight-medium text-info " id="caliber">$98,500</span>
                                     </div>
                                 </div>
-                                <div class="row mt-4 ">
+                                <div class="row mt-4 mx-0">
                                     <div class="col-lg-6">
 
                                     </div>
@@ -194,10 +194,10 @@
             callAjax('GET', base_url + '/pluck/ofs').done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });
-            callAjax('GET', base_url + '/of_status').done(function(response) {
-                // appendToSelect(response.data, "#of_id");
-                console.log(response);
-            });
+            // callAjax('GET', base_url + '/of_status').done(function(response) {
+            //     // appendToSelect(response.data, "#of_id");
+            //     console.log(response);
+            // });
             //alert(url);
             /*-----------------------intialize select fields ------------------------*/
             //customSelect2("fr");
@@ -272,7 +272,7 @@
                     {
                         data: 'id',
                         render: function(data, type, row) {
-                            return `<div type="button" id="${data}" class="d-inline text-white print_qr"> <i class="mdi mdi-printer-settings text-primary"></i></div>
+                            return `<div type="button" id="${data}" class="d-inline text-white print_qr"> <i class="mdi mdi-24px mdi-printer-settings text-primary"></i></div>
                     `;
                         }
                     },
