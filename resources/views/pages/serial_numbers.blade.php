@@ -16,8 +16,8 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword" class="col-md-1 col-form-label">OF N° </label>
-                                <div class="col-md-4">
+                                <label for="inputPassword" class="col-md-12 col-lg-2 col-form-label">OF N° </label>
+                                <div class="col-md-12 col-lg-6">
                                     <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}"
                                         name="of_id">
                                         <option></option>
@@ -31,11 +31,12 @@
                                 {{-- <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="of_number"></span> --}}
                                 {{-- <div class="row border-bottom mt-4 gx-0"> --}}
-                                <div class="col-md-6  of_number d-none ">
-                                    <div class="col-4 pb-3 border-start float-end ">
+                                <div class="col-md-12 col-lg-4 of_number d-none mt-4 mt-lg-0 ">
+                                    {{-- <div class="col-4 pb-3 border-start float-auto">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="of_number"></span>
-                                    </div>
+                                    </div> --}}
+                                    <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
                                 </div>
                                 {{-- </div> --}}
                                 {{-- </div>

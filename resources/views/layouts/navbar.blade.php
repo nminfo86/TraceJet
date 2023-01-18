@@ -59,7 +59,7 @@
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
                 <li class="nav-item">
-                    <a class="dropdown-item" href="{{ url('logout') }}"><i class="ti-lock m-r-5 m-l-5"></i>
+                    <a class="text-muted" href="{{ url('logout') }}"><i class="ti-lock m-r-5 m-l-5"></i>
                         {{ __('Se déconnecter') }}</a>
                     {{-- <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#"
                         id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
