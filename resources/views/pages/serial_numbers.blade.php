@@ -53,7 +53,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <div class="row">
+                                <div class="row mx-0">
                                     <label for="inputPassword" class="col-md-1 "><i
                                             class="mdi mdi-24px mdi-barcode-scan"></i></label>
                                     <div class="col-md-11">
@@ -66,7 +66,7 @@
                                 </div>
 
 
-                                <div class="row border-bottom mt-4 gx-0">
+                                <div class="row border-bottom mt-4 gx-0 mx-0">
                                     <div class="col-4 pb-3 border-end">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('Date lancement') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="of_date">Oct 23, 2021</span>
