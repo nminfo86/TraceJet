@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
 use App\Models\Of;
+use Illuminate\Support\Arr;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
 
 class SerialNumberController extends Controller
 {
@@ -18,13 +19,17 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
+        $of_info = Of::join('calibers', 'ofs.caliber_id', 'calibers.id')
+            ->join('products', 'calibers.product_id', 'products.id')
+            ->find($request->of_id, ["calibers.caliber_name", "products.product_name", "ofs.created_at", "ofs.of_number"]);
 
-        $serialNumber = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
+
+        $of_info['sn_list'] = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
             ->where("serial_numbers.of_id", $request->of_id)
-            ->get(["of_code", "serial_numbers.id", "serial_number", "qr"]);
+            ->get(["serial_numbers.id", "serial_number", "qr"]);
 
-        //Send response with data
-        return $this->sendResponse(data: $serialNumber);
+        // $of_info['count'] = $of_info['sn_list']->count();
+        return $this->sendResponse(data: $of_info);
     }
 
     /**
