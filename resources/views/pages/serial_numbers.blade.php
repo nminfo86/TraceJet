@@ -58,7 +58,7 @@
                                         <span class="fs-3 font-weight-medium text-dark">$98,500</span>
                                     </div>
                                 </div>
-                                <div class="row mt-4">
+                                <div class="row mt-4 mx-0">
                                     <div class="col-lg-6">
 
                                     </div>
