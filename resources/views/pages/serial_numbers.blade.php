@@ -2,13 +2,7 @@
 @section('breadcrumb')
     <li class="breadcrumb-item active" aria-current="page">{{ __('Produits') }}</li>
 @endsection
-@section('btns_actions')
-    <div class="text-end upgrade-btn toggle-show">
-        {{-- <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
-            target="_blank">Upgrade to Pro</a> --}}
-        @include('components.add_btn', ['label' => 'Nouveau'])
-    </div>
-@endsection
+
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -22,8 +16,8 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword" class="col-md-4 col-form-label">OF N° :</label>
-                                <div class="col-md-8">
+                                <label for="inputPassword" class="col-md-1 col-form-label">OF N° </label>
+                                <div class="col-md-4">
                                     <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}"
                                         name="of_id">
                                         <option></option>
@@ -32,6 +26,20 @@
                                         <strong id="of_id-error"></strong>
                                     </span>
                                 </div>
+                                {{-- <div class="col-md-6 d-none of_number">
+                                    <div class="row float-end"> --}}
+                                {{-- <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-info" id="of_number"></span> --}}
+                                {{-- <div class="row border-bottom mt-4 gx-0"> --}}
+                                <div class="col-md-6  of_number d-none ">
+                                    <div class="col-4 pb-3 border-start float-end ">
+                                        <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-info" id="of_number"></span>
+                                    </div>
+                                </div>
+                                {{-- </div> --}}
+                                {{-- </div>
+                                </div> --}}
                                 {{-- <div class="col-lg-2">
 
                             </div> --}}
@@ -40,50 +48,59 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+
+                <div class="col-12 d-none of_info">
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
+                                <div class="row">
+                                    <label for="inputPassword" class="col-md-1 "><i
+                                            class="mdi mdi-24px mdi-barcode-scan"></i></label>
+                                    <div class="col-md-11">
+                                        <input type="text" class="form-control bg-light" id="qr" name="qr"
+                                            onblur="this.focus()" autofocus>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong id="qr-error"></strong>
+                                        </span>
+                                    </div>
+                                </div>
+
+
                                 <div class="row border-bottom mt-4 gx-0">
                                     <div class="col-4 pb-3 border-end">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('Date lancement') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-dark">Oct 23, 2021</span>
+                                        <span class="fs-3 font-weight-medium text-info" id="of_date">Oct 23, 2021</span>
                                     </div>
                                     <div class="col-4 pb-3 border-end ps-3">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('Produit') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-dark">$63,000</span>
+                                        <span class="fs-3 font-weight-medium text-info" id="product">$63,000</span>
                                     </div>
                                     <div class="col-4 pb-3 border-end ps-3">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('Calibre') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-dark">$98,500</span>
+                                        <span class="fs-3 font-weight-medium text-info " id="caliber">$98,500</span>
                                     </div>
                                 </div>
-                                <div class="row mt-4">
+                                <div class="row mt-4 ">
                                     <div class="col-lg-6">
 
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="row">
+
                                             <div class="col-lg-12">
                                                 <div class="card">
                                                     <div class="card-body">
                                                         <div class="d-flex flex-row align-items-center">
                                                             <div
-                                                                class="
-                                                          round
-                                                          rounded-circle
-                                                          text-white
-                                                          d-inline-block
-                                                          text-center
-                                                          bg-danger
-                                                        ">
+                                                                class=" round rounded-circle text-white d-inline-block text-center bg-danger">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2"
                                                                     stroke-linecap="round" stroke-linejoin="round"
                                                                     class="feather feather-calendar feather-sm fill-white">
                                                                     <rect x="3" y="4" width="18"
-                                                                        height="18" rx="2" ry="2"></rect>
+                                                                        height="18" rx="2" ry="2">
+                                                                    </rect>
                                                                     <line x1="16" y1="2" x2="16"
                                                                         y2="6"></line>
                                                                     <line x1="8" y1="2" x2="8"
@@ -93,8 +110,8 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
-                                                                <h3 class="mb-0">20 march</h3>
-                                                                <span class="text-muted">My birthday</span>
+                                                                <span class="text-muted">OK / OF</span>
+                                                                <h3 class="mb-0 text-info" id="qty_ok"></h3>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -105,21 +122,15 @@
                                                     <div class="card-body">
                                                         <div class="d-flex flex-row align-items-center">
                                                             <div
-                                                                class="
-                                                          round
-                                                          rounded-circle
-                                                          text-white
-                                                          d-inline-block
-                                                          text-center
-                                                          bg-danger
-                                                        ">
+                                                                class=" round rounded-circle text-white d-inline-block text-center bg-danger">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2"
                                                                     stroke-linecap="round" stroke-linejoin="round"
                                                                     class="feather feather-calendar feather-sm fill-white">
                                                                     <rect x="3" y="4" width="18"
-                                                                        height="18" rx="2" ry="2"></rect>
+                                                                        height="18" rx="2" ry="2">
+                                                                    </rect>
                                                                     <line x1="16" y1="2" x2="16"
                                                                         y2="6"></line>
                                                                     <line x1="8" y1="2" x2="8"
@@ -129,8 +140,8 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
-                                                                <h3 class="mb-0">20 march</h3>
-                                                                <span class="text-muted">My birthday</span>
+                                                                <span class="text-muted">OK / Jour</span>
+                                                                <h3 class="mb-0 text-info" id="qty_day">2500</h3>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -146,19 +157,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 d-none of_info">
             <div class="card">
                 <div class="card-body">
-                    {{-- <h4 class="card-title">{{ __('Liste des produits') }}</h4> --}}
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>
                                 <tr class="">
-                                    {{-- <th>#</th> --}}
                                     <th>{{ __('serial_number') }}</th>
                                     <th>{{ __('QR') }}</th>
-                                    {{-- <th>{{ __('OF') }}</th> --}}
-                                    {{-- <th>{{ __('Etat') }}</th> --}}
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
@@ -230,6 +237,7 @@
         }).on("change", "#of_id", function(e) {
             e.preventDefault()
             var of_id = $("#of_id").val();
+
             table.DataTable({
                 // "ajax": url,
                 ajax: {
@@ -238,8 +246,23 @@
                     data: {
                         "of_id": of_id
                     },
-                },
 
+                    dataSrc: function(response) {
+
+                        $("#qty_ok").text("0" + response.data.sn_list.length);
+                        $("#of_date").text(response.data.product_name);
+                        $("#product").text(response.data.product_name);
+                        $("#caliber").text(response.data.caliber_name);
+                        $(".of_number").removeClass('d-none').find('#of_number').text("0" + response
+                            .data
+                            .of_number);
+
+                        $(".of_info").removeClass("d-none");
+
+                        return response.data.sn_list;
+
+                    }
+                },
                 columns: [{
                         data: 'serial_number'
                     },
@@ -257,8 +280,7 @@
                 destroy: true,
             });
 
-            $(".main_table").removeClass("d-none");
-            // alert("Voulez vous générer le premier QR");
+            // $(".main_table").removeClass("d-none");
         });
     </script>
 @endpush
