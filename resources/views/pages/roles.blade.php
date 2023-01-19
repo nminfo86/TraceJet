@@ -222,7 +222,16 @@
         });
 
         table = table.DataTable({
-            "ajax": url,
+            "ajax": {
+                "type": "GET",
+                "url": url,
+                "dataSrc": function(json) {
+                    if (json.status == true)
+                        return json.data;
+                    else
+                        ajaxError(json.message);
+                }
+            },
             columns: [{
                     data: 'name'
                 },
