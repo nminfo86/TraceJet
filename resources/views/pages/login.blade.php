@@ -251,9 +251,6 @@
             </form>
         </div>
     </div>
-
-
-
 </body>
 @include('layouts.script')
 
