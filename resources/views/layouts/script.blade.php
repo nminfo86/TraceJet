@@ -25,19 +25,23 @@
          }
      });
      $.extend(true, $.fn.dataTable.defaults, {
-         //processing: true,
-         columnDefs: [{
-             targets: -1,
-             className: "text-center"
-         }, ],
+                 //processing: true,
+                 columnDefs: [{
+                     targets: -1,
+                     className: "text-center"
+                 }, ],
 
-         language: {
-             url: "{{ asset('') }}assets/locale/fr.json"
-         }
-     });
-     var yes = "{{ __('Oui') }}";
-     var no = "{{ __('Non') }}";
-     var base_url = "api/v1";
+                 language: {
+                     url: "{{ asset('') }}assets/locale/fr.json"
+                 },
+                 ajax: {
+                     error: function(jqXHR, exception) {
+                         showAjaxAndValidationErrors(jqXHR, exception)
+                     }
+                 });
+             var yes = "{{ __('Oui') }}";
+             var no = "{{ __('Non') }}";
+             var base_url = "api/v1";
  </script>
  <!-- Costum js code for each child-->
  @stack('custom_js')
