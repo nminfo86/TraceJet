@@ -56,6 +56,7 @@
                         </div>
                     </div>
                 </div>
+                {{-- //TODO::Add products input --}}
                 <form id="main_form">
                     <div class="card-body">
                         <div class="row">

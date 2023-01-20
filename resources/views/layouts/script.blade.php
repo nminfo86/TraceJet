@@ -31,6 +31,11 @@
              className: "text-center"
          }, ],
 
+         ajax: {
+             error: function(jqXHR, exception) {
+                 showAjaxAndValidationErrors(jqXHR, exception)
+             }
+         },
          language: {
              url: "{{ asset('') }}assets/locale/fr.json"
          }

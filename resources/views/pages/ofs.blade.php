@@ -61,6 +61,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
+                                <label>{{ __('Produit') }}:*</label>
+                                <div class="input-group mb-3">
+                                    <select id="product_id" class=""
+                                        data-placeholder="{{ __('Selectionner un produit') }}" name="product_id">
+                                        <option></option>
+                                    </select>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="product_id-error"></strong>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
                                 <label>{{ __('Calibre') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="caliber_id" class=""
@@ -72,7 +84,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-4">
                                 <label>{{ __('OF Quantité') }}:*</label>
                                 <input type="number" name="quantity" id="quantity" class="form-control"
                                     placeholder="{{ __('Quantité') }}" />
@@ -80,6 +92,7 @@
                                     <strong id="quantity-error"></strong>
                                 </span>
                             </div>
+                            {{-- //TODO::nassim add staus of calibre --}}
                             {{-- <div class="col-lg-12 status">
                                 <label>{{ __('Status') }}:*</label>
                                 <div class="input-group mb-3">
@@ -114,9 +127,11 @@
 
         $(document).ready(function() {
 
-            /*----------------------get calibers list ---------------------------*/
-            callAjax('GET', base_url + '/pluck/calibers').done(function(response) {
-                appendToSelect(response.data, "#caliber_id");
+            /*----------------------get products list ---------------------------*/
+            callAjax('GET', base_url + '/pluck/products', {
+                filter: "hasCal"
+            }).done(function(response) {
+                appendToSelect(response.data, "#product_id");
             });
         });
 
@@ -183,6 +198,20 @@
                         "{{ __('Suppression impossible') }}");
                 }
             });
+        }).
+
+        on("change", "#product_id", function(e) {
+            e.preventDefault();
+            let id = $(this).val();
+            // alert(id);
+            /*----------------------get calibers list ---------------------------*/
+            callAjax('GET', base_url + '/pluck/calibers', {
+                filter: id
+            }).done(function(response) {
+                $("#caliber_id").html('<option></option>').trigger('change')
+                appendToSelect(response.data, "#caliber_id");
+            });
+
         });
 
         table = table.DataTable({

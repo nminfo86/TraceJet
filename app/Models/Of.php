@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Of extends Model
@@ -17,12 +19,25 @@ class Of extends Model
      *
      * @var array
      */
-    protected $fillable = ['caliber_id', 'user_id', 'of_number', 'of_code', 'status', 'quantity', 'created_by', 'updated_by'];
+    protected $fillable = ['caliber_id', 'user_id', 'of_number', 'of_name', 'of_code', 'status', 'quantity', 'created_by', 'updated_by'];
 
 
     protected $casts = [
         'status' => OfStatusEnum::class,
     ];
+
+    /**
+     * Get the created_at
+     *
+     * @param  string  $value
+     * @return string
+     */
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('d-m-Y'),
+        );
+    }
     /* -------------------------------------------------------------------------- */
     /*                                RelationShips                               */
     /* -------------------------------------------------------------------------- */

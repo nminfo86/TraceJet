@@ -58,21 +58,21 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
-        $this->renderable(function (Exception $exception, $request) {
+        // $this->renderable(function (Exception $exception, $request) {
 
-            //     // if ($request->expectsJson()) {
-            if (
-                $request->expectsJson() &&
-                $exception instanceof ModelNotFoundException ||
-                $exception instanceof NotFoundHttpException ||
-                $exception instanceof MethodNotAllowedHttpException ||
-                $exception instanceof QueryException ||
-                $exception instanceof UnauthorizedException ||
-                $exception instanceof ErrorException ||
-                $exception instanceof BadMethodCallException
-            ) {
-                return $this->apiException($request, $exception);
-            }
-        });
+        //     //     // if ($request->expectsJson()) {
+        //     if (
+        //         $request->expectsJson() &&
+        //         $exception instanceof ModelNotFoundException ||
+        //         $exception instanceof NotFoundHttpException ||
+        //         $exception instanceof MethodNotAllowedHttpException ||
+        //         $exception instanceof QueryException ||
+        //         $exception instanceof UnauthorizedException ||
+        //         $exception instanceof ErrorException ||
+        //         $exception instanceof BadMethodCallException
+        //     ) {
+        //         return $this->apiException($request, $exception);
+        //     }
+        // });
     }
 }
