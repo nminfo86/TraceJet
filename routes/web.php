@@ -57,5 +57,8 @@ Route::group(
         Route::get('serial_numbers', function () {
             return view('pages.serial_numbers');
         });
+        Route::get('packaging', function () {
+            return view('pages.packaging');
+        });
     }
 );

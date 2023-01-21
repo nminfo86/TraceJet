@@ -220,7 +220,6 @@
             form.find('input').attr('disabled', false);
             form.find('.btn-confirm:first').removeClass('d-none');
         });
-
         table = table.DataTable({
             "ajax": {
                 "type": "GET",
