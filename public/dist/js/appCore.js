@@ -235,27 +235,7 @@ function deleteObject(url, success_message, error_message) {
 /* -------------------------------------------------------------------------- */
 /*                                  DataTable                                 */
 /* -------------------------------------------------------------------------- */
-function setTableColumn(fields = []) {
-    var columns = [];
 
-    for (let i = 0; i < fields.length; i++) {
-
-        if (fields[i] == 'action') {
-            columns.push({
-                data: fields[i],
-                searchable: false,
-                orderable: false, defaultContent: '',
-                className: "text-center",
-            });
-        } else {
-            columns.push({
-                data: fields[i], //title: fields[i],
-                // defaultContent: '',
-            });
-        }
-    }
-    return columns;
-}
 
 window.datatableSettings = {
     ajax: {
@@ -272,16 +252,7 @@ window.datatableSettings = {
 };
 
 
-// function datatableConfig(url) {
-//     datatableSettings.ajax.url = url;
-//     return datatableSettings;
-// }
 
-function x(table_settings = {}, url = '') {
-    table_settings.ajax.url = url;
-    // console.log(table_settings);
-    return table_settings;
-}
 
 customSelect2("fr");
 function customSelect2(lang) {

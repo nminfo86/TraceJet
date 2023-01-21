@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreign('box_id')->references('id')->on('boxes')->restrictOnDelete()->cascadeOnUpdate();
 
 
-            // $table->timestamps();
+            $table->timestamps();
         });
     }
 

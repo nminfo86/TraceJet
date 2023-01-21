@@ -31,8 +31,10 @@ class Product extends Model
     // {
     //     return $this->belongsTo(Section::class);
     // }
-    // public function calibers()
-    // {
-    //     return $this->hasMany(calibers::class);
-    // }
+
+    //use in of view
+    public function calibers()
+    {
+        return $this->hasMany(caliber::class);
+    }
 }

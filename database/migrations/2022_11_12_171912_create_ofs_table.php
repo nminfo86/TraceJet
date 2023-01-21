@@ -19,6 +19,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('caliber_id');
             $table->string('of_number')->unique();
+            $table->string('of_name')->unique()->nullable();
             $table->string('of_code', 50)->unique()->nullable();
             $table->text('status')->default('new');
             $table->integer('quantity');

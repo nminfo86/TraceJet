@@ -71,7 +71,10 @@ Route::group(
 
             return SerialNumber::query()->get();
         });
-        route::get('check_qr', [SerialNumberController::class, 'checkQr']);
+
+
+        // route::get('check_qr', [SerialNumberController::class, 'validProduct']);
+        route::post('serial_numbers/qr_print', [SerialNumberController::class, 'printQrCode']);
 
         /* -------------------------------------------------------------------------- */
         /*                                    Enums                                   */

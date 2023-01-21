@@ -12,11 +12,11 @@
         <div class="col-lg-6">
             <div class="row">
                 <div class="col-12">
-                    <div class="card border-primary">
+                    <div class="card shadow border-primary">
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword" class="col-md-1 col-form-label">OF N° </label>
+                                <label for="inputPassword" class="col-md-2 col-form-label">OF N° </label>
                                 <div class="col-md-4">
                                     <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}"
                                         name="of_id">
@@ -26,13 +26,15 @@
                                         <strong id="of_id-error"></strong>
                                     </span>
                                 </div>
-                                {{-- <div class="col-md-6 d-none of_number">
-                                    <div class="row float-end"> --}}
-                                {{-- <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info" id="of_number"></span> --}}
-                                {{-- <div class="row border-bottom mt-4 gx-0"> --}}
-                                <div class="col-md-6  of_number d-none ">
-                                    <div class="col-4  border-start float-end ">
+
+                                <div class="col-md-3  of_number d-none ">
+                                    <div class="col-12  border-start float-start ">
+                                        <h6 class="fw-normal text-muted mb-0">{{ __('Etat OF') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-info" id="of_status"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3  of_number d-none ">
+                                    <div class="col-12  border-start float-start ">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="of_number"></span>
                                     </div>
@@ -49,22 +51,26 @@
                     </div>
                 </div>
 
-                <div class="col-12 d- of_info">
-                    <div class="card">
+                <div class="col-12 d- of_info d-none">
+                    <div class="card shadow">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <div class="row mx-0">
-                                    <label for="inputPassword" class="col-md-1 "><i
-                                            class="mdi mdi-24px mdi-barcode-scan"></i></label>
-                                    <div class="col-md-11">
-                                        <input type="text" class="form-control bg-light" id="qr" name="qr"
-                                            onblur="this.focus()" autofocus>
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong id="qr-error"></strong>
-                                        </span>
+                                <form id="main_form">
+                                    <div class="row mx-0">
+                                        <label for="inputPassword" class="col-md-1 "><i
+                                                class="mdi mdi-24px mdi-barcode-scan"></i></label>
+                                        <div class="col-md-11">
+                                            <input type="text" class="form-control bg-light" id="qr"
+                                                name="qr" onblur="this.focus()" autofocus>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong id="qr-error"></strong>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-
+                                    <input type="submit" class="d-none">
+                                    {{-- <button class="btn-success">Submit</button> --}}
+                                </form>
+                                <hr>
 
                                 <div class="row border-bottom mt-4 gx-0 mx-0">
                                     <div class="col-4 pb-3 border-end">
@@ -92,22 +98,8 @@
                                                     <div class="card-body">
                                                         <div class="d-flex flex-row align-items-center">
                                                             <div
-                                                                class=" round rounded-circle text-white d-inline-block text-center bg-danger">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="2"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-calendar feather-sm fill-white">
-                                                                    <rect x="3" y="4" width="18"
-                                                                        height="18" rx="2" ry="2">
-                                                                    </rect>
-                                                                    <line x1="16" y1="2" x2="16"
-                                                                        y2="6"></line>
-                                                                    <line x1="8" y1="2" x2="8"
-                                                                        y2="6"></line>
-                                                                    <line x1="3" y1="10" x2="21"
-                                                                        y2="10"></line>
-                                                                </svg>
+                                                                class=" round rounded-circle text-white d-inline-block text-center bg-success">
+                                                                <i class="mdi mdi-check mdi-36px"></i>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
                                                                 <span class="text-muted">OK / OF</span>
@@ -123,21 +115,7 @@
                                                         <div class="d-flex flex-row align-items-center">
                                                             <div
                                                                 class=" round rounded-circle text-white d-inline-block text-center bg-danger">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="2"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-calendar feather-sm fill-white">
-                                                                    <rect x="3" y="4" width="18"
-                                                                        height="18" rx="2" ry="2">
-                                                                    </rect>
-                                                                    <line x1="16" y1="2" x2="16"
-                                                                        y2="6"></line>
-                                                                    <line x1="8" y1="2" x2="8"
-                                                                        y2="6"></line>
-                                                                    <line x1="3" y1="10" x2="21"
-                                                                        y2="10"></line>
-                                                                </svg>
+                                                                <i class="mdi mdi-36px mdi-calendar-clock"></i>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
                                                                 <span class="text-muted">OK / Jour</span>
@@ -158,15 +136,16 @@
             </div>
         </div>
         <div class="col-lg-6 d-none of_info">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
+                        <table id="main_table" class="table table-sm table-hover dt-responsive nowrap " width="100%">
                             <thead>
                                 <tr class="">
                                     <th>{{ __('serial_number') }}</th>
                                     <th>{{ __('QR') }}</th>
-                                    <th>{{ __('Options') }}</th>
+                                    {{-- <th>{{ __('Valide') }}</th>
+                                    <th>{{ __('Options') }}</th> --}}
                                 </tr>
                             </thead>
                         </table>
@@ -185,60 +164,74 @@
         var form = $('#main_form'),
             table = $('#main_table'),
             form_title = " {{ __('Nouveau Produit') }}",
-            url = base_url + '/serial_numbers';
-
+            url = base_url + '/serial_numbers',
+            of_id,
+            last_qr = "";
         formToggle(form_title);
 
         $(document).ready(function() {
-            /*----------------------get ofs list ---------------------------*/
-            callAjax('GET', base_url + '/pluck/ofs').done(function(response) {
-                appendToSelect(response.data, "#of_id");
-            });
-            // callAjax('GET', base_url + '/of_status').done(function(response) {
-            //     // appendToSelect(response.data, "#of_id");
-            //     console.log(response);
-            // });
-            //alert(url);
-            /*-----------------------intialize select fields ------------------------*/
-            //customSelect2("fr");
+
         });
 
-        form.on('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            // formData.append("status", $("#status").val());
-            storObject(url, formData, id, "{{ __('Produit ajouté avec succès') }}",
-                "{{ __('Produit modifié avec succès') }}");
+        /* -------------------------------------------------------------------------- */
+        /*                          get ofs list with status                          */
+        /* -------------------------------------------------------------------------- */
+        callAjax('GET', base_url + '/pluck/ofs', {
+            filter: "status"
+        }).done(function(response) {
+            $.each(response.data, function(i, val) {
+                $("#of_id").append(
+                    `<option data-status="${val.status}" value=${val.id}>${val.of_code}</option>`
+                )
+            });
         });
 
-        /* ---------------------------------- Edit ---------------------------------- */
-        $(document).on('click', '.edit', function(e) {
-            e.preventDefault()
-            id = $(this).attr('id');
-            form_title = " {{ __('Modification Produit') }}";
-            editObject(url + '/' + id, form_title);
-            /*----------------- checkbox value set --------------------*/
-            if ($('#status').val() == 0)
-                $('#status').prop('checked', false);
-            else
-                $('#status').prop('checked', true);
-        }).on('click', '.delete', function(e) {
-            e.preventDefault();
-            id = $(this).attr("id");
-            /* ----------------- Fire alert to user about delete warning ---------------- */
-            Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}").then((
-                result) => {
-                /* ---------- if he confirme deleting modal we start delete action ---------- */
-                if (result.isConfirmed) {
-                    deleteObject(url + '/' + id, "{{ __('Produit supprimé') }}",
-                        "{{ __('Suppression impossible') }}");
-                }
-            });
-        }).on("change", "#of_id", function(e) {
-            e.preventDefault()
-            var of_id = $("#of_id").val();
+        /* -------------------------------------------------------------------------- */
+        /*                               Get OF information                           */
+        /* -------------------------------------------------------------------------- */
+        $(document).on("change", "#of_id", function(e) {
+                e.preventDefault()
+                let status = $(this).find(':selected').data('status');
+                of_id = $(this).val();
+                $("#of_status").text(status);
 
-            table.DataTable({
+                getSnTable(of_id)
+            })
+            /* -------------------------------------------------------------------------- */
+            /*                                Print QR code                               */
+            /* -------------------------------------------------------------------------- */
+            .on("click", "#print_qr", function(e) {
+                e.preventDefault();
+                // console.log(of_id);
+                callAjax('POST', base_url + '/serial_numbers/qr_print', {
+                    of_id: of_id
+                }).done(function(response) {
+                    ajaxSuccess(response.message)
+                });
+            })
+            /* -------------------------------------------------------------------------- */
+            /*                                Valid Product                               */
+            /* -------------------------------------------------------------------------- */
+            .on('submit', 'form', function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize() + '&of_id=' + of_id;
+                $.ajax({
+                    type: "POST",
+                    url: base_url + '/serial_numbers',
+                    data: formData, // serializes the form's elements.
+                    success: function(response) {
+                        if (response.status == false) {
+                            return SessionErrors(response.message);
+                        }
+                        getSnTable(of_id);
+                        return ajaxSuccess(response.message);
+                    }
+                });
+            });
+
+
+        function getSnTable(of_id) {
+            return table.DataTable({
                 // "ajax": url,
                 ajax: {
                     type: 'GET',
@@ -249,16 +242,19 @@
 
                     dataSrc: function(response) {
 
-                        $("#qty_ok").text("0" + response.data.sn_list.length);
-                        $("#of_date").text(response.data.product_name);
+                        $("#of_date").text(response.data.created_at);
+                        $("#of_status").text(response.data.status);
                         $("#product").text(response.data.product_name);
                         $("#caliber").text(response.data.caliber_name);
-                        $(".of_number").removeClass('d-none').find('#of_number').text("0" + response
+                        $("#qty_ok").text("0" + response.data.sn_list.length + " / 0" +
+                            response.data.quantity);
+                        $(".of_number").removeClass('d-none').find('#of_number').text("0" +
+                            response
                             .data
                             .of_number);
 
                         $(".of_info").removeClass("d-none");
-
+                        $("#qr").focus();
                         return response.data.sn_list;
 
                     }
@@ -269,18 +265,28 @@
                     {
                         data: 'qr'
                     },
-                    {
-                        data: 'id',
-                        render: function(data, type, row) {
-                            return `<div type="button" id="${data}" class="d-inline text-white print_qr"> <i class="mdi mdi-24px mdi-printer-settings text-primary"></i></div>
-                    `;
-                        }
-                    },
                 ],
+                rowCallback: function(row, data) {
+                    $(row).css('background-color', 'rgba(203, 239, 179, 0.8)');
+                },
                 destroy: true,
+                columnDefs: [{
+                    targets: -1,
+                }, ],
+
+                initComplete: function() {
+
+                    let select = $('.dataTables_length ').unbind(),
+                        // self = this.api(),
+                        $printButton = $('<button class="btn btn-info text-white" id="print_qr">')
+                        .text(
+                            'Generer QR');
+                    $('.dataTables_length').html($printButton);
+
+                },
+                order: [0, "desc"]
             });
 
-            // $(".main_table").removeClass("d-none");
-        });
+        }
     </script>
 @endpush

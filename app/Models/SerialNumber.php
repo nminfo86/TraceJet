@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Models\Of;
+use Carbon\Carbon;
 use App\Models\Part;
 use App\Models\Movement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class SerialNumber extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    // public $timestamps = false;
 
 
 
@@ -33,6 +35,8 @@ class SerialNumber extends Model
     //  * @var array
     //  */
     // protected $hidden = ['pivot'];
+
+
     /* -------------------------------------------------------------------------- */
     /*                                RelationShips                               */
     /* -------------------------------------------------------------------------- */
