@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('breadcrumb')
+    <li class="breadcrumb-item active" aria-current="page">{{ __('Produits') }}</li>
+@endsection
 
 @section('content')
     <!-- ============================================================== -->
@@ -174,15 +177,20 @@
 
         $(document).ready(function() {
 
-            /* -------------------------------------------------------------------------- */
-            /*                                get ofs list                                */
-            /* -------------------------------------------------------------------------- */
-            appendToSelect('GET', base_url + '/pluck/ofs', "#of_id");
-
         });
 
-
-
+        /* -------------------------------------------------------------------------- */
+        /*                          get ofs list with status                          */
+        /* -------------------------------------------------------------------------- */
+        callAjax('GET', base_url + '/pluck/ofs', {
+            filter: "status"
+        }).done(function(response) {
+            $.each(response.data, function(i, val) {
+                $("#of_id").append(
+                    `<option data-status="${val.status}" value=${val.id}>${val.of_code}</option>`
+                )
+            });
+        });
 
         /* -------------------------------------------------------------------------- */
         /*                               Get OF information                           */

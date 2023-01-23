@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Of;
+use Illuminate\Http\Request;
 use App\Events\CreateOFEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreOfRequest;
@@ -109,5 +110,18 @@ class OfController extends Controller
 
         //Send response with success
         return $this->sendResponse($this->delete_success_msg);
+    }
+
+
+
+    // This function used in serial_numbers blade
+    public function getOfDetails($id)
+    {
+        // Get of information
+        $of_info = Of::join('calibers', 'ofs.caliber_id', 'calibers.id')
+            ->join('products', 'calibers.product_id', 'products.id')
+            ->find($id, ["calibers.caliber_name", "products.product_name", "ofs.created_at", "ofs.of_number", "ofs.quantity", 'ofs.status']);
+
+        return $of_info;
     }
 }

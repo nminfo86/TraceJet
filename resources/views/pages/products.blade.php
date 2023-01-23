@@ -116,9 +116,8 @@
 
         $(document).ready(function() {
             /*----------------------get sections list ---------------------------*/
-            callAjax('GET', base_url + '/pluck/sections').done(function(response) {
-                appendToSelect(response.data, "#section_id");
-            });
+            appendToSelect('GET', base_url + '/pluck/sections', "#section_id");
+
         });
 
         form.on('submit', function(e) {

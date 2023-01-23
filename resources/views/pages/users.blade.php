@@ -137,14 +137,11 @@
 
         $(document).ready(function() {
             /*--------------------- get role list ------------------------*/
-            callAjax('GET', 'api/v1/pluck/roles').done(function(response) {
-                appendToSelect(response.data, "#roles_name", true);
-            });
+            appendToSelect('GET', base_url + '/pluck/roles', "#roles_name", {}, true);
 
             /*----------------------get sections list ---------------------------*/
-            callAjax('GET', 'api/v1/pluck/sections').done(function(response) {
-                appendToSelect(response.data, "#section_id");
-            });
+            appendToSelect('GET', base_url + '/pluck/sections', "#section_id");
+
 
             /*-----------------------intialize select fields ------------------------*/
             //customSelect2("fr");

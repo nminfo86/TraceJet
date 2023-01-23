@@ -75,6 +75,7 @@ Route::group(
 
         // route::get('check_qr', [SerialNumberController::class, 'validProduct']);
         route::post('serial_numbers/qr_print', [SerialNumberController::class, 'printQrCode']);
+        route::get('of_details/{of_id}', [OfController::class, 'getOfDetails']);
 
         /* -------------------------------------------------------------------------- */
         /*                                    Enums                                   */

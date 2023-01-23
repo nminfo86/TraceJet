@@ -85,6 +85,18 @@ class SerialNumber extends Model
     }
 
 
+    /**
+     * Get the created_at
+     *
+     * @param  string  $value
+     * @return string
+     */
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('Y-m-d'),
+        );
+    }
 
     public static function boot()
     {
