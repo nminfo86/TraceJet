@@ -1,35 +1,59 @@
-@extends('layouts.app')
-@section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Produits') }}</li>
-@endsection
-
+@extends('layouts.posts_layout')
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
     <!-- ============================================================== -->
 
-    <div class="row">
+    <div class="row h-100">
         <div class="col-lg-6">
-            <div class="card border-primary bg-light">
-                <div class="card-body">
-                    <form id="main_form">
-                        <div class="row mx-0">
-                            <label for="inputPassword" class="col-md-1 "><i class="mdi mdi-24px mdi-barcode-scan"></i></label>
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" id="qr" name="qr"
-                                    onblur="this.focus()" autofocus placeholder="Scanner un code QR">
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="qr-error"></strong>
-                                </span>
+            <div class="row h-100">
+                <div class="col-12">
+                    <div class="card border-primary bg-light">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="d-flex w-50">
+                                    <label for="inputPassword"><i class="mdi mdi-24px mdi-barcode-scan me-3"></i></label>
+                                    <input type="text" class="form-control w-100" id="qr" name="qr"
+                                        onblur="this.focus()" autofocus placeholder="Scanner un code QR">
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="qr-error"></strong>
+                                    </span>
+                                    <input type="submit" class="d-none">
+                                </div>
+                                {{-- <div class="d-flex justify-content-between"> --}}
+                                <div class="border-start border-muted ms-2 w-auto">
+                                    <h6 class="fw-normal text-muted mb-0 ms-2">{{ __('N° OF') }}</h6>
+                                    <span class="fs-3 font-weight-medium text-info ms-2" id="of_status"></span>
+                                </div>
+                                <div class="border-start border-muted ms-auto">
+                                    <h6 class="fw-normal text-muted mb-0 ms-2">{{ __('Etat OF') }}</h6>
+                                    <span class="fs-3 font-weight-medium text-info ms-2" id="of_status"></span>
+                                </div>
+                                {{-- </div> --}}
                             </div>
                         </div>
-                        <input type="submit" class="d-none">
-                        {{-- <button class="btn-success">Submit</button> --}}
-                    </form>
+                    </div>
+                </div>
+                <div class="col-12 h-75">
+                    <div class="card border-primary bg-light h-100">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="main_table" class="table table-sm table-hover dt-responsive nowrap "
+                                    width="100%">
+                                    <thead>
+                                        <tr class="">
+                                            <th>{{ __('N° de serie') }}</th>
+                                            <th>{{ __('Date emballage') }}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 h-auto">
+        {{-- <div class="col-md-6 h-auto">
             <div class="card border-primary bg-light">
                 <div class="card-body">
                     <div class="text-danger"> Attention !! changement d'OF
@@ -37,19 +61,13 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="col-lg-6">
-            <div class="row">
+            <div class="row h-100">
                 <div class="col-12">
                     <div class="card border-primary bg-light">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12  of_number ">
-                                    <div class="col-12 border-start border-secondary mb-4 ">
-                                        <h6 class="fw-normal text-muted mb-0 ms-2">{{ __('N° OF') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info ms-2" id="of_status"></span>
-                                    </div>
-                                </div>
                                 <div class="col-md-6  of_number ">
                                     <div class="col-12 border-start border-secondary float-start ">
                                         <h6 class="fw-normal text-muted mb-0 ms-2">{{ __('N° de serie') }}</h6>
@@ -134,7 +152,6 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="row">
-
                                             <div class="col-lg-12">
                                                 <div class="card">
                                                     <div class="card-body">
@@ -168,6 +185,7 @@
                                                 </div>
                                             </div>
 
+
                                         </div>
                                     </div>
                                 </div>
@@ -177,25 +195,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 of_info">
-            <div class="card border-primary bg-light">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="main_table" class="table table-sm table-hover dt-responsive nowrap " width="100%">
-                            <thead>
-                                <tr class="">
-                                    <th>{{ __('N° de serie') }}</th>
-                                    <th>{{ __('Date emballage') }}</th>
-                                </tr>
-                            </thead>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     </div>
     <!--==============================================================-->
     <!-- End PAge Content -->

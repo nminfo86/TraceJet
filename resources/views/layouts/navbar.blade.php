@@ -6,7 +6,7 @@
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->
-            <a class="navbar-brand" href="index.html">
+            {{-- <a class="navbar-brand" href="index.html">
                 <!-- Logo icon -->
                 <b class="logo-icon">
                     <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -23,7 +23,7 @@
                     <!-- Light Logo text -->
                     <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
                 </span>
-            </a>
+            </a> --}}
             <!-- ============================================================== -->
             <!-- End Logo -->
             <!-- ============================================================== -->
