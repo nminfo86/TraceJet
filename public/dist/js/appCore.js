@@ -239,6 +239,7 @@ function deleteObject(url, success_message, error_message) {
 
 window.datatableSettings = {
     ajax: {
+
         error: function (jqXHR, exception) {
             showAjaxAndValidationErrors(jqXHR, exception)
         }
@@ -265,20 +266,46 @@ function customSelect2(lang) {
     });
 }
 
-function appendToSelect(data, select_id, by_val = false) {
-    if (!by_val)
-        $.each(data, function (key, val) {
-            $(select_id).append(
-                '<option value=' + key + '>' + val +
-                '</option>'
-            )
-        })
-    else
-        $.each(data, function (key, val) {
-            $(select_id).append(
-                '<option value=' + val + '>' + val +
-                '</option>'
-            )
-        })
+function appendToSelect(method, url, select_id, data = {}, by_val = false) {
+
+    callAjax(method, url, data).done(function (response) {
+
+        if (!by_val)
+            $.each(response.data, function (key, val) {
+                $(select_id).append(
+                    '<option value=' + key + '>' + val +
+                    '</option>'
+                )
+
+                console.log(val);
+            })
+
+        else
+            $.each(response.data, function (key, val) {
+                $(select_id).append(
+                    '<option value=' + val + '>' + val +
+                    '</option>'
+                )
+            })
+    })
 }
+
+
+    // callAjax(method, base_url + '/pluck/ofs').done(function (response) {
+    //     if (!by_val)
+    //         $.each(data, function (key, val) {
+    //             $(select_id).append(
+    //                 '<option value=' + key + '>' + val +
+    //                 '</option>'
+    //             )
+    //         })
+    //     else
+    //         $.each(data, function (key, val) {
+    //             $(select_id).append(
+    //                 '<option value=' + val + '>' + val +
+    //                 '</option>'
+    //             )
+    //         })
+    // });
+// }
 

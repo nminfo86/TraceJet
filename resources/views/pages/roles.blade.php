@@ -153,13 +153,6 @@
                 $('#appendPermission').append(appendPermissions);
             });
 
-            // /*----------------------get sections list ---------------------------*/
-            // callAjax('GET', 'api/v1/pluck/sections').done(function(response) {
-            //     appendToSelect(response.data, "#section_id");
-            // });
-
-            /*-----------------------intialize select fields ------------------------*/
-            //customSelect2("fr");
         });
 
         form.on('submit', function(e) {

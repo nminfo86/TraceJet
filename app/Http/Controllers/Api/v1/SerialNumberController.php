@@ -9,14 +9,12 @@ use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
+use Carbon\Carbon;
 
 class SerialNumberController extends Controller
 {
 
-    public function getValidSn()
-    {
-        return SerialNumber::whereValid(1)->get(["serial_number", "qr"]);
-    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,27 +23,24 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
-        // Get of information
-        $of_info = Of::join('calibers', 'ofs.caliber_id', 'calibers.id')
-            ->join('products', 'calibers.product_id', 'products.id')
-            ->find($request->of_id, ["calibers.caliber_name", "products.product_name", "ofs.created_at", "ofs.of_number", "ofs.quantity", 'ofs.status']);
+        // TODO::add of status codition new & inProd
+        // Get serial numbers valid list
+        $sn_valid_list['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "qr", "of_id", "created_at"]);
 
-        // Get valid serialNumbers of  OF
-        // $of_info['sn_list'] = $this->getValidSn();
+        // update of status in first valid action
+        if ($sn_valid_list['list']->count() == 1) {
+            $of = Of::findOrFail($sn_valid_list['list'][0]->of_id);
+            $of->update(['status' => 'inProd']);
+            // this kay for update staus of of in blade
+            $sn_valid_list["status"] = "inProd";
+        }
 
-        // $qty=Movement::where("ofs.")
+        // Quantity of day
+        $sn_valid_list['quantity_of_day'] = $sn_valid_list['list']->filter(function ($item) {
+            return $item['created_at'] == Carbon::today()->toDateString();
+        })->count();
 
-        /*$of_info['sn_list'] = Movement::rightJoin('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-            ->join('ofs', 'serial_numbers.of_id', 'ofs.id')
-            ->where(function ($query) {
-                // FIXME:: replace 1 with post_id
-                $query->where("movements.movement_post_id", '=', 1)
-                    ->orWhere("movements.movement_post_id", '=', null);
-            })->where("serial_numbers.of_id", $request->of_id)
-            ->get(["serial_numbers.id", "serial_number", "qr", "valid"]);*/
-
-        // $of_info['count'] = $of_info['sn_list']->count();
-        return $this->sendResponse(data: $of_info);
+        return $this->sendResponse(data: $sn_valid_list);
     }
 
 
@@ -55,29 +50,7 @@ class SerialNumberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(StoreSerialNumberRequest $request)
-    // {
 
-    //     // Check if sn_of_OF exist
-    //     $sn_not_exist = SerialNumber::whereOfId($request->of_id)->doesntExist();
-
-    //     if ($sn_not_exist) {
-
-    //         // Generate first sn
-    //         $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
-    //         $create_first_record = SerialNumber::create($request->except('of_quantity'));
-
-    //         // Update of status
-    //         if ($create_first_record) {
-    //             $of = Of::findOrFail($create_first_record->of_id);
-    //             $of->update(['status' => 'inProd']);
-    //         }
-    //         //Send response with success
-    //         return $this->sendResponse($this->create_success_msg, $create_first_record);
-    //     }
-    //     //Send response with success
-    //     return $this->sendResponse("Serial number already exist", status: false);
-    // }
 
     //valid product
     public function store(StoreSerialNumberRequest $request)

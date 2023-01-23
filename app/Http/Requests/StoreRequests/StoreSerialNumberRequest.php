@@ -26,7 +26,8 @@ class StoreSerialNumberRequest extends FormRequest
     public function rules()
     {
         return [
-            "of_id"  => "required"
+            "of_id"  => "required",
+            "qr" => "required"
         ];
     }
 }
