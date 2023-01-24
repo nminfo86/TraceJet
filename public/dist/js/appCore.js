@@ -239,7 +239,6 @@ function deleteObject(url, success_message, error_message) {
 
 window.datatableSettings = {
     ajax: {
-
         error: function (jqXHR, exception) {
             showAjaxAndValidationErrors(jqXHR, exception)
         }
@@ -252,9 +251,21 @@ window.datatableSettings = {
     // order: [0, 'desc'],
 };
 
-
-
-
+function ajaxCallDatatables(url) {
+    // Define desired object
+    var obj = {
+        type: "GET",
+        url: url,
+        dataSrc: function(json) {
+            if (json.status == true)
+                return json.data;
+            else
+                ajaxError(json.message);
+        }
+    };
+    // Return it
+    return obj;
+  }
 customSelect2("fr");
 function customSelect2(lang) {
     $('select').select2({

@@ -214,16 +214,7 @@
             form.find('.btn-confirm:first').removeClass('d-none');
         });
         table = table.DataTable({
-            "ajax": {
-                "type": "GET",
-                "url": url,
-                "dataSrc": function(json) {
-                    if (json.status == true)
-                        return json.data;
-                    else
-                        ajaxError(json.message);
-                }
-            },
+            "ajax": ajaxCallDatatables(url),
             columns: [{
                     data: 'name'
                 },

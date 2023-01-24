@@ -218,7 +218,7 @@
         });
 
         table = table.DataTable({
-            "ajax": url,
+            "ajax": ajaxCallDatatables(url),
             columns: [{
                     data: 'of_code'
                 },

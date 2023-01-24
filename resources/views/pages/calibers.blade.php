@@ -168,7 +168,7 @@
         });
 
         table = table.DataTable({
-            "ajax": url,
+            "ajax": ajaxCallDatatables(url),
             columns: [{
                     data: 'caliber_code'
                 },
@@ -181,14 +181,6 @@
                 {
                     data: 'box_quantity'
                 },
-                // {
-                //     data: 'status',
-                //     render: function(data, type, row) {
-                //         return data == 1 ?
-                //             `<label class="badge bg-success">${yes}</label>` :
-                //             `<label class="badge bg-danger">${no}</label>`;
-                //     }
-                // },
                 {
                     data: 'id',
                     render: function(data, type, row) {

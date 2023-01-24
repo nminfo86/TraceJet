@@ -154,7 +154,7 @@
         });
 
         table = table.DataTable({
-            "ajax": url,
+            "ajax": ajaxCallDatatables(url),
             columns: [{
                     data: 'product_code'
                 },
