@@ -1,14 +1,15 @@
 <?php
 
-use App\Enums\OfStatusEnum;
 use App\Models\Of;
 use App\Models\Part;
+use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\v1\PartController;
-use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};
-use App\Http\Controllers\RepairController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RepairController;
+use App\Http\Controllers\Api\v1\PartController;
+use App\Http\Controllers\api\v1\PackagingController;
+use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::group(
             'posts_types' => PostsTypeController::class,
             'posts' => PostController::class,
             'movements' => MovementController::class,
+            'packaging' => PackagingController::class,
             'boxes' => BoxController::class,
             'parts' => PartController::class,
             'sn_parts' => SerialNumbersPartController::class,
