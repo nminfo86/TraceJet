@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Models\Of;
 use App\Models\Movement;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\SerialNumber;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class PackagingController extends Controller
 {
@@ -48,16 +50,85 @@ class PackagingController extends Controller
      */
     public function store(Request $request)
     {
-        // $explode = str($request->qr)->explode('#');
+        $explode = str($request->qr)->explode('#');
 
-        // return $last_movement = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-        //     ->join('ofs', 'serial_numbers.of_id', 'ofs.id')
-        //     ->join('boxes', 'serial_numbers.box_id', 'boxes.id')
-        //     ->where('ofs.of_code',  $explode[0])
-        //     // ->where('serial_numbers.qr',  $request->qr)
-        //     // ->where('ofs.status', "inProd")
-        //     ->latest("movements.created_at")->first();
+        $data = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+            ->join('ofs', 'serial_numbers.of_id', 'ofs.id')
+            ->join('calibers', 'ofs.caliber_id', 'ofs.id')
+            ->join('boxes', 'serial_numbers.box_id', 'boxes.id')
+            ->whereOfCode($explode[0])
+            ->where('serial_numbers.serial_number', $explode[2])
+            ->whereMovementPostId(2)->first(["ofs.of_code", "ofs.status", "ofs.created_at as of_creation_date", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.id as sn_id"]);
+        if (!$data) {
+            $of_id = Of::find(1)->id;
+            $sn_id = SerialNumber::whereSerialNumber($explode[2])->first()->id;
+            try {
+                DB::beginTransaction();
+
+                // Create movement
+                $this->createMovement($request->result, 1, 2);
+                $this->boxingAction($of_id, $sn_id);
+                DB::commit();
+
+                // return   $this->closeOf($of_id);
+                //Send response with success
+                return $this->sendResponse($this->create_success_msg);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                throw $e;
+            }
+        }
+        return $data;
     }
+
+    /**
+     * Create movement and packaging operation
+     *
+     * @param [string] $result
+     * @param [integer] $sn_id
+     * @param [integer] $post_id
+     * @param boolean $packaging
+     * @param array $product_movements
+     * @return void
+     */
+    public function createMovement(String $result, Int $sn_id, Int $post_id, $packaging = false,  $product_movements = [])
+    {
+
+        // Create (packaging movement,boxes and update serial number table)
+        if ($packaging && !empty($product_movements)) {
+            $of_id = $product_movements[0]['of_id'];
+            try {
+                DB::beginTransaction();
+
+                // Create movement
+                $this->createMovement($result, $sn_id, $post_id);
+                $this->boxingAction($of_id, $sn_id);
+                DB::commit();
+
+                // return   $this->closeOf($of_id);
+                //Send response with success
+                return $this->sendResponse($this->create_success_msg);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                throw $e;
+            }
+        }
+
+        // Prepare movement inputs
+        $inputs = [
+            'serial_number_id'      => $sn_id,
+            'movement_post_id'      => $post_id,
+            'result'                => $result,
+        ];
+        // Create new movement
+        $movement = Movement::create($inputs);
+
+
+        //Send response with success
+        return $this->sendResponse($this->create_success_msg, $movement);
+    }
+
+
     // ['movements.id', 'movement_post_id', 'qr', 'serial_number_id', 'result']
 
     /**

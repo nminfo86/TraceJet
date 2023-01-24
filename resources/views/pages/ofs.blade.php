@@ -128,9 +128,15 @@
         $(document).ready(function() {
 
             /*----------------------get products list ---------------------------*/
-            appendToSelect('GET', base_url + '/pluck/ofs', "#product_id", {
+            // appendToSelect('GET', base_url + '/pluck/ofs', "#product_id", {
+            //     filter: "hasCal"
+            // });
+            callAjax("GET", base_url + '/pluck/products', data = {
                 filter: "hasCal"
-            });
+            }).done(function(response) {
+                // alert()
+                appendToSelect(response.data, "#product_id")
+            })
         });
 
         form.on('submit', function(e) {
@@ -203,17 +209,13 @@
             let id = $(this).val();
             // alert(id);
             /*----------------------get calibers list ---------------------------*/
-            // callAjax('GET', base_url + '/pluck/calibers', {
-            //     filter: id
-            // }).done(function(response) {
-            //     $("#caliber_id").html('<option></option>').trigger('change')
-            //     appendToSelect(response.data, "#caliber_id");
-            // });
-            $("#caliber_id").html('<option></option>').trigger('change')
-
-            appendToSelect('GET', base_url + '/pluck/calibers', "#caliber_id", {
+            callAjax('GET', base_url + '/pluck/calibers', {
                 filter: id
+            }).done(function(response) {
+                $("#caliber_id").html('<option></option>').trigger('change')
+                appendToSelect(response.data, "#caliber_id");
             });
+
 
         });
 
