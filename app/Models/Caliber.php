@@ -48,8 +48,8 @@ class Caliber extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    // public function ofs()
-    // {
-    //     return $this->hasMany(Of::class);
-    // }
+    public function ofs()
+    {
+        return $this->hasMany(Of::class);
+    }
 }

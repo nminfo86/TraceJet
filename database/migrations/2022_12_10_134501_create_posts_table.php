@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('post_name');
             $table->integer('previous_post_id')->nullable();
             $table->text('mac')->unique()->nullable();
-
+            $table->text('code', 3);
+            $table->ipAddress()->unique()->nullable();
 
             $table->foreign('posts_type_id')->references('id')->on('posts_types')->restrictOnDelete()->cascadeOnUpdate();
         });
