@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.posts_layout')
 
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
     <!-- ============================================================== -->
 
-    <div class="row">
+    <div class="row h-100">
         <div class="col-lg-6">
             <div class="row">
                 <div class="col-12">
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="col-12 d- of_info d-none">
-                    <div class="card shadow">
+                    <div class="card shadow border-primary">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <form id="main_form">
@@ -140,11 +140,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 d-none of_info">
-            <div class="card shadow">
+        <div class="col-lg-6 d-none of_info h-100">
+            <div class="card shadow border-primary h-100">
                 <div class="card-body">
+                    {{-- <div class="d-flex justify-content-between">
+                        <button class="btn btn-info text-white" id="print_qr">{{ __('Générer QR') }}</button> --}}
+                    <button class="btn btn-info text-white" id="print_qr">{{ __('Générer QR') }}</button>
+                    {{-- </div> --}}
                     <div class="table-responsive">
-                        <table id="main_table" class="table table-sm table-hover dt-responsive nowrap " width="100%">
+                        <table id="main_table" class="table table-sm table-hover table-striped dt-responsive nowrap "
+                            width="100%">
                             <thead>
                                 <tr class="">
                                     <th>{{ __('serial_number') }}</th>
@@ -272,24 +277,27 @@
                         data: 'qr'
                     },
                 ],
-                rowCallback: function(row, data) {
-                    $(row).css('background-color', 'rgba(203, 239, 179, 0.8)');
-                },
+                searching: false,
+                bLengthChange: false,
+                //info: false,
+                // rowCallback: function(row, data) {
+                //     $(row).css('background-color', 'rgba(203, 239, 179, 0.8)');
+                // },
                 destroy: true,
                 columnDefs: [{
                     targets: -1,
                 }, ],
 
-                initComplete: function() {
+                // initComplete: function() {
 
-                    let select = $('.dataTables_length ').unbind(),
-                        // self = this.api(),
-                        $printButton = $('<button class="btn btn-info text-white" id="print_qr">')
-                        .text(
-                            'Generer QR');
-                    $('.dataTables_length').html($printButton);
+                //     let select = $('.dataTables_length ').unbind(),
+                //         // self = this.api(),
+                //         $printButton = $('<button class="btn btn-info text-white" id="print_qr">')
+                //         .text(
+                //             'Generer QR');
+                //     $('.dataTables_length').html($printButton);
 
-                },
+                // },
                 order: [0, "desc"]
             });
 
