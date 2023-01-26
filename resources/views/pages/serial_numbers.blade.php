@@ -181,7 +181,11 @@
             /* -------------------------------------------------------------------------- */
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
-            appendToSelect('GET', base_url + '/pluck/ofs', "#of_id");
+            callAjax('GET', base_url + '/pluck/ofs', {
+                filter: id
+            }).done(function(response) {
+                appendToSelect(response.data, "#of_id");
+            });
 
         });
 

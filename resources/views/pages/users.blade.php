@@ -137,10 +137,16 @@
 
         $(document).ready(function() {
             /*--------------------- get role list ------------------------*/
-            appendToSelect('GET', base_url + '/pluck/roles', "#roles_name", {}, true);
+            // appendToSelect('GET', base_url + '/pluck/roles', "#roles_name", {}, true);
+            callAjax('GET', base_url + '/pluck/roles').done(function(response) {
+                appendToSelect(response.data, "#roles_name");
+            });
 
             /*----------------------get sections list ---------------------------*/
-            appendToSelect('GET', base_url + '/pluck/sections', "#section_id");
+            // appendToSelect('GET', base_url + '/pluck/sections', "#section_id");
+            callAjax('GET', base_url + '/pluck/sections').done(function(response) {
+                appendToSelect(response.data, "#section_id");
+            });
 
 
             /*-----------------------intialize select fields ------------------------*/
