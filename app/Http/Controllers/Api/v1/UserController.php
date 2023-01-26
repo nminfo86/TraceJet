@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $users = User::join("sections", function ($join) {
             $join->on('users.section_id', '=', 'sections.id');
-        })->get(["userse.id", "username", "name", "status", "section_name", "roles_name"]);
+        })->get(["users.id", "username", "name", "status", "section_name", "roles_name"]);
 
         //Send response with success
         return $this->sendResponse(data: $users);

@@ -39,7 +39,7 @@
             <!-- ============================================================== -->
             <!-- Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-            <div class="page-breadcrumb">
+            {{-- <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <nav aria-label="breadcrumb">
@@ -52,10 +52,11 @@
                         </nav>
                     </div>
                     <div class="col-lg-6">
-                        @yield('btns_actions')
+
                     </div>
                 </div>
-            </div>
+            </div> --}}
+            {{-- @yield('btns_actions') --}}
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->

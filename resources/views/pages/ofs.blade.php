@@ -2,13 +2,6 @@
 @section('breadcrumb')
     <li class="breadcrumb-item active" aria-current="page">{{ __('Ofs') }}</li>
 @endsection
-@section('btns_actions')
-    <div class="text-end upgrade-btn toggle-show">
-        {{-- <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
-            target="_blank">Upgrade to Pro</a> --}}
-        @include('components.add_btn', ['label' => 'Nouveau'])
-    </div>
-@endsection
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -17,7 +10,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ __('Liste des Ofs') }}</h4>
+                    <div class="d-flex justify-content-between mb-3">
+                        <h4 class="card-title">{{ __('Liste des Ofs') }}</h4>
+                        <div class="text-end upgrade-btn toggle-show">
+                            @include('components.add_btn', ['label' => 'Nouveau'])
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>
