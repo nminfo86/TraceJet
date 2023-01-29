@@ -150,8 +150,6 @@
             callAjax('GET', base_url + '/pluck/sections').done(function(response) {
                 appendToSelect(response.data, "#section_id");
             });
-
-
             /*-----------------------intialize select fields ------------------------*/
             //customSelect2("fr");
         });

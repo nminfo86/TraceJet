@@ -88,6 +88,7 @@ function callAjax(method, url, data = {}, is_async = true) {
     }).fail(function (jqXHR, exception) {
         // Triggered if response status code is NOT 200 (OK)
         showAjaxAndValidationErrors(jqXHR, exception);
+        //window.location.href="/";
     })
 }
 
@@ -110,6 +111,9 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
 
         // if error is not validation, we show them in SweetAlert
     } else {
+        if (jqXHR.status === 401) {
+            return window.location.href="/";
+        }
         SessionErrors(getAjaxErrorMessage(jqXHR, exception));
     }
 }

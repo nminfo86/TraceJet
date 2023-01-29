@@ -16,6 +16,7 @@
  <script src="../dist/js/select2/select2.min.js"></script>
  <script src="../dist/js/select2/fr.js"></script>
  <script src="../dist/js/appCore.js"></script>
+ {{-- <script src="../dist/js/chart/chart.min.js"></script> --}}
 
  <script>
      $.ajaxSetup({

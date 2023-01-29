@@ -86,7 +86,19 @@
                                 </div>
                                 <div class="row mt-4 mx-0">
                                     <div class="col-lg-6">
-
+                                        {{-- <div>
+                                            <canvas id="myChart"></canvas>
+                                        </div> --}}
+                                        {{-- <div class="outer">
+                                            <canvas id="chartJSContainer" width="600" height="400"></canvas>
+                                            <canvas id="secondContainer" width="600" height="400"></canvas>
+                                            <p class="percent">
+                                                89%
+                                            </p>
+                                        </div> --}}
+                                        <div class="amp-pxl mt-4" style="height: 350px;">
+                                            <div class="chartist-tooltip"></div>
+                                        </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="row">
@@ -246,7 +258,7 @@
                     }
                     getSnTable(of_id);
                     ajaxSuccess(response.message);
-
+                    $('#qr').val('');
                 });
 
             });
@@ -305,5 +317,70 @@
             });
 
         }
+        /* -------------------------------- chart js -------------------------------- */
+        var options1 = {
+            type: 'doughnut',
+            data: {
+                labels: ["Red", "Orange", "Green"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [33, 33, 33],
+                    backgroundColor: [
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(255, 164, 46, 1)',
+                        'rgba(46, 204, 113, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)',
+                        'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI,
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: false
+                },
+                cutoutPercentage: 95
+            }
+        }
+
+        $(function() {
+            "use strict";
+            // ==============================================================
+            // Newsletter
+            // ==============================================================
+
+            var chart2 = new Chartist.Bar(
+                ".amp-pxl", {
+                    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                    series: [
+                        [9, 5, 3, 7, 5, 10, 3],
+                        [6, 3, 9, 5, 4, 6, 4],
+                    ],
+                }, {
+                    axisX: {
+                        // On the x-axis start means top and end means bottom
+                        position: "end",
+                        showGrid: false,
+                    },
+                    axisY: {
+                        // On the y-axis start means left and end means right
+                        position: "start",
+                    },
+                    high: "12",
+                    low: "0",
+                    plugins: [Chartist.plugins.tooltip()],
+                }
+            );
+
+            var chart = [chart2];
+        });
     </script>
 @endpush
