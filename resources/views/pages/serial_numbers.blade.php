@@ -1,11 +1,30 @@
 @extends('layouts.posts_layout')
+<style>
+    .outer {
+        position: relative;
+        width: auto;
+        height: auto;
+    }
 
+    /* canvas {
+        position: absolute;
+    } */
+
+    .percent {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, 0);
+        font-size: 40px;
+        bottom: 0;
+    }
+</style>
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
     <!-- ============================================================== -->
 
-    <div class="row h-100">
+    <div class="row">
         <div class="col-lg-6">
             <div class="row">
                 <div class="col-12">
@@ -85,20 +104,14 @@
                                     </div>
                                 </div>
                                 <div class="row mt-4 mx-0">
-                                    <div class="col-lg-6">
-                                        {{-- <div>
-                                            <canvas id="myChart"></canvas>
-                                        </div> --}}
-                                        {{-- <div class="outer">
-                                            <canvas id="chartJSContainer" width="600" height="400"></canvas>
-                                            <canvas id="secondContainer" width="600" height="400"></canvas>
+                                    <div class="col-lg-6 outer">
+                                        <div class="">
+                                            <canvas id="chartJSContainer" width="auto" height="auto"></canvas>
                                             <p class="percent">
                                                 89%
                                             </p>
-                                        </div> --}}
-                                        <div class="amp-pxl mt-4" style="height: 350px;">
-                                            <div class="chartist-tooltip"></div>
                                         </div>
+
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="row">
@@ -152,8 +165,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 d-none of_info h-100">
-            <div class="card shadow border-primary h-100">
+        <div class="col-lg-6 d-none of_info">
+            <div class="card shadow border-primary" style="min-height: 95vh">
                 <div class="card-body">
                     {{-- <div class="d-flex justify-content-between">
                         <button class="btn btn-info text-white" id="print_qr">{{ __('Générer QR') }}</button> --}}
@@ -318,69 +331,40 @@
 
         }
         /* -------------------------------- chart js -------------------------------- */
-        var options1 = {
-            type: 'doughnut',
-            data: {
-                labels: ["Red", "Orange", "Green"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [33, 33, 33],
-                    backgroundColor: [
-                        'rgba(231, 76, 60, 1)',
-                        'rgba(255, 164, 46, 1)',
-                        'rgba(46, 204, 113, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 255, 255 ,1)',
-                        'rgba(255, 255, 255 ,1)',
-                        'rgba(255, 255, 255 ,1)'
-                    ],
-                    borderWidth: 5
-                }]
-            },
-            options: {
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI,
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    enabled: false
-                },
-                cutoutPercentage: 95
-            }
-        }
 
         $(function() {
-            "use strict";
-            // ==============================================================
-            // Newsletter
-            // ==============================================================
-
-            var chart2 = new Chartist.Bar(
-                ".amp-pxl", {
-                    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                    series: [
-                        [9, 5, 3, 7, 5, 10, 3],
-                        [6, 3, 9, 5, 4, 6, 4],
-                    ],
-                }, {
-                    axisX: {
-                        // On the x-axis start means top and end means bottom
-                        position: "end",
-                        showGrid: false,
+            var options1 = {
+                type: 'doughnut',
+                data: {
+                    labels: ["à réaliser", "réalisé"],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [66.66, 33.33],
+                        backgroundColor: [
+                            // 'rgba(231, 76, 60, 1)',
+                            'rgba(46, 204, 113, 1)'
+                        ],
+                        borderColor: [
+                            // 'rgba(255, 255, 255 ,1)',
+                            'rgba(255, 255, 255 ,1)'
+                        ],
+                        borderWidth: 5
+                    }]
+                },
+                options: {
+                    rotation: 1 * Math.PI,
+                    circumference: 1 * Math.PI,
+                    legend: {
+                        display: false
                     },
-                    axisY: {
-                        // On the y-axis start means left and end means right
-                        position: "start",
+                    tooltip: {
+                        enabled: false
                     },
-                    high: "12",
-                    low: "0",
-                    plugins: [Chartist.plugins.tooltip()],
+                    cutoutPercentage: 85
                 }
-            );
-
-            var chart = [chart2];
+            }
+            var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
+            new Chart(ctx1, options1);
         });
     </script>
 @endpush
