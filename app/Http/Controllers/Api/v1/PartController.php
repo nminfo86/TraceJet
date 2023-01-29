@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Part;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 
 class PartController extends Controller
 {
+    use ResponseTrait;
     /**
      * Display a listing of the resource.
      *

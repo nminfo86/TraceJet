@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
@@ -10,6 +11,7 @@ use App\Models\{Of, Caliber, Product, Section};
 
 class PluckController extends Controller
 {
+    use ResponseTrait;
     // TODO::change to invoke Controller
 
     /* public function pluckData($model_name)

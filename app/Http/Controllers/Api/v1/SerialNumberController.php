@@ -9,11 +9,12 @@ use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
+use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 
 class SerialNumberController extends Controller
 {
-
+    use ResponseTrait;
 
     /**
      * Display a listing of the resource.
@@ -26,7 +27,6 @@ class SerialNumberController extends Controller
         // TODO::add of status codition new & inProd
         // Get serial numbers valid list
         $sn_valid_list['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "qr", "of_id", "created_at"]);
-
         // update of status in first valid action
         if ($sn_valid_list['list']->count() == 1) {
             $of = Of::findOrFail($sn_valid_list['list'][0]->of_id);
@@ -63,6 +63,7 @@ class SerialNumberController extends Controller
         if ($product) {
             // Valid product
             $product->update(['valid' => 1]);
+
             // Create new sn (next serial number)
             return $this->createNextSN($request->of_id);
         }
@@ -70,39 +71,6 @@ class SerialNumberController extends Controller
         return $this->sendResponse("Product already valid Or not belong to current prod", status: false);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SerialNumber  $serialNumber
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SerialNumber $serialNumber)
-    {
-        //Send response with success
-        return $this->sendResponse(data: $serialNumber);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SerialNumber  $serialNumber
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, SerialNumber $serialNumber)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\SerialNumber  $serialNumber
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(SerialNumber $serialNumber)
-    {
-        //
-    }
 
 
     // public function CreateNextSN($request, $product)

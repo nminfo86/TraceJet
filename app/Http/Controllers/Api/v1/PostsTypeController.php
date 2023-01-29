@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\PostsType;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostsTypeRequest;
 
 class PostsTypeController extends Controller
 {
 
-
+    use ResponseTrait;
 
     function __construct()
     {

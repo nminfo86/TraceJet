@@ -53,9 +53,14 @@ class Box extends Model
             $model->updated_by = NULL;
 
             // generate box SN
+            // $new_box_code = Box::count() + 1;
+            // $of_code = Of::findOrFail($model->of_id)->of_code;
+            // $model->box_qr = "$of_code#$new_box_code";
+
+
             $new_box_code = Box::count() + 1;
-            $of_code = Of::findOrFail($model->of_id)->of_code;
-            $model->box_qr = "$of_code#$new_box_code";
+            // $of_code = Of::findOrFail($model->of_id)->of_code;
+            $model->box_qr = $new_box_code;
         });
 
         self::updating(function ($model) {

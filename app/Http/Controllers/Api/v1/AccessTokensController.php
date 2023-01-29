@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use PDOException;
+use App\Traits\ResponseTrait;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ use App\Http\Requests\AccessTokensRequest;
 
 class AccessTokensController extends Controller
 {
-
+    use ResponseTrait;
 
     public function login(AccessTokensRequest $request)
     {

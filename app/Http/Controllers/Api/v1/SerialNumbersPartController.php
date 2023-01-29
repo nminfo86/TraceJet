@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
 use App\Models\SerialNumbersPart;
 use App\Http\Controllers\Controller;
 
 class SerialNumbersPartController extends Controller
 {
+    use ResponseTrait;
     /**
      * Display a listing of the resource.
      *

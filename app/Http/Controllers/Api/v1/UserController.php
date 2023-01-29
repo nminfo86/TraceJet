@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
 use App\Exceptions\ExceptionTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ use App\Http\Requests\UpdateRequests\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    use ExceptionTrait;
+    use ResponseTrait;
 
     function __construct()
     {

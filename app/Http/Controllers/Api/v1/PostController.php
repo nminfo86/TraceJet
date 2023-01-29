@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Post;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StorePostRequest;
 use App\Http\Requests\UpdateRequests\UpdatePostRequest;
 
 class PostController extends Controller
 {
+    use ResponseTrait;
     function __construct()
     {
         $this->middleware('permission:post-list', ['only' => ['index']]);

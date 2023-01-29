@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Api\v1;
 use App\Models\Of;
 use Illuminate\Http\Request;
 use App\Events\CreateOFEvent;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreOfRequest;
 use App\Http\Requests\UpdateRequests\UpdateOfRequest;
 
 class OfController extends Controller
 {
+    use ResponseTrait;
+
     function __construct()
     {
         $this->middleware('permission:of-list', ['only' => ['index']]);

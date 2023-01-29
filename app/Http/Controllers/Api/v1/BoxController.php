@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Http\Controllers\Controller;
 use App\Models\Box;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Http\Controllers\Controller;
 
 class BoxController extends Controller
 {
+    use ResponseTrait;
     /**
      * Display a listing of the resource.
      *

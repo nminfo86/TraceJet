@@ -36,6 +36,7 @@ class Of extends Model
     {
         return Attribute::make(
             get: fn ($value) => Carbon::parse($value)->format('d-m-Y'),
+
         );
     }
     /* -------------------------------------------------------------------------- */

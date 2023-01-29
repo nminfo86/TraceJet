@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use App\Models\Caliber;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreCaliberRequest;
 use App\Http\Requests\UpdateRequests\UpdateCaliberRequest;
@@ -14,6 +15,7 @@ use App\Http\Requests\UpdateRequests\UpdateCaliberRequest;
 
 class CaliberController extends Controller
 {
+    use ResponseTrait;
 
     function __construct()
     {

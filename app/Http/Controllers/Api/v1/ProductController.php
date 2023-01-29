@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Models\Product;
+use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreProductRequest;
 use App\Http\Requests\UpdateRequests\UpdateProductRequest;
-use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use ResponseTrait;
     function __construct()
     {
         $this->middleware('permission:product-list', ['only' => ['index']]);

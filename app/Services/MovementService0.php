@@ -9,14 +9,13 @@ use App\Models\Caliber;
 use App\Models\Movement;
 use Illuminate\Support\Arr;
 use App\Models\SerialNumber;
-use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 
 class MovementService //extends Controller
 {
-    use ResponseTrait;
+
     /**
      * Get last product movements.
      *
@@ -26,13 +25,14 @@ class MovementService //extends Controller
      */
     public function nextStep($request)
     {
+
+
         // Get last movement of QR and create movement or packaging action
         $last_movement = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->join('ofs', 'serial_numbers.of_id', 'ofs.id')
-            ->join('calibers', 'ofs.caliber_id', 'calibers.id')
             ->where('serial_numbers.qr',  $request->qr)
             ->where('ofs.status', "inProd")
-            ->latest("movements.created_at")->first(['movement_post_id', 'serial_numbers.of_id', 'qr', 'serial_number_id', 'result', 'caliber_name', 'box_quantity']);
+            ->latest("movements.created_at")->first(['movements.id', 'movement_post_id', 'qr', 'serial_number_id', 'result']);
 
         // Not exist
         if (!$last_movement) {
@@ -70,7 +70,7 @@ class MovementService //extends Controller
         $post = $this->getCurrentPostInformation($request->mac);
 
         // movement exist with this post
-        if ($last_movement->movement_post_id == $post["id"]) {
+        if ($last_movement->movement_post_id == $post->id) {
             //Send response with error
             return $this->sendResponse('Product already executed on this post', status: false);
         }
@@ -78,10 +78,6 @@ class MovementService //extends Controller
         // Get name of last post executed
         $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
 
-
-        /* -------------------------------------------------------------------------- */
-        /*                           Reparation Post Section                          */
-        /* -------------------------------------------------------------------------- */
         // Check result if Nok in last movement
         if ($last_movement->result == 'NOK') {
 
@@ -96,11 +92,6 @@ class MovementService //extends Controller
             return $this->sendResponse("Product NOK on, $post_name", status: false);
         }
 
-
-
-        /* -------------------------------------------------------------------------- */
-        /*                            Packaging post action                           */
-        /* -------------------------------------------------------------------------- */
         //Get packaging posts ids
         $packaging_posts = $this->getPackagingPostsIds()->toArray();
 
@@ -111,13 +102,13 @@ class MovementService //extends Controller
             return $this->sendResponse("Product packaged", status: false);
 
         // Check last step of product
-        if ($last_movement->movement_post_id != $post["previous_post_id"]) {
+        if ($last_movement->movement_post_id != $post->previous_post_id) {
             //Send response with error
             return $this->sendResponse("The last step for this product was on , $post_name", status: false);
         }
 
         // Create next step
-        return $this->newMovementOrPackagingAction($request, $last_movement, $post["id"]);
+        return $this->newMovementOrPackagingAction($request, $last_movement, $post->id);
     }
 
 
@@ -137,17 +128,15 @@ class MovementService //extends Controller
 
         // Get Movement of Product
         $product_movements = $this->productSteps($request->qr);
-        // return [$last_movement, $product_movements];
 
         // Create new movement
-        if ($product_movements/*->count()*/ <= $operator_post_count) {
-            return  $this->createMovement($request->result, $last_movement, $post_id);
+        if ($product_movements->count() <= $operator_post_count) {
+            return  $this->createMovement($request->result, $last_movement->serial_number_id, $post_id);
         }
 
         // Create last movement (packaging) and boxing
-        if ($product_movements/*->count()*/  === $operator_post_count + 1) {
-
-            return $this->createMovement($request->result, $last_movement/*->serial_number_id, $last_movement->serial_number*/, $post_id, true/*, $product_movements*/);
+        if ($product_movements->count() === $operator_post_count + 1) {
+            return $this->createMovement($request->result, $last_movement->serial_number_id, $post_id, true, $product_movements);
         }
     }
 
@@ -161,39 +150,32 @@ class MovementService //extends Controller
      * @param array $product_movements
      * @return void
      */
-    public function createMovement(String $result, $last_movement, $post_id, $packaging = false /*Int $sn_id, $qr, Int $post_id, $packaging = false,  $product_movements = []*/)
+    public function createMovement(String $result, Int $sn_id, Int $post_id, $packaging = false,  $product_movements = [])
     {
-        // return $last_movement;
-        // return $last_movement;
 
         // Create (packaging movement,boxes and update serial number table)
-        if ($packaging && !empty($last_movement)) {
-            // $of_id = $product_movements[0]['of_id'];
-            // $of_id = $last_movement->of_id;
-            // dd($last_movement->serial_number_id);
+        if ($packaging && !empty($product_movements)) {
+            $of_id = $product_movements[0]['of_id'];
             try {
                 DB::beginTransaction();
 
                 // Create movement
-                // $this->createMovement($result, $sn_id, $post_id);
-                // $msg = $this->boxingAction($of_id, $sn_id, $qr);
-                $this->createMovement($result, $last_movement, $post_id);
-                $response = $this->boxingAction($last_movement/*$of_id, $last_movement->serial_number_id, $last_movement->qr*/);
+                $this->createMovement($result, $sn_id, $post_id);
+                $this->boxingAction($of_id, $sn_id);
                 DB::commit();
 
                 // return   $this->closeOf($of_id);
                 //Send response with success
-                return $this->sendResponse(data: $response);
+                return $this->sendResponse($this->create_success_msg);
             } catch (\Exception $e) {
                 DB::rollBack();
                 throw $e;
             }
         }
-        // Prepare movement inputs
-        // dd($last_movement->serial_number_id);
 
+        // Prepare movement inputs
         $inputs = [
-            'serial_number_id'      => $last_movement->serial_number_id,
+            'serial_number_id'      => $sn_id,
             'movement_post_id'      => $post_id,
             'result'                => $result,
         ];
@@ -205,63 +187,6 @@ class MovementService //extends Controller
         return $this->sendResponse($this->create_success_msg, $movement);
     }
 
-
-    public function boxingAction(/*int $of_id, String $sn_id, $qr*/$last_movement)
-    {
-        $of_id = $last_movement->of_id;
-        $sn_id = $last_movement->serial_number_id;
-        $box_quantity = $last_movement->box_quantity;
-        // Get Last box opened
-        $last_open_box = Box::where('of_id', $of_id)->where('status', 'open')->latest()->first();
-
-        if (!$last_open_box) {
-            $last_open_box = Box::create(['of_id' => $of_id]);
-            // return $box;
-        }
-
-        // Get caliber quantity BOX
-        // $caliber_quantity = Caliber::whereHas('ofs', function ($q) use ($of_id) {
-        //     $q->where('id', $of_id);
-        // })->first()->box_quantity;
-
-        // Count products boxed
-        $sn_in_box = SerialNumber::where('of_id', $of_id)->where('box_id', $last_open_box->id)->count();
-        // dd();
-
-        // return "update sn table";
-        if ($sn_in_box  < $box_quantity) {
-            // update box_id in serial_number table of product
-            SerialNumber::find($sn_id)->update(['box_id' => $last_open_box->id]);
-
-            $sn_in_box = SerialNumber::where('of_id', $of_id)->where('box_id', $last_open_box->id)->count();
-        }
-
-        // return "update status";
-        if ($sn_in_box == $box_quantity) {
-            Box::find($last_open_box->id)->update(['status' => "filled"]);
-        }
-
-
-        $response['info'] = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
-            ->join('calibers', 'ofs.caliber_id', 'calibers.id')
-            ->join('products', 'calibers.product_id', 'products.id')
-            ->join('boxes', 'serial_numbers.box_id', 'boxes.id')
-            ->where('serial_numbers.qr', $last_movement->qr)
-            // ->where('serial_numbers.box_id', $last_filled_box->id)
-            ->select(
-                [
-                    "ofs.of_code", "ofs.status as of_status", "ofs.created_at as of_created_at", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.serial_number", "product_name",
-                    DB::raw('count(distinct boxes.id) as packaged_box'),
-                    DB::raw('count(distinct serial_numbers.id) as packaged_product'),
-
-
-                ]
-            )->groupBy("of_code", "of_status", "of_created_at", "box_qr", "box_status", "box_quantity", "caliber_name", "serial_number", "product_name")->first();
-
-        $response["list"] = SerialNumber::whereOfId($of_id)->whereNotNull("box_id")->get(["serial_number", "created_at"]);
-
-        return $response;
-    }
 
 
     // public function boxingAction(int $of_id, String $sn_id)
@@ -285,37 +210,15 @@ class MovementService //extends Controller
 
     //     // return "update sn table";
     //     if ($sn_in_box  < $caliber_quantity) {
-    //         // update box_id in serial_number table of product
-    //         SerialNumber::find($sn_id)->update(['box_id' => $last_open_box->id]);
+    //         $qr = SerialNumber::find($sn_id)->update(['box_id' => $last_open_box->id]);
 
     //         $sn_in_box = SerialNumber::where('of_id', $of_id)->where('box_id', $last_open_box->id)->count();
-    //         //Send response with
-    //         // return $this->sendResponse($response);
-    //         $response = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
-    //             ->join('calibers', 'ofs.caliber_id', 'calibers.id')
-    //             ->join('boxes', 'serial_numbers.box_id', 'boxes.id')
-    //             ->where('serial_numbers.of_id', $of_id)
-    //             // ->where('serial_numbers.of_id', $of_id)
-    //             // ->where('serial_numbers.box_id', $last_open_box->id)
-    //             ->first(
-    //                 ["ofs.of_number", "ofs.status as of_status", "ofs.created_at as of_creation_date", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.serial_number"]
-    //             );
     //     }
 
     //     // return "update status";
     //     if ($sn_in_box == $caliber_quantity) {
     //         Box::find($last_open_box->id)->update(['status' => "filled"]);
-    //         $last_filled_box = Box::where('of_id', $of_id)->where('status', 'filled')->latest()->first();
-
-    //         $response = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
-    //             ->join('calibers', 'ofs.caliber_id', 'calibers.id')
-    //             ->join('boxes', 'serial_numbers.box_id', 'boxes.id')
-    //             ->where('serial_numbers.of_id', $of_id)->where('serial_numbers.box_id', $last_filled_box->id)->first(
-    //                 ["ofs.of_number", "ofs.status as of_status", "ofs.created_at as of_creation_date", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.serial_number"]
-    //             );
-    //         // return 'filled';
     //     }
-    //     return $response;
     // }
 
     //TODO::Change id to code valid ;
@@ -350,7 +253,7 @@ class MovementService //extends Controller
     {
         return Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('qr', $qr)
-            ->count();
+            ->get();
     }
 
     public function closeOf($id)

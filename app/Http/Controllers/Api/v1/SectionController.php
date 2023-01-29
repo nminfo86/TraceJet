@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Section;
+use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreSectionRequest;
 use App\Http\Requests\UpdateRequests\UpdateSectionRequest;
 
 class SectionController extends Controller
 {
-    // use ResponseTrait;
+    use ResponseTrait;
 
 
     function __construct()
