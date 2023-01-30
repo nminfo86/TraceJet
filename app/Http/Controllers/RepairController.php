@@ -26,7 +26,7 @@ class RepairController extends Controller
      */
     public function index()
     {
-        return SerialNumber::Has('movement')->with(["movement" => function ($q) {
+         return SerialNumber::Has('movement')->with(["movement" => function ($q) {
             $q->where('result', "=", "NOK");
         }])->get();
 

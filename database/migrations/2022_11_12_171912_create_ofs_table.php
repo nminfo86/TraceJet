@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('of_number')->unique();
             $table->string('of_name')->unique()->nullable();
             $table->string('of_code', 50)->unique()->nullable();
-            $table->text('status')->default('new');
+            $table->string('status')->default('new');
             $table->integer('quantity');
             $table->string('created_by', 50)->nullable();
             $table->string('updated_by', 50)->nullable();

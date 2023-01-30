@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('of_id');
             $table->unsignedBigInteger('box_id')->nullable()->default(NULL);
             $table->text('serial_number');
-            $table->text('qr')->unique()->nullable();
+            $table->string('qr')->unique()->nullable();
             $table->boolean('valid')->default(0);
 
             $table->foreign('of_id')->references('id')->on('ofs')->restrictOnDelete()->cascadeOnUpdate();
