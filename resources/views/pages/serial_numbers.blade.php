@@ -32,30 +32,30 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword" class="col-md-2 col-form-label">OF N° </label>
-                                <div class="col-md-4 border-end">
-                                    <select id="of_id" data-placeholder="{{ __('Selectionner une of') }}"
-                                        name="of_id">
+                                <label for="inputPassword" class="col-sm-3 col-form-label">OF N° </label>
+                                <div class="col-sm-9">
+                                    <select id="of_id" class="form-control"
+                                        data-placeholder="{{ __('Selectionner une of') }}" name="of_id">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
                                         <strong id="of_id-error"></strong>
                                     </span>
                                 </div>
+                                <div class="col-12 d-flex justify-content-around mt-4 of_number d-none">
 
-                                <div class="col-md-3  of_number d-none ">
-                                    <div class="col-12  border-end float-start ">
-                                        <h6 class="fw-normal text-muted mb-0">{{ __('Etat OF') }}</h6>
+                                    <div class="border-start ps-3">
+                                        <h6 class="fw-normal text-muted mb-0 ">{{ __('Etat OF') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="status"></span>
                                     </div>
-                                </div>
-                                <div class="col-md-3  of_number d-none ">
-                                    <div class="col-12   float-start ">
+
+                                    <div class="border-start ps-3">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info">0</span>
                                         <span class="fs-3 font-weight-medium text-info" id="of_number"></span>
                                     </div>
+
                                 </div>
+
                                 {{-- </div> --}}
                                 {{-- </div>
                                 </div> --}}
@@ -107,15 +107,12 @@
                                     <div class="col-lg-6 outer">
                                         <div class="">
                                             <canvas id="chartJSContainer" width="auto" height="auto"></canvas>
-                                            <p class="percent">
-                                                89%
+                                            <p class="percent" id="percent">
                                             </p>
                                         </div>
-
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="row">
-
                                             <div class="col-lg-12">
                                                 <div class="card">
                                                     <div class="card-body">
@@ -212,6 +209,8 @@
                 appendToSelect(response.data, "#of_id");
             });
 
+
+            /* -------------------------------- chart js -------------------------------- */
         });
 
 
@@ -220,6 +219,10 @@
         /* -------------------------------------------------------------------------- */
         /*                               Get OF information                           */
         /* -------------------------------------------------------------------------- */
+        var total_quantity_of = 0;
+        var percent = 0;
+        var newPercent = 0;
+
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
                 let status = $(this).find(':selected').data('status');
@@ -232,26 +235,19 @@
                     of_id: of_id
                 }).done(function(response) {
                     $.each(response, function(key, value) {
-                        // console.log(key + "=" + value);
                         $("#" + key).text(value);
                     });
-
+                    total_quantity_of = response.quantity;
                     $(".of_number").removeClass('d-none')
                     $(".of_info").removeClass("d-none");
                     $("#qr").focus();
-
                 });
-
-
-
-
             })
             /* -------------------------------------------------------------------------- */
             /*                                Print QR code                               */
             /* -------------------------------------------------------------------------- */
             .on("click", "#print_qr", function(e) {
                 e.preventDefault();
-                // console.log(of_id);
                 callAjax('POST', base_url + '/serial_numbers/qr_print', {
                     of_id: of_id
                 }).done(function(response) {
@@ -269,17 +265,14 @@
                     if (response.status == false) {
                         return SessionErrors(response.message);
                     }
+
                     getSnTable(of_id);
+
                     ajaxSuccess(response.message);
                     $('#qr').val('');
                 });
 
             });
-
-
-
-
-
 
         function getSnTable(of_id) {
             return table.DataTable({
@@ -289,12 +282,49 @@
                     data: {
                         "of_id": of_id
                     },
-
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);
                         $("#status").text(response.data.status);
                         $("#quantity_of_day").text(response.data.quantity_of_day);
-
+                        let x = (parseInt(response.data.list.length) / parseInt(
+                            total_quantity_of));
+                        percent = Number.parseFloat(x).toFixed(2) * 100;
+                        $("#percent").text(percent + ' %');
+                        let rest = 100 - percent;
+                        alert(rest);
+                        newPercent = [percent, rest];
+                        var options1 = {
+                            type: 'doughnut',
+                            data: {
+                                labels: ["{{ __(' réalisé') }}", "{{ __('   à réaliser') }}"],
+                                datasets: [{
+                                    label: '# of Votes',
+                                    data: [percent, rest],
+                                    backgroundColor: [
+                                        'rgba(46, 204, 113, 1)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 255, 255 ,1)'
+                                    ],
+                                    borderWidth: 5
+                                }]
+                            },
+                            options: {
+                                rotation: 1 * Math.PI,
+                                circumference: 1 * Math.PI,
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    enabled: false
+                                },
+                                cutoutPercentage: 85
+                            }
+                        }
+                        var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
+                        var chart1 = new Chart(ctx1, options1);
+                        //chart1.data.datasets.data = newPercent;
+                        //chart1.update();
                         return response.data.list;
                     }
                 },
@@ -330,41 +360,5 @@
             });
 
         }
-        /* -------------------------------- chart js -------------------------------- */
-
-        $(function() {
-            var options1 = {
-                type: 'doughnut',
-                data: {
-                    labels: ["à réaliser", "réalisé"],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [66.66, 33.33],
-                        backgroundColor: [
-                            // 'rgba(231, 76, 60, 1)',
-                            'rgba(46, 204, 113, 1)'
-                        ],
-                        borderColor: [
-                            // 'rgba(255, 255, 255 ,1)',
-                            'rgba(255, 255, 255 ,1)'
-                        ],
-                        borderWidth: 5
-                    }]
-                },
-                options: {
-                    rotation: 1 * Math.PI,
-                    circumference: 1 * Math.PI,
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    cutoutPercentage: 85
-                }
-            }
-            var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
-            new Chart(ctx1, options1);
-        });
     </script>
 @endpush

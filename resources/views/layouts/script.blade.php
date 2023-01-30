@@ -49,6 +49,9 @@
      });
      var yes = "{{ __('Oui') }}";
      var no = "{{ __('Non') }}";
+     var realised = "{{ __('réalisé') }}";
+     var to_realise = "{{ __('à réaliser') }}";
+
      var base_url = "api/v1";
  </script>
  <!-- Costum js code for each child-->
