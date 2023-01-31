@@ -88,6 +88,7 @@ function callAjax(method, url, data = {}, is_async = true) {
     }).fail(function (jqXHR, exception) {
         // Triggered if response status code is NOT 200 (OK)
         showAjaxAndValidationErrors(jqXHR, exception);
+        //window.location.href="/";
     })
 }
 
@@ -110,6 +111,9 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
 
         // if error is not validation, we show them in SweetAlert
     } else {
+        if (jqXHR.status === 401) {
+            return window.location.href="/";
+        }
         SessionErrors(getAjaxErrorMessage(jqXHR, exception));
     }
 }
@@ -239,7 +243,6 @@ function deleteObject(url, success_message, error_message) {
 
 window.datatableSettings = {
     ajax: {
-
         error: function (jqXHR, exception) {
             showAjaxAndValidationErrors(jqXHR, exception)
         }
@@ -252,15 +255,26 @@ window.datatableSettings = {
     // order: [0, 'desc'],
 };
 
-
-
-
+function ajaxCallDatatables(url) {
+    // Define desired object
+    var obj = {
+        type: "GET",
+        url: url,
+        dataSrc: function(json) {
+            if (json.status == true)
+                return json.data;
+            else
+                ajaxError(json.message);
+        }
+    };
+    // Return it
+    return obj;
+  }
 customSelect2("fr");
 function customSelect2(lang) {
     $('select').select2({
         theme: "bootstrap-5",
-        width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ?
-            '100%' : 'style',
+        width: '100%',
         placeholder: $(this).data('placeholder'),
         language: lang
     });

@@ -15,7 +15,9 @@
  <script src="../dist/js/sweetalert2.all.min.js"></script>
  <script src="../dist/js/select2/select2.min.js"></script>
  <script src="../dist/js/select2/fr.js"></script>
+ <script src="../dist/js/chart/chart.min.js"></script>
  <script src="../dist/js/appCore.js"></script>
+
 
  <script>
      $.ajaxSetup({
@@ -47,6 +49,9 @@
      });
      var yes = "{{ __('Oui') }}";
      var no = "{{ __('Non') }}";
+     var realised = "{{ __('réalisé') }}";
+     var to_realise = "{{ __('à réaliser') }}";
+
      var base_url = "api/v1";
  </script>
  <!-- Costum js code for each child-->

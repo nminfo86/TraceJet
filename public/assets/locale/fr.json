@@ -232,7 +232,7 @@
         "first": "Première",
         "last": "Dernière",
         "next": "Suivante",
-        "previous": "Précédente"
+        "previous": "<i class='mdi mdi-chevron-left py-0'></i>"
     },
     "zeroRecords": "Aucune entrée correspondante trouvée",
     "aria": {

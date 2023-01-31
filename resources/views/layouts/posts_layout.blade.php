@@ -62,10 +62,21 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid" style="height: 100vh">
+            <div class="container-fluid bg-light" style="min-height: 100vh">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
+                <div style="position:fixed;top:0;right:0;z-index:1000"><a href="{{ url('logout') }}"
+                        class="btn btn-circle btn-danger me-2 mt-2"><i
+                            class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i></a>
+                </div>
+                {{-- <div id="navbar" class="navbar navbar-fixed-top navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="">Contact Us</a></li>
+                        <li><a href="">NL</a></li>
+                        <li><a href="">ENG</a></li>
+                    </ul>
+                </div> --}}
                 @yield('content')
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
