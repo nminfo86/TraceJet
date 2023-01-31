@@ -33,7 +33,8 @@
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
                                 <label for="inputPassword"
-                                    class="col-sm-3 col-form-label">{{ __('Selectionner un OF') }}</label>
+                                    class="col-sm-3 col-form-label text-dark fs-5 fw-normal">{{ __('Selectionner un OF') }} :
+                                </label>
                                 <div class="col-sm-9">
                                     <select id="of_id" class="form-control"
                                         data-placeholder="{{ __('Selectionner une of') }}" name="of_id">
@@ -46,19 +47,19 @@
                                 <hr class="of_number d-none mt-4" />
                                 <div class="col-12 d-flex justify-content-between  of_number d-none">
                                     <div class="">
-                                        {{-- <h6 class="fw-normal text-muted mb-0 ">{{ __('Etat OF') }}</h6>
+                                        {{-- <h6 class="fw-normal text-dark mb-0 ">{{ __('Etat OF') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="status"></span> --}}
-                                        <h6> {{ __('Etat OF') }} <span class="badge bg-primary fs-4 font-weight-normal"
-                                                id="status"></span>
-                                        </h6>
+                                        <h5 class="fw-n"> {{ __('Etat OF') }} : <span
+                                                class="badge bg-primary fs-4 font-weight-normal" id="status"></span>
+                                        </h5>
                                     </div>
                                     <div class="">
-                                        {{-- <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
+                                        {{-- <h6 class="fw-normal text-dark mb-0">{{ __('OF Numéro') }}</h6>
                                         <span class=badge "fs-3 font-weight-medium text-info" id="of_number"></span> --}}
-                                        <h6> {{ __('OF Numéro') }} <span
+                                        <h5> {{ __('OF Numéro') }} : <span
                                                 class="fs-3 font-weight-medium badge bg-primary text-white">0<span
                                                     id="of_number"></span></span>
-                                        </h6>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
@@ -90,16 +91,16 @@
 
                                 <div class="row border-bottom mt-4 gx-0 mx-0">
                                     <div class="col-4 pb-3 border-end">
-                                        <h6 class="fw-normal text-muted mb-0">{{ __('Date lancement') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info" id="created_at"></span>
+                                        <h6 class="fw-normal fs-5 mb-0">{{ __('Date lancement') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-primary" id="created_at"></span>
                                     </div>
                                     <div class="col-4 pb-3 border-end ps-3">
-                                        <h6 class="fw-normal text-muted mb-0">{{ __('Produit') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info" id="product_name"></span>
+                                        <h6 class="fw-normal fs-5 mb-0">{{ __('Produit') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-primary" id="product_name"></span>
                                     </div>
                                     <div class="col-4 pb-3 border-end ps-3">
-                                        <h6 class="fw-normal text-muted mb-0">{{ __('Calibre') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info " id="caliber_name"></span>
+                                        <h6 class="fw-normal fs-5 mb-0">{{ __('Calibre') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-primary " id="caliber_name"></span>
                                     </div>
                                 </div>
                                 <div class="row mt-4 mx-0">
@@ -121,8 +122,8 @@
                                                                 <i class="mdi mdi-check mdi-36px"></i>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
-                                                                <span class="text-muted">OK / OF</span>
-                                                                <h3 class="mb-0 text-info">
+                                                                <span class="text-dark">OK / OF</span>
+                                                                <h3 class="mb-0 text-primary">
                                                                     <span id="valid"></span> /
                                                                     <span id="quantity"></span>
                                                                 </h3>
@@ -140,10 +141,10 @@
                                                                 <i class="mdi mdi-36px mdi-calendar-clock"></i>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
-                                                                <span class="text-muted">OK / Jour</span>
+                                                                <span class="text-dark">OK / Jour</span>
 
-                                                                <h3 class="mb-0 text-info">
-                                                                    <span>0</span> /
+                                                                <h3 class="mb-0 text-primary">
+                                                                    {{-- <span>0</span> / --}}
                                                                     <span id="quantity_of_day"></span>
                                                                 </h3>
                                                             </div>
@@ -162,18 +163,15 @@
             </div>
         </div>
         <div class="col-lg-6 d-none of_info">
-            <div class="card shadow border-primary" style="min-height: 67vh">
-                <div class="card-body">
-                    {{-- <div class="d-flex justify-content-between">
-                        <button class="btn btn-info text-white" id="print_qr">{{ __('Générer QR') }}</button> --}}
-                    <button class="btn btn-info text-white" id="print_qr">{{ __('Générer QR') }}</button>
-                    {{-- </div> --}}
+            <div class="card shadow  bg-dark" style="min-height: 90vh">
+                <div class="card-body text-white">
+                    <button class="btn btn-info text-white py-0" id="print_qr"><i class="mdi mdi-printer mdi-24px"></i>
+                    </button>
                     <div class="table-responsive">
-                        <table id="main_table" class="table table-sm table-hover table-striped dt-responsive nowrap "
-                            width="100%">
+                        <table id="main_table" class="table table-sm table-hover table-dark  " width="100%">
                             <thead>
                                 <tr class="">
-                                    <th>{{ __('serial_number') }}</th>
+                                    <th>{{ __('SN') }}</th>
                                     <th>{{ __('QR') }}</th>
                                 </tr>
                             </thead>
