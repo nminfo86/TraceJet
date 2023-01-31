@@ -274,7 +274,7 @@ customSelect2("fr");
 function customSelect2(lang) {
     $('select').select2({
         theme: "bootstrap-5",
-        width: '90%',
+        width: '100%',
         placeholder: $(this).data('placeholder'),
         language: lang
     });

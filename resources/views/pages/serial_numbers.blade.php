@@ -32,7 +32,8 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword" class="col-sm-3 col-form-label">OF N° </label>
+                                <label for="inputPassword"
+                                    class="col-sm-3 col-form-label">{{ __('Selectionner un OF') }}</label>
                                 <div class="col-sm-9">
                                     <select id="of_id" class="form-control"
                                         data-placeholder="{{ __('Selectionner une of') }}" name="of_id">
@@ -42,26 +43,24 @@
                                         <strong id="of_id-error"></strong>
                                     </span>
                                 </div>
-                                <div class="col-12 d-flex justify-content-around mt-4 of_number d-none">
-
-                                    <div class="border-start ps-3">
-                                        <h6 class="fw-normal text-muted mb-0 ">{{ __('Etat OF') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info" id="status"></span>
+                                <hr class="of_number d-none mt-4" />
+                                <div class="col-12 d-flex justify-content-between  of_number d-none">
+                                    <div class="">
+                                        {{-- <h6 class="fw-normal text-muted mb-0 ">{{ __('Etat OF') }}</h6>
+                                        <span class="fs-3 font-weight-medium text-info" id="status"></span> --}}
+                                        <h6> {{ __('Etat OF') }} <span class="badge bg-primary fs-4 font-weight-normal"
+                                                id="status"></span>
+                                        </h6>
                                     </div>
-
-                                    <div class="border-start ps-3">
-                                        <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info" id="of_number"></span>
+                                    <div class="">
+                                        {{-- <h6 class="fw-normal text-muted mb-0">{{ __('OF Numéro') }}</h6>
+                                        <span class=badge "fs-3 font-weight-medium text-info" id="of_number"></span> --}}
+                                        <h6> {{ __('OF Numéro') }} <span
+                                                class="fs-3 font-weight-medium badge bg-primary text-white">0<span
+                                                    id="of_number"></span></span>
+                                        </h6>
                                     </div>
-
                                 </div>
-
-                                {{-- </div> --}}
-                                {{-- </div>
-                                </div> --}}
-                                {{-- <div class="col-lg-2">
-
-                            </div> --}}
                             </div>
                             {{-- </div> --}}
                         </div>
@@ -163,7 +162,7 @@
             </div>
         </div>
         <div class="col-lg-6 d-none of_info">
-            <div class="card shadow border-primary" style="min-height: 95vh">
+            <div class="card shadow border-primary" style="min-height: 67vh">
                 <div class="card-body">
                     {{-- <div class="d-flex justify-content-between">
                         <button class="btn btn-info text-white" id="print_qr">{{ __('Générer QR') }}</button> --}}
@@ -291,7 +290,6 @@
                         percent = Number.parseFloat(x).toFixed(2) * 100;
                         $("#percent").text(percent + ' %');
                         let rest = 100 - percent;
-                        alert(rest);
                         newPercent = [percent, rest];
                         var options1 = {
                             type: 'doughnut',
