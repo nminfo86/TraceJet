@@ -285,9 +285,13 @@
                         $("#quantity_of_day").text(response.data.quantity_of_day);
                         let x = (parseInt(response.data.list.length) / parseInt(
                             total_quantity_of));
-                        percent = Number.parseFloat(x).toFixed(2) * 100;
+                        percent = Math.floor(x * 100);
+                        alert(percent);
                         $("#percent").text(percent + ' %');
-                        let rest = 100 - percent;
+                        let rest = 0;
+                        if (percent < 100) {
+                            rest = 100 - percent;
+                        }
                         newPercent = [percent, rest];
                         var options1 = {
                             type: 'doughnut',

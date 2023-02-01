@@ -231,8 +231,8 @@
     "paginate": {
         "first": "Première",
         "last": "Dernière",
-        "next": "Suivante",
-        "previous": "<i class='mdi mdi-chevron-left py-0'></i>"
+        "next": ">",
+        "previous": "<"
     },
     "zeroRecords": "Aucune entrée correspondante trouvée",
     "aria": {
