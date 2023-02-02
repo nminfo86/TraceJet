@@ -148,7 +148,7 @@
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
-            form_title = " {{ __('Modification Of') }}";
+            form_title = " {{ __('Modification OF') }}";
 
             /*----------------- Get of status list (Enum) --------------------*/
             callAjax('GET', base_url + '/of_status').done(function(response) {
