@@ -126,9 +126,6 @@
         $(document).ready(function() {
 
             /*----------------------get products list ---------------------------*/
-            // appendToSelect('GET', base_url + '/pluck/ofs', "#product_id", {
-            //     filter: "hasCal"
-            // });
             callAjax("GET", base_url + '/pluck/products', data = {
                 filter: "hasCal"
             }).done(function(response) {
@@ -162,20 +159,20 @@
                 });
 
                 let select = `<div class="col-lg-12 status">
-                        <label>{{ __('Status') }}:*</label>
+                    <label>{{ __('Status') }}:*</label>
 
-                            <select id="status" name="status"
-                                data-placeholder="{{ __('Selectionner un status') }}">
-                                <option></option>
-                                ${opt}
-                            </select>
-                            <span class="invalid-feedback" role="alert">
-                                <strong id="status-error"></strong>
-                            </span>
-                        </div>`;
-                $('select').trigger('change');
+                        <select id="status" name="status"
+                            data-placeholder="{{ __('Selectionner un status') }}">
+                            <option></option>
+                            ${opt}
+                        </select>
+                        <span class="invalid-feedback" role="alert">
+                            <strong id="status-error"></strong>
+                        </span>
+                    </div>`;
 
                 form.find('.row').append(select);
+                $('select').trigger('change');
             });
 
             /* ------------------------------ Get Of values ----------------------------- */
