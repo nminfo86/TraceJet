@@ -71,7 +71,7 @@
                                 <div class="col-md-6  of_number ">
                                     <div class="col-12 border-start border-secondary float-start ">
                                         <h6 class="fw-normal text-muted mb-0 ms-2">{{ __('N° de carton') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info ms-2" id="box_qr"></span>
+                                        <span class="fs-3 font-weight-medium text-info ms-2" id="box_number"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6  mt-4 ">
