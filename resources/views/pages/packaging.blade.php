@@ -225,7 +225,6 @@
                     },
                     dataSrc: function(response) {
                         if (response.status == true) {
-                            //console.log(response.data.info);
                             $.each(response.data.info, function(k, v) {
                                 $("#" + k).text(v);
                             });
@@ -234,7 +233,6 @@
                             let x = (parseInt(response.data.list.length) / parseInt(
                                 total_quantity_of));
                             percent = Math.floor(x * 100);
-                            alert(percent);
                             $("#percent").text(percent + ' %');
                             let rest = 0;
                             if (percent < 100) {
@@ -274,10 +272,22 @@
                             return response.data.list;
                         }
                         return SessionErrors(response.message);
+                    }
+                },
+                columns: [{
+                        data: 'serial_number'
                     },
-                    searching: false,
-                    bLengthChange: false,
-                }
+                    {
+                        data: 'created_at'
+                    },
+                ],
+                searching: false,
+                bLengthChange: false,
+                destroy: true,
+                columnDefs: [{
+                    targets: -1,
+                }, ],
+                order: [0, "desc"]
             });
         }
     </script>
