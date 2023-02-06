@@ -52,8 +52,6 @@
                                         </h5>
                                     </div>
                                     <div class="">
-                                        {{-- <h6 class="fw-normal text-dark mb-0">{{ __('OF Numéro') }}</h6>
-                                        <span class=badge "fs-3 font-weight-medium text-info" id="of_number"></span> --}}
                                         <h5> {{ __('OF Numéro') }} : <span
                                                 class="fs-3 font-weight-medium badge bg-primary text-white">0<span
                                                     id="of_number"></span></span>
