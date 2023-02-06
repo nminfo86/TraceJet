@@ -283,7 +283,6 @@
                         let x = (parseInt(response.data.list.length) / parseInt(
                             total_quantity_of));
                         percent = Math.floor(x * 100);
-                        alert(percent);
                         $("#percent").text(percent + ' %');
                         let rest = 0;
                         if (percent < 100) {
