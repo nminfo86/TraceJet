@@ -171,6 +171,7 @@
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
                             <thead>
                                 <tr class="">
+                                    <th>{{ __('#') }}</th>
                                     <th>{{ __('SN') }}</th>
                                     <th>{{ __('QR') }}</th>
                                 </tr>
@@ -205,9 +206,6 @@
             }).done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });
-
-
-            /* -------------------------------- chart js -------------------------------- */
         });
 
 
@@ -222,12 +220,9 @@
 
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
-                let status = $(this).find(':selected').data('status');
                 of_id = $(this).val();
-                $("#of_status").text(status);
                 getSnTable(of_id);
 
-                // getSnTable(of_id)
                 callAjax('GET', base_url + '/of_details/' + of_id, {
                     of_id: of_id
                 }).done(function(response) {
@@ -262,15 +257,17 @@
                     if (response.status == false) {
                         return SessionErrors(response.message);
                     }
-
                     getSnTable(of_id);
-
                     ajaxSuccess(response.message);
                     $('#qr').val('');
                 });
 
             });
 
+
+        /* -------------------------------------------------------------------------- */
+        /*                                 Fetch data                                 */
+        /* -------------------------------------------------------------------------- */
         function getSnTable(of_id) {
             return table.DataTable({
                 ajax: {
@@ -322,12 +319,12 @@
                         }
                         var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
                         var chart1 = new Chart(ctx1, options1);
-                        //chart1.data.datasets.data = newPercent;
-                        //chart1.update();
                         return response.data.list;
                     }
                 },
                 columns: [{
+                        data: 'id'
+                    }, {
                         data: 'serial_number'
                     },
                     {
@@ -336,26 +333,12 @@
                 ],
                 searching: false,
                 bLengthChange: false,
-                //info: false,
-                // rowCallback: function(row, data) {
-                //     $(row).css('background-color', 'rgba(203, 239, 179, 0.8)');
-                // },
                 destroy: true,
-                columnDefs: [{
-                    targets: -1,
-                }, ],
-
-                // initComplete: function() {
-
-                //     let select = $('.dataTables_length ').unbind(),
-                //         // self = this.api(),
-                //         $printButton = $('<button class="btn btn-info text-white" id="print_qr">')
-                //         .text(
-                //             'Generer QR');
-                //     $('.dataTables_length').html($printButton);
-
-                // },
-                order: [0, "desc"]
+                // columnDefs: [{
+                //     targets: 0,
+                //     visible: false
+                // }, ],
+                order: [0, "asc"]
             });
 
         }

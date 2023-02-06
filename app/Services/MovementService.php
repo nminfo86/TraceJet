@@ -250,13 +250,14 @@ class MovementService //extends Controller
             // ->where('serial_numbers.box_id', $last_filled_box->id)
             ->select(
                 [
-                    "ofs.of_code", "ofs.status as of_status", "ofs.created_at as of_created_at", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.serial_number", "product_name",
+                    "ofs.of_number", "ofs.quantity", "ofs.status as of_status", "ofs.created_at as of_created_at", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.serial_number", "product_name",
                     DB::raw('count(distinct boxes.id) as packaged_box'),
                     DB::raw('count(distinct serial_numbers.id) as packaged_product'),
+                    DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
 
 
                 ]
-            )->groupBy("of_code", "of_status", "of_created_at", "box_qr", "box_status", "box_quantity", "caliber_name", "serial_number", "product_name")->first();
+            )->groupBy("box_number", "of_number", "quantity", "of_status", "of_created_at",  "box_status", "box_quantity", "caliber_name", "serial_number", "product_name")->first();
 
         $response["list"] = SerialNumber::whereOfId($of_id)->whereNotNull("box_id")->get(["serial_number", "created_at"]);
 

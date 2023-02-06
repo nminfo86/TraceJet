@@ -26,7 +26,7 @@ class SerialNumberController extends Controller
     {
         // TODO::add of status codition new & inProd
         // Get serial numbers valid list
-        $sn_valid_list['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "qr", "of_id", "created_at"]);
+        $sn_valid_list['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["id", "serial_number", "qr", "of_id", "created_at"]);
         // update of status in first valid action
         if ($sn_valid_list['list']->count() == 1) {
             $of = Of::findOrFail($sn_valid_list['list'][0]->of_id);
@@ -55,9 +55,7 @@ class SerialNumberController extends Controller
     //valid product
     public function store(StoreSerialNumberRequest $request)
     {
-
-        // $ex=str($request->qr)->explode('#');
-        // Check qr
+        // Check qr in db
         $product = SerialNumber::whereOfId($request->of_id)->whereQr($request->qr)->whereValid(0)->first();
 
         if ($product) {
@@ -71,45 +69,19 @@ class SerialNumberController extends Controller
         return $this->sendResponse("Product already valid Or not belong to current prod", status: false);
     }
 
-
-
-    // public function CreateNextSN($request, $product)
-    // {
-    //     // Count validated SN product  by of
-    //     $count = SerialNumber::where('of_id', $request->of_id)->valid(1)->count();
-
-    //     if ($count < $request->of_quantity) {
-    //         // Increment SN
-    //         $product->serial_number++;
-
-
-
-    //         // Create new sn (next serial number)
-    //         $new_sn = SerialNumber::create([
-    //             "of_id" => $product->of_id,
-    //             // "serial_number" => $product->serial_number++,
-    //             "serial_number" =>  str_pad($product->serial_number++, 3, 0, STR_PAD_LEFT),
-    //         ]);
-
-    //         //Send response with success
-    //         return $this->sendResponse($this->create_success_msg, $new_sn);
-    //     }
-
-    //     //Send response with error
-    //     return $this->sendResponse("All products has been generated");
-    // }
-
-
     public function PrintQrCode(Request $request)
     {
+        $this->create_success_msg = "The QR code has printed";
         $sn_not_exist = SerialNumber::whereOfId($request->of_id)->doesntExist();
 
         if ($sn_not_exist) {
+
             // Generate first sn
             $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
             $create_first_record = SerialNumber::create($request->all());
+
             //Send response with success
-            return $this->sendResponse("The QR code has printed", $create_first_record);
+            return $this->sendResponse($this->create_success_msg, $create_first_record->only('qr'));
         }
 
         return $this->createNextSN($request->of_id);
@@ -129,7 +101,7 @@ class SerialNumberController extends Controller
             "serial_number" =>  str_pad($product->serial_number++, 3, 0, STR_PAD_LEFT),
         ]);
 
-        //Send response with success
-        return $this->sendResponse($this->create_success_msg, $new_sn);
+        //Send response with QR success
+        return $this->sendResponse($this->create_success_msg, $new_sn->only('qr'));
     }
 }
