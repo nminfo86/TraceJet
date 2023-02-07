@@ -226,7 +226,7 @@
                                 $("#" + k).text(v);
                             });
                             $("#qr").focus();
-                            total_quantity_of = 2;
+                            total_quantity_of = response.data.info.quantity;
                             let x = (parseInt(response.data.list.length) / parseInt(
                                 total_quantity_of));
                             percent = Math.floor(x * 100);
