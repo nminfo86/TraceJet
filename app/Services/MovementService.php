@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\Api\v1\OfController;
 use App\Models\Of;
 use App\Models\Box;
 use App\Models\Post;
@@ -258,7 +259,7 @@ class MovementService //extends Controller
                 'serial_number',
                 'product_name',
                 'ofs.quantity as quantity',
-                    DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
+                DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
                 DB::raw("quantity/box_quantity as packed_boxes"),
                 // DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),
                 // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
