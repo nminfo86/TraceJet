@@ -202,6 +202,7 @@
             e.preventDefault();
             var qr = $("#qr").val();
             getSnTable(qr);
+            $("#qr").val('');
         });
         /* -------------------------------------------------------------------------- */
         /*                               Get OF information                           */
@@ -225,6 +226,7 @@
                             $.each(response.data.info, function(k, v) {
                                 $("#" + k).text(v);
                             });
+                            $('#valid').text(response.data.list.length);
                             $("#qr").focus();
                             total_quantity_of = response.data.info.quantity;
                             let x = (parseInt(response.data.list.length) / parseInt(

@@ -90,19 +90,18 @@
                                     <strong id="quantity-error"></strong>
                                 </span>
                             </div>
-                            {{-- //TODO::nassim add staus of calibre --}}
-                            {{-- <div class="col-lg-12 status">
+
+                            <div class="col-lg-12">
                                 <label>{{ __('Status') }}:*</label>
-                                <div class="input-group mb-3">
-                                    <select id="status" class=""
-                                        data-placeholder="{{ __('Selectionner un status') }}">
-                                        <option></option>
-                                    </select>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong id="status-error"></strong>
-                                    </span>
-                                </div>
-                            </div> --}}
+
+                                <select id="status" disabled name="status"
+                                    data-placeholder="{{ __('Selectionner un status') }}">
+                                    <option></option>
+                                </select>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="status-error"></strong>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     @include('components.footer_form')
@@ -122,7 +121,9 @@
             url = base_url + '/ofs';
 
         formToggle(form_title);
-
+        $(document).on('click', "#add_btn", (e) => {
+            $('#status').prop('disabled', true);
+        });
         $(document).ready(function() {
 
             /*----------------------get products list ---------------------------*/
@@ -131,11 +132,20 @@
             }).done(function(response) {
                 appendToSelect(response.data, "#product_id")
             })
+            /*----------------- Get of status list (Enum) --------------------*/
+            callAjax('GET', base_url + '/of_status').done(function(response) {
+                let opt = ``;
+                $.each(response, function(key, val) {
+                    opt += ` <option value=${key}>${val} </option>`;
+                });
+                $('#status').append(opt);
+            });
         });
 
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
+
             storObject(url, formData, id, "{{ __('Of ajouté avec succès') }}",
                 "{{ __('Of modifié avec succès') }}");
         });
@@ -148,54 +158,21 @@
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
+            $('#status').prop('disabled', false);
             form_title = " {{ __('Modification OF') }}";
-
-            /*----------------- Get of status list (Enum) --------------------*/
-            callAjax('GET', base_url + '/of_status').done(function(response) {
-
-                let opt = ``;
-                $.each(response, function(key, val) {
-                    opt += ` <option value=${key}>${val} </option>`;
-                });
-
-                let select = `<div class="col-lg-12 status">
-                    <label>{{ __('Status') }}:*</label>
-
-                        <select id="status" name="status"
-                            data-placeholder="{{ __('Selectionner un status') }}">
-                            <option></option>
-                            ${opt}
-                        </select>
-                        <span class="invalid-feedback" role="alert">
-                            <strong id="status-error"></strong>
-                        </span>
-                    </div>`;
-
-                form.find('.row').append(select);
-                document.getElementById('status').select2({
-                    theme: "bootstrap-5",
-                    width: '100%',
-                    placeholder: $(this).data('placeholder'),
-                    language: lang
-                });
-                //$('select').trigger('change');
-            });
 
             /* ------------------------------ Get Of values ----------------------------- */
             callAjax('GET', url + '/' + id).done(function(response) {
                 $(".toggle-show").toggleClass('d-none');
-                $("#product_id").val(response.data.caliber.product_id)
-                $('#product_id').trigger('change');
-                $('#status').val(response.data.status);
+                $("#product_id").val(response.data.caliber.product_id).trigger('change');
+                $('#status').val(response.data.status).trigger('change');
                 $('#quantity').val(response.data.quantity);
-                $('#caliber_id').val(response.data.caliber_id);
-                $('#caliber_id').trigger('change');
+                $('#caliber_id').val(response.data.caliber_id).trigger('change');
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
-            alert(id);
             /* ----------------- Fire alert to user about delete warning ---------------- */
             Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}").then((
                 result) => {

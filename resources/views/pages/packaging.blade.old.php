@@ -287,7 +287,8 @@
                         $("#of_status").text(response.data.status);
                         $("#product").text(response.data.product_name);
                         $("#caliber").text(response.data.caliber_name);
-                        $("#qty_ok").text("0" + response.data.sn_list.length + " / 0" +
+                        alert(response.data.list.length);
+                        $("#qty_ok").text("0" + response.data.list.length + " / 0" +
                             response.data.quantity);
                         $(".of_number").removeClass('d-none').find('#of_number').text("0" +
                             response
