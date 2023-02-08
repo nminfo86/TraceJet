@@ -44,7 +44,7 @@
                                     </div>
                                     <input type="submit" class="d-none">
                                 </form>
-                                <hr class="of_number  mt-4" />
+                                <hr class="of_number  mt-2" />
                                 <div class="col-12 d-flex justify-content-between  of_number ">
                                     <div class="">
                                         <h5 class="fw-n"> {{ __('Etat OF') }} : <span
@@ -98,7 +98,7 @@
                                     <div class="col-4 pb-3 border-end">
                                         <h6 class="fw-normal text-muted mb-0">
                                             {{ __('Date lancement') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info" id="of_created_at"></span>
+                                        <span class="fs-3 font-weight-medium text-info" id="created_at"></span>
                                     </div>
                                     <div class="col-4 pb-3 border-end ps-3">
                                         <h6 class="fw-normal text-muted mb-0">{{ __('Produit') }}</h6>
@@ -131,7 +131,7 @@
                                                         <div class="ms-3 align-self-center">
                                                             <span class="text-dark">OK / OF</span>
                                                             <h3 class="mb-0 text-primary">
-                                                                <span id="valid"></span> /
+                                                                <span id="packged_products"></span> /
                                                                 <span id="quantity"></span>
                                                             </h3>
                                                         </div>
@@ -148,11 +148,11 @@
                                                             <i class="mdi mdi-36px mdi-calendar-clock"></i>
                                                         </div>
                                                         <div class="ms-3 align-self-center">
-                                                            <span class="text-dark">OK / Jour</span>
+                                                            <span class="text-dark">Qte Carton Emballé</span>
 
                                                             <h3 class="mb-0 text-primary">
                                                                 {{-- <span>0</span> / --}}
-                                                                <span id="quantity_of_day"></span>
+                                                                <span id="packed_boxes"></span>
                                                             </h3>
                                                         </div>
                                                     </div>

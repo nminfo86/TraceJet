@@ -1,10 +1,13 @@
 <?php
 
 use App\Models\Of;
+use App\Models\Box;
 use App\Models\Part;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\Return_;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\Api\v1\PartController;
@@ -79,6 +82,9 @@ Route::group(
         route::post('serial_numbers/qr_print', [SerialNumberController::class, 'printQrCode']);
         route::get('of_details/{of_id}', [OfController::class, 'getOfDetails']);
 
+
+
+        // route::get('packaging/count_boxes_products', [PackagingController::class, 'packagedBoxProducts']);
         /* -------------------------------------------------------------------------- */
         /*                                    Enums                                   */
         /* -------------------------------------------------------------------------- */
@@ -113,7 +119,38 @@ Route::group(
                 // return SerialNumber::with("parts")->get();
             });
         });
+        // Select of_number,ofs.status,ofs.created_at,boxes.status as box_status,box_quantity,caliber_name,serial_number,product_name,
+        // SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number,
+        // COUNT(DISTINCT  box_id) as box_emballé,
+        // COUNT(serial_numbers.id) as products_packaged,
+        // ofs.quantity as quantity
+        // from serial_numbers
+        // JOIN ofs on serial_numbers.of_id=ofs.id
+        // JOIN calibers on ofs.id=calibers.id
+        // JOIN products on calibers.product_id=products.id
+        // JOIN boxes on serial_numbers.box_id=boxes.id
+        // WHERE serial_numbers.of_id=1
+        // ORDER BY boxes.box_qr DESC;
+        route::get("test", function () {
+            return Box::whereOfId(1)->count();
 
+            // $boxes_packaged = SerialNumber::join("boxes", "serial_numbers.box_id", "boxes.id")->where("serial_numbers.of_id", 1)->first([
+            //     DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged")
+            //     // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
+            // ])->boxes_packaged;
+            // return $var2;
+
+            // return  $box_quantity = Of::with("quantity")->find(1);
+
+
+
+
+            // $info->boxes_packaged = $boxes_packaged;
+            // return $info;
+        });
+
+        // -- COUNT(DISTINCT  box_id) as box_emballé,
+        // -- COUNT(serial_numbers.id) as products_packaged,
 
 
         // Route::get(
