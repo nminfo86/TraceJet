@@ -129,7 +129,6 @@
             callAjax("GET", base_url + '/pluck/products', data = {
                 filter: "hasCal"
             }).done(function(response) {
-                // alert()
                 appendToSelect(response.data, "#product_id")
             })
         });
@@ -141,6 +140,7 @@
                 "{{ __('Of modifié avec succès') }}");
         });
 
+        var caliber_id = 0;
         /* ---------------------------------- Edit ---------------------------------- */
         $(document).on('click', "#add_btn", (e) => {
             // form.find(".row").last().html("klklk");
@@ -172,16 +172,24 @@
                     </div>`;
 
                 form.find('.row').append(select);
-                $('select').trigger('change');
+                document.getElementById('status').select2({
+                    theme: "bootstrap-5",
+                    width: '100%',
+                    placeholder: $(this).data('placeholder'),
+                    language: lang
+                });
+                //$('select').trigger('change');
             });
 
             /* ------------------------------ Get Of values ----------------------------- */
             callAjax('GET', url + '/' + id).done(function(response) {
                 $(".toggle-show").toggleClass('d-none');
-                $.each(response.data, function(key, val) {
-                    $('#' + key).val(val);
-                });
-                $('select').trigger('change');
+                $("#product_id").val(response.data.caliber.product_id)
+                $('#product_id').trigger('change');
+                $('#status').val(response.data.status);
+                $('#quantity').val(response.data.quantity);
+                $('#caliber_id').val(response.data.caliber_id);
+                $('#caliber_id').trigger('change');
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {
@@ -206,12 +214,10 @@
             /*----------------------get calibers list ---------------------------*/
             callAjax('GET', base_url + '/pluck/calibers', {
                 filter: id
-            }).done(function(response) {
+            }, false).done(function(response) {
                 $("#caliber_id").html('<option></option>').trigger('change')
                 appendToSelect(response.data, "#caliber_id");
             });
-
-
         });
 
         table = table.DataTable({
