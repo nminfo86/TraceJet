@@ -119,66 +119,18 @@ Route::group(
                 // return SerialNumber::with("parts")->get();
             });
         });
-        // Select of_number,ofs.status,ofs.created_at,boxes.status as box_status,box_quantity,caliber_name,serial_number,product_name,
-        // SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number,
-        // COUNT(DISTINCT  box_id) as box_emballé,
-        // COUNT(serial_numbers.id) as products_packaged,
-        // ofs.quantity as quantity
-        // from serial_numbers
-        // JOIN ofs on serial_numbers.of_id=ofs.id
-        // JOIN calibers on ofs.id=calibers.id
-        // JOIN products on calibers.product_id=products.id
-        // JOIN boxes on serial_numbers.box_id=boxes.id
-        // WHERE serial_numbers.of_id=1
-        // ORDER BY boxes.box_qr DESC;
+
         route::get("test", function () {
-            $product_info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
-                ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
-                ->join('products', 'calibers.product_id', '=', 'products.id')
-                ->join('boxes', 'serial_numbers.box_id', '=', 'boxes.id')
-                ->select(
-                    'of_number',
-                    'ofs.status',
-                    'ofs.created_at',
-                    'boxes.status as box_status',
-                    'calibers.box_quantity',
-                    'caliber_name',
-                    'serial_number',
-                    'product_name',
-                    'ofs.quantity as quantity',
-                    DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
-                    DB::raw("(select FLOOR(quantity/box_quantity)) as of_boxes")
-                    // DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),
-                    // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
-                )->where('serial_numbers.of_id', '=', 1)
-                ->orderBy("serial_numbers.updated_at", "DESC")
-                ->first();
-            // $product_info->of_boxes = floor($product_info->of_boxes);
-            return $product_info;
+            $of = Of::findOrFail(1)->first();
+            return $sn = SerialNumber::whereOfId(1)->whereNotNull("box_id")->count();
+            if ($of->quantity === $sn) {
+                $of->update(["status" => "closed"]);
+                // return $of;
+                //Send response with msg
+                return $this->sendResponse("Congratulation, OF clotured");
+            }
+            return;
         });
-
-        // -- COUNT(DISTINCT  box_id) as box_emballé,
-        // -- COUNT(serial_numbers.id) as products_packaged,
-
-
-        // Route::get(
-        //     'getmacshellexec',
-        //     function () {
-        //         // $shellexec = shell_exec('getmac');
-        //         // dd(gethostname());
-        //     }
-        // );
-
-        // Route::get(
-        //     'getmacexec',
-        //     function () {
-        //         $shellexec = exec('getmac');
-        //         dd($shellexec);
-        //     }
-        // );
-
-
-
 
 
 
