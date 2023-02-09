@@ -179,7 +179,7 @@ class MovementService //extends Controller
                 // $this->createMovement($result, $sn_id, $post_id);
                 // $msg = $this->boxingAction($of_id, $sn_id, $qr);
                 $this->createMovement($result, $last_movement, $post_id);
-                $response = $this->boxingAction($last_movement/*$of_id, $last_movement->serial_number_id, $last_movement->qr*/);
+                $response = $this->boxingAction($last_movement);
                 DB::commit();
 
                 // return   $this->closeOf($of_id);
@@ -241,11 +241,17 @@ class MovementService //extends Controller
         if ($sn_in_box == $box_quantity) {
             Box::find($last_open_box->id)->update(['status' => "filled"]);
         }
-        // $packaging_info = DB::select("CALL packaged_status($of_id)");
 
-        // $response["info"] = collect($packaging_info)->first();
-        $info =  SerialNumber::where('serial_numbers.of_id', '=', 1)
-            ->join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+
+        // Prepare response
+        $response["info"] = $this->getProductInformation($of_id);
+        $response["list"] = SerialNumber::whereOfId($of_id)->whereNotNull("box_id")->get(["serial_number", "created_at"]);
+        return $response;
+    }
+
+    public function getProductInformation($of_id)
+    {
+        $product_info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
             ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
             ->join('products', 'calibers.product_id', '=', 'products.id')
             ->join('boxes', 'serial_numbers.box_id', '=', 'boxes.id')
@@ -260,42 +266,14 @@ class MovementService //extends Controller
                 'product_name',
                 'ofs.quantity as quantity',
                 DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
-                DB::raw("quantity/box_quantity as packed_boxes"),
+                DB::raw("(select FLOOR(quantity/box_quantity)) as of_boxes")
                 // DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),
                 // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
-            )
+            )->where('serial_numbers.of_id', '=', $of_id)
             ->orderBy("serial_numbers.updated_at", "DESC")
             ->first();
-        // $var2 = SerialNumber::join("boxes", "serial_numbers.box_id", "boxes.id")->whereOf_id()->first([
-        //     DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),
-        //     // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
-        // ]);
-        // return  $merged = $info->merge($var2);
-        // $response["list"] = $this->getOfInformation($of_id);
-
-        $response["info"] = $info;
-        // $response["boxes"] =  $this->packagedBoxes($of_id);
-        $response["list"] = SerialNumber::whereOfId($of_id)->whereNotNull("box_id")->get(["serial_number", "created_at"]);
-        return $response;
-    }
-
-    public function getOfInformation($of_id)
-    {
-        // return  SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
-        //     ->join('calibers', 'ofs.id', '=', 'calibers.id')
-        //     ->join('products', 'calibers.product_id', '=', 'products.id')
-        //     ->select(
-        //         'of_number',
-        //         'ofs.status',
-        //         'ofs.created_at',
-        //         'caliber_name',
-        //         'serial_number',
-        //         'product_name',
-        //         'ofs.quantity as quantity',
-        //     )
-        //     ->where('serial_numbers.of_id', '=', $of_id)
-        //     ->orderBy("serial_numbers.updated_at", "DESC")
-        //     ->first();
+        // $product_info->of_boxes = floor($product_info->of_boxes);
+        return $product_info;
     }
 
     // public function boxesRested($of_id)
