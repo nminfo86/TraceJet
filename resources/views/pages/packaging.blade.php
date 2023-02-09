@@ -48,7 +48,7 @@
                                 <div class="col-12 d-flex justify-content-between  of_number ">
                                     <div class="">
                                         <h5 class="fw-n"> {{ __('Etat OF') }} : <span
-                                                class="badge bg-primary fs-4 font-weight-normal" id="of_status"></span>
+                                                class="badge bg-primary fs-4 font-weight-normal" id="status"></span>
                                         </h5>
                                     </div>
                                     <div class="">
@@ -145,13 +145,12 @@
                                                     <div class="d-flex flex-row align-items-center">
                                                         <div
                                                             class=" round rounded-circle text-white d-inline-block text-center bg-danger">
-                                                            <i class="mdi mdi-36px mdi-calendar-clock"></i>
+                                                            <i class="mdi mdi-36px mdi-cube"></i>
                                                         </div>
                                                         <div class="ms-3 align-self-center">
-                                                            <span class="text-dark">Qte Carton Emballé</span>
-
+                                                            <span class="text-dark">{{ __('Carton à emballer') }}</span>
                                                             <h3 class="mb-0 text-primary">
-                                                                <span id="packed_boxes"></span>
+                                                                <span id="of_boxes"></span>
                                                             </h3>
                                                         </div>
                                                     </div>
