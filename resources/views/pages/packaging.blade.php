@@ -151,7 +151,6 @@
                                                             <span class="text-dark">Qte Carton Emballé</span>
 
                                                             <h3 class="mb-0 text-primary">
-                                                                {{-- <span>0</span> / --}}
                                                                 <span id="packed_boxes"></span>
                                                             </h3>
                                                         </div>
@@ -226,7 +225,7 @@
                             $.each(response.data.info, function(k, v) {
                                 $("#" + k).text(v);
                             });
-                            $('#valid').text(response.data.list.length);
+                            $('#packged_products').text(response.data.list.length);
                             $("#qr").focus();
                             total_quantity_of = response.data.info.quantity;
                             let x = (parseInt(response.data.list.length) / parseInt(
