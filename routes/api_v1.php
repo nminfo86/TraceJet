@@ -132,21 +132,29 @@ Route::group(
         // WHERE serial_numbers.of_id=1
         // ORDER BY boxes.box_qr DESC;
         route::get("test", function () {
-            return Box::whereOfId(1)->count();
-
-            // $boxes_packaged = SerialNumber::join("boxes", "serial_numbers.box_id", "boxes.id")->where("serial_numbers.of_id", 1)->first([
-            //     DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged")
-            //     // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
-            // ])->boxes_packaged;
-            // return $var2;
-
-            // return  $box_quantity = Of::with("quantity")->find(1);
-
-
-
-
-            // $info->boxes_packaged = $boxes_packaged;
-            // return $info;
+            $product_info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+                ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+                ->join('products', 'calibers.product_id', '=', 'products.id')
+                ->join('boxes', 'serial_numbers.box_id', '=', 'boxes.id')
+                ->select(
+                    'of_number',
+                    'ofs.status',
+                    'ofs.created_at',
+                    'boxes.status as box_status',
+                    'calibers.box_quantity',
+                    'caliber_name',
+                    'serial_number',
+                    'product_name',
+                    'ofs.quantity as quantity',
+                    DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
+                    DB::raw("(select FLOOR(quantity/box_quantity)) as of_boxes")
+                    // DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),
+                    // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
+                )->where('serial_numbers.of_id', '=', 1)
+                ->orderBy("serial_numbers.updated_at", "DESC")
+                ->first();
+            // $product_info->of_boxes = floor($product_info->of_boxes);
+            return $product_info;
         });
 
         // -- COUNT(DISTINCT  box_id) as box_emballé,
