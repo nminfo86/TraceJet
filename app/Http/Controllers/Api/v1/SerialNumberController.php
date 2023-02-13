@@ -24,9 +24,9 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
-        // TODO::add of status codition new & inProd
         // Get serial numbers valid list
         $sn_valid_list['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["id", "serial_number", "qr", "of_id", "created_at"]);
+
         // update of status in first valid action
         if ($sn_valid_list['list']->count() == 1) {
             $of = Of::findOrFail($sn_valid_list['list'][0]->of_id);
@@ -55,40 +55,42 @@ class SerialNumberController extends Controller
     //valid product
     public function store(StoreSerialNumberRequest $request)
     {
-        // Check qr in db
-        $product = SerialNumber::whereOfId($request->of_id)->whereQr($request->qr)->whereValid(0)->first();
 
+        // get invalid product with QR code
+        $product = SerialNumber::with("of:id,additional_quantity")->whereQr($request->qr)->whereValid(0)->first();
+
+        // Check qr in db
         if ($product) {
+            $of_quantity = $product->of->additional_quantity;
+
+            // Check with OF quantity
+            if ($of_quantity <= $this->countValidProducts($request->of_id)) {
+
+                // Send response with error
+                return $this->sendResponse("OF Valid", status: true);
+            }
+
             // Valid product
             $product->update(['valid' => 1]);
 
             // Create new sn (next serial number)
-            return $this->createNextSN($request->of_id);
+            return $this->createNextSN($request->of_id, $of_quantity);
         }
+
         // Send response with error
-        return $this->sendResponse("Product already valid Or not belong to current prod", status: false);
+        return $this->sendResponse("Product already valid Or not belong to the current OF in production", status: false);
     }
 
-    public function PrintQrCode(Request $request)
+    public function createNextSN($of_id, $of_quantity)
     {
-        $this->create_success_msg = "The QR code has printed";
-        $sn_not_exist = SerialNumber::whereOfId($request->of_id)->doesntExist();
 
-        if ($sn_not_exist) {
+        // Check with OF quantity
+        if ($of_quantity < $this->countValidProducts($of_id)) {
 
-            // Generate first sn
-            $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
-            $create_first_record = SerialNumber::create($request->all());
-
-            //Send response with success
-            return $this->sendResponse($this->create_success_msg, $create_first_record->only('qr'));
+            //Send response with Error
+            return $this->sendResponse("OF Valid");
         }
 
-        return $this->createNextSN($request->of_id);
-    }
-
-    public function createNextSN($of_id)
-    {
         // Get last sn by of_id
         $product = SerialNumber::whereOfId($of_id)->orderBy("id", "desc")->first();
 
@@ -103,5 +105,33 @@ class SerialNumberController extends Controller
 
         //Send response with QR success
         return $this->sendResponse($this->create_success_msg, $new_sn->only('qr'));
+    }
+
+    public function PrintQrCode(Request $request)
+    {
+
+        $product = SerialNumber::whereOfId($request->of_id)->exists();
+
+        if ($product) {
+            // Get OF quantity
+            $of_quantity = Of::findOrFail($request->of_id, ["additional_quantity"])->additional_quantity;
+            return $this->createNextSN($request->of_id, $of_quantity);
+        }
+
+        // Generate first sn
+        $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
+        $create_first_record = SerialNumber::create($request->all());
+
+        //Send response with success
+        return $this->sendResponse("The QR code has printed", $create_first_record->only('qr'));
+    }
+
+
+
+
+
+    public function countValidProducts($of_id)
+    {
+        return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
     }
 }

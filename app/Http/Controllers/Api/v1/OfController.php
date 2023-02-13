@@ -51,7 +51,7 @@ class OfController extends Controller
             // Check if any of in production
             if ($last_of->status == "inProd" && $last_of->caliber_id == $request->caliber_id) {
                 //Send response with message
-                return $this->sendResponse("Can't created, another of in production", status: false);
+                return $this->sendResponse("Can't created, another OF in production", status: false);
             }
             $request["of_number"] =  $last_of->of_number + 1;
         } else {
@@ -77,7 +77,7 @@ class OfController extends Controller
     public function show($id)
     {
         // $of = Of::findOrFail($id, ["caliber_id", "status", "quantity"]);
-        $of = Of::with("caliber:id,product_id")->findOrFail($id, ["caliber_id", "status", "quantity"]);
+        $of = Of::with("caliber:id,product_id")->findOrFail($id, ["caliber_id", "status", "quantity", "additional_quantity"]);
         //Send response with data
         return $this->sendResponse(data: $of);
     }
@@ -124,7 +124,7 @@ class OfController extends Controller
         // Get of information
         $of_info = Of::join('calibers', 'ofs.caliber_id', 'calibers.id')
             ->join('products', 'calibers.product_id', 'products.id')
-            ->find($id, ["calibers.caliber_name", "products.product_name", "ofs.created_at", "ofs.of_number", "ofs.quantity", 'ofs.status']);
+            ->find($id, ["calibers.caliber_name", "products.product_name", "ofs.created_at", "ofs.of_number", "ofs.quantity", "ofs.additional_quantity", 'ofs.status']);
 
         return $of_info;
     }

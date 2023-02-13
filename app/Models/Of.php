@@ -74,6 +74,8 @@ class Of extends Model
         self::creating(function ($model) {
 
             $author = Auth::user()->name ??  'BlmDev';
+            // Set additional_quantity value
+            $model->additional_quantity = $model->quantity;
             $model->created_by = $author;
             $model->updated_by = NULL;
         });
