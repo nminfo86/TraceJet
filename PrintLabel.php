@@ -1,5 +1,18 @@
 <?php
+/* require "PrintLabel.php";
 
+$printLabel = new PrintLabel("192.168.1.100", "TSPL", "40_20");
+
+$qrCode = "932113607001#CompteurX03#3500#2430#19/01/2023 09:29";
+$sn = "2430";
+$of_num = "001";
+$product_name = "CompteurX03";
+
+$printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
+$printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
+$printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
+
+*/
 /**
  * @version 1.0.0
  * @author  Bouhezila Nassim
