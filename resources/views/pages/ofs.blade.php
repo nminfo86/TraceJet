@@ -59,6 +59,16 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
+                                <label>{{ __('Nom d\'OF') }}:*</label>
+                                <div class="input-group mb-3">
+                                    <input id="of_name" class="form-control"
+                                        placeholder="{{ __('Nom d\'ordre de fabrication') }}" name="of_name" />
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="of_name-error"></strong>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
                                 <label>{{ __('Produit') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="product_id" class=""
@@ -83,15 +93,15 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <label>{{ __('OF Quantité') }}:*</label>
+                                <label>{{ __('Qté OF') }}:*</label>
                                 <input type="number" name="quantity" id="quantity" class="form-control"
-                                    placeholder="{{ __('Quantité') }}" />
+                                    placeholder="{{ __('Qté intiale') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="quantity-error"></strong>
                                 </span>
                             </div>
 
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <label>{{ __('Status') }}:*</label>
 
                                 <select id="status" disabled name="status"
@@ -101,6 +111,10 @@
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="status-error"></strong>
                                 </span>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="new_quantity">{{ __('Qté globale d\'OF') }}</label>
+                                <input type="number" class="form-control" placeholder="Qte globale de l'OF" disabled>
                             </div>
                         </div>
                     </div>
