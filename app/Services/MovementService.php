@@ -41,7 +41,7 @@ class MovementService //extends Controller
             //Send response with error
             return $this->sendResponse('Product does not belong to the current OF', status: false);
         } elseif ($last_movement->status == "closed") {
-            return $this->sendResponse('OF Closed', status: "closed");
+            return $this->sendResponse('OF Closed', status: false);
         }
         return $this->productStepsControl($request, $last_movement);
     }
@@ -155,7 +155,7 @@ class MovementService //extends Controller
             $response["list"] = SerialNumber::whereOfId(1)->whereNotNull("box_id")->get(["serial_number", "created_at"]);
             // return $of;
             //Send response with msg
-            return $this->sendResponse("Congratulation, OF clotured", $response, false);
+            return $this->sendResponse("OF Closed", $response, false);
         }
         /* ------------------------------ End close of ------------------------------ */
 
@@ -294,59 +294,6 @@ class MovementService //extends Controller
     }
 
 
-    // public function boxingAction(int $of_id, String $sn_id)
-    // {
-    //     // Get Last box opened
-    //     $last_open_box = Box::where('of_id', $of_id)->where('status', 'open')->latest()->first();
-
-    //     if (!$last_open_box) {
-    //         $last_open_box = Box::create(['of_id' => $of_id]);
-    //         // return $box;
-    //     }
-
-    //     // Get caliber quantity BOX
-    //     $caliber_quantity = Caliber::whereHas('ofs', function ($q) use ($of_id) {
-    //         $q->where('id', $of_id);
-    //     })->first()->box_quantity;
-
-    //     // Count products boxed
-    //     $sn_in_box = SerialNumber::where('of_id', $of_id)->where('box_id', $last_open_box->id)->count();
-
-
-    //     // return "update sn table";
-    //     if ($sn_in_box  < $caliber_quantity) {
-    //         // update box_id in serial_number table of product
-    //         SerialNumber::find($sn_id)->update(['box_id' => $last_open_box->id]);
-
-    //         $sn_in_box = SerialNumber::where('of_id', $of_id)->where('box_id', $last_open_box->id)->count();
-    //         //Send response with
-    //         // return $this->sendResponse($response);
-    //         $response = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
-    //             ->join('calibers', 'ofs.caliber_id', 'calibers.id')
-    //             ->join('boxes', 'serial_numbers.box_id', 'boxes.id')
-    //             ->where('serial_numbers.of_id', $of_id)
-    //             // ->where('serial_numbers.of_id', $of_id)
-    //             // ->where('serial_numbers.box_id', $last_open_box->id)
-    //             ->first(
-    //                 ["ofs.of_number", "ofs.status as of_status", "ofs.created_at as of_creation_date", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.serial_number"]
-    //             );
-    //     }
-
-    //     // return "update status";
-    //     if ($sn_in_box == $caliber_quantity) {
-    //         Box::find($last_open_box->id)->update(['status' => "filled"]);
-    //         $last_filled_box = Box::where('of_id', $of_id)->where('status', 'filled')->latest()->first();
-
-    //         $response = SerialNumber::join('ofs', 'serial_numbers.of_id', 'ofs.id')
-    //             ->join('calibers', 'ofs.caliber_id', 'calibers.id')
-    //             ->join('boxes', 'serial_numbers.box_id', 'boxes.id')
-    //             ->where('serial_numbers.of_id', $of_id)->where('serial_numbers.box_id', $last_filled_box->id)->first(
-    //                 ["ofs.of_number", "ofs.status as of_status", "ofs.created_at as of_creation_date", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name", "serial_numbers.serial_number"]
-    //             );
-    //         // return 'filled';
-    //     }
-    //     return $response;
-    // }
 
     //TODO::Change id to code valid ;
 
