@@ -77,7 +77,7 @@ class OfController extends Controller
     public function show($id)
     {
         // $of = Of::findOrFail($id, ["caliber_id", "status", "quantity"]);
-        $of = Of::with("caliber:id,product_id")->findOrFail($id, ["caliber_id", "status", "quantity", "new_quantity"]);
+        $of = Of::with("caliber:id,product_id")->findOrFail($id, ["of_name", "caliber_id", "status", "quantity", "new_quantity"]);
         //Send response with data
         return $this->sendResponse(data: $of);
     }
