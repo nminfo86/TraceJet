@@ -57,8 +57,8 @@
                                         {{-- <h6 class="fw-normal text-dark mb-0">{{ __('OF Numéro') }}</h6>
                                         <span class=badge "fs-3 font-weight-medium text-info" id="of_number"></span> --}}
                                         <h5> {{ __('OF Numéro') }} : <span
-                                                class="fs-3 font-weight-medium badge bg-primary text-white">0<span
-                                                    id="of_number"></span></span>
+                                                class="fs-3 font-weight-medium badge bg-primary text-white"
+                                                id="of_number"></span>
                                         </h5>
                                     </div>
                                 </div>
@@ -171,9 +171,9 @@
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
                             <thead>
                                 <tr class="">
-                                    <th>{{ __('#') }}</th>
+                                    {{-- <th>{{ __('#') }}</th> --}}
                                     <th>{{ __('SN') }}</th>
-                                    <th>{{ __('QR') }}</th>
+                                    <th>{{ __('Created_at') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -221,6 +221,7 @@
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
                 of_id = $(this).val();
+                // alert(of_id);
                 getSnTable(of_id);
 
                 callAjax('GET', base_url + '/of_details/' + of_id, {
@@ -269,6 +270,7 @@
         /*                                 Fetch data                                 */
         /* -------------------------------------------------------------------------- */
         function getSnTable(of_id) {
+
             return table.DataTable({
                 ajax: {
                     type: 'GET',
@@ -322,22 +324,24 @@
                         return response.data.list;
                     }
                 },
-                columns: [{
-                        data: 'id'
-                    }, {
+                columns: [
+                    // {
+                    //     data: 'id'
+                    // },
+                    {
                         data: 'serial_number'
                     },
                     {
-                        data: 'qr'
+                        data: 'created_at'
                     },
                 ],
                 searching: false,
                 bLengthChange: false,
                 destroy: true,
-                columnDefs: [{
-                    targets: 0,
-                    visible: false
-                }, ],
+                // columnDefs: [{
+                //     targets: 0,
+                //     visible: false
+                // }, ],
                 order: [0, "asc"]
             });
 

@@ -94,7 +94,7 @@ class SerialNumber extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('Y-m-d'),
+            get: fn ($value) => Carbon::parse($value)->format('Y-m-d H:m:s'),
         );
     }
 
