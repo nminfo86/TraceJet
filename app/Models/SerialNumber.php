@@ -108,7 +108,7 @@ class SerialNumber extends Model
                 ->join('products', 'calibers.product_id', '=', 'products.id')
                 ->join('sections', 'products.section_id', '=', 'sections.id')
                 ->where('serial_numbers.of_id', $model->of_id)
-                ->select(DB::raw("CONCAT_WS('#',ofs.of_code,calibers.caliber_name,serial_number, NOW()) as qr"))->orderBy('serial_numbers.id', 'desc')->first();
+                ->select(DB::raw("CONCAT_WS('#',ofs.of_code,ofs.of_number,calibers.caliber_name,serial_number, NOW()) as qr"))->orderBy('serial_numbers.id', 'desc')->first();
             $model->qr = $generate_qr->qr;
             $model->save();
         });

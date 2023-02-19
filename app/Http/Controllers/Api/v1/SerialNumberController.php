@@ -11,11 +11,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
+use App\Services\PrintLabelService;
 
 class SerialNumberController extends Controller
 {
     use ResponseTrait;
 
+    // use ResponseTrait;
+    // protected $printService;
+
+    // public function __construct(PrintLabelService $printService)
+    // {
+    //     $this->printService = $printService;
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +32,15 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
+
+        // $printLabel = new PrintLabelService("192.168.1.100", "TSPL", "40_20");
+        // $qrCode = "932113607001#CompteurX03#3500#2430#19/01/2023 09:29";
+        // $sn = "2430";
+        // $of_num = "001";
+        // $product_name = "CompteurX03";
+        // $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
+
+
         // Get serial numbers valid list
         $sn_valid_list['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["id", "serial_number", "qr", "of_id", "created_at"]);
 
@@ -57,11 +74,11 @@ class SerialNumberController extends Controller
     {
 
         // get invalid product with QR code
-        $product = SerialNumber::with("of:id,additional_quantity")->whereQr($request->qr)->whereValid(0)->first();
+        $product = SerialNumber::with("of:id,new_quantity")->whereQr($request->qr)->whereValid(0)->first();
 
         // Check qr in db
         if ($product) {
-            $of_quantity = $product->of->additional_quantity;
+            $of_quantity = $product->of->new_quantity;
 
             // Check with OF quantity
             if ($of_quantity <= $this->countValidProducts($request->of_id)) {
@@ -104,7 +121,16 @@ class SerialNumberController extends Controller
         ]);
 
         //Send response with QR success
-        return $this->sendResponse($this->create_success_msg, $new_sn->only('qr'));
+        // return $this->sendResponse($this->create_success_msg, $new_sn->only('qr'));
+        $printLabel = new PrintLabelService("192.168.1.100", "TSPL", "40_20");
+        $qrCode = $new_sn->qr;
+
+        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+        $qr = explode("#", $qrCode);
+        $sn = $qr[3];
+        $of_num = $qr[1];
+        $product_name = $qr[2];
+        $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
     }
 
     public function PrintQrCode(Request $request)
@@ -114,7 +140,7 @@ class SerialNumberController extends Controller
 
         if ($product) {
             // Get OF quantity
-            $of_quantity = Of::findOrFail($request->of_id, ["additional_quantity"])->additional_quantity;
+            $of_quantity = Of::findOrFail($request->of_id, ["new_quantity"])->new_quantity;
             return $this->createNextSN($request->of_id, $of_quantity);
         }
 
@@ -123,6 +149,18 @@ class SerialNumberController extends Controller
         $create_first_record = SerialNumber::create($request->all());
 
         //Send response with success
+        // return $this->sendResponse("The QR code has printed", $create_first_record->only('qr'));
+
+
+        $printLabel = new PrintLabelService("192.168.1.100", "TSPL", "40_20");
+        $qrCode = $create_first_record->qr;
+
+        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+        $qr = explode("#", $qrCode);
+        $sn = $qr[3];
+        $of_num = $qr[1];
+        $product_name = $qr[2];
+        $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
         return $this->sendResponse("The QR code has printed", $create_first_record->only('qr'));
     }
 

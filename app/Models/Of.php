@@ -19,7 +19,7 @@ class Of extends Model
      *
      * @var array
      */
-    protected $fillable = ['caliber_id', 'user_id', 'of_number', 'of_name', 'of_code', 'status', 'quantity', 'created_by', 'updated_by'];
+    protected $fillable = ['caliber_id', 'user_id', 'of_number', 'of_name', 'of_code', 'status', 'quantity', 'new_quantity', 'created_by', 'updated_by'];
 
 
     protected $casts = [
@@ -74,8 +74,8 @@ class Of extends Model
         self::creating(function ($model) {
 
             $author = Auth::user()->name ??  'BlmDev';
-            // Set additional_quantity value
-            $model->additional_quantity = $model->quantity;
+            // Set new_quantity value
+            $model->new_quantity = $model->quantity;
             $model->created_by = $author;
             $model->updated_by = NULL;
         });
