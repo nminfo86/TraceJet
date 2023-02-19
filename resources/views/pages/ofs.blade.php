@@ -114,7 +114,8 @@
                             </div>
                             <div class="col-lg-6">
                                 <label for="new_quantity">{{ __('Qté globale d\'OF') }}</label>
-                                <input type="number" class="form-control" placeholder="Qte globale de l'OF" disabled>
+                                <input type="number" id="new_quantity" name="new_quantity" class="form-control"
+                                    placeholder="Qte globale de l'OF" disabled>
                             </div>
                         </div>
                     </div>
@@ -136,7 +137,8 @@
 
         formToggle(form_title);
         $(document).on('click', "#add_btn", (e) => {
-            $('#status').prop('disabled', true);
+            $('#status,#new_quantity').prop('disabled', true);
+            // $('#new_quantity').prop('disabled', true);
         });
         $(document).ready(function() {
 
@@ -172,7 +174,7 @@
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
-            $('#status').prop('disabled', false);
+            $('#status, #new_quantity').prop('disabled', false);
             form_title = " {{ __('Modification OF') }}";
 
             /* ------------------------------ Get Of values ----------------------------- */
