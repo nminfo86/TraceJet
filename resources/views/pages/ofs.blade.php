@@ -72,7 +72,7 @@
                                 <label>{{ __('Produit') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="product_id" class=""
-                                        data-placeholder="{{ __('Selectionner un produit') }}" name="product_id">
+                                        data-placeholder="{{ __('Selectionner un produit') }}" >
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
