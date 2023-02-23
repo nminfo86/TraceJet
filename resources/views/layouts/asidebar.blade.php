@@ -10,12 +10,10 @@
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{ url('/dashboard') }}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                             class="hide-menu">{{ __('Dashboard') }}</span></a></li>
-                {{-- <h6 class="text-uppercase text-muted pb-1">adm<span class="d-sm-none d-lg-inline">instration</span></h6> --}}
-                {{-- <h6 class="text-uppercase text-muted pb-1 pt-2 d-sm-none d-md-inline d-lg-none">{{ __('Adm...') }}</h6> --}}
                 <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('Administration') }}</h6>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="{{ url('/roles') }}" aria-expanded="false"><i
-                            class="mdi mdi-account-settings-variant"></i><span class="hide-menu"> {{ __('Rôles') }}
+                        href="{{ url('/roles') }}" aria-expanded="false"><i class="mdi mdi-account-settings"></i><span
+                            class="hide-menu"> {{ __('Rôles') }}
                         </span></a>
                 </li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -29,8 +27,7 @@
                         href="{{ url('products') }}" aria-expanded="false"><i class="mdi mdi-book "></i><span
                             class="hide-menu">{{ __('Produits') }}</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="{{ url('calibers') }}" aria-expanded="false"><i
-                            class="mdi mdi-book-multiple-variant"></i><span
+                        href="{{ url('calibers') }}" aria-expanded="false"><i class="mdi mdi-book-multiple"></i><span
                             class="hide-menu">{{ __('Calibres') }}</span></a></li>
                 <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('Production') }}</h6>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -40,6 +37,7 @@
                         href="{{ url('serial_numbers') }}" aria-expanded="false"><i
                             class="mdi mdi-barcode-scan"></i><span class="hide-menu">{{ __('List des NS') }}</span></a>
                 </li>
+                <div .></div>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

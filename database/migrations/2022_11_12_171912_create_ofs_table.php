@@ -27,8 +27,6 @@ return new class extends Migration
             $table->string('created_by', 50)->nullable();
             $table->string('updated_by', 50)->nullable();
             $table->timestamps();
-
-
             // $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreign('caliber_id')->references('id')->on('calibers')->restrictOnDelete()->cascadeOnUpdate();
         });
