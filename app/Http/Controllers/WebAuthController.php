@@ -30,7 +30,7 @@ class WebAuthController extends AccessTokensController
             }
             return redirect()->intended('/dashboard');
         }
-        return redirect("/")->with('error', 'Login details are not valid');
+        return redirect("/")->with('error', "les informations d'authentification ne sont pas valides");
     }
 
     public function webLogout()

@@ -24,7 +24,7 @@
                                     <th>{{ __('Code') }}</th>
                                     <th>{{ __('calibre') }}</th>
                                     <th>{{ __('Produit') }}</th>
-                                    <th>{{ __('Carton Quantitté') }}</th>
+                                    <th>{{ __('Carton Quantité') }}</th>
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
@@ -87,9 +87,9 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Carton quantité') }}:*</label>
+                                <label>{{ __('Quantité par carton') }}:*</label>
                                 <input type="number" name="box_quantity" id="box_quantity" class="form-control"
-                                    placeholder="{{ __('Carton quantité') }}" />
+                                    placeholder="{{ __('quantité dans le carton') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="box_quantity-error"></strong>
                                 </span>
