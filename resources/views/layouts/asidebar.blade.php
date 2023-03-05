@@ -37,6 +37,10 @@
                         href="{{ url('serial_numbers') }}" aria-expanded="false"><i
                             class="mdi mdi-barcode-scan"></i><span class="hide-menu">{{ __('List des NS') }}</span></a>
                 </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="{{ url('packaging') }}" aria-expanded="false"><i class="mdi mdi-box"></i><span
+                            class="hide-menu">{{ __('Empallages') }}</span></a>
+                </li>
                 <div .></div>
             </ul>
         </nav>
