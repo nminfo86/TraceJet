@@ -216,8 +216,6 @@ return [
     'caliber_id' => 'Calibre',
     'box_quantity' => 'Quantité par carton',
     'quantity' => 'Quantité',
-
-
-
+    'new_quantity' => 'Qté globale d\'OF',
     ],
 ];

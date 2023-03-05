@@ -31,7 +31,7 @@ class OfController extends Controller
         // $ofs = Of::with('caliber')->get();
         $ofs = Of::join('calibers', function ($join) {
             $join->on('calibers.id', '=', 'ofs.caliber_id');
-        })->orderBy("ofs.id", "desc")->get(["ofs.id", "of_number", "of_code", "status", "quantity", "caliber_name", "updated_at"]);
+        })->orderBy("ofs.id", "desc")->get(["ofs.id", "of_number", "of_code", "status", "new_quantity", "caliber_name", "updated_at"]);
 
         //Send response with success
         return $this->sendResponse(data: $ofs);

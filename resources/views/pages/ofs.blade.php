@@ -59,20 +59,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label>{{ __('Nom d\'OF') }}:*</label>
-                                <div class="input-group mb-3">
-                                    <input id="of_name" class="form-control"
-                                        placeholder="{{ __('Nom d\'ordre de fabrication') }}" name="of_name" />
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong id="of_name-error"></strong>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
                                 <label>{{ __('Produit') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="product_id" class=""
-                                        data-placeholder="{{ __('Selectionner un produit') }}" >
+                                        data-placeholder="{{ __('Selectionner un produit') }}">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
@@ -116,6 +106,9 @@
                                 <label for="new_quantity">{{ __('Qté globale d\'OF') }}</label>
                                 <input type="number" id="new_quantity" name="new_quantity" class="form-control"
                                     placeholder="Qte globale de l'OF" disabled>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="new_quantity-error"></strong>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -171,10 +164,12 @@
         $(document).on('click', "#add_btn", (e) => {
             // form.find(".row").last().html("klklk");
             $(".status").remove();
+            $('#quantity').prop('disabled', false);
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
             $('#status, #new_quantity').prop('disabled', false);
+            $('#quantity').prop('disabled', true);
             form_title = " {{ __('Modification OF') }}";
 
             /* ------------------------------ Get Of values ----------------------------- */
@@ -184,6 +179,7 @@
                 $('#status').val(response.data.status).trigger('change');
                 $('#quantity').val(response.data.quantity);
                 $('#caliber_id').val(response.data.caliber_id).trigger('change');
+                $('#new_quantity').val(response.data.new_quantity);
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {
@@ -222,7 +218,7 @@
                     data: 'of_number'
                 },
                 {
-                    data: 'quantity'
+                    data: 'new_quantity'
                 },
                 {
                     data: 'caliber_name'
