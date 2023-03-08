@@ -1,13 +1,8 @@
 <?php
 
 use App\Models\Of;
-use App\Models\Box;
-use App\Models\Part;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
-use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Return_;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\Api\v1\PartController;

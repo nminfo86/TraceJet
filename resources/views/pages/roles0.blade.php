@@ -60,29 +60,40 @@
                             </div>
                             <hr>
                             <div class="col-12 mb-4">
-                                {{ __('Permissions') }}
+                                {{ __('permissions') }}
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-hover" id="permissions_table" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Pages</th>
-                                            <th>Permissions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
+
                         </div>
                     </div>
                     @include('components.footer_form')
-
-
                 </form>
             </div>
         </div>
     </div>
+    {{-- ------------------------ modal to show role détail -----------------------  --}}
+    {{-- <div class="modal fade" data-bs-backdrop="static" id="showRoleModal" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="showBody">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
 @endsection
 @push('custom_js')
     <script type="text/javascript">
@@ -97,32 +108,51 @@
             callAjax('GET', 'api/v1/pluck/permissions').done(function(response) {
                 var oldPermission = Object.values(response.data)[0].split('-')[0];
                 var actions = new Map();
-                let appendPermissions = "<tr>";
+                let appendPermissions = "";
                 $.each(response.data, function(indexInArray, valueOfElement) {
                     let permission = valueOfElement.split('-');
                     let newPermission = permission[1];
-
                     if (oldPermission == permission[0]) {
-                        actions[indexInArray] = newPermission;
+                        actions[indexInArray] = newPermission + ' ' + permission[0];
                     } else {
-                        appendPermissions += `<td>${UpperCaseFirstletter(oldPermission)}</td><td>`;
-
+                        appendPermissions += `<div class="col-md-6 col-lg-3 mb-4" >
+                            <ul class="list-group list-group-flush">
+                                `;
+                        // <li class="list-group-item active bg-secondary ">${permission[0]}</li>
                         $.each(actions, function(index, value) {
-                            appendPermissions += permissionsList(index, value);
+                            appendPermissions +=
+                                `<li class="list-group-item">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="${index}" name="permissions[]" role="switch"
+                                            value="${index}">
+                                        <label class="form-check-label" for="status">{{ __('${value}') }}
+                                        </label>
+                                    </div>
+                                </li>`;
                         });
-                        appendPermissions += '</td></tr>';
+                        appendPermissions += '</ul> </div>';
                         actions = {};
-                        actions[indexInArray] = newPermission;
+                        actions[indexInArray] = newPermission + ' ' + permission[0];;
                     }
                     oldPermission = permission[0];
                 });
-                appendPermissions += `<tr><td>${UpperCaseFirstletter(oldPermission)}</td><td>`;
-
+                appendPermissions += `<div class="col-md-6 col-lg-3 mb-4" >
+                            <ul class="list-group list-group-flush">
+                                `;
+                // <li class="list-group-item active bg-secondary ">${permission[0]}</li>
                 $.each(actions, function(index, value) {
-                    appendPermissions += permissionsList(index, value);
+                    appendPermissions +=
+                        `<li class="list-group-item">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="${index}" name="permissions[]" role="switch"
+                                            value="${index}">
+                                        <label class="form-check-label">{{ __('${value}') }}
+                                        </label>
+                                    </div>
+                                </li>`;
                 });
-                appendPermissions += '</td></tr>';
-                $('#permissions_table').append(appendPermissions);
+                appendPermissions += '</ul> </div>';
+                $('#appendPermission').append(appendPermissions);
             });
 
         });
@@ -200,16 +230,5 @@
                 },
             ]
         });
-
-        function permissionsList(index, value) {
-            return `<div class="form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="${index}" name="permissions[]" role="switch" value="${index}">
-                            <label class="form-check-label">{{ __('${UpperCaseFirstletter(value)}') }} </label>
-                     </div>`;
-        }
-
-        function UpperCaseFirstletter(string) {
-            return string[0].toUpperCase() + string.slice(1);
-        }
     </script>
 @endpush
