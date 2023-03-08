@@ -40,20 +40,20 @@ Route::group(
 
         Route::get('/users', function () {
             return view('pages.users');
-        })->name("users");
+        })->name("users")->middleware('permission:user-list');
 
         Route::get('calibers', function () {
             return view('pages.calibers');
-        });
+        })->middleware('permission:caliber-list');
         Route::get('/products', function () {
             return view('pages.products');
-        });
+        })->middleware('permission:product-list');
         Route::get('ofs', function () {
             return view('pages.ofs');
-        });
+        })->middleware('permission:of-list');
         Route::get('roles', function () {
             return view('pages.roles');
-        });
+        })->middleware('permission:role-list');
         Route::get('serial_numbers', function () {
             return view('pages.serial_numbers');
         });
