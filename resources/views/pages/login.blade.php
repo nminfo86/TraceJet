@@ -6,8 +6,8 @@
 
 <body>
     <div class="row">
-        <div class="col-md-6 border">
-
+        <div class="col-md-6 border" style="background-image:url('{{ asset('assets/images/login.png') }}');">
+            {{-- <img src="{{ asset('assets/images/login.png') }}" alt="" srcset=""> --}}
         </div>
         <div class="col-md-6">
             <div class="container-fluid d-flex justify-content-center align-items-center"
