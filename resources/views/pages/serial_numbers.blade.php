@@ -50,7 +50,8 @@
                                         {{-- <h6 class="fw-normal text-dark mb-0 ">{{ __('Etat OF') }}</h6>
                                         <span class="fs-3 font-weight-medium text-info" id="status"></span> --}}
                                         <h5 class="fw-n"> {{ __('Etat OF') }} : <span
-                                                class="badge bg-primary fs-4 font-weight-normal" id="status"></span>
+                                                class="badge bg-primary fs-4 font-weight-normal text-capitalize"
+                                                id="status"></span>
                                         </h5>
                                     </div>
                                     <div class="">

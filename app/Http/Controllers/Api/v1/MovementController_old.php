@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Movement;
 use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
-use App\Services\MovementService;
 use App\Http\Controllers\Controller;
+use App\Services\MovementService;
 
 class MovementController extends Controller
 {
-    use ResponseTrait;
     private $movementService;
     function __construct(MovementService $movementService)
     {

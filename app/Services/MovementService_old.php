@@ -32,7 +32,7 @@ class MovementService //extends Controller
             ->join('ofs', 'serial_numbers.of_id', 'ofs.id')
             ->join('calibers', 'ofs.caliber_id', 'calibers.id')
             ->where('serial_numbers.qr',  $request->qr)
-            // TODO::fixme
+            //    todo::fixme
             // ->where('ofs.status', "inProd")
             ->latest("movements.created_at")->first(['movement_post_id', 'serial_numbers.of_id', 'qr', 'serial_number_id', 'result', 'caliber_name', 'box_quantity']);
 
@@ -82,15 +82,6 @@ class MovementService //extends Controller
         // Get name of last post executed
         $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
 
-        // /* -------------------------------------------------------------------------- */
-        // /*                           Operator Post Section                          */
-        // /* -------------------------------------------------------------------------- */
-        // if ($post["posts_type_id"] === 2) {
-        //     return $last_movement;
-        // }
-        // //Send response with error
-        // return $this->sendResponse("Product NOK on, $post_name", status: false);
-
 
         /* -------------------------------------------------------------------------- */
         /*                           Reparation Post Section                          */
@@ -108,6 +99,8 @@ class MovementService //extends Controller
             //Send response with error
             return $this->sendResponse("Product NOK on, $post_name", status: false);
         }
+
+
 
         /* -------------------------------------------------------------------------- */
         /*                            Packaging post action                           */

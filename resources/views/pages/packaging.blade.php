@@ -213,7 +213,8 @@
             return table.DataTable({
                 ajax: {
                     type: 'POST',
-                    url: base_url + '/packaging',
+                    // url: base_url + '/packaging',
+                    url: url,
                     data: {
                         qr: formData,
                         mac: "mac5",
