@@ -19,13 +19,9 @@ class OperatorController extends Controller
 
         // Get last movement of QR and create movement or packaging action
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-            // ->join('ofs', 'serial_numbers.of_id', 'ofs.id')
-            // ->join('calibers', 'ofs.caliber_id', 'calibers.id')
             ->where('serial_numbers.qr',  $request->qr)
-            //    todo::fixme
-            // ->where('ofs.status', "inProd")
-            ->latest("movements.created_at")->firstOrFail(['movement_post_id', 'result', 'serial_number']);
-
+            ->latest("movements.created_at")
+            ->first(['movement_post_id', 'result', 'serial_number']);
         // Not exist
         if (!$product) {
             //Send response with error
