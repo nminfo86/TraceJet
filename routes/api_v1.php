@@ -6,6 +6,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RepairController;
 use App\Http\Controllers\Api\v1\PartController;
+use App\Http\Controllers\api\v1\OperatorController;
 use App\Http\Controllers\api\v1\PackagingController;
 use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};
 
@@ -42,12 +43,13 @@ Route::group(
             'serial_numbers' => SerialNumberController::class,
             'posts_types' => PostsTypeController::class,
             'posts' => PostController::class,
+            'operators' => OperatorController::class,
             'movements' => MovementController::class,
             'packaging' => PackagingController::class,
             'boxes' => BoxController::class,
-            'parts' => PartController::class,
-            'sn_parts' => SerialNumbersPartController::class,
-            'repairs' => RepairController::class,
+            // 'parts' => PartController::class,
+            // 'sn_parts' => SerialNumbersPartController::class,
+            // 'repairs' => RepairController::class,
         ]);
         /* ------------------------- End Resource controller ------------------------ */
 
@@ -69,9 +71,8 @@ Route::group(
         });
         route::get('of/{id}', function ($id) {
 
-            return SerialNumber::query()->get();
+            return SerialNumber::get();
         });
-
 
         // route::get('check_qr', [SerialNumberController::class, 'validProduct']);
         route::post('serial_numbers/qr_print', [SerialNumberController::class, 'printQrCode']);
