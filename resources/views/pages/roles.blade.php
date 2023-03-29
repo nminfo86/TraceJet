@@ -105,7 +105,8 @@
                     if (oldPermission == permission[0]) {
                         actions[indexInArray] = newPermission;
                     } else {
-                        appendPermissions += `<td>${UpperCaseFirstletter(oldPermission)}</td><td>`;
+                        appendPermissions +=
+                            `<td class="text-capitalize">${oldPermission}</td><td>`;
 
                         $.each(actions, function(index, value) {
                             appendPermissions += permissionsList(index, value);
@@ -116,7 +117,7 @@
                     }
                     oldPermission = permission[0];
                 });
-                appendPermissions += `<tr><td>${UpperCaseFirstletter(oldPermission)}</td><td>`;
+                appendPermissions += `<tr><td class="text-capitalize">${oldPermission}</td><td>`;
 
                 $.each(actions, function(index, value) {
                     appendPermissions += permissionsList(index, value);
@@ -202,14 +203,13 @@
         });
 
         function permissionsList(index, value) {
-            return `<div class="form-check form-switch form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="${index}" name="permissions[]" role="switch" value="${index}">
-                            <label class="form-check-label">{{ __('${UpperCaseFirstletter(value)}') }} </label>
-                     </div>`;
-        }
-
-        function UpperCaseFirstletter(string) {
-            return string[0].toUpperCase() + string.slice(1);
+            value = '{{ __('messages.list') }}';
+            return '<div class="form-check form-switch form-check-inline">' +
+                '<input class="form-check-input" type="checkbox" id="' +
+                index + '" name="permissions[]" role="switch" value="' +
+                index + '">' +
+                '<label class="form-check-label ">' + value + '</label>' +
+                '</div>';
         }
     </script>
 @endpush

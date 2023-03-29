@@ -36,13 +36,6 @@
             </div>
         </div>
     </div>
-    {{-- <table class="d-none toggle-show w-100" style="height: calc(100vh - 700px);">
-        <tbody>
-            <td class="align-middle">
-
-            </td>
-        </tbody>
-    </table> --}}
     <div class="d-flex justify-content-center toggle-show d-none">
         <div class="w-50">
             <div class="card">
@@ -226,9 +219,6 @@
                 {
                     data: 'status',
                     render: function(data, type, row) {
-                        // return data == 1 ?
-                        //     `<label class="badge bg-success">${yes}</label>` :
-                        //     `<label class="badge bg-danger">${no}</label>`;
                         switch (data) {
                             case "inProd":
                                 return `<label class="badge bg-primary">inProduction</label>`;
@@ -251,7 +241,8 @@
                     data: 'id',
                     render: function(data, type, row) {
                         return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
+                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>
+                    <div type="button" id = ${data} class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </div>`;
                     }
                 },
             ],

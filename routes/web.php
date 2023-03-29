@@ -16,6 +16,9 @@ use App\Http\Controllers\WebAuthController;
 
 /***************default route *************************/
 Route::get('/', function () {
+    if(Auth::check())
+    return view('welcome');
+    else
     return view('pages.login');
 })->name('login');
 /****************************** ***********************/
@@ -59,6 +62,9 @@ Route::group(
         });
         Route::get('packaging', function () {
             return view('pages.packaging');
+        });
+        Route::get('operator', function () {
+            return view('pages.operator');
         });
     }
 );
