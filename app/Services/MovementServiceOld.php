@@ -83,18 +83,21 @@ class MovementService //extends Controller
         $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
 
 
-        // Check last step of product
-        if ($last_movement->movement_post_id != $post["previous_post_id"]) {
-            //Send response with error
-            return $this->sendResponse("The last step for this product was on , $post_name", status: false);
-        }
-
         /* -------------------------------------------------------------------------- */
         /*                           Reparation Post Section                          */
         /* -------------------------------------------------------------------------- */
         // Check result if Nok in last movement
         if ($last_movement->result == 'NOK') {
-            return $this->reparationAction($post_name);
+
+            // # Reparation post_type_id = 4
+            // if ($post->posts_type_id === 4) {
+
+            //     $last_movement->update(["result" => "rebut"]);
+            //     //Send response with data
+            //     return $this->sendResponse("Product destroyed");
+            // }
+            //Send response with error
+            return $this->sendResponse("Product NOK on, $post_name", status: false);
         }
 
 
@@ -111,7 +114,11 @@ class MovementService //extends Controller
         if (in_array($last_movement->movement_post_id, $ids))
             return $this->sendResponse("Product packaged", status: false);
 
-
+        // Check last step of product
+        if ($last_movement->movement_post_id != $post["previous_post_id"]) {
+            //Send response with error
+            return $this->sendResponse("The last step for this product was on , $post_name", status: false);
+        }
 
         // Create next step
         return $this->newMovementOrPackagingAction($request, $last_movement, $post["id"]);
@@ -132,7 +139,7 @@ class MovementService //extends Controller
         // Count operator posts
         $operator_post_count = $this->countOperatorPosts();
 
-        // Count Movement of Product
+        // Get number Movement of Product
         $product_movements = $this->productSteps($request->qr);
         // return [$last_movement, $product_movements];
 
@@ -334,18 +341,5 @@ class MovementService //extends Controller
             return $this->sendResponse("Congratulation, OF clotured");
         }
         return;
-    }
-
-    public function reparationAction($post_name)
-    {
-        // # Reparation post_type_id = 4
-        // if ($post->posts_type_id === 4) {
-
-        //     $last_movement->update(["result" => "rebut"]);
-        //     //Send response with data
-        //     return $this->sendResponse("Product destroyed");
-        // }
-        //Send response with error
-        return $this->sendResponse("Product NOK on, $post_name", status: false);
     }
 }
