@@ -87,7 +87,7 @@
                                     <input type="submit" class="d-none">
                                     {{-- <button class="btn-success">Submit</button> --}}
                                 </form>
-                                <div class="text-center"> Scanner un numéro de serie pour voir son état
+                                <div class="text-center" id="scanned_qr"> Scanner un numéro de serie pour voir son état
 
                                 </div>
                                 <hr>
@@ -254,14 +254,22 @@
             .on('submit', 'form', function(e) {
                 e.preventDefault();
                 cleanValidationAlert();
-                var formData = $(this).serialize() + '&of_id=' + of_id;
-                callAjax("POST", base_url + '/serial_numbers', formData).done(function(response) {
+                var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac2';
+                callAjax("GET", base_url + '/operators', formData).done(function(response) {
                     if (response.status == false) {
                         return SessionErrors(response.message);
                     }
                     getSnTable(of_id);
                     ajaxSuccess(response.message);
                     $('#qr').val('');
+                    if (response.data.result == "ok")
+                        $("#scanned_qr").html(
+                            `<i class="mdi mdi-check-circle mdi-18px text-success"></i> ${response.data.serial_number}`
+                        );
+                    else
+                        $("#scanned_qr").html(
+                            `<i class="mdi mdi-close-circle mdi-18px"></i> numéro de invalid`);
+
                 });
 
             });
@@ -339,10 +347,6 @@
                 searching: false,
                 bLengthChange: false,
                 destroy: true,
-                // columnDefs: [{
-                //     targets: 0,
-                //     visible: false
-                // }, ],
                 order: [0, "asc"]
             });
 
