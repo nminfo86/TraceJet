@@ -75,7 +75,7 @@ class OperatorController extends Controller
         }
 
         // Add current post_id to response
-        $last_movement->post_id = $current_post->id;
+        $last_movement->current_post_id = $current_post->id;
 
         return $last_movement;
         //Send response with data
@@ -110,40 +110,19 @@ class OperatorController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::where('id', 1)->first();
-        dd($user);
-        if (property_exists($user, 'username')) {
-            dd('True');
-        } else {
-            dd('false');
-        }
         // check movement
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
             ->latest("movements.created_at")
             ->first(['serial_numbers.id', "serial_number", 'movement_post_id', 'result']);
 
-
         // Check & control product steps error
-
-        return $product_control = $this->checkProductSteps($request, $product);
-        //return gettype($this->checkProductSteps($request, $product)->post_id);
-        if (isset($this->checkProductSteps($request, $product)->message)) {
-            return "11";
-        } else {
-            return "hjhjjh";
+        if (!isset($this->checkProductSteps($request, $product)->current_post_id)) {
+            return $this->checkProductSteps($request, $product);
         }
-
-        // return gettype($product_control);
-        // if ($product_control->contains('message')) {
-        //     return 'The response contains a user with the name "John"';
-        // } else {
-        //     return 'The response does not contain a user with the name "John"';
-        // }
-
         $payload = [
             'serial_number_id' => $product->id,
-            'movement_post_id' => $this->checkProductSteps($request, $product)->post_id,
+            'movement_post_id' => $this->checkProductSteps($request, $product)->current_post_id,
             'result' => $request->result,
         ];
         // Create new movement
