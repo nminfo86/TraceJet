@@ -13,8 +13,6 @@ use App\Services\PrintLabelService;
 
 class SerialNumberController extends Controller
 {
-    use ResponseTrait;
-
     /**
      * Display a listing of the resource.
      *

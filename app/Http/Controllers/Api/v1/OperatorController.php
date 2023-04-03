@@ -37,8 +37,6 @@ class OperatorController extends Controller
      */
     public function checkProductSteps($request,  $last_movement)
     {
-
-
         // Check existence of product in current OF
         if (!$last_movement) {
             //Send response with error
@@ -91,15 +89,20 @@ class OperatorController extends Controller
         // Get last movement of QR
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
+            ->where('serial_numbers.of_id', $request->of_id)
             ->latest("movements.created_at")
             ->first(['movement_post_id', 'result', 'serial_number']);
         if (!$product) {
             //Send response with error
             return $this->sendResponse('Product does not belong to the current OF', status: false);
         }
-
-        //Send response with success
+        // return  $this->checkProductSteps($request,  $product);
+        if (!isset($this->checkProductSteps($request,  $product)->current_post_id)) {
+            return $this->checkProductSteps($request,  $product);
+        }
         return $this->sendResponse(data: $product, status: true);
+        //Send response with success
+
     }
 
     /**
@@ -120,11 +123,14 @@ class OperatorController extends Controller
         if (!isset($this->checkProductSteps($request, $product)->current_post_id)) {
             return $this->checkProductSteps($request, $product);
         }
+
+        // Prepare payload
         $payload = [
             'serial_number_id' => $product->id,
             'movement_post_id' => $this->checkProductSteps($request, $product)->current_post_id,
             'result' => $request->result,
         ];
+
         // Create new movement
         $movement = Movement::create($payload);
 
@@ -138,9 +144,8 @@ class OperatorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
     }
 
     /**
