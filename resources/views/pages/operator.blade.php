@@ -87,7 +87,7 @@
                                     <input type="submit" class="d-none">
                                     {{-- <button class="btn-success">Submit</button> --}}
                                 </form>
-                                <div class="text-center" id="scanned_qr"> Scanner un numéro de serie pour voir son état
+                                <div class="text-center h4" id="scanned_qr"> Scanner un code QR
 
                                 </div>
                                 <hr>
@@ -258,7 +258,7 @@
                 let qr = $("#qr").val();
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
-                        var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac2' + '&result=ok';
+                        var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1' + '&result=ok';
                         callAjax("POST", base_url + '/operators', formData).done(function(response) {
                             if (response.status == false) {
                                 return SessionErrors(response.message);
@@ -271,43 +271,64 @@
                                 `scanner un autre QR`);
                         });
                     } else {
-                        //$("#scanned_qr").html(
-                        //  `<i class="mdi mdi-close-circle mdi-18px"></i> scanner le code qr d'abord`);
-                        var formData = {
-                            "qr": qr,
-                            "of_id": of_id,
-                            "mac": "mac2",
-                            "result": "NOK"
-                        };
-                        callAjax("POST", base_url + '/operators', formData).done(function(response) {
-                            if (response.status == false) {
-                                return SessionErrors(response.message);
-                            }
-                            getSnTable(of_id);
-                            ajaxSuccess(response.message);
-                            $('#qr').val('');
-                            scanned_qr = 0;
-                            $("#scanned_qr").html(
-                                `scanner un autre QR`);
-                        });
+                        if (qr = "0000") {
+                            var formData = {
+                                "qr": scanned_qr,
+                                "of_id": of_id,
+                                "mac": "mac1",
+                                "result": "NOK"
+                            };
+                            callAjax("POST", base_url + '/operators', formData).done(function(response) {
+                                if (response.status == false) {
+                                    return SessionErrors(response.message);
+                                }
+                                getSnTable(of_id);
+                                ajaxSuccess(response.message);
+                                $('#qr').val('');
+                                scanned_qr = 0;
+                                $("#scanned_qr").html(
+                                    `<strong class="h4"> Scanner un autre QR </strong>`);
+                            });
+                        } else {
+                            var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1';
+                            callAjax("GET", base_url + '/operators', formData).done(function(response) {
+                                if (response.status == false) {
+                                    return SessionErrors(response.message);
+                                }
+                                getSnTable(of_id);
+                                ajaxSuccess(response.message);
+                                $('#qr').val('');
+                                if (response.data.result == "ok" || response.data.result == "OK") {
+                                    $("#scanned_qr").html(
+                                        `<div class="alert alert-success">
+                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span> </div>`
+                                    );
+                                    scanned_qr = qr;
+                                } else
+                                    $("#scanned_qr").html(
+                                        `<di class="alert alert-danger font-weight-bolder h4"> <i class="mdi mdi-close-circle mdi-18px"></i> qr invalid</div>`
+                                    );
+                            });
+                        }
                     }
                 } else {
-                    var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac2';
+                    var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1';
                     callAjax("GET", base_url + '/operators', formData).done(function(response) {
                         if (response.status == false) {
                             return SessionErrors(response.message);
                         }
                         getSnTable(of_id);
                         ajaxSuccess(response.message);
-                        $('#qr').val('');
-                        if (response.data.result == "ok") {
+                        if (response.data.result == "ok" || response.data.result == "OK") {
                             $("#scanned_qr").html(
-                                `<i class="mdi mdi-check-circle mdi-18px text-success"></i> ${response.data.serial_number}`
+                                `<div class="alert alert-success">
+                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span> </div>`
                             );
                             scanned_qr = qr;
                         } else
                             $("#scanned_qr").html(
-                                `<i class="mdi mdi-close-circle mdi-18px"></i> qr invalid`);
+                                `<di class="alert alert-danger font-weight-bolder h4"> <i class="mdi mdi-close-circle mdi-18px"></i> qr invalid</div>`
+                            );
                     });
                 }
             });
