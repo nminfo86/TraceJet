@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\User;
 use Mockery\Undefined;
@@ -30,10 +31,11 @@ class OperatorController extends Controller
     //TODO::common functions
 
     /**
-     * Check product step error
+     * checkProductSteps
      *
-     * request [mac_address,new result]
-     * last_movement[movement_post_id,result]
+     * @param  mixed $request  [mac_address,new result]
+     * @param  mixed $last_movement [movement_post_id,result]
+     * @return void
      */
     public function checkProductSteps($request,  $last_movement)
     {
@@ -86,31 +88,27 @@ class OperatorController extends Controller
      */
     public function index(Request $request)
     {
-        // Get last movement of QR
-        $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-            ->where('serial_numbers.qr',  $request->qr)
-            ->where('serial_numbers.of_id', $request->of_id)
-            ->latest("movements.created_at")
-            ->first(['movement_post_id', 'result', 'serial_number']);
-        if (!$product) {
-            //Send response with error
-            return $this->sendResponse('Product does not belong to the current OF', status: false);
-        }
-        // return  $this->checkProductSteps($request,  $product);
-        if (!isset($this->checkProductSteps($request,  $product)->current_post_id)) {
-            return $this->checkProductSteps($request,  $product);
-        }
-        return $this->sendResponse(data: $product, status: true);
-        //Send response with success
+        $current_post_id = $this->getCurrentPostInformation($request->mac)->id;
 
+        $qr_operator_list['list'] = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+            ->where('serial_numbers.of_id', $request->of_id)
+            ->where('movements.movement_post_id', $current_post_id)
+            ->get(["serial_number", "movements.created_at", "movements.result"]);
+
+        // Get quantity of valid product (TODAY)
+        $qr_operator_list['quantity_of_day'] = "0" . $qr_operator_list['list']->filter(function ($item) {
+            return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
+        })->count();
+
+        return $this->sendResponse(data: $qr_operator_list);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
     public function store(Request $request)
     {
         // check movement
@@ -142,10 +140,30 @@ class OperatorController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @var void $checkProductSteps
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
     {
+        // Get last movement of QR
+        $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+            ->where('serial_numbers.qr',  $request->qr)
+            ->where('serial_numbers.of_id', $request->of_id)
+            ->latest("movements.created_at")
+            ->first(['movement_post_id', 'result', 'serial_number']);
+        if (!$product) {
+            //Send response with error
+            return $this->sendResponse('Product does not belong to the current OF', status: false);
+        }
+
+        // Check & control product steps error (if not exist current_post_id thats mean there is un error)
+        $checkProductSteps = $this->checkProductSteps($request,  $product);
+        if (!isset($checkProductSteps->current_post_id)) {
+            return $checkProductSteps;
+        }
+
+        //Send response with success
+        return $this->sendResponse(data: $product, status: true);
     }
 
     /**
