@@ -224,9 +224,7 @@
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
                 of_id = $(this).val();
-                // alert(of_id);
                 getSnTable(of_id);
-
                 callAjax('GET', base_url + '/of_details/' + of_id, {
                     of_id: of_id
                 }).done(function(response) {
@@ -239,99 +237,35 @@
                     $("#qr").focus();
                 });
             })
-            /* -------------------------------------------------------------------------- */
-            /*                                Print QR code                               */
-            /* -------------------------------------------------------------------------- */
-            .on("click", "#print_qr", function(e) {
-                e.preventDefault();
-                callAjax('POST', base_url + '/serial_numbers/qr_print', {
-                    of_id: of_id
-                }).done(function(response) {
-                    ajaxSuccess(response.message)
-                });
-            })
+
             /* -------------------------------------------------------------------------- */
             /*                                Valid Product                               */
             /* -------------------------------------------------------------------------- */
 
+            // TODO::Change mac address with ip_address
             .on('submit', 'form', function(e) {
                 e.preventDefault();
                 cleanValidationAlert();
                 let qr = $("#qr").val();
+                let formData = {
+                    "qr": scanned_qr,
+                    "of_id": of_id,
+                    "mac": "mac1",
+                };
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
-                        var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1' + '&result=ok';
-                        callAjax("POST", base_url + '/operators', formData).done(function(response) {
-                            if (response.status == false) {
-                                return SessionErrors(response.message);
-                            }
-                            getSnTable(of_id);
-                            ajaxSuccess(response.message);
-                            $('#qr').val('');
-                            scanned_qr = 0;
-                            $("#scanned_qr").html(
-                                `scanner un autre QR`);
-                        });
+                        formData.result = "OK";
+                        storeQr(formData);
                     } else {
                         if (qr == "0000") {
-                            var formData = {
-                                "qr": scanned_qr,
-                                "of_id": of_id,
-                                "mac": "mac1",
-                                "result": "NOK"
-                            };
-                            callAjax("POST", base_url + '/operators', formData).done(function(response) {
-                                if (response.status == false) {
-                                    return SessionErrors(response.message);
-                                }
-                                getSnTable(of_id);
-                                ajaxSuccess(response.message);
-                                $('#qr').val('');
-                                scanned_qr = 0;
-                                $("#scanned_qr").html(
-                                    `<strong class="h4"> Scanner un autre QR </strong>`);
-                            });
+                            formData.result = "NOK";
+                            storeQr(formData);
                         } else {
-                            var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1';
-                            callAjax("GET", base_url + '/operators/' + qr, formData).done(function(response) {
-                                if (response.status == false) {
-                                    return SessionErrors(response.message);
-                                }
-                                getSnTable(of_id);
-                                ajaxSuccess(response.message);
-                                $('#qr').val('');
-                                if (response.data.result == "ok" || response.data.result == "OK") {
-                                    $("#scanned_qr").html(
-                                        `<div class="alert alert-success">
-                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span> </div>`
-                                    );
-                                    scanned_qr = qr;
-                                } else
-                                    $("#scanned_qr").html(
-                                        `<di class="alert alert-danger font-weight-bolder h4"> <i class="mdi mdi-close-circle mdi-18px"></i> qr invalid</div>`
-                                    );
-                            });
+                            getQr(formData, qr);
                         }
                     }
                 } else {
-                    var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1';
-                    callAjax("GET", base_url + '/operators/' + qr, formData).done(function(response) {
-                        if (response.status == false) {
-                            return SessionErrors(response.message);
-                        }
-                        getSnTable(of_id);
-                        ajaxSuccess(response.message);
-                        if (response.data.result == "ok" || response.data.result == "OK") {
-                            $("#scanned_qr").html(
-                                `<div class="alert alert-success">
-                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span> </div>`
-                            );
-                            scanned_qr = qr;
-                        } else
-                            $("#scanned_qr").html(
-                                `<di class="alert alert-danger font-weight-bolder h4"> <i class="mdi mdi-close-circle mdi-18px"></i> qr invalid</div>`
-                            );
-                    });
+                    getQr(formData, qr);
                 }
             });
         /* -------------------------------------------------------------------------- */
@@ -404,15 +338,51 @@
                         data: 'created_at'
                     },
                     {
-                        data: 'result'
+                        data: 'result',
+                        render: function(data, type, row) {
+                            if (data == "NOK") {
+                                return `<label class="badge bg-danger">${data}</label>`;
+                            }
+                            return `<label class="badge bg-success">${data}</label>`;
+                        }
                     },
                 ],
                 searching: false,
                 bLengthChange: false,
                 destroy: true,
-                order: [0, "asc"]
+                order: [1, "desc"]
             });
 
+        }
+
+
+        function getQr(formData, qr) {
+            formData.qr = qr;
+            callAjax("GET", url + '/' + qr, formData).done(function(response) {
+                if (response.status == false) {
+                    return SessionErrors(response.message);
+                }
+                // if (response.data.result == "ok" || response.data.result == "OK") {
+                $("#scanned_qr").html(
+                    `<div class="alert alert-success">
+                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span> </div>`
+                );
+                scanned_qr = qr;
+                // }
+            });
+        }
+
+        function storeQr(formData) {
+            callAjax("POST", url, formData).done(function(response) {
+                if (response.status == false) {
+                    return SessionErrors(response.message);
+                }
+                getSnTable(of_id);
+                ajaxSuccess(response.message);
+                $('#qr').val('');
+                scanned_qr = 0;
+                $("#scanned_qr").html(`<strong class="h4"> Scanner un autre QR </strong>`);
+            });
         }
     </script>
 @endpush

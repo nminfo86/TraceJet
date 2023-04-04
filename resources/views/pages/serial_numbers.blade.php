@@ -163,7 +163,7 @@
             </div>
         </div>
         <div class="col-lg-6 d-none of_info">
-            <div class="card shadow border-primary bg-dark text-white" style="min-height: 90vh">
+            <div class="card shadow border-primary" style="min-height: 90vh">
                 <div class="card-body text-white">
                     <button class="btn btn-info text-white" id="print_qr"><i class="mdi mdi-printer"></i>
                         {{ __('Générer QR') }}</button>
@@ -342,7 +342,7 @@
                 //     targets: 0,
                 //     visible: false
                 // }, ],
-                order: [0, "asc"]
+                order: [1, "desc"]
             });
 
         }
