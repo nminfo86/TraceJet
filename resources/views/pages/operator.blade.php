@@ -175,6 +175,8 @@
                                     {{-- <th>{{ __('#') }}</th> --}}
                                     <th>{{ __('SN') }}</th>
                                     <th>{{ __('Created_at') }}</th>
+                                    <th>{{ __('Etat') }}</th>
+
                                 </tr>
                             </thead>
                         </table>
@@ -192,7 +194,7 @@
         var form = $('#main_form'),
             table = $('#main_table'),
             form_title = " {{ __('Nouveau Produit') }}",
-            url = base_url + '/serial_numbers',
+            url = base_url + '/operators',
             of_id,
             last_qr = "";
         formToggle(form_title);
@@ -271,7 +273,7 @@
                                 `scanner un autre QR`);
                         });
                     } else {
-                        if (qr = "0000") {
+                        if (qr == "0000") {
                             var formData = {
                                 "qr": scanned_qr,
                                 "of_id": of_id,
@@ -291,7 +293,7 @@
                             });
                         } else {
                             var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1';
-                            callAjax("GET", base_url + '/operators', formData).done(function(response) {
+                            callAjax("GET", base_url + '/operators/' + qr, formData).done(function(response) {
                                 if (response.status == false) {
                                     return SessionErrors(response.message);
                                 }
@@ -313,7 +315,7 @@
                     }
                 } else {
                     var formData = $(this).serialize() + '&of_id=' + of_id + '&mac=mac1';
-                    callAjax("GET", base_url + '/operators', formData).done(function(response) {
+                    callAjax("GET", base_url + '/operators/' + qr, formData).done(function(response) {
                         if (response.status == false) {
                             return SessionErrors(response.message);
                         }
@@ -342,7 +344,8 @@
                     type: 'GET',
                     url: url,
                     data: {
-                        "of_id": of_id
+                        "of_id": of_id,
+                        "mac": "mac1"
                     },
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);
@@ -399,6 +402,9 @@
                     },
                     {
                         data: 'created_at'
+                    },
+                    {
+                        data: 'result'
                     },
                 ],
                 searching: false,
