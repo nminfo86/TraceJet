@@ -217,6 +217,11 @@
             }).done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });
+
+            callAjax('GET', base_url + '/posts').done(function(response) {
+                console.log(response);
+                //appendToSelect(response.data, "#of_id");
+            });
         });
 
 
