@@ -81,18 +81,18 @@ class OperatorController extends Controller
      */
     public function index(Request $request)
     {
-        $current_post_id = $this->getCurrentPostInformation($request->mac)->id;
+        $current_post = $this->getCurrentPostInformation($request->mac);
 
         $qr_operator_list['list'] = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.of_id', $request->of_id)
-            ->where('movements.movement_post_id', $current_post_id)
+            ->where('movements.movement_post_id', $current_post->id)
             ->get(["serial_number", "movements.created_at", "movements.result"]);
 
         // Get quantity of valid product (TODAY)
         $qr_operator_list['quantity_of_day'] = "0" . $qr_operator_list['list']->filter(function ($item) {
             return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
         })->count();
-
+        $qr_operator_list['post_name'] = $current_post->post_name;
         return $this->sendResponse(data: $qr_operator_list);
     }
 
