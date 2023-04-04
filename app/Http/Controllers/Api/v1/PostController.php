@@ -85,4 +85,9 @@ class PostController extends Controller
         //Send response with success
         return $this->sendResponse($this->delete_success_msg);
     }
+
+    public function getCurrentPost($ip)
+    {
+        return Post::whereMac($ip)->firstOrFail();
+    }
 }
