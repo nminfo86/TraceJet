@@ -31,12 +31,14 @@ class OperatorController extends Controller
     //TODO::common functions
 
     /**
-     * checkProductSteps
+     * checkProductSteps void
      *
      * @param  mixed $request  [mac_address,new result]
      * @param  mixed $last_movement [movement_post_id,result]
      * @return void
      */
+
+    /** checkProductSteps void */
     public function checkProductSteps($request,  $last_movement)
     {
         // Check existence of product in current OF
@@ -117,15 +119,18 @@ class OperatorController extends Controller
             ->latest("movements.created_at")
             ->first(['serial_numbers.id', "serial_number", 'movement_post_id', 'result']);
 
+
+        $checkProductSteps = $this->checkProductSteps($request, $product);
+
         // Check & control product steps error
-        if (!isset($this->checkProductSteps($request, $product)->current_post_id)) {
-            return $this->checkProductSteps($request, $product);
+        if (!isset($checkProductSteps->current_post_id)) {
+            return $checkProductSteps;
         }
 
         // Prepare payload
         $payload = [
             'serial_number_id' => $product->id,
-            'movement_post_id' => $this->checkProductSteps($request, $product)->current_post_id,
+            'movement_post_id' => $checkProductSteps->current_post_id,
             'result' => $request->result,
         ];
 
@@ -156,6 +161,7 @@ class OperatorController extends Controller
             return $this->sendResponse('Product does not belong to the current OF', status: false);
         }
 
+        /** @var checkProductSteps void */
         // Check & control product steps error (if not exist current_post_id thats mean there is un error)
         $checkProductSteps = $this->checkProductSteps($request,  $product);
         if (!isset($checkProductSteps->current_post_id)) {
