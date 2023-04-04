@@ -293,6 +293,7 @@
                         $("#valid").text(response.data.list.length);
                         $("#status").text(response.data.status);
                         $("#quantity_of_day").text(response.data.quantity_of_day);
+                        $("#post_name").text(response.data.post_name);
                         let x = (parseInt(response.data.list.length) / parseInt(
                             total_quantity_of));
                         percent = Math.floor(x * 100);
