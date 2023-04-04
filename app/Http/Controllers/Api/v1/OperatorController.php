@@ -21,6 +21,7 @@ class OperatorController extends Controller
      * @param  $mac_address from request
      * @return \Illuminate\Http\Response
      */
+    /** checkProductSteps void */
     public function getCurrentPostInformation(string $mac_address)
     {
         // FIXME::change mac by ip address
@@ -35,53 +36,43 @@ class OperatorController extends Controller
      *
      * @param  mixed $request  [mac_address,new result]
      * @param  mixed $last_movement [movement_post_id,result]
-     * @return void
+     * @return \Illuminate\Http\Response
      */
 
     /** checkProductSteps void */
     public function checkProductSteps($request,  $last_movement)
     {
+        $msg = "";
+
         // Check existence of product in current OF
-        if (!$last_movement) {
-            //Send response with error
-            return $this->sendResponse('Product does not belong to the current OF', status: false);
-        }
+        if (!$last_movement)
+            $msg = "Product does not belong to the current OF";
 
         // Get current post information by mac_address ==>ip address for check previous post
         $current_post = $this->getCurrentPostInformation($request->mac);
-
-        if (!$current_post) {
-            //Send response with
-            return $this->sendResponse('Invalid post', status: false);
-        }
+        if (!$current_post)
+            $msg = 'Invalid post';
 
         // Verify that the product has passed on this post
-        if ($last_movement->movement_post_id == $current_post->id) {
-            //Send response with error
-            return $this->sendResponse('Product passed on this post ', status: false);
-        }
+        if ($last_movement->movement_post_id == $current_post->id)
+            $msg = 'Product passed on this post ';
+
         // Get the name of last movement post
         $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
 
-
         // Check last movement
-        if ($last_movement->movement_post_id != $current_post->previous_post_id) {
-            //Send response with error
-            return $this->sendResponse("Last station was on , $post_name", status: false);
-        }
+        if ($last_movement->movement_post_id != $current_post->previous_post_id)
+            $msg = "Last station was on , $post_name";
 
         // Check result of last movement
-        if ($last_movement->result == 'NOK') {
-            //Send response with error
-            return $this->sendResponse("Product invalid on , $post_name", status: false);
-        }
+        if ($last_movement->result == 'NOK')
+            $msg = "Product invalid on , $post_name";
 
-        // Add current post_id to response
+        if ($msg !== "")
+            return $this->sendResponse($msg, status: false);
+
         $last_movement->current_post_id = $current_post->id;
-
-        return $last_movement;
-        //Send response with data
-        // return $this->sendResponse(data:$last_movement,status:true);
+        return $this->sendResponse(data: $last_movement, status: true);
     }
     /**
      * Display a listing of the resource.
@@ -111,26 +102,29 @@ class OperatorController extends Controller
     //  * @param  \Illuminate\Http\Request  $request
     //  * @return \Illuminate\Http\Response
     //  */
+
+    /* @var checkProductSteps void */
     public function store(Request $request)
     {
         // check movement
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
             ->latest("movements.created_at")
-            ->first(['serial_numbers.id', "serial_number", 'movement_post_id', 'result']);
+            ->first(['serial_numbers.id AS sn_id', 'movement_post_id', 'result']);
 
-
-        $checkProductSteps = $this->checkProductSteps($request, $product);
 
         // Check & control product steps error
-        if (!isset($checkProductSteps->current_post_id)) {
+        $checkProductSteps = $this->checkProductSteps($request, $product)->getData();
+
+
+        if (!isset($checkProductSteps->data)) {
             return $checkProductSteps;
         }
 
         // Prepare payload
         $payload = [
-            'serial_number_id' => $product->id,
-            'movement_post_id' => $checkProductSteps->current_post_id,
+            'serial_number_id' => $product->sn_id,
+            'movement_post_id' => $checkProductSteps->data->current_post_id,
             'result' => $request->result,
         ];
 
@@ -161,15 +155,8 @@ class OperatorController extends Controller
             return $this->sendResponse('Product does not belong to the current OF', status: false);
         }
 
-        /** @var checkProductSteps void */
         // Check & control product steps error (if not exist current_post_id thats mean there is un error)
-        $checkProductSteps = $this->checkProductSteps($request,  $product);
-        if (!isset($checkProductSteps->current_post_id)) {
-            return $checkProductSteps;
-        }
-
-        //Send response with success
-        return $this->sendResponse(data: $product, status: true);
+        return $this->checkProductSteps($request,  $product);
     }
 
     /**
