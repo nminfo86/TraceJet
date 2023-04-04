@@ -61,6 +61,14 @@
                                                 id="of_number"></span>
                                         </h5>
                                     </div>
+                                    <div class="">
+                                        {{-- <h6 class="fw-normal text-dark mb-0">{{ __('OF Numéro') }}</h6>
+                                        <span class=badge "fs-3 font-weight-medium text-info" id="of_number"></span> --}}
+                                        <h5> {{ __('Post N°') }} : <span
+                                                class="fs-3 font-weight-medium badge bg-primary text-white"
+                                                id="post_name">/</span>
+                                        </h5>
+                                    </div>
                                 </div>
                             </div>
                             {{-- </div> --}}
@@ -359,6 +367,7 @@
         function getQr(formData, qr) {
             formData.qr = qr;
             callAjax("GET", url + '/' + qr, formData).done(function(response) {
+                $("#qr").val("");
                 if (response.status == false) {
                     return SessionErrors(response.message);
                 }
