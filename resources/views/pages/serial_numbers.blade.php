@@ -1,4 +1,7 @@
 @extends('layouts.posts_layout')
+@php
+    dd(Session::get('user_data')['post_information']);
+@endphp
 <style>
     .outer {
         position: relative;
