@@ -52,7 +52,7 @@ class OperatorController extends Controller
         // Get current post information by mac_address ==>ip address for check previous post
         $current_post = $this->getCurrentPostInformation($request->mac);
         if (!$current_post)
-            $msg = 'Invalid post';
+            $msg = 'invalid post';
 
         // Verify that the product has passed on this post
         if ($last_movement->movement_post_id == $current_post->id)
@@ -63,7 +63,10 @@ class OperatorController extends Controller
 
         // Check last movement
         if ($last_movement->movement_post_id != $current_post->previous_post_id)
-            $msg = "Check product on , $post_name";
+            // $msg = "product emplacement , $post_name";
+            // return $this->sendResponse(__("messages.product emplacement", ["host" => $post_name]), status: false);
+            return $this->sendResponse(__("messages.product emplacement", ""), status: false);
+
 
         // Check result of last movement
         if ($last_movement->result == 'NOK')
