@@ -44,13 +44,20 @@ class WebAuthController extends AccessTokensController
                $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             $content = $this->login($request)->getContent();
-            dd($content);
+            //dd($content);
             $response = json_decode($content, true);
-            //dd($response['message']['token']);
-            //$request->session()->put('token', $response['token']);
-            // request()->ip=="192.168.100.3";
-            if (request()->ip() == "192.168.100.5") {
-                return redirect()->intended("/serial_numbers");
+            //dd($response["data"]);
+            if($response["status"]==false)
+            {
+                Session::flush();
+                Auth::guard('web')->logout();
+                Auth::guard('sanctum')->guest();
+                return redirect("/")->with('error', $response["message"]);
+            }
+            $request->session()->put('token', $response['token']);
+            $request->session()->put('user_data', $response['data']);
+            if (request()->ip() == "127.0.0.1") {
+                return redirect("/serial_numbers");
             } else if (request()->ip() == "192.168.100.3") {
                 return redirect()->intended("/users");
             }

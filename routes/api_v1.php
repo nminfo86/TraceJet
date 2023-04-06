@@ -27,7 +27,7 @@ Route::post('register', [AccessTokensController::class, 'register']);
 
 
 Route::group(
-    ['middleware' => ['auth:sanctum']],
+    ['middleware' => ['auth:sanctum,check_ip_client']],
 
     function () {
 

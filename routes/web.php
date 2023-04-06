@@ -33,7 +33,7 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 // /************************** end ************************************/
 
 Route::group(
-    ['middleware' => ['auth:sanctum'/*, 'check_ip_client'*/]],
+    ['middleware' => ['auth:sanctum', /*'check_ip_client'*/]],
 
     function () {
         Route::get('/dashboard', function () {
