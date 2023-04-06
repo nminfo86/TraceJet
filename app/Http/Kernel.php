@@ -72,5 +72,8 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
 
         'check_ip_client' => \App\Http\Middleware\CheckIpClient::class,
+        'localLang' => \App\Http\Middleware\LocalLang::class,
+
+
     ];
 }

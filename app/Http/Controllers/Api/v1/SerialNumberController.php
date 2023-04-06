@@ -7,7 +7,6 @@ use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
-use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use App\Services\PrintLabelService;
 
@@ -23,25 +22,25 @@ class SerialNumberController extends Controller
     {
 
         // Get serial numbers valid list
-        $sn_valid_list['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["of_id", "serial_number", "created_at"]);
-        // return $sn_valid_list;
-        if ($sn_valid_list['list']->count() == 1) {
+        $product['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "created_at"]);
+        // return $valid_qr;
+        if ($product['list']->count() == 1) {
 
             // this kay for update staus of of in blade
-            $of = Of::findOrFail($sn_valid_list['list'][0]->of_id, ["id", "status"]);
+            $of = Of::findOrFail($request->of_id, ["id", "status"]);
 
             // update of status in first valid action
-            $of->update(['status' => 'inProd']) ? $sn_valid_list["status"] = "inProd" : "";
+            $of->update(['status' => 'inProd']) ? $product["status"] = "inProd" : "";
         }
 
         // Get quantity of valid product (TODAY)
-        $sn_valid_list['quantity_of_day'] = "0" . $sn_valid_list['list']->filter(function ($item) {
+        $product['quantity_of_day'] = "0" . $product['list']->filter(function ($item) {
 
             return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
             // return $item['created_at']->format('Y-m-d') == Carbon::today()->toDateString();
         })->count();
 
-        return $this->sendResponse(data: $sn_valid_list);
+        return $this->sendResponse(data: $product);
     }
 
 

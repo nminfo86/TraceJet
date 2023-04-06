@@ -27,7 +27,7 @@ Route::post('register', [AccessTokensController::class, 'register']);
 
 
 Route::group(
-    ['middleware' => ['auth:sanctum']],
+    ['middleware' => ['auth:sanctum', 'localLang']],
 
     function () {
 
@@ -71,7 +71,7 @@ Route::group(
         /* -------------------------------------------------------------------------- */
         /*                                Custom route                                */
         /* -------------------------------------------------------------------------- */
-        route::get('current_post/{ip}', [PostController::class, 'getCurrentPost']);
+        // route::get('current_post/{ip}', [PostController::class, 'getCurrentPost']);
 
 
         /* ---------------------------- End custom route ---------------------------- */

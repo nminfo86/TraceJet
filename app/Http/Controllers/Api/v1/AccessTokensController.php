@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AccessTokensRequest;
 
+
 class AccessTokensController extends Controller
 {
     use ResponseTrait;
@@ -46,6 +47,7 @@ class AccessTokensController extends Controller
         //  Send Response with data
         return response($data);
     }
+
 
     public function logout()
     {

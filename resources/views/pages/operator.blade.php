@@ -259,6 +259,7 @@
                     "qr": scanned_qr,
                     "of_id": of_id,
                     "mac": "mac1",
+                    "lang": "fr"
                 };
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
@@ -287,7 +288,8 @@
                     url: url,
                     data: {
                         "of_id": of_id,
-                        "mac": "mac1"
+                        "mac": "mac1",
+                        // "lang": "fr"
                     },
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);
