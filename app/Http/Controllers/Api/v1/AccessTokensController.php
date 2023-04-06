@@ -8,6 +8,7 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use PDOException;
+use App\Models\Post;
 use App\Traits\ResponseTrait;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,12 @@ class AccessTokensController extends Controller
         $user = Auth::user()->makeHidden('permissions', 'roles');
         $device_name =  $request->post('device_name', $request->userAgent());
         $user['permission'] =  $user->getPermissionsViaRoles()->pluck('name');
+
+        // Check for the device being used
+        $user['post_information'] =  Post::whereIpAddress("10.0.0.201")->first() ?? [];
+
+        if (empty($user['post_information']))
+            return $this->sendResponse("Invalid host, please contact the system administrator", status: false);
 
         $data = [
             'token' => $user->createToken($device_name)->plainTextToken,
