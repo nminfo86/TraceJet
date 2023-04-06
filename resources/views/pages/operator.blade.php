@@ -258,8 +258,18 @@
                 let formData = {
                     "qr": scanned_qr,
                     "of_id": of_id,
-                    "mac": "mac1",
-                    "lang": "fr"
+                    <<
+                    << << < HEAD "mac": "mac1",
+                    "lang": "fr" ===
+                        === =
+                        "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
+                    "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
+                    "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
+                    "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
+                    "id": "{{ Session::get('user_data')['post_information']['id'] }}",
+                    "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+                    >>>
+                    >>> > aa70a24d051b0ecde3bdce1c7b44ed25b94cd67c
                 };
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
@@ -288,8 +298,8 @@
                     url: url,
                     data: {
                         "of_id": of_id,
-                        "mac": "mac1",
-                        // "lang": "fr"
+                        "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
+                        "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
                     },
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);
