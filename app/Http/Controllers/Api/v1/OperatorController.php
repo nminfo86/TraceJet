@@ -45,9 +45,10 @@ class OperatorController extends Controller
         $msg = "";
 
         // Check existence of product in current OF
-        if (!$last_movement)
-            $msg = "Product does not belong to the current OF";
-
+        if (!$last_movement) {
+            $msg = "Product not found";
+            return $this->sendResponse(__("messages." . $msg), status: false);
+        }
         // Get current post information by mac_address ==>ip address for check previous post
         $current_post = $this->getCurrentPostInformation($request->mac);
         if (!$current_post)
@@ -55,21 +56,24 @@ class OperatorController extends Controller
 
         // Verify that the product has passed on this post
         if ($last_movement->movement_post_id == $current_post->id)
-            $msg = 'Product passed on this post ';
+            $msg = 'Product exists';
 
         // Get the name of last movement post
         $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
 
         // Check last movement
         if ($last_movement->movement_post_id != $current_post->previous_post_id)
-            $msg = "Last station was on , $post_name";
+            $msg = "Check product on , $post_name";
 
         // Check result of last movement
         if ($last_movement->result == 'NOK')
-            $msg = "Product invalid on , $post_name";
+            $msg = "nok , $post_name";
 
         if ($msg !== "")
-            return $this->sendResponse($msg, status: false);
+            return $this->sendResponse(__("messages." . $msg), status: false);
+
+
+
 
         $last_movement->current_post_id = $current_post->id;
         return $this->sendResponse(data: $last_movement, status: true);
@@ -81,6 +85,7 @@ class OperatorController extends Controller
      */
     public function index(Request $request)
     {
+        // return app()->getLocale();
         $current_post = $this->getCurrentPostInformation($request->mac);
 
         $qr_operator_list['list'] = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
@@ -144,16 +149,19 @@ class OperatorController extends Controller
      */
     public function show(Request $request)
     {
+        // return app()->getLocale();
+
+
         // Get last movement of QR
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
             ->where('serial_numbers.of_id', $request->of_id)
             ->latest("movements.created_at")
             ->first(['movement_post_id', 'result', 'serial_number']);
-        if (!$product) {
-            //Send response with error
-            return $this->sendResponse('Product does not belong to the current OF', status: false);
-        }
+        // if (!$product) {
+        //     //Send response with error
+        //     return $this->sendResponse(__('messages.Product does not belong to the current OF'), status: false);
+        // }
 
         // Check & control product steps error (if not exist current_post_id thats mean there is un error)
         return $this->checkProductSteps($request,  $product);
