@@ -1,6 +1,6 @@
 @extends('layouts.posts_layout')
 @php
-    dd(Session::get('user_data')['post_information']);
+    // dd(Session::get('user_data')['post_information']);
 @endphp
 <style>
     .outer {
@@ -335,7 +335,7 @@
                         data: 'serial_number'
                     },
                     {
-                        data: 'created_at'
+                        data: 'updated_at'
                     },
                 ],
                 searching: false,

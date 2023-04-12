@@ -1,5 +1,8 @@
 <?php
 
+use Carbon\Carbon;
+use App\Models\SerialNumber;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebAuthController;
 
@@ -16,10 +19,10 @@ use App\Http\Controllers\WebAuthController;
 
 /***************default route *************************/
 Route::get('/', function () {
-    if(Auth::check())
-    return view('welcome');
+    if (Auth::check())
+        return view('welcome');
     else
-    return view('pages.login');
+        return view('pages.login');
 })->name('login');
 /****************************** ***********************/
 
@@ -57,14 +60,29 @@ Route::group(
         Route::get('roles', function () {
             return view('pages.roles');
         })->middleware('permission:role-list');
+
+
+
+
         Route::get('serial_numbers', function () {
+            // dd(Carbon::now());
             return view('pages.serial_numbers');
         });
+
+
+
+
         Route::get('packaging', function () {
             return view('pages.packaging');
         });
         Route::get('operator', function () {
             return view('pages.operator');
+        });
+
+
+        route::get("ss", function () {
+            // dd(Carbon::now());
+            return $sn = SerialNumber::get("updated_at");
         });
     }
 );

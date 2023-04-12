@@ -70,6 +70,40 @@
                         class="btn btn-circle btn-danger me-2 mt-2"><i
                             class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i></a>
                 </div>
+
+
+
+
+                <!-- -------------------------------------------------------------------------- -->
+                <!--                          Clock + post name                                 -->
+                <!-- -------------------------------------------------------------------------- -->
+                <div class="row ">
+                    <div class="d-flex justify-content-between fixed-bottom bg-cyan  text-white pb-1 z-index-100 fs-3 ">
+                        <div style="/*position:fixed;bottom:2%;left:1%;z-index:1000*/">
+
+                            {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
+                            <span class="">{{ Auth::user()->username }}</span>
+
+
+
+                        </div>
+                        <div style="/*position:fixed;bottom:2%;left:45%;z-index:1000*/">
+
+                            {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
+                            <span id="clock" class=" "></span>
+
+
+
+                        </div>
+                        <div style="/*position:fixed;bottom:2%;right:2%;z-index:1000*/">
+
+                            {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
+                            <span class="  ">{{ Session::get('user_data')['post_information']['post_name'] }}</span>
+                        </div>
+
+                    </div>
+                </div>
+
                 {{-- <div id="navbar" class="navbar navbar-fixed-top navbar-right">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="">Contact Us</a></li>

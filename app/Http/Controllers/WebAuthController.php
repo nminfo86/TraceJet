@@ -41,29 +41,28 @@ class WebAuthController extends AccessTokensController
         // }
         try {
             DB::connection()->getPdo();
-               $credentials = $request->only('username', 'password');
-        if (Auth::attempt($credentials)) {
-            $content = $this->login($request)->getContent();
-            //dd($content);
-            $response = json_decode($content, true);
-            //dd($response["data"]);
-            if($response["status"]==false)
-            {
-                Session::flush();
-                Auth::guard('web')->logout();
-                Auth::guard('sanctum')->guest();
-                return redirect("/")->with('error', $response["message"]);
+            $credentials = $request->only('username', 'password');
+            if (Auth::attempt($credentials)) {
+                $content = $this->login($request)->getContent();
+                //dd($content);
+                $response = json_decode($content, true);
+                //dd($response["data"]);
+                if ($response["status"] == false) {
+                    Session::flush();
+                    Auth::guard('web')->logout();
+                    Auth::guard('sanctum')->guest();
+                    return redirect("/")->with('error', $response["message"]);
+                }
+                $request->session()->put('token', $response['token']);
+                $request->session()->put('user_data', $response['data']);
+                if (request()->ip() == "127.0.0.1") {
+                    return redirect("/serial_numbers");
+                } else if (request()->ip() == "192.168.100.3") {
+                    return redirect()->intended("/users");
+                }
+                return redirect()->intended('/dashboard');
             }
-            $request->session()->put('token', $response['token']);
-            $request->session()->put('user_data', $response['data']);
-            if (request()->ip() == "127.0.0.1") {
-                return redirect("/serial_numbers");
-            } else if (request()->ip() == "192.168.100.3") {
-                return redirect()->intended("/users");
-            }
-            return redirect()->intended('/dashboard');
-        }
-        return redirect("/")->with('error', "les informations d'authentification ne sont pas valides");
+            return redirect("/")->with('error', "les informations d'authentification ne sont pas valides");
         } catch (\Exception $e) {
             return redirect("/")->with('error', "Etat 2002 du serveur");
         }

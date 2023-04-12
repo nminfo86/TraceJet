@@ -22,11 +22,11 @@ class SerialNumberController extends Controller
     {
 
         // Get serial numbers valid list
-        $product['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "created_at"]);
+        $product['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "updated_at"]);
         // return $valid_qr;
         if ($product['list']->count() == 1) {
 
-            // this kay for update staus of of in blade
+            // this kay for update status of of in blade
             $of = Of::findOrFail($request->of_id, ["id", "status"]);
 
             // update of status in first valid action
@@ -35,9 +35,7 @@ class SerialNumberController extends Controller
 
         // Get quantity of valid product (TODAY)
         $product['quantity_of_day'] = "0" . $product['list']->filter(function ($item) {
-
-            return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
-            // return $item['created_at']->format('Y-m-d') == Carbon::today()->toDateString();
+            return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
         })->count();
 
         return $this->sendResponse(data: $product);
@@ -59,26 +57,17 @@ class SerialNumberController extends Controller
         $product = SerialNumber::with("of:id,new_quantity")->whereQr($request->qr)->whereValid(0)->first();
 
         // Check qr in db
-        if ($product) {
-
-            $of_quantity = $product->of->new_quantity;
-
-            // Check with OF quantity
-            if ($of_quantity <= $this->countValidProducts($request->of_id)) {
-
-                // Send response with error
-                return $this->sendResponse("OF Valid", status: true);
-            }
-
-            // Valid product
-            $product->update(['valid' => 1]);
-
-            // Create new sn (next serial number)
-            return $this->generateNewSN($request->of_id, $of_quantity);
+        if (!$product) {
+            // Send response with error
+            return $this->sendResponse("This product valid or does not belong to this OF", status: false);
         }
+        $of_quantity = $product->of->new_quantity;
 
-        // Send response with error
-        return $this->sendResponse("This product valid or does not belong to this OF", status: false);
+        // Valid product
+        $product->update(['valid' => 1]);
+
+        // Create new sn (next serial number)
+        return $this->generateNewSN($request->of_id, $of_quantity);
     }
 
 
@@ -89,7 +78,7 @@ class SerialNumberController extends Controller
         if ($of_quantity <= $this->countValidProducts($of_id)) {
 
             //Send response with Error
-            return $this->sendResponse("OF Valid");
+            return $this->sendResponse("OF has been locked", status: false);
         }
 
         // Get last sn by of_id
@@ -106,6 +95,7 @@ class SerialNumberController extends Controller
 
         //Send response with QR success
         return $this->sendResponse($this->create_success_msg, $new_sn->only('qr'));
+
         // $printLabel = new PrintLabelService("192.168.98.121", "TSPL", "40_20");
         // $qrCode = $new_sn->qr;
 

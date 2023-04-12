@@ -61,14 +61,7 @@
                                                 id="of_number"></span>
                                         </h5>
                                     </div>
-                                    <div class="">
-                                        {{-- <h6 class="fw-normal text-dark mb-0">{{ __('OF Numéro') }}</h6>
-                                        <span class=badge "fs-3 font-weight-medium text-info" id="of_number"></span> --}}
-                                        <h5> {{ __('Post N°') }} : <span
-                                                class="fs-3 font-weight-medium badge bg-primary text-white"
-                                                id="post_name">/</span>
-                                        </h5>
-                                    </div>
+
                                 </div>
                             </div>
                             {{-- </div> --}}
@@ -205,6 +198,17 @@
             url = base_url + '/operators',
             of_id,
             last_qr = "";
+        var formData = {
+            // "qr": scanned_qr,
+            // "of_id": of_id,
+            // "lang": "fr",
+            // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
+            "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
+            //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
+            // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
+            "host_id": "{{ Session::get('user_data')['post_information']['id'] }}",
+            // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+        };
         formToggle(form_title);
 
         $(document).ready(function() {
@@ -231,7 +235,9 @@
         var scanned_qr = 0;
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
+                // alert($("html").attr('lang'))
                 of_id = $(this).val();
+                formData.of_id = of_id;
                 getSnTable(of_id);
                 callAjax('GET', base_url + '/of_details/' + of_id, {
                     of_id: of_id
@@ -255,22 +261,18 @@
                 e.preventDefault();
                 cleanValidationAlert();
                 let qr = $("#qr").val();
-                let formData = {
-                    "qr": scanned_qr,
-                    "of_id": of_id,
-                    <<
-                    << << < HEAD "mac": "mac1",
-                    "lang": "fr" ===
-                        === =
-                        "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-                    "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
-                    "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
-                    "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
-                    "id": "{{ Session::get('user_data')['post_information']['id'] }}",
-                    "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
-                    >>>
-                    >>> > aa70a24d051b0ecde3bdce1c7b44ed25b94cd67c
-                };
+                // let formData = {
+                //     "qr": scanned_qr,
+                //     "of_id": of_id,
+                //     // "lang": "fr",
+                //     "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
+                //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
+                //     "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
+                //     "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
+                //     "id": "{{ Session::get('user_data')['post_information']['id'] }}",
+                //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+                // };
+                console.log(formData);
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
                         formData.result = "OK";
@@ -296,11 +298,12 @@
                 ajax: {
                     type: 'GET',
                     url: url,
-                    data: {
-                        "of_id": of_id,
-                        "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-                        "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
-                    },
+                    data: formData,
+                    // data: {
+                    //     "of_id": of_id,
+                    //     "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
+                    //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+                    // },
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);
                         $("#status").text(response.data.status);

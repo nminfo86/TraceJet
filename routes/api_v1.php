@@ -146,5 +146,8 @@ Route::group(
         //     Route::delete('del_students_from_regiment', 'deleteStudents');
         // });
 
+
+
+
     }
 );

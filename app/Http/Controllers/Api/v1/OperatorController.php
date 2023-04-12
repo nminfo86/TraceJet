@@ -42,6 +42,7 @@ class OperatorController extends Controller
     /** checkProductSteps void */
     public function checkProductSteps($request,  $last_movement)
     {
+
         $msg = "";
 
         // Check existence of product in current OF
@@ -50,22 +51,25 @@ class OperatorController extends Controller
             return $this->sendResponse(__("messages." . $msg), status: false);
         }
         // Get current post information by mac_address ==>ip address for check previous post
-        $current_post = $this->getCurrentPostInformation($request->mac);
-        if (!$current_post)
-            $msg = 'invalid post';
+        // $current_post = $this->getCurrentPostInformation($request->mac);
+        // if (!$current_post)
+        //     $msg = 'invalid post';
 
         // Verify that the product has passed on this post
-        if ($last_movement->movement_post_id == $current_post->id)
-            $msg = 'Product exists';
+        if ($last_movement->movement_post_id == $request->host_id)
+
+            // $msg = 'Product exists';
+            return $this->sendResponse(__("messages.Product exists"), status: false);
+
 
         // Get the name of last movement post
         $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
 
         // Check last movement
-        if ($last_movement->movement_post_id != $current_post->previous_post_id)
+        if ($last_movement->movement_post_id != $request->previous_post_id)
             // $msg = "product emplacement , $post_name";
             // return $this->sendResponse(__("messages.product emplacement", ["host" => $post_name]), status: false);
-            return $this->sendResponse(__("messages.product emplacement", ""), status: false);
+            return $this->sendResponse(__("messages.product emplacement :host", ['host' => $post_name]), status: false);
 
 
         // Check result of last movement
@@ -78,7 +82,7 @@ class OperatorController extends Controller
 
 
 
-        $last_movement->current_post_id = $current_post->id;
+        $last_movement->current_post_id = $request->host_id;
         return $this->sendResponse(data: $last_movement, status: true);
     }
     /**
@@ -88,19 +92,20 @@ class OperatorController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request);
         // return app()->getLocale();
-        $current_post = $this->getCurrentPostInformation($request->mac);
+        // $current_post = $this->getCurrentPostInformation($request->mac);
 
         $qr_operator_list['list'] = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.of_id', $request->of_id)
-            ->where('movements.movement_post_id', $current_post->id)
+            ->where('movements.movement_post_id', $request->host_id)
             ->get(["serial_number", "movements.created_at", "movements.result"]);
 
         // Get quantity of valid product (TODAY)
         $qr_operator_list['quantity_of_day'] = "0" . $qr_operator_list['list']->filter(function ($item) {
             return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
         })->count();
-        $qr_operator_list['post_name'] = $current_post->post_name;
+        // $qr_operator_list['post_name'] = $request->host_name;
         return $this->sendResponse(data: $qr_operator_list);
     }
 
@@ -117,6 +122,7 @@ class OperatorController extends Controller
         // check movement
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
+            ->where('serial_numbers.of_id', $request->of_id)
             ->latest("movements.created_at")
             ->first(['serial_numbers.id AS sn_id', 'movement_post_id', 'result']);
 
@@ -153,6 +159,7 @@ class OperatorController extends Controller
     public function show(Request $request)
     {
         // return app()->getLocale();
+        // dd($request->all());
 
 
         // Get last movement of QR
