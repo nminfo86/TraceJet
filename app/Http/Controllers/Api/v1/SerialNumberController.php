@@ -3,15 +3,24 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Of;
+use Carbon\Carbon;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
+use App\Services\ProductService;
+use App\Services\PrintLabelService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
-use Carbon\Carbon;
-use App\Services\PrintLabelService;
 
 class SerialNumberController extends Controller
 {
+
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -120,7 +129,18 @@ class SerialNumberController extends Controller
     }
 
 
+    // public function FunctionName(Type $var = null)
+    // {
+    //     // $printLabel = new PrintLabelService("192.168.98.121", "TSPL", "40_20");
+    //     // $qrCode = $new_sn->qr;
 
+    //     // // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+    //     // $qr = explode("#", $qrCode);
+    //     // $sn = $qr[3];
+    //     // $of_num = $qr[1];
+    //     // $product_name = $qr[2];
+    //     // $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
+    // }
 
 
     public function countValidProducts($of_id)

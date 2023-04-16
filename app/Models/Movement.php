@@ -29,7 +29,7 @@ class Movement extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:m:s'),
+            get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:i:s'),
 
         );
     }

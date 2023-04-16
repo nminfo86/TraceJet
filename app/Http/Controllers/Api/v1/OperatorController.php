@@ -7,36 +7,13 @@ use App\Models\Post;
 use App\Models\Movement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\ProductService;
 
 class OperatorController extends Controller
 {
-    //TODO::common functions
-    /**
-     * Get current post information.
-     *
-     * @param  $mac_address from request
-     * @return \Illuminate\Http\Response
-     */
-    /** checkProductSteps void */
-    public function getCurrentPostInformation(string $mac_address)
-    {
-        // FIXME::change mac by ip address
-        $post = Post::whereMac($mac_address)->first();
-        return $post ?? false;
-    }
+    protected $productService;
 
-    //TODO::common functions
-
-    /**
-     * checkProductSteps void
-     *
-     * @param  mixed $request  [mac_address,new result]
-     * @param  mixed $last_movement [movement_post_id,result]
-     * @return \Illuminate\Http\Response
-     */
-
-    /** checkProductSteps void */
-    public function checkProductSteps($request,  $last_movement)
+    public function __construct(ProductService $productService)
     {
         $this->productService = $productService;
     }
@@ -94,6 +71,7 @@ class OperatorController extends Controller
             'movement_post_id' => $checkProductSteps->data->current_post_id,
             'result' => $request->result,
         ];
+        // dd($payload);
 
         // Create new movement
         $movement = Movement::create($payload);
