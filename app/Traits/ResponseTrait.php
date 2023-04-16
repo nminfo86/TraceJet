@@ -8,10 +8,49 @@ use Illuminate\Support\Facades\Route;
 
 trait ResponseTrait
 {
-    // Used in success response
-    public $create_success_msg = "Created successfully";
-    public $update_success_msg = "Updated successfully";
-    public $delete_success_msg = "Deleted successfully";
+
+    /**
+     * getResponseMessage
+     *
+     * @param  mixed $key
+     * @param  array $replacements list des attributes
+     * @return void
+     */
+    protected function getResponseMessage($key, $replacements = [])
+    {
+        $messages = [
+            //productService
+            'not_found' => __('response-messages.not_found'),
+            'exists' => __('response-messages.exists'),
+            'product_place' => __('response-messages.product_place'),
+
+            // Serialnumber
+            'of_closed' => __('response-messages.of_closed'),
+            "print_qr-success" => __('response-messages.print_qr-success'),
+            // Add more custom messages here
+        ];
+
+        $attributes = [
+            'product' => __('response-messages.product'),
+            'operator 1' => __('response-messages.operator 1'),
+            // Add more custom attributes here
+        ];
+
+        // Replace placeholders with actual values
+        $message = $messages[$key];
+
+        foreach ($replacements as $key => $value) {
+
+            // Translate if the value exists as a key in the array
+            if (array_key_exists($value, $attributes)) {
+                $message = str_replace(':' . $key, $attributes[$value], $message);
+            }
+        }
+
+        return ucfirst($message);
+    }
+
+
 
     function sendResponse($message = null, $data = [], $status = true)
     {

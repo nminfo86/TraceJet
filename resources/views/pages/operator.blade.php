@@ -272,7 +272,7 @@
                 //     "id": "{{ Session::get('user_data')['post_information']['id'] }}",
                 //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
                 // };
-                console.log(formData);
+
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
                         formData.result = "OK";
@@ -382,6 +382,7 @@
 
         function getQr(formData, qr) {
             formData.qr = qr;
+
             callAjax("GET", url + '/' + qr, formData).done(function(response) {
                 $("#qr").val("");
                 if (response.status == false) {
