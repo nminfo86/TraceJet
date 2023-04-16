@@ -4,11 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use Carbon\Carbon;
 use App\Models\Post;
-use App\Models\User;
-use Mockery\Undefined;
 use App\Models\Movement;
-use Hamcrest\Core\IsTypeOf;
-use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -42,49 +38,9 @@ class OperatorController extends Controller
     /** checkProductSteps void */
     public function checkProductSteps($request,  $last_movement)
     {
-
-        $msg = "";
-
-        // Check existence of product in current OF
-        if (!$last_movement) {
-            $msg = "Product not found";
-            return $this->sendResponse(__("messages." . $msg), status: false);
-        }
-        // Get current post information by mac_address ==>ip address for check previous post
-        // $current_post = $this->getCurrentPostInformation($request->mac);
-        // if (!$current_post)
-        //     $msg = 'invalid post';
-
-        // Verify that the product has passed on this post
-        if ($last_movement->movement_post_id == $request->host_id)
-
-            // $msg = 'Product exists';
-            return $this->sendResponse(__("messages.Product exists"), status: false);
-
-
-        // Get the name of last movement post
-        $post_name = Post::findOrFail($last_movement->movement_post_id)->post_name;
-
-        // Check last movement
-        if ($last_movement->movement_post_id != $request->previous_post_id)
-            // $msg = "product emplacement , $post_name";
-            // return $this->sendResponse(__("messages.product emplacement", ["host" => $post_name]), status: false);
-            return $this->sendResponse(__("messages.product emplacement :host", ['host' => $post_name]), status: false);
-
-
-        // Check result of last movement
-        if ($last_movement->result == 'NOK')
-            $msg = "nok , $post_name";
-
-        if ($msg !== "")
-            return $this->sendResponse(__("messages." . $msg), status: false);
-
-
-
-
-        $last_movement->current_post_id = $request->host_id;
-        return $this->sendResponse(data: $last_movement, status: true);
+        $this->productService = $productService;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -92,10 +48,6 @@ class OperatorController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request);
-        // return app()->getLocale();
-        // $current_post = $this->getCurrentPostInformation($request->mac);
-
         $qr_operator_list['list'] = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.of_id', $request->of_id)
             ->where('movements.movement_post_id', $request->host_id)
@@ -128,12 +80,13 @@ class OperatorController extends Controller
 
 
         // Check & control product steps error
-        $checkProductSteps = $this->checkProductSteps($request, $product)->getData();
+        $checkProductSteps = $this->productService->checkProductSteps($request, $product)->getData();
 
 
         if (!isset($checkProductSteps->data)) {
             return $checkProductSteps;
         }
+
 
         // Prepare payload
         $payload = [
@@ -158,23 +111,15 @@ class OperatorController extends Controller
      */
     public function show(Request $request)
     {
-        // return app()->getLocale();
-        // dd($request->all());
-
-
         // Get last movement of QR
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
             ->where('serial_numbers.of_id', $request->of_id)
             ->latest("movements.created_at")
             ->first(['movement_post_id', 'result', 'serial_number']);
-        // if (!$product) {
-        //     //Send response with error
-        //     return $this->sendResponse(__('messages.Product does not belong to the current OF'), status: false);
-        // }
 
         // Check & control product steps error (if not exist current_post_id thats mean there is un error)
-        return $this->checkProductSteps($request,  $product);
+        return $this->productService->checkProductSteps($request,  $product);
     }
 
     /**
