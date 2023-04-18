@@ -24,7 +24,7 @@ return [
 
     // OF
     "print_qr-success" => "Le QR code est imprimé",
-    "of_closed" => "OF clôturé",
+    "of_closed" => "Félicitations ! OF cloturé",
 
 
 

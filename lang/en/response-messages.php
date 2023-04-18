@@ -24,7 +24,7 @@ return [
 
     // SerialNumber
     "print_qr-success" => "QR code has printed",
-    "of_closed" => "OF has been closed",
+    "of_closed" => "Congratulations OF reached",
 
 
 

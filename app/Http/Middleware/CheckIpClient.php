@@ -20,7 +20,7 @@ class CheckIpClient
         $ip = request()->ip();
 
 
-        if ($ip == '10.159.99.234' || $ip == "10.1.0.1"|| "192.168.100.6") {
+        if ($ip == '10.159.99.234' || $ip == "10.1.0.1" || "192.168.100.6") {
 
             // If user is super-admin, accept the request
             return $next($request);

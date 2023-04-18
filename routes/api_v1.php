@@ -4,8 +4,6 @@ use App\Models\Of;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RepairController;
-use App\Http\Controllers\Api\v1\PartController;
 use App\Http\Controllers\api\v1\OperatorController;
 use App\Http\Controllers\api\v1\PackagingController;
 use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};

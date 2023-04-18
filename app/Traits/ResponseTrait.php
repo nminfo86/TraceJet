@@ -50,8 +50,6 @@ trait ResponseTrait
         return ucfirst($message);
     }
 
-
-
     function sendResponse($message = null, $data = [], $status = true)
     {
         match ($status) {
