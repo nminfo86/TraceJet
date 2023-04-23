@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item" aria-current="page">{{ __('Administration') }}</li>
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Utilisateurs') }}</li>
+    <li class="breadcrumb-item text-capitalize" aria-current="page">{{ __('administration') }}</li>
+    <li class="breadcrumb-item active text-capitalize" aria-current="page">{{ __('utilisateurs') }}</li>
 @endsection
 {{-- @section('btns_actions')
 @endsection --}}
@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des utilisateurs') }}</h4>
+                        <h4 class="card-title">{{ __('List des utilisateurs') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             {{-- <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
                                 target="_blank">Upgrade to Pro</a> --}}
@@ -57,11 +57,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Nom') }}:*</label>
+                                <label class="text-capitalize">{{ __('nom') }}:*</label>
                                 <input type="text" name="name" id="name" class="form-control"
                                     placeholder="{{ __('Nom et prénom') }}" />
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="name-error">dd</strong>
+                                    <strong id="name-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-6 mb-2">
@@ -89,7 +89,7 @@
                                 </span>
                             </div>
                             <div class="col-lg-6">
-                                <label>{{ __('Rôle') }}:*</label>
+                                <label class="text-capitalize">{{ __('rôle') }}:*</label>
                                 <select id="roles_name" class="form-control select2"
                                     data-placeholder="{{ __('Selection un role') }}" name="roles_name">
                                     <option></option>
@@ -134,7 +134,7 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            form_title = " {{ __('Nouvel Utilisateur') }}",
+            form_title = " {{ __('Nouvel utilisateur') }}",
             url = 'api/v1/users';
         formToggle(form_title);
 
@@ -166,7 +166,7 @@
         $(document).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
-            form_title = " {{ __('Modification Utilisateur') }}";
+            form_title = " {{ __('Modification utilisateur') }}";
             editObject(url + '/' + id, form_title);
             /*----------------- checkbox value set --------------------*/
             if ($('#status').val() == 0)

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Calibers') }}</li>
+    <li class="breadcrumb-item active text-capitalize" aria-current="page">{{ __('calibres') }}</li>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des calibres') }}</h4>
+                        <h4 class="card-title">{{ __('List des calibres') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             @include('components.add_btn', ['label' => 'Nouveau'])
                         </div>
@@ -24,7 +24,7 @@
                                     <th>{{ __('Code') }}</th>
                                     <th>{{ __('calibre') }}</th>
                                     <th>{{ __('Produit') }}</th>
-                                    <th>{{ __('Carton Quantité') }}</th>
+                                    <th>{{ __('Quantité carton') }}</th>
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
@@ -78,7 +78,7 @@
                                 <label>{{ __('Produit') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="product_id" class=""
-                                        data-placeholder="{{ __('Selectionner une product') }}" name="product_id">
+                                        data-placeholder="{{ __('Selectionner un produit') }}" name="product_id">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
@@ -89,19 +89,11 @@
                             <div class="col-lg-6 mb-2">
                                 <label>{{ __('Quantité par carton') }}:*</label>
                                 <input type="number" name="box_quantity" id="box_quantity" class="form-control"
-                                    placeholder="{{ __('quantité dans le carton') }}" />
+                                    placeholder="{{ __('Quantité par carton') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="box_quantity-error"></strong>
                                 </span>
                             </div>
-                            {{-- <div class="col-12 pt-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="status" role="switch"
-                                        value="1" checked>
-                                    <label class="form-check-label" for="status">{{ __('Actif') }}
-                                    </label>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                     @include('components.footer_form')
@@ -146,14 +138,9 @@
             form_title = " {{ __('Modification Calibre') }}";
             editObject(url + '/' + id, form_title);
             /*----------------- checkbox value set --------------------*/
-            // if ($('#status').val() == 0)
-            //     $('#status').prop('checked', false);
-            // else
-            //     $('#status').prop('checked', true);
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");
-            alert(id);
             /* ----------------- Fire alert to user about delete warning ---------------- */
             Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}").then((
                 result) => {

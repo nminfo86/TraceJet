@@ -19,6 +19,7 @@ use App\Http\Controllers\WebAuthController;
 
 /***************default route *************************/
 Route::get('/', function () {
+
     if (Auth::check())
         return view('welcome');
     else

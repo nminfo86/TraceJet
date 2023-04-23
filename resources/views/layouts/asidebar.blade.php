@@ -11,52 +11,53 @@
                         href="{{ url('/dashboard') }}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                             class="hide-menu">{{ __('Dashboard') }}</span></a></li>
                 @can('role-list')
-                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('Administration') }}</h6>
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('administration') }}</h6>
                 @elsecan('user-list')
-                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('Administration') }}</h6>
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('administration') }}</h6>
                 @endcan
                 @can('role-list')
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('/roles') }}" aria-expanded="false"><i class="mdi mdi-account-settings"></i><span
-                                class="hide-menu"> {{ __('Rôles') }}
+                                class="hide-menu"> {{ __('rôles') }}
                             </span></a>
                     </li>
                 @endcan
                 @can('user-list')
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('/users') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span
-                                class="hide-menu"> {{ __('Utilisateurs') }} </span></a>
+                                class="hide-menu"> {{ __('utilisateurs') }} </span></a>
                     </li>
                 @endcan
                 {{-- <h6 class="text-uppercase text-muted pb-1 pt-2 hide-menu text-truncate">{{ __('Produits') }}</h6> --}}
                 @can('product-list')
-                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('Produits') }}</h6>
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate ">{{ __('produits') }}</h6>
                 @elsecan('caliber-list')
-                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('Produits') }}</h6>
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate ">{{ __('produits') }}</h6>
                 @endcan
                 @can('product-list')
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('products') }}" aria-expanded="false"><i class="mdi mdi-book "></i><span
-                                class="hide-menu">{{ __('Produits') }}</span></a></li>
+                                class="hide-menu">{{ __('produits') }}</span></a></li>
                 @endcan
                 @can('caliber-list')
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('calibers') }}" aria-expanded="false"><i class="mdi mdi-book-multiple"></i><span
-                                class="hide-menu">{{ __('Calibres') }}</span></a></li>
+                                class="hide-menu">{{ __('calibres') }}</span></a></li>
                 @endcan
                 @can('of-list')
-                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('Production') }}</h6>
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate text-capitalize">{{ __('production') }}
+                    </h6>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('ofs') }}" aria-expanded="false"><i class="mdi mdi-arrow-top-right"></i><span
-                                class="hide-menu">{{ __('Ofs') }}</span></a></li>
+                                class="hide-menu">{{ __('OFs') }}</span></a></li>
                 @endcan
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                         href="{{ url('serial_numbers') }}" aria-expanded="false"><i
-                            class="mdi mdi-barcode-scan"></i><span class="hide-menu">{{ __('List des NS') }}</span></a>
+                            class="mdi mdi-barcode-scan"></i><span class="hide-menu">{{ __('list des NS') }}</span></a>
                 </li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                         href="{{ url('packaging') }}" aria-expanded="false"><i class="mdi mdi-box"></i><span
-                            class="hide-menu">{{ __('Empallages') }}</span></a>
+                            class="hide-menu">{{ __('emballage') }}</span></a>
                 </li>
                 <div></div>
             </ul>
