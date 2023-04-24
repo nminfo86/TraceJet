@@ -129,7 +129,7 @@
                                                             <i class="mdi mdi-check mdi-36px"></i>
                                                         </div>
                                                         <div class="ms-3 align-self-center">
-                                                            <span class="text-dark">OK / OF</span>
+                                                            <span class="text-dark">{{ __('OK / OF') }}</span>
                                                             <h3 class="mb-0 text-primary">
                                                                 <span id="packged_products"></span> /
                                                                 <span id="quantity"></span>

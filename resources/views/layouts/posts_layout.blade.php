@@ -66,9 +66,36 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
+
                 <div style="position:fixed;top:0;right:0;z-index:1000"><a href="{{ url('logout') }}"
                         class="btn btn-circle btn-danger me-2 mt-2"><i
                             class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i></a>
+                </div>
+                {{-- <ul>
+                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <li>
+                            <a rel="alternate" hreflang="{{ $localeCode }}"
+                                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                {{ $properties['native'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul> --}}
+                <div class="dropdown" style="position:fixed;top:0;right:50;z-index:1000">
+                    <button class="btn btn-info btn-circle me-2 mt-2 text-white pt-1" type="button"
+                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ LaravelLocalization::getCurrentLocale() }}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <li>
+                                <a class="ms-2" rel="alternate" hreflang="{{ $localeCode }}"
+                                    href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                    {{ $properties['native'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
 
 

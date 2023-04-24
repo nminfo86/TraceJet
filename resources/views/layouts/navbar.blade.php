@@ -134,10 +134,28 @@
                 <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
-                <li class="nav-item">
+                <li class="dropdown me-4">
+                    <button class="btn btn-info btn-circle text-white pt-1" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ LaravelLocalization::getCurrentLocale() }}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <li>
+                                <a class="ms-2" rel="alternate" hreflang="{{ $localeCode }}"
+                                    href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                    {{ $properties['native'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+                <li class="nav-item navbar-collapse">
                     <a class="link" href="{{ url('logout') }}"><i class="ti-lock m-r-5 m-l-5"></i>
                         {{ __('Se déconnecter') }}</a>
                 </li>
+
+
                 <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->

@@ -75,6 +75,12 @@ class Kernel extends HttpKernel
         'check_ip_client' => \App\Http\Middleware\CheckIpClient::class,
         'localLang' => \App\Http\Middleware\LocalLang::class,
 
+        /***********************localization middlware *******************************/
+        'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+        'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+        'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class
 
     ];
 }

@@ -5,7 +5,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebAuthController;
-
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,8 +18,7 @@ use App\Http\Controllers\WebAuthController;
 */
 
 /***************default route *************************/
-Route::get('/', function () {
-
+Route::prefix(LaravelLocalization::setLocale())->get('/', function () {
     if (Auth::check())
         return view('welcome');
     else
@@ -36,10 +35,10 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 // Route::get('logout', [WebAuthController::class, 'webLogout']);
 // /************************** end ************************************/
 
-Route::group(
-    ['middleware' => ['auth:sanctum', /*'check_ip_client'*/]],
+// Route::group(['middleware' => ['auth:sanctum', /*'check_ip_client'*/]],
 
-    function () {
+//     function () {
+    Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['auth', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']], function () {
         Route::get('/dashboard', function () {
             return view('welcome');
         });
