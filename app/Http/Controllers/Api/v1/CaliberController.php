@@ -50,7 +50,8 @@ class CaliberController extends Controller
         $section = Caliber::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->create_success_msg, $section);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg, $section);
     }
 
     /**
@@ -76,7 +77,8 @@ class CaliberController extends Controller
         $caliber->update($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->update_success_msg, $caliber);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg, $caliber);
     }
 
     /**

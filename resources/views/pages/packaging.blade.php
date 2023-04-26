@@ -192,14 +192,31 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
+            formData = {
+                // "qr": scanned_qr,
+                // "of_id": of_id,
+                // "lang": "fr",
+                // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
+                "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
+                //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
+                // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
+                "host_id": "{{ Session::get('user_data')['post_information']['id'] }}",
+                "result": "OK",
+                // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+            },
             url = base_url + '/packaging';
+
         /* -------------------------------------------------------------------------- */
         /*                                Valid Product                               */
         /* -------------------------------------------------------------------------- */
         $(document).on('submit', 'form', function(e) {
             e.preventDefault();
             var qr = $("#qr").val();
-            getSnTable(qr);
+
+            // Add more properties to the formData object
+            formData.qr = qr;
+
+            getSnTable(formData);
             $("#qr").val('');
         });
         /* -------------------------------------------------------------------------- */
@@ -210,15 +227,17 @@
         var newPercent = 0;
 
         function getSnTable(formData) {
+
             return table.DataTable({
                 ajax: {
                     type: 'POST',
                     url: base_url + '/packaging',
-                    data: {
-                        qr: formData,
-                        mac: "mac5",
-                        result: "OK"
-                    },
+                    data: formData,
+                    // data: {
+                    //     qr: formData,
+                    //     mac: "mac5",
+                    //     result: "OK"
+                    // },
                     dataSrc: function(response) {
                         if (response.status == true) {
                             $.each(response.data.info, function(k, v) {

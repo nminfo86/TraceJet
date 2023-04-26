@@ -45,6 +45,32 @@ class MovementService //extends Controller
         }
         return $this->productStepsControl($request, $last_movement);
     }
+    /* $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+            ->where('serial_numbers.qr', $request->qr)
+            ->where('serial_numbers.of_id', $request->of_id)
+            ->latest('movements.created_at')
+            ->first(['serial_numbers.id AS sn_id', 'movement_post_id', 'result']);
+
+        // Check if there were any errors in the product steps
+        $checkProductSteps = $this->productService->checkProductSteps($request, $product)->getData();
+
+        // If there were errors, return the error response
+        if (!isset($checkProductSteps->data)) {
+            return $checkProductSteps;
+        }
+
+        // Prepare payload for new movement record
+        $payload = [
+            'serial_number_id' => $product->sn_id,
+            'movement_post_id' => $checkProductSteps->data->current_post_id,
+            'result' => $request->result,
+        ];
+
+        // Create new movement record
+        $movement = Movement::create($payload);
+
+        // Send success response
+        return $this->sendResponse($this->create_success_msg, $movement);*/
 
     /**
      * Get current post information.

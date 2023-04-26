@@ -7,7 +7,7 @@ use App\Traits\ResponseTrait;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
-use App\Models\{Of, Caliber, Product, Section};
+use App\Models\{Of, Caliber, Host, Product, Section};
 
 class PluckController extends Controller
 {
@@ -39,6 +39,7 @@ class PluckController extends Controller
             $model_name == "sections" => Section::pluck('section_name', 'id'),
             $model_name == "permissions" => Permission::pluck('name', 'id'),
             $model_name == "roles" => Role::pluck('name', 'id'),
+            $model_name == "hosts" => Host::pluck('post_name', 'id'),
 
             // Multiple pluck
             $model_name == "products" && $request->filter == null => Product::pluck('product_name', 'id'),

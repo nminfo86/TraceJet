@@ -60,6 +60,9 @@ Route::group(
         Route::get('roles', function () {
             return view('pages.roles');
         })->middleware('permission:role-list');
+        Route::get('hosts', function () {
+            return view('pages.hosts');
+        })->middleware('permission:host-list');
 
 
 

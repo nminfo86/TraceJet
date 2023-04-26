@@ -203,7 +203,7 @@
         });
 
         function permissionsList(index, value) {
-            value = '{{ __('messages.list') }}';
+            // value = '{{ __('messages.list') }}';
             return '<div class="form-check form-switch form-check-inline">' +
                 '<input class="form-check-input" type="checkbox" id="' +
                 index + '" name="permissions[]" role="switch" value="' +

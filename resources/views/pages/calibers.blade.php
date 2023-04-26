@@ -135,8 +135,10 @@
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            storObject(url, formData, id, "{{ __('Calibre ajouté avec succès') }}",
-                "{{ __('Calibre modifié avec succès') }}");
+            storObject(url, formData, id
+                /*, "{{ __('Calibre ajouté avec succès') }}",
+                                "{{ __('Calibre modifié avec succès') }}"*/
+            );
         });
 
         /* ---------------------------------- Edit ---------------------------------- */
@@ -146,10 +148,6 @@
             form_title = " {{ __('Modification Calibre') }}";
             editObject(url + '/' + id, form_title);
             /*----------------- checkbox value set --------------------*/
-            // if ($('#status').val() == 0)
-            //     $('#status').prop('checked', false);
-            // else
-            //     $('#status').prop('checked', true);
         }).on('click', '.delete', function(e) {
             e.preventDefault();
             id = $(this).attr("id");

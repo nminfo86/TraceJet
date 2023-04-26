@@ -25,8 +25,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('posts_type')->get();
-
+        $posts = Post::with('posts_type:id,posts_type')->get();
+        // dd($posts);
         //Send response with success
         return $this->sendResponse(data: $posts);
     }

@@ -19,6 +19,8 @@ trait ResponseTrait
     protected function getResponseMessage($key, $replacements = [])
     {
         $messages = [
+            //Ajax
+            "success" => __('response-messages.success'),
             //productService
             'not_found' => __('response-messages.not_found'),
             'exists' => __('response-messages.exists'),
@@ -33,6 +35,8 @@ trait ResponseTrait
         $attributes = [
             'product' => __('response-messages.product'),
             'operator 1' => __('response-messages.operator 1'),
+            'operator 2' => __('response-messages.operator 2'),
+            'operator 4' => __('response-messages.operator 4'),
             // Add more custom attributes here
         ];
 
