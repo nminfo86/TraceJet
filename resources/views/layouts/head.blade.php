@@ -16,9 +16,12 @@
     <link href="../dist/css/icons/themify-icons/themify-icons.css" rel="stylesheet">
     <link href="../dist/css/icons/weather-icons/css/weather-icons.min.css" rel="stylesheet">
 
+    {{-- <link href="https://demos.wrappixel.com/premium-admin-templates/bootstrap/flexy-bootstrap/package/dist/css/style.min.css"
+        rel="stylesheet" /> --}}
 
     <link href="../dist/css/style.min.css" rel="stylesheet">
 
     <link href="../dist/css/select2.min.css" rel="stylesheet">
     <link href="../dist/css/select2-bootstrap-5-theme.min.css" rel="stylesheet">
-</head>
+    {{-- <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'> --}}
+    <link href='#' rel='stylesheet'>

@@ -40,7 +40,7 @@
                                 </label>
                                 <div class="col-sm-9">
                                     <select id="of_id" class="form-control"
-                                        data-placeholder="{{ __('Selectionner une of') }}" name="of_id">
+                                        data-placeholder="{{ __('Selectionner un OF') }}" name="of_id">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
@@ -50,15 +50,11 @@
                                 <hr class="of_number d-none mt-4" />
                                 <div class="col-12 d-flex justify-content-between  of_number d-none">
                                     <div class="">
-                                        {{-- <h6 class="fw-normal text-dark mb-0 ">{{ __('Etat OF') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-info" id="status"></span> --}}
                                         <h5 class="fw-n"> {{ __('Etat OF') }} : <span
                                                 class="badge bg-primary fs-4 font-weight-normal" id="status"></span>
                                         </h5>
                                     </div>
                                     <div class="">
-                                        {{-- <h6 class="fw-normal text-dark mb-0">{{ __('OF Numéro') }}</h6>
-                                        <span class=badge "fs-3 font-weight-medium text-info" id="of_number"></span> --}}
                                         <h5> {{ __('OF Numéro') }} : <span
                                                 class="fs-3 font-weight-medium badge bg-primary text-white"
                                                 id="of_number"></span>
@@ -66,7 +62,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- </div> --}}
                         </div>
                     </div>
                 </div>
@@ -88,7 +83,6 @@
                                         </div>
                                     </div>
                                     <input type="submit" class="d-none">
-                                    {{-- <button class="btn-success">Submit</button> --}}
                                 </form>
                                 <hr>
 
@@ -125,7 +119,7 @@
                                                                 <i class="mdi mdi-check mdi-36px"></i>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
-                                                                <span class="text-dark">OK / OF</span>
+                                                                <span class="text-dark">{{ __('OK / OF') }}</span>
                                                                 <h3 class="mb-0 text-primary">
                                                                     <span id="valid"></span> /
                                                                     <span id="new_quantity"></span>
@@ -144,10 +138,9 @@
                                                                 <i class="mdi mdi-36px mdi-calendar-clock"></i>
                                                             </div>
                                                             <div class="ms-3 align-self-center">
-                                                                <span class="text-dark">OK / Jour</span>
+                                                                <span class="text-dark">{{ __('OK / Jour') }}</span>
 
                                                                 <h3 class="mb-0 text-primary">
-                                                                    {{-- <span>0</span> / --}}
                                                                     <span id="quantity_of_day"></span>
                                                                 </h3>
                                                             </div>
@@ -155,7 +148,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +168,7 @@
                                 <tr class="">
                                     {{-- <th>{{ __('#') }}</th> --}}
                                     <th>{{ __('SN') }}</th>
-                                    <th>{{ __('Created_at') }}</th>
+                                    <th>{{ __('Créé le') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -193,12 +185,9 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            form_title = " {{ __('Nouveau Produit') }}",
             url = base_url + '/serial_numbers',
             of_id,
             last_qr = "";
-        formToggle(form_title);
-
         $(document).ready(function() {
 
             /* -------------------------------------------------------------------------- */
@@ -224,9 +213,7 @@
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
                 of_id = $(this).val();
-                // alert(of_id);
                 getSnTable(of_id);
-
                 callAjax('GET', base_url + '/of_details/' + of_id, {
                     of_id: of_id
                 }).done(function(response) {
@@ -297,7 +284,7 @@
                         var options1 = {
                             type: 'doughnut',
                             data: {
-                                labels: ["{{ __(' réalisé') }}", "{{ __('   à réaliser') }}"],
+                                labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
                                 datasets: [{
                                     label: '# of Votes',
                                     data: [percent, rest],
@@ -327,11 +314,7 @@
                         return response.data.list;
                     }
                 },
-                columns: [
-                    // {
-                    //     data: 'id'
-                    // },
-                    {
+                columns: [{
                         data: 'serial_number'
                     },
                     {
@@ -341,13 +324,8 @@
                 searching: false,
                 bLengthChange: false,
                 destroy: true,
-                // columnDefs: [{
-                //     targets: 0,
-                //     visible: false
-                // }, ],
                 order: [1, "desc"]
             });
-
         }
     </script>
 @endpush

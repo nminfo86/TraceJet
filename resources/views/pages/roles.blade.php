@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item" aria-current="page">{{ __('Administration') }}</li>
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Rôles') }}</li>
+    <li class="breadcrumb-item text-capitalize" aria-current="page">{{ __('administration') }}</li>
+    <li class="breadcrumb-item active text-capitalize" aria-current="page">{{ __('rôles') }}</li>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -12,10 +12,9 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des rôles') }}</h4>
+                        <h4 class="card-title">{{ __('List des rôles') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
-                            {{-- <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
-                                target="_blank">Upgrade to Pro</a> --}}
+
                             @include('components.add_btn', ['label' => 'Nouveau'])
                         </div>
                     </div>
@@ -24,12 +23,11 @@
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
-                                    <th width="90%">{{ __('Rôle') }}</th>
+                                    <th width="90%" class="text-capitalize">{{ __('rôle') }}</th>
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -51,11 +49,11 @@
                     <div class="card-body">
                         <div class="row" id="appendPermission">
                             <div class="col-12 mb-4">
-                                <label>{{ __('Nom') }}:*</label>
+                                <label class="text-capitalize">{{ __('nom') }}:*</label>
                                 <input type="text" name="name" id="name" class="form-control"
                                     placeholder="{{ __('Nom de rôle') }}" />
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="name-error">dd</strong>
+                                    <strong id="name-error"></strong>
                                 </span>
                             </div>
                             <hr>
@@ -66,8 +64,8 @@
                                 <table class="table table-hover" id="permissions_table" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Pages</th>
-                                            <th>Permissions</th>
+                                            <th>{{ __('Pages') }}</th>
+                                            <th>{{ __('Permissions') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -77,8 +75,6 @@
                         </div>
                     </div>
                     @include('components.footer_form')
-
-
                 </form>
             </div>
         </div>
@@ -88,7 +84,7 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            form_title = " {{ __('Nouveau Rôle') }}",
+            form_title = " {{ __('Nouveau rôle') }}",
             url = 'api/v1/roles';
         formToggle(form_title);
 

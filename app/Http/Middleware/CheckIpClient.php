@@ -25,7 +25,6 @@ class CheckIpClient
             // If user is super-admin, accept the request
             return $next($request);
         }
-        dd("blm");
         // If user does not have the super-admin role redirect them to another page that isn't restricted
         // return redirect('/');
     }

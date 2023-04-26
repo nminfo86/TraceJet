@@ -17,6 +17,7 @@
  <script src="../dist/js/select2/fr.js"></script>
  <script src="../dist/js/chart/chart.min.js"></script>
  <script src="../dist/js/appCore.js"></script>
+ {{-- <script src=" https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> --}}
 
 
  <script>

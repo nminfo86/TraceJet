@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Produits') }}</li>
+    <li class="breadcrumb-item active text-capitalize" aria-current="page">{{ __('produits') }}</li>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des produits') }}</h4>
+                        <h4 class="card-title">{{ __('List des produits') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             {{-- <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
                                 target="_blank">Upgrade to Pro</a> --}}
@@ -36,13 +36,6 @@
             </div>
         </div>
     </div>
-    {{-- <table class="d-none toggle-show w-100" style="height: calc(100vh - 700px);">
-        <tbody>
-            <td class="align-middle">
-
-            </td>
-        </tbody>
-    </table> --}}
     <div class="d-flex justify-content-center toggle-show d-none">
         <div class="w-50">
             <div class="card">

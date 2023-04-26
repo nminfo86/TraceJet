@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -38,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
             # Current Api version 1.0
             Route::middleware('api')
-                ->prefix('api/v1')
+                ->prefix(''.LaravelLocalization::setLocale().'/api/v1')
                 ->group(base_path('routes/api_v1.php'));
         });
     }
