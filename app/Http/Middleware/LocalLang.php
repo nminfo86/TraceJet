@@ -16,17 +16,17 @@ class LocalLang
      */
     public function handle(Request $request, Closure $next)
     {
-        // app()->setLocale("fr");
+        // app()->setLocale("en");
         // if ($request->lang) {
         //     app()->setLocale($request->lang);
         // }
 
-        // app()->setLocale("en");
+        app()->setLocale("en");
         if ($request->header('Accept-Language')) {
             // app()->setLocale($request->lang);
             $language = $request->header('Accept-Language');
             app()->setLocale($language);
-            return $next($request);
-        }
+        } else app()->setLocale("en");
+        return $next($request);
     }
 }

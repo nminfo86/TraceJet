@@ -122,7 +122,7 @@
                                                                 <span class="text-dark">{{ __('OK / OF') }}</span>
                                                                 <h3 class="mb-0 text-primary">
                                                                     <span id="valid"></span> /
-                                                                    <span id="quantity"></span>
+                                                                    <span id="new_quantity"></span>
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -220,7 +220,7 @@
                     $.each(response, function(key, value) {
                         $("#" + key).text(value);
                     });
-                    total_quantity_of = response.quantity;
+                    total_quantity_of = response.new_quantity;
                     $(".of_number").removeClass('d-none')
                     $(".of_info").removeClass("d-none");
                     $("#qr").focus();
