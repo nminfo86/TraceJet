@@ -112,6 +112,57 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                {{-- <div class="col-lg-3">
+                    <canvas id="FPY1" width="auto" height="auto"></canvas>
+                    <p class="percent" id="percent">
+                    </p>
+                </div> --}}
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-boy p-3">
+                            <h4 class="card-title">FPY</h4>
+                            <h6 class="card-subtitle">Poste 1</h6>
+                            <canvas id="FPY1" width="auto" height="auto"></canvas>
+                            <p class="percent" id="percent1">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-boy p-3">
+                            <h4 class="card-title">FPY</h4>
+                            <h6 class="card-subtitle">Poste 2</h6>
+                            <canvas id="FPY2" width="auto" height="auto"></canvas>
+                            <p class="percent" id="percent2">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-boy p-3">
+                            <h4 class="card-title">FPY</h4>
+                            <h6 class="card-subtitle">Poste 3</h6>
+                            <canvas id="FPY3" width="auto" height="auto"></canvas>
+                            <p class="percent" id="percent3">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-boy p-3">
+                            <h4 class="card-title">FPY</h4>
+                            <h6 class="card-subtitle">Poste 4</h6>
+                            <canvas id="FPY4" width="auto" height="auto"></canvas>
+                            <p class="percent" id="percent4">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- ============================================================== -->
             <!-- Sales chart -->
             <!-- ============================================================== -->
@@ -359,5 +410,47 @@
                 //legend: false,
             }
         });
+
+
+        $("#percent1").text(92 + ' %');
+        $("#percent2").text(90 + ' %');
+        $("#percent3").text(98 + ' %');
+        $("#percent4").text(80 + ' %');
+        var options1 = {
+            type: 'doughnut',
+            data: {
+                labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [92, 8],
+                    backgroundColor: [
+                        'rgba(46, 204, 113, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI,
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: false
+                },
+                cutoutPercentage: 85
+            }
+        }
+        var ctx1 = document.getElementById('FPY1').getContext('2d');
+        var ctx2 = document.getElementById('FPY2').getContext('2d');
+        var ctx3 = document.getElementById('FPY3').getContext('2d');
+        var ctx4 = document.getElementById('FPY4').getContext('2d');
+        var chart1 = new Chart(ctx1, options1);
+        var chart2 = new Chart(ctx2, options1);
+        var chart3 = new Chart(ctx3, options1);
+        var chart4 = new Chart(ctx4, options1);
     </script>
 @endpush
