@@ -84,40 +84,5 @@ Route::group(
         Route::get('operator', function () {
             return view('pages.operator');
         });
-
-
-        route::get("ss", function () {
-
-            // return SerialNumber::with(["movements" => function ($q) {
-            //     $q->whereMovementPostId(3);
-            // }])->where("of_id", 1)->get();
-            return Movement::join("serial_numbers", "movements.serial_number_id", "serial_numbers.id")
-                ->whereMovementPostId(3)->get(["serial_numbers.serial_number", "result", "movements.created_at"]);
-
-
-
-            // return Movement::select(["id", "result"])->whereMovementPostId(3)->with(['serialNumber' => function ($query) {
-            //     $query->select('id', 'serial_number');
-            // }])->get();
-            return Movement::with(['serialNumber' => function ($query) {
-                return $query->select('id', 'serial_number', 'created_at');
-            }])->whereMovementPostId(3)->get();
-
-            // return Movement::with("serialNumber")->get();
-            // dd(Carbon::now());
-            // return $sn = SerialNumber::with(["movements" => function ($q) {
-            //     $q->whereMovementPostId(3);
-            // }])->find(1);
-        });
-        route::get("time", function () {
-            // set timezone
-            // Carbon::setTimezone('Africa/Algiers');
-
-            // get current time
-            $now = Carbon::now();
-            return $now;
-            // return response with JSON
-            return response()->json(['date' => $now]);
-        });
     }
 );

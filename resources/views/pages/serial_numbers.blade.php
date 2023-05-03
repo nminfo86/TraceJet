@@ -194,7 +194,7 @@
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
             callAjax('GET', base_url + '/pluck/ofs', {
-                filter: id
+                filter: "status"
             }).done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });

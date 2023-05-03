@@ -46,7 +46,8 @@ class PluckController extends Controller
             $model_name == "products"  && $request->filter == "hasCal" => Product::has("calibers")->pluck('product_name', 'id'),
 
 
-            $model_name == "ofs" && $request->filter == "status" => Of::whereStatus("inProd")->orWhere("status", "new")->get(['of_code', 'id', 'status']),
+            $model_name == "ofs" && $request->filter == "status" => Of::whereStatus("inProd")->orWhere("status", "new")->pluck('of_name', 'id'),
+
             $model_name == "ofs" => Of::pluck('of_name', 'id'),
 
             $model_name == "calibers" && $request->filter == null => Caliber::pluck('caliber_name', 'id'),
