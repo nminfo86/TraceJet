@@ -81,7 +81,7 @@
          var dateString = month + '/' + day + '/' + year;
 
          // Display the date and time in the HTML element with ID "clock"
-         document.getElementById('clock').innerHTML = dateString + " " + timeString;
+         //  document.getElementById('clock').innerHTML = dateString + " " + timeString;
      }
      setInterval(updateClock, 1000);
  </script>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Ofs') }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ __('Postes') }}</li>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des Ofs') }}</h4>
+                        <h4 class="card-title">{{ __('Liste des postes') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             @include('components.add_btn', ['label' => 'Nouveau'])
                         </div>
@@ -21,11 +21,11 @@
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
+                                    <th>{{ __('Nom de poste') }}</th>
+                                    <th>{{ __('Type de poste') }}</th>
                                     <th>{{ __('Code') }}</th>
-                                    <th>{{ __('N° Of') }}</th>
-                                    <th>{{ __('Quantity') }}</th>
-                                    <th>{{ __('Calibres') }}</th>
-                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Adrèsse IP') }}</th>
+                                    <th>{{ __('Poste précédent') }}</th>
                                     <th>{{ __('Options') }}</th>
                                 </tr>
                             </thead>
@@ -52,7 +52,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label>{{ __('Produit') }}:*</label>
+                                <label>{{ __('Nom de poste') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="product_id" class=""
                                         data-placeholder="{{ __('Selectionner un produit') }}">
@@ -119,7 +119,7 @@
         var form = $('#main_form'),
             table = $('#main_table'),
             form_title = " {{ __('Nouvel Of') }}",
-            url = base_url + '/ofs';
+            url = base_url + '/postes';
 
         formToggle(form_title);
         $(document).on('click', "#add_btn", (e) => {
