@@ -51,12 +51,31 @@
                                 class="hide-menu">{{ __('calibres') }}</span></a></li>
                 @endcan
                 @can('of-list')
-                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate text-capitalize">{{ __('production') }}
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('production') }}
                     </h6>
+                @elsecan("section-list")
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('production') }}
+                    </h6>
+                @elsecan("post-list")
+                    <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('production') }}
+                    </h6>
+                @endcan
+                @can('section-list')
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
+                            href="{{ url('section') }}" aria-expanded="false"><i class="mdi mdi-format-section"></i><span
+                                class="hide-menu">{{ __('Section') }}</span></a></li>
+                @endcan
+                @can('post-list')
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
+                            href="{{ url('post') }}" aria-expanded="false"><i class="mdi mdi-application"></i><span
+                                class="hide-menu">{{ __('Poste') }}</span></a></li>
+                @endcan
+                @can('of-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('ofs') }}" aria-expanded="false"><i class="mdi mdi-arrow-top-right"></i><span
                                 class="hide-menu">{{ __('OFs') }}</span></a></li>
                 @endcan
+
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                         href="{{ url('serial_numbers') }}" aria-expanded="false"><i
                             class="mdi mdi-barcode-scan"></i><span class="hide-menu">{{ __('list des NS') }}</span></a>

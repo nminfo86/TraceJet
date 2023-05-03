@@ -110,21 +110,41 @@
                 <!-- ============================================================== -->
                 <!-- Search -->
                 <!-- ============================================================== -->
-                {{-- <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark"
-                        href="javascript:void(0)"><i class="mdi mdi-magnify me-1"></i> <span
-                            class="font-16">Search</span></a>
-                    <form class="app-search position-absolute">
-                        <input type="text" class="form-control" placeholder="Search &amp; enter"> <a
-                            class="srh-btn"><i class="mdi mdi-window-close"></i></a>
-                    </form>
+                {{-- <li class="nav-item ">
+                    <a class="link sidebartoggler d-none d-md-inline d-flex align-items-center"
+                        href="javascript:void(0)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-menu">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg></a>
                 </li> --}}
-                <nav class="page-breadcrumb py-0" aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 d-flex align-items-center">
-                        <li class="breadcrumb-item"><a href="index.html" class="link"><i
-                                    class="mdi mdi-home-outline fs-4"></i></a></li>
-                        @yield('breadcrumb')
-                    </ol>
-                </nav>
+                <li class="nav-item">
+                    <nav class="page-breadcrumb py-0" aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 d-flex align-items-center">
+                            <li class="breadcrumb-item">
+                                <a class="link sidebartoggler d-none d-md-inline d-flex align-items-center"
+                                    id="sidebartoggler" href="javascript:void(0)"><svg width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+                                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                                    </svg></a>
+                            </li>
+                        </ol>
+                    </nav>
+                </li>
+                <li class="nav-item">
+                    <nav class="page-breadcrumb py-0" aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 d-flex align-items-center">
+                            <li class="breadcrumb-item"><a href="index.html" class="link"><i
+                                        class="mdi mdi-home-outline fs-4"></i></a></li>
+                            @yield('breadcrumb')
+                        </ol>
+                    </nav>
+                </li>
 
             </ul>
             <!-- ============================================================== -->

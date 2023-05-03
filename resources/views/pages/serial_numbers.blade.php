@@ -3,24 +3,7 @@
     // dd(Session::get('user_data')['post_information']);
 @endphp
 <style>
-    .outer {
-        position: relative;
-        width: auto;
-        height: auto;
-    }
 
-    /* canvas {
-        position: absolute;
-    } */
-
-    .percent {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, 0);
-        font-size: 40px;
-        bottom: 0;
-    }
 </style>
 @section('content')
     <!-- ============================================================== -->

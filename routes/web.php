@@ -57,27 +57,22 @@ Route::group(
         Route::get('/products', function () {
             return view('pages.products');
         })->middleware('permission:product-list');
+        Route::get('section', function () {
+            return view('pages.section');
+        })->middleware('permission:section-list');
+        Route::get('post', function () {
+            return view('pages.posts');
+        })->middleware('permission:post-list');
         Route::get('ofs', function () {
             return view('pages.ofs');
         })->middleware('permission:of-list');
         Route::get('roles', function () {
             return view('pages.roles');
         })->middleware('permission:role-list');
-        Route::get('hosts', function () {
-            return view('pages.hosts');
-        })->middleware('permission:host-list');
-
-
-
-
         Route::get('serial_numbers', function () {
             // dd(Carbon::now());
             return view('pages.serial_numbers');
         });
-
-
-
-
         Route::get('packaging', function () {
             return view('pages.packaging');
         });

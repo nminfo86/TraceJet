@@ -18,9 +18,11 @@
 
     {{-- <link href="https://demos.wrappixel.com/premium-admin-templates/bootstrap/flexy-bootstrap/package/dist/css/style.min.css"
         rel="stylesheet" /> --}}
-
-    <link href="../dist/css/style.min.css" rel="stylesheet">
-
+    @if (Config::get('app.locale') == 'ar')
+        <link href="../dist/css/style-rtl.min.css" rel="stylesheet">
+    @else
+        <link href="../dist/css/style.min.css" rel="stylesheet">
+    @endif
     <link href="../dist/css/select2.min.css" rel="stylesheet">
     <link href="../dist/css/select2-bootstrap-5-theme.min.css" rel="stylesheet">
     {{-- <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'> --}}
