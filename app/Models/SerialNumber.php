@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Of;
 use Carbon\Carbon;
 use App\Models\Part;
+use DateTimeInterface;
 use App\Models\Movement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class SerialNumber extends Model
 {
     use HasFactory;
+
+
     // public $timestamps = false;
 
 
@@ -53,9 +56,9 @@ class SerialNumber extends Model
     /**
      * Get the movement that owns the SerialNumber
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function movement(): HasMany
+    public function movements(): HasMany
     {
         return $this->hasMany(Movement::class);
     }
@@ -91,12 +94,24 @@ class SerialNumber extends Model
      * @param  string  $value
      * @return string
      */
-    protected function updatedAt(): Attribute
+    // protected function updatedAt(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($value) => Carbon::parse($value)->format('Y-m-d H:i:s'),
+    //     );
+    // }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
     {
-        return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:i:s'),
-        );
+        return $date->format('Y-m-d H:i:s');
     }
+
 
     public static function boot()
     {

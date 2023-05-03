@@ -21,12 +21,14 @@ trait ResponseTrait
         $messages = [
             //Ajax
             "success" => __('response-messages.success'),
+
             //productService
             'not_found' => __('response-messages.not_found'),
             'exists' => __('response-messages.exists'),
             'product_place' => __('response-messages.product_place'),
+            'of_closed' => __('response-messages.of_closed'),
 
-            // Serialnumber
+            // SerialNumber
             'of_closed' => __('response-messages.of_closed'),
             "print_qr-success" => __('response-messages.print_qr-success'),
             // Add more custom messages here
@@ -63,6 +65,9 @@ trait ResponseTrait
             empty($data) && !is_null($message) => $response = ["message" => $message],
             empty($data) && is_null($message) => null,
         };
+        // if ($message == "c") {
+        //     dd($data);
+        // }
         $response['status'] = $status;
         return response()->json($response);
     }

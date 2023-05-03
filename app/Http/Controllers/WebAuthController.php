@@ -50,8 +50,8 @@ class WebAuthController extends AccessTokensController
     {
         Session::flush();
         $deletedRows = DB::table('personal_access_tokens')
-                     ->where('tokenable_id', Auth::user()->id)
-                     ->delete();
+            ->where('tokenable_id', Auth::user()->id)
+            ->delete();
         Auth::guard('web')->logout();
         Auth::guard('sanctum')->guest();
         return redirect('/');

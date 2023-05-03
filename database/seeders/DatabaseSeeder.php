@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Caliber;
 use App\Models\Product;
+use Database\Seeders\OfSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\PostSeeder;
 use Database\Seeders\UserSeeder;
@@ -34,5 +35,6 @@ class DatabaseSeeder extends Seeder
 
         Product::factory()->count(50)->create();
         Caliber::factory()->count(50)->create();
+        $this->call(OfSeeder::class);
     }
 }

@@ -234,7 +234,9 @@
                 callAjax('POST', base_url + '/serial_numbers/qr_print', {
                     of_id: of_id
                 }).done(function(response) {
+                    // TODO::check status of response
                     ajaxSuccess(response.message)
+                    alert(response.data.qr)
                 });
             })
             /* -------------------------------------------------------------------------- */

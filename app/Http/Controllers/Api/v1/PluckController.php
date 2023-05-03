@@ -55,6 +55,16 @@ class PluckController extends Controller
 
             default => 'Unknown error: ' . $model_name
         };
+        if ($model_name == "permissions") {
+
+            $translatedPermissions = [];
+
+            // dd($data);
+            foreach ($data as $permission) {
+                $translatedPermissions[$permission] = trans("permission.$permission");
+            }
+            return $this->sendResponse(data: $translatedPermissions);
+        }
         //Send response with data
         return !is_string($data) ? $this->sendResponse(data: $data) : $this->sendResponse($data, status: false);
     }

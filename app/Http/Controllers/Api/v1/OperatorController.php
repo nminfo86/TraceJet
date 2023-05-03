@@ -97,7 +97,7 @@ class OperatorController extends Controller
             ->where('serial_numbers.qr',  $request->qr)
             ->where('serial_numbers.of_id', $request->of_id)
             ->latest("movements.created_at")
-            ->first(['movement_post_id', 'result', 'serial_number']);
+            ->first(['movement_post_id', 'result', 'serial_number', "of_id"]);
 
         // Check if there are any errors with the product steps
         // If the current_post_id does not exist, there is an error

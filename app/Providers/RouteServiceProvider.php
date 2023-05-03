@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
             # Current Api version 1.0
             Route::middleware('api')
-                ->prefix(''.LaravelLocalization::setLocale().'/api/v1')
+                ->prefix('' . LaravelLocalization::setLocale() . '/api/v1')
                 ->group(base_path('routes/api_v1.php'));
         });
     }

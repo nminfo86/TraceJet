@@ -5,6 +5,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebAuthController;
+use App\Models\Movement;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,9 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 // Route::group(['middleware' => ['auth:sanctum', /*'check_ip_client'*/]],
 
 //     function () {
-    Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['auth', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']], function () {
+Route::group(
+    ['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['auth', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']],
+    function () {
         Route::get('/dashboard', function () {
             return view('welcome');
         });
@@ -84,8 +87,37 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 
 
         route::get("ss", function () {
+
+            // return SerialNumber::with(["movements" => function ($q) {
+            //     $q->whereMovementPostId(3);
+            // }])->where("of_id", 1)->get();
+            return Movement::join("serial_numbers", "movements.serial_number_id", "serial_numbers.id")
+                ->whereMovementPostId(3)->get(["serial_numbers.serial_number", "result", "movements.created_at"]);
+
+
+
+            // return Movement::select(["id", "result"])->whereMovementPostId(3)->with(['serialNumber' => function ($query) {
+            //     $query->select('id', 'serial_number');
+            // }])->get();
+            return Movement::with(['serialNumber' => function ($query) {
+                return $query->select('id', 'serial_number', 'created_at');
+            }])->whereMovementPostId(3)->get();
+
+            // return Movement::with("serialNumber")->get();
             // dd(Carbon::now());
-            return $sn = SerialNumber::get("updated_at");
+            // return $sn = SerialNumber::with(["movements" => function ($q) {
+            //     $q->whereMovementPostId(3);
+            // }])->find(1);
+        });
+        route::get("time", function () {
+            // set timezone
+            // Carbon::setTimezone('Africa/Algiers');
+
+            // get current time
+            $now = Carbon::now();
+            return $now;
+            // return response with JSON
+            return response()->json(['date' => $now]);
         });
     }
 );

@@ -12,6 +12,8 @@ return [
     'operator 4' => "operator 4",
     'product' => "product",
 
+    'user-list' => "Display list of all users",
+
 
     /* -------------------------------------------------------------------------- */
     /*                                  Messages                                  */

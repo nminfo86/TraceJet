@@ -90,37 +90,89 @@
 
         $(document).ready(function() {
             /*--------------------- get role list ------------------------*/
-            callAjax('GET', 'api/v1/pluck/permissions').done(function(response) {
-                var oldPermission = Object.values(response.data)[0].split('-')[0];
-                var actions = new Map();
-                let appendPermissions = "<tr>";
-                $.each(response.data, function(indexInArray, valueOfElement) {
-                    let permission = valueOfElement.split('-');
-                    let newPermission = permission[1];
+            // callAjax('GET', 'api/v1/pluck/permissions').done(function(response) {
+            //     var oldPermission = Object.values(response.data)[0].split('-')[0];
+            //     var actions = new Map();
+            //     let appendPermissions = "<tr>";
+            //     $.each(response.data, function(indexInArray, valueOfElement) {
+            //         let permission = valueOfElement.split('-');
+            //         let newPermission = permission[1];
 
-                    if (oldPermission == permission[0]) {
-                        actions[indexInArray] = newPermission;
-                    } else {
-                        appendPermissions +=
-                            `<td class="text-capitalize">${oldPermission}</td><td>`;
+            //         if (oldPermission == permission[0]) {
+            //             actions[indexInArray] = newPermission;
+            //         } else {
+            //             appendPermissions +=
+            //                 `<td class="text-capitalize">${oldPermission}</td><td>`;
 
-                        $.each(actions, function(index, value) {
-                            appendPermissions += permissionsList(index, value);
-                        });
-                        appendPermissions += '</td></tr>';
-                        actions = {};
-                        actions[indexInArray] = newPermission;
-                    }
-                    oldPermission = permission[0];
+            //             $.each(actions, function(index, value) {
+            //                 appendPermissions += permissionsList(index, value);
+            //             });
+            //             appendPermissions += '</td></tr>';
+            //             actions = {};
+            //             actions[indexInArray] = newPermission;
+            //         }
+            //         oldPermission = permission[0];
+            //     });
+            //     appendPermissions += `<tr><td class="text-capitalize">${oldPermission}</td><td>`;
+
+            //     $.each(actions, function(index, value) {
+            //         appendPermissions += permissionsList(index, value);
+            //     });
+            //     appendPermissions += '</td></tr>';
+            //     $('#permissions_table').append(appendPermissions);
+            // });
+
+            // Send an AJAX request to the server to get the permissions data
+            $.ajax({
+                    method: 'GET',
+                    url: 'api/v1/pluck/permissions'
+                })
+                // When the response is received, execute the following function
+                .done(function(response) {
+                    // Extract the first permission type from the response data and split it into two parts
+                    var oldPermission = Object.values(response.data)[0].split('-')[0];
+                    // Create an empty Map to store the actions for each permission type
+                    var actions = new Map();
+                    // Create a variable to store the HTML code for the table rows
+                    let appendPermissions = "<tr>";
+                    // Loop through each permission in the response data
+                    $.each(response.data, function(indexInArray, valueOfElement) {
+                        // Split the permission into two parts: the permission type and the action
+                        let permission = valueOfElement.split('-');
+                        let newPermission = permission[1];
+
+                        // If the current permission type is the same as the previous one, add the action to the Map
+                        if (oldPermission == permission[0]) {
+                            actions[indexInArray] = newPermission;
+                        } else {
+                            // Otherwise, create a new table row and add the previous permission type and its actions to the HTML code
+                            appendPermissions +=
+                                `<td class="text-capitalize">${oldPermission}</td><td>`;
+
+                            $.each(actions, function(index, value) {
+                                // Call the permissionsList function to generate the HTML code for each action
+                                appendPermissions += permissionsList(index, value);
+                            });
+                            appendPermissions += '</td></tr>';
+                            // Clear the Map and add the current action to it
+                            actions = {};
+                            actions[indexInArray] = newPermission;
+                        }
+                        // Set the current permission type as the previous one for the next iteration
+                        oldPermission = permission[0];
+                    });
+                    // Add the last permission type and its actions to the HTML code
+                    appendPermissions += `<tr><td class="text-capitalize">${oldPermission}</td><td>`;
+
+                    $.each(actions, function(index, value) {
+                        // Call the permissionsList function to generate the HTML code for each action
+                        appendPermissions += permissionsList(index, value);
+                    });
+                    appendPermissions += '</td></tr>';
+                    // Add the HTML code for the table rows to the permissions_table element
+                    $('#permissions_table').append(appendPermissions);
                 });
-                appendPermissions += `<tr><td class="text-capitalize">${oldPermission}</td><td>`;
 
-                $.each(actions, function(index, value) {
-                    appendPermissions += permissionsList(index, value);
-                });
-                appendPermissions += '</td></tr>';
-                $('#permissions_table').append(appendPermissions);
-            });
 
         });
 
