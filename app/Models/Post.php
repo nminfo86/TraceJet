@@ -32,4 +32,8 @@ class Post extends Model
     {
         return $this->belongsTo(PostsType::class);
     }
+    public function sections()
+    {
+        return $this->belongsTo(Section::class);
+    }
 }

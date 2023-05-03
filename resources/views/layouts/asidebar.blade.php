@@ -61,7 +61,7 @@
                 @endcan
                 @can('post-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
-                            href="{{ url('post') }}" aria-expanded="false"><i class="mdi mdi-application"></i><span
+                            href="{{ url('posts') }}" aria-expanded="false"><i class="mdi mdi-application"></i><span
                                 class="hide-menu">{{ __('Poste') }}</span></a></li>
                 @endcan
                 @can('of-list')

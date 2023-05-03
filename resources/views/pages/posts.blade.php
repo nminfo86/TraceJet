@@ -119,7 +119,7 @@
         var form = $('#main_form'),
             table = $('#main_table'),
             form_title = " {{ __('Nouvel Of') }}",
-            url = base_url + '/postes';
+            url = base_url + '/posts';
 
         formToggle(form_title);
         $(document).on('click', "#add_btn", (e) => {

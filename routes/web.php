@@ -57,7 +57,7 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
         Route::get('section', function () {
             return view('pages.section');
         })->middleware('permission:section-list');
-        Route::get('post', function () {
+        Route::get('posts', function () {
             return view('pages.posts');
         })->middleware('permission:post-list');
         Route::get('ofs', function () {
