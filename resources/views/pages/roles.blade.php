@@ -89,6 +89,7 @@
         formToggle(form_title);
 
         $(document).ready(function() {
+
             /*--------------------- get role list ------------------------*/
             // callAjax('GET', 'api/v1/pluck/permissions').done(function(response) {
             //     var oldPermission = Object.values(response.data)[0].split('-')[0];
