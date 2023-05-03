@@ -8,7 +8,11 @@ return [
     /* -------------------------------------------------------------------------- */
     'operator' => "operator",
     'operator 1' => "operator 1",
+    'operator 2' => "operator 2",
+    'operator 4' => "operator 4",
     'product' => "product",
+
+    'user-list' => "Display list of all users",
 
 
     /* -------------------------------------------------------------------------- */
@@ -34,7 +38,7 @@ return [
 
 
 
-    'success' => 'Operation completed successfully. :count items affected.',
+    'success' => 'Operation completed successfully.',
     'error' => 'An error occurred.',
     // 'not_found' =>  'Hello :attribute, your email is :email and phone number is :phone.',
     'unauthorized' => 'You are not authorized to access this resource.',

@@ -26,6 +26,7 @@
              // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
              'Authorization': 'Bearer ' + '{{ Session::get('token') }}',
              'Accept-Language': $("html").attr('lang')
+             //  'Accept-Language': "fr"
          }
      });
      $.extend(true, $.fn.dataTable.defaults, {
@@ -83,7 +84,7 @@
          // Display the date and time in the HTML element with ID "clock"
          //  document.getElementById('clock').innerHTML = dateString + " " + timeString;
      }
-     setInterval(updateClock, 1000);
+     //  setInterval(updateClock, 1000);
  </script>
  <!-- Costum js code for each child-->
  @stack('custom_js')

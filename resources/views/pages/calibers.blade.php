@@ -127,8 +127,10 @@
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
-            storObject(url, formData, id, "{{ __('Calibre ajouté avec succès') }}",
-                "{{ __('Calibre modifié avec succès') }}");
+            storObject(url, formData, id
+                /*, "{{ __('Calibre ajouté avec succès') }}",
+                                "{{ __('Calibre modifié avec succès') }}"*/
+            );
         });
 
         /* ---------------------------------- Edit ---------------------------------- */

@@ -174,14 +174,14 @@ function formToggle(form_title) {
     });
 }
 
-function storObject(url, formData, id = 0, success_store_message, success_update_message) {
+function storObject(url, formData, id = 0/*, success_store_message, success_update_message*/) {
 
     cleanValidationAlert();
-    let message = success_store_message;
+    // let message = success_store_message;
     if (id !== 0) {
         formData.append('_method', 'PUT');
         url = url + '/' + id;
-        message = success_update_message;
+        // message = success_update_message;
     }
     formData.append('id', id);
     var check = false;
@@ -198,7 +198,7 @@ function storObject(url, formData, id = 0, success_store_message, success_update
         success: function (response) {
             check = true;
             table.ajax.reload();
-            ajaxSuccess(message);
+            ajaxSuccess(response.message);
             $('.close-btn:first').click();
         },
         error: function (jqXHR, exception) {

@@ -3,26 +3,28 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Models\Of;
+use Carbon\Carbon;
 use App\Models\Box;
 use App\Models\Caliber;
 use App\Models\Movement;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Services\ProductService;
 use App\Services\MovementService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 
 class PackagingController extends Controller
 {
-    // use ResponseTrait;
-    protected $movementService;
+    private $productService;
 
-    public function __construct(MovementService $movementService)
+    public function __construct(ProductService $productService)
     {
-        $this->movementService = $movementService;
+        $this->productService = $productService;
     }
-
 
 
     /**
@@ -44,74 +46,228 @@ class PackagingController extends Controller
     public function store(Request $request)
     {
 
-        // return  SerialNumber::where('serial_numbers.of_id', 1)
-        //     // ->where('users.rights', '=', 1)
-        //     ->join('boxes', 'serial_numbers.box_id', '=', 'boxes.id')
-        //     ->select([
-        //         "serial_numbers.of_id",
-        //         DB::raw('count(distinct boxes.id) as total_box'),
-        //         DB::raw('count(distinct serial_numbers.id) as total_sn'),
-        //     ])->groupBy('serial_numbers.of_id')->first();
-        // ->groupBy('serial_numbers.of_id');
-        // ->orderByDesc('total_referal')->paginate(100);
+        $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+            ->where('serial_numbers.qr', $request->qr)
+            ->latest('movements.created_at')
+            ->first(['serial_numbers.id AS serial_number_id', 'movement_post_id', 'result', 'of_id']);
 
-        // return $explode = str($request->qr)->explode('#');
-        return $this->movementService->nextStep($request);
-        // $of_code = $explode[0];
-    }
-    public function storyye(Request $request)
-    {
-        $explode = str($request->qr)->explode('#');
-        $of_code = $explode[0];
-        // dd($explode);
+        /* -------------------------------------------------------------------------- */
+        /*                                  CLose OF                                  */
+        /* -------------------------------------------------------------------------- */
+        $of = Of::findOrFail($product->of_id);
 
-        $last_movement = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-            ->join('ofs', 'serial_numbers.of_id', 'ofs.id')
-            ->join('calibers', 'ofs.caliber_id', 'calibers.id')
-            // ->leftJoin('boxes', 'serial_numbers.box_id', 'boxes.id')
-            ->where('serial_numbers.serial_number', $explode[2])
-            ->whereOfCode($of_code)
-            // ->whereMovementPostId(2)
-            // ->get();
-            ->first(["ofs.id as of_id", "calibers.box_quantity", "movement_post_id"/*, "ofs.of_code", "ofs.status as of_status", "ofs.created_at as of_creation_date", "boxes.box_qr", "boxes.status as box_status", "calibers.box_quantity", "calibers.caliber_name"*/, "serial_numbers.id as sn_id"]);
-        if ($last_movement && $last_movement->movement_post_id === 2) {
-            // return $response;
-            //Send response with error message
-            return $this->sendResponse("This Product already packaged", status: false);
+        if ($of->status->value == 'closed') {
+            return  $this->sendResponse('OF Closed');
         }
 
+        // Check if there were any errors in the product steps
+        $checkProductSteps = $this->productService->checkProductSteps($request, $product)->getData();
+
+        // If there were errors, return the error response
+        if (!isset($checkProductSteps->data)) {
+            return $checkProductSteps;
+        }
+
+        $product = $checkProductSteps->data;
+
+
+        // $this->CheckOfStatus($product->of_id);
+
+        // Create new movement
+        return  $this->newPackaging($request->result, $of, $product);
+    }
+
+
+    /**
+     * newPackaging
+     *
+     * @param  mixed $result
+     * @param  mixed $product
+     * @return \Illuminate\Http\Response
+     */
+    public function newPackaging(mixed $result, $of, mixed $product)
+    {
         try {
             DB::beginTransaction();
 
-            // Create movement
-            // Prepare movement inputs
-            $inputs = [
-                'serial_number_id'      => $last_movement->sn_id,
-                'movement_post_id'      => $post_id = 2,
-                'result'                => $result = "OK",
-            ];
             // Create new movement
-            $movement = Movement::create($inputs);
+            $this->createNewMovement($result, $product);
 
-
-            $boxing = $this->boxingAction($last_movement->of_id, $last_movement->sn_id, $last_movement->box_quantity);
-
+            // start of packing operation
+            $response = $this->boxed($of, $product);
             DB::commit();
-            return $this->sendResponse($this->create_success_msg, data: $boxing);
 
-            // return   $this->closeOf($of_id);
             //Send response with success
-            // return $this->sendResponse($this->create_success_msg);
+            return $response;
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
 
+    public function createNewMovement($result, $product)
+    {
+        // Prepare payload for new movement record
+        $payload = [
+            'serial_number_id' => $product->serial_number_id,
+            'movement_post_id' => $product->current_post_id,
+            'result' => $result,
+        ];
+
+        // Create new movement
+        return  Movement::create($payload);
+    }
 
 
 
-    // ['movements.id', 'movement_post_id', 'qr', 'serial_number_id', 'result']
+    /**
+     * Boxes a product based on the given last movement.
+     * @param \App\Models\Movement $product
+     * @return array
+     */
+    public function boxed($of, $product)
+    {
+        // Get the OF id and serial number id and box_quantity
+        $of_id = $of->id;
+        $of_quantity = $of->new_quantity;
+        $sn_id = $product->serial_number_id;
+        $box_quantity = $of->caliber->box_quantity;
+        $host_id = $product->current_post_id;
+
+        // Perform the packaging operation for a given OF  and Serial Number and box_quantity
+        $this->boxedOperation($of, $box_quantity, $sn_id);
+
+        // Get the count of serial numbers that have a box assigned
+        $snCount = $of->serialNumbers()->whereNotNull('box_id')->count();
+
+        if ($of_quantity === $snCount) {
+            if ($of->status !== 'closed') {
+                // If all serial numbers have a box assigned, close the OF
+                $of->update(['status' => 'closed']);
+
+                // Update the status of boxes associated with the OF
+                Box::whereOfId($of_id)->update(['status' => 'filled']);
+            }
+            // Get and prepare product information
+            // $info = $this->getOfInformation($of_id);
+            $msg = $this->getResponseMessage("of_closed");
+        }
+
+        // Get and prepare product information and  list of boxed product
+        $response = $this->prepareResponse($of_id, $host_id);
+
+        // Return the response
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg, $response);
+    }
 
 
+    /** Perform the packaging operation for a given OF and Serial Number
+     * @param int $of_id
+     * @param int $box_quantity
+     * @param int $sn_id
+     * @return void
+     */
+    private function boxedOperation($of, int $box_quantity, int $sn_id)
+    {
+        $of_id = $of->id;
+        // Check if there is an open box for the given OF, create one if there is none
+        $last_open_box = Box::whereOfId($of_id)->whereStatus('open')->latest()->first();
+        if (!$last_open_box) {
+            $last_open_box = Box::create(['of_id' => $of_id]);
+        }
+
+        // Count the number of products in the last open box before updating the serial number
+        $boxed_products = $this->countProductsInOpenedBox($of, $last_open_box->id);
+        // dd($box_quantity);
+
+        // Update the box ID for the current serial number if the current box is not filled yet
+        if ($boxed_products < $box_quantity) {
+            SerialNumber::find($sn_id, ["id", "box_id"])->update(['box_id' => $last_open_box->id]);
+            // Count products boxed in the last open box after updating serial number
+            $boxed_products = $this->countProductsInOpenedBox($of, $last_open_box->id);
+        }
+
+        // Update the status of the last open box to 'filled' if it's full
+        if ($boxed_products == $box_quantity) {
+            Box::find($last_open_box->id)->update(['status' => "filled"]);
+        }
+    }
+
+
+    /**
+     * countProductsInOpenedBox
+     *
+     * @param $of
+     * @param  int $box_id
+     * @return int
+     */
+    private function countProductsInOpenedBox($of, int $box_id)
+    {
+        return $of->serialNumbers()->whereBoxId($box_id)->count();
+    }
+
+
+    /**
+     * Get the product information for a given OF ID.
+     *
+     * @param int $of_id The ID of the OF to retrieve product information for.
+     * @param int $host_id The ID of the current post .
+     *
+     * @return Object
+     */
+    public function prepareResponse(int $of_id, int $host_id)
+    {
+        $list = $this->getMovementDetail($of_id, $host_id);
+
+        $info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+            ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+            ->join('products', 'calibers.product_id', '=', 'products.id')
+            ->join('boxes', 'serial_numbers.box_id', '=', 'boxes.id')
+            ->select(
+                'of_number',
+                'ofs.status',
+                'ofs.created_at',
+                'boxes.status as box_status',
+                'calibers.box_quantity',
+                'caliber_name',
+                'serial_number',
+                'product_name',
+                'ofs.quantity as quantity',
+                DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
+                DB::raw("(select FLOOR(quantity/box_quantity)) as of_boxes")
+                // DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),
+                // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
+            )->where('serial_numbers.of_id', '=', $of_id)
+            ->orderBy("serial_numbers.updated_at", "DESC")
+            ->first();
+
+        $info->quantity_of_day = "0" . $list
+            ->filter(function ($item) {
+                return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
+            })
+            ->count();
+
+        // If the product information was found, calculate the number of OF boxes
+        // if ($product_info) {
+        //     $product_info->of_boxes = floor($product_info->of_boxes);
+        // }
+        return compact("info", "list");
+    }
+
+
+
+    /**
+     * getMovementDetail
+     *
+     * @param  Int $of_id
+     * @param  Int $host_id
+     * @return Object
+     */
+    public function getMovementDetail(Int $of_id, Int $host_id)
+    {
+        return Movement::join("serial_numbers", "movements.serial_number_id", "serial_numbers.id")
+            ->whereMovementPostId($host_id)
+            ->whereOfId($of_id)->get(["serial_numbers.serial_number", "result", "movements.created_at"]);
+    }
 }

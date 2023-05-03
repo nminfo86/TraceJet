@@ -7,7 +7,7 @@ use App\Traits\ResponseTrait;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
-use App\Models\{Of, Caliber, Product, Section};
+use App\Models\{Of, Caliber, Host, Product, Section};
 
 class PluckController extends Controller
 {
@@ -39,13 +39,15 @@ class PluckController extends Controller
             $model_name == "sections" => Section::pluck('section_name', 'id'),
             $model_name == "permissions" => Permission::pluck('name', 'id'),
             $model_name == "roles" => Role::pluck('name', 'id'),
+            $model_name == "hosts" => Host::pluck('post_name', 'id'),
 
             // Multiple pluck
             $model_name == "products" && $request->filter == null => Product::pluck('product_name', 'id'),
             $model_name == "products"  && $request->filter == "hasCal" => Product::has("calibers")->pluck('product_name', 'id'),
 
 
-            $model_name == "ofs" && $request->filter == "status" => Of::whereStatus("inProd")->orWhere("status", "new")->get(['of_code', 'id', 'status']),
+            $model_name == "ofs" && $request->filter == "status" => Of::whereStatus("inProd")->orWhere("status", "new")->pluck('of_name', 'id'),
+
             $model_name == "ofs" => Of::pluck('of_name', 'id'),
 
             $model_name == "calibers" && $request->filter == null => Caliber::pluck('caliber_name', 'id'),
@@ -54,6 +56,21 @@ class PluckController extends Controller
 
             default => 'Unknown error: ' . $model_name
         };
+        if ($model_name == "permissions") {
+
+            $translatedPermissions = [];
+
+            foreach ($data as $permission) {
+
+                $explode = explode("-", $permission);
+                $page = $explode[0];
+                if (!array_key_exists($permission, $translatedPermissions)) {
+                    // Add the 'translatedPermissions' translatedPermissions with a default value to the array
+                    $translatedPermissions[trans($page)][] = trans($permission);
+                }
+            }
+            return $this->sendResponse(data: $translatedPermissions);
+        }
         //Send response with data
         return !is_string($data) ? $this->sendResponse(data: $data) : $this->sendResponse($data, status: false);
     }

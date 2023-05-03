@@ -177,7 +177,7 @@
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
             callAjax('GET', base_url + '/pluck/ofs', {
-                filter: id
+                filter: "status"
             }).done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });
@@ -217,7 +217,9 @@
                 callAjax('POST', base_url + '/serial_numbers/qr_print', {
                     of_id: of_id
                 }).done(function(response) {
+                    // TODO::check status of response
                     ajaxSuccess(response.message)
+                    alert(response.data.qr)
                 });
             })
             /* -------------------------------------------------------------------------- */

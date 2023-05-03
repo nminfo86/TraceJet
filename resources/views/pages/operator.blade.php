@@ -129,7 +129,7 @@
                                                                 <span class="text-dark">OK / OF</span>
                                                                 <h3 class="mb-0 text-primary">
                                                                     <span id="valid"></span> /
-                                                                    <span id="quantity"></span>
+                                                                    <span id="new_quantity"></span>
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -198,15 +198,26 @@
             url = base_url + '/operators',
             of_id,
             last_qr = "";
+        // var formData = {
+        //     // "qr": scanned_qr,
+        //     // "of_id": of_id,
+        //     // "lang": "fr",
+        //     // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
+        //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
+        //     //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
+        //     // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
+        //     "host_id": "{{ Session::get('user_data')['post_information']['id'] }}",
+        //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+        // };
         var formData = {
             // "qr": scanned_qr,
             // "of_id": of_id,
             // "lang": "fr",
             // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-            "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
+            "previous_post_id": 1,
             //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
             // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
-            "host_id": "{{ Session::get('user_data')['post_information']['id'] }}",
+            "host_id": 2,
             // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
         };
         formToggle(form_title);
@@ -217,7 +228,7 @@
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
             callAjax('GET', base_url + '/pluck/ofs', {
-                filter: id
+                filter: "status"
             }).done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });
@@ -245,7 +256,7 @@
                     $.each(response, function(key, value) {
                         $("#" + key).text(value);
                     });
-                    total_quantity_of = response.quantity;
+                    total_quantity_of = response.new_quantity;
                     $(".of_number").removeClass('d-none')
                     $(".of_info").removeClass("d-none");
                     $("#qr").focus();

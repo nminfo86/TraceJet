@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
+use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -26,26 +28,35 @@ class Movement extends Model
      * @param  string  $value
      * @return string
      */
-    protected function createdAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:i:s'),
+    // protected function createdAt(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:i:s'),
 
-        );
-    }
+    //     );
+    // }
 
     /**
      * Get the serialnumber that owns the Movement
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function serialnumber()
+    public function serialNumber()
     {
-        return $this->hasMany(SerialNumber::class);
+        return $this->belongsTo(SerialNumber::class);
     }
 
 
-
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
 
 

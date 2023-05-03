@@ -5,6 +5,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebAuthController;
+use App\Models\Movement;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,9 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 // Route::group(['middleware' => ['auth:sanctum', /*'check_ip_client'*/]],
 
 //     function () {
-    Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['auth', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']], function () {
+Route::group(
+    ['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['auth', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']],
+    function () {
         Route::get('/dashboard', function () {
             return view('welcome');
         });
@@ -75,12 +78,6 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
         });
         Route::get('operator', function () {
             return view('pages.operator');
-        });
-
-
-        route::get("ss", function () {
-            // dd(Carbon::now());
-            return $sn = SerialNumber::get("updated_at");
         });
     }
 );

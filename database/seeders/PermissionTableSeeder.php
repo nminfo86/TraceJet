@@ -54,7 +54,11 @@ class PermissionTableSeeder extends Seeder
             'section-list',
             'section-create',
             'section-edit',
-            'section-delete'
+            'section-delete',
+            'host-list',
+            'host-create',
+            'host-edit',
+            'host-delete'
         ];
         foreach ($permissions as $permission) {
             // Permission::create(['name' => $permission]);

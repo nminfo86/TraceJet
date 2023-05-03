@@ -58,7 +58,7 @@ class Of extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function serialNumber()
+    public function serialNumbers()
     {
         return $this->hasMany(SerialNumber::class);
     }

@@ -37,8 +37,8 @@ class SerialNumberController extends Controller
         $product['quantity_of_day'] = "0" . $product['list']->filter(function ($item) {
             return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
         })->count();
-
-        return $this->sendResponse(data: $product);
+        // dd($product["list"]);
+        return $this->sendResponse("c", data: $product);
     }
 
 
@@ -64,21 +64,23 @@ class SerialNumberController extends Controller
 
         // If the SerialNumber is not found
         if (!$product) {
+            // TODO::nassim about quantitiy of in generator r post
             // Check if the OF is already closed
-            if ($of_quantity <= $valid_product) {
-                $msg = $this->getResponseMessage('of_closed');
-                return $this->sendResponse($msg, true);
-            }
+            // if ($of_quantity <= $valid_product) {
+            //     $msg = $this->getResponseMessage('of_closed');
+            //     return $this->sendResponse($msg, true);
+            // }
 
             // Otherwise, return an error message indicating that the product is not found
             $msg = $this->getResponseMessage('not_found', ['attribute' => 'product']);
             return $this->sendResponse($msg, false);
         }
+        // TODO::nassim about quantitiy of in generator r post
         // Check if the OF is already closed
-        if ($of_quantity <= $valid_product) {
-            $msg = $this->getResponseMessage('of_closed');
-            return $this->sendResponse($msg, true);
-        }
+        // if ($of_quantity <= $valid_product) {
+        //     $msg = $this->getResponseMessage('of_closed');
+        //     return $this->sendResponse($msg, true);
+        // }
         // Mark the product as validated
         $product->update(['valid' => 1]);
 

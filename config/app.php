@@ -69,8 +69,8 @@ return [
     |
     */
 
-    // 'timezone' => 'Africa/Algiers',
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Algiers',
+    // 'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -110,7 +110,7 @@ return [
         'French' => 'fr',
         'English' => 'en',
         'Arabic' => 'ar',
-      ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

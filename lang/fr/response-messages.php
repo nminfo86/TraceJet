@@ -4,10 +4,21 @@
 
 return [
     /* -------------------------------------------------------------------------- */
+    /*                            Ajax-actions-messages                           */
+    /* -------------------------------------------------------------------------- */
+    'success' => 'Opération terminée avec succès.',
+    // 'error' => 'An error occurred.',
+    // 'not_found' =>  'Hello :attribute, your email is :email and phone number is :phone.',
+    'unauthorized' => "Vous n'êtes pas autorisé à accéder à cette ressource.",
+
+
+
+
+    /* -------------------------------------------------------------------------- */
     /*                                 Attributes                                 */
     /* -------------------------------------------------------------------------- */
-    'operator' => "operateur",
-    'operator 1' => "operateur 1",
+    'operator' => "opérateur",
+    'operator 1' => "opérateur 1",
     'product' => "produit",
 
 
@@ -35,8 +46,5 @@ return [
 
 
 
-    'success' => 'Operation completed successfully. :count items affected.',
-    'error' => 'An error occurred.',
-    // 'not_found' =>  'Hello :attribute, your email is :email and phone number is :phone.',
-    'unauthorized' => 'You are not authorized to access this resource.',
+
 ];

@@ -21,7 +21,7 @@ class CaliberFactory extends Factory
             'caliber_code' => 'Clb' . $this->faker->unique()->numberBetween(1, 150000),
             'caliber_name' => $this->faker->unique()->text(5),
             'product_id'   => Product::inRandomOrder()->first()->id,
-            "box_quantity" => $this->faker->numberBetween(6, 48),
+            "box_quantity" => $this->faker->numberBetween(2, 5),
         ];
     }
 }
