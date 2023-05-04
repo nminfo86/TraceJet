@@ -68,8 +68,7 @@
                                             <th>{{ __('Permissions') }}</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>
@@ -90,39 +89,6 @@
 
         $(document).ready(function() {
 
-            /*--------------------- get role list ------------------------*/
-            // callAjax('GET', 'api/v1/pluck/permissions').done(function(response) {
-            //     var oldPermission = Object.values(response.data)[0].split('-')[0];
-            //     var actions = new Map();
-            //     let appendPermissions = "<tr>";
-            //     $.each(response.data, function(indexInArray, valueOfElement) {
-            //         let permission = valueOfElement.split('-');
-            //         let newPermission = permission[1];
-
-            //         if (oldPermission == permission[0]) {
-            //             actions[indexInArray] = newPermission;
-            //         } else {
-            //             appendPermissions +=
-            //                 `<td class="text-capitalize">${oldPermission}</td><td>`;
-
-            //             $.each(actions, function(index, value) {
-            //                 appendPermissions += permissionsList(index, value);
-            //             });
-            //             appendPermissions += '</td></tr>';
-            //             actions = {};
-            //             actions[indexInArray] = newPermission;
-            //         }
-            //         oldPermission = permission[0];
-            //     });
-            //     appendPermissions += `<tr><td class="text-capitalize">${oldPermission}</td><td>`;
-
-            //     $.each(actions, function(index, value) {
-            //         appendPermissions += permissionsList(index, value);
-            //     });
-            //     appendPermissions += '</td></tr>';
-            //     $('#permissions_table').append(appendPermissions);
-            // });
-
             // Send an AJAX request to the server to get the permissions data
             $.ajax({
                     method: 'GET',
@@ -130,28 +96,28 @@
                 })
                 // When the response is received, execute the following function
                 .done(function(response) {
-                    let table = $("#permissions_table tbody");
-                    console.log(response.data);
-                    for (var module in response.data) {
-                        if (response.data.hasOwnProperty(module)) {
-                            var actions = response.data[module];
-                            var row = $("<tr>");
-                            row.append($("<td>").text(module));
-                            //row.append($("<td>").text(actions.join(", ")));
-                            let appendPermissions = "";
+                    data = response.data;
 
-                            $.each(actions, function(index, value) {
+                    $.each(data, function(key, values) {
+                        let row = $("<tr>"),
+                            page = $("<td>").addClass("text-capitalize").text(key),
+                            actions = $("<td>");
 
-                                appendPermissions += permissionsList(index, value);
-                            });
-                            row.append($("<td>").html(appendPermissions));
-                            //console.log(actions);
-                            table.append(row);
-                        }
-                    }
+                        $.each(values, function(index, value) {
+
+                            permission = permissionsList(value[0], value[1]);
+                            actions.append(permission);
+                        });
+
+                        row.append(page).append(actions);
+                        $("#permissions_table tbody").append(row);
+                    });
 
                 });
+
+
         });
+
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -178,8 +144,7 @@
             e.preventDefault();
             id = $(this).attr("id");
             /* ----------------- Fire alert to user about delete warning ---------------- */
-            Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}",
-                    "{{ __('Fermer') }}")
+            Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}")
                 .then((
                     result) => {
                     /* ---------- if he confirme deleting modal we start delete action ---------- */
@@ -228,6 +193,7 @@
         });
 
         function permissionsList(index, value) {
+            // value = '{{ __('messages.list') }}';
             return '<div class="form-check form-switch form-check-inline">' +
                 '<input class="form-check-input" type="checkbox" id="' +
                 index + '" name="permissions[]" role="switch" value="' +

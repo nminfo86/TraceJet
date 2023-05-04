@@ -59,14 +59,14 @@ class PluckController extends Controller
         if ($model_name == "permissions") {
 
             $translatedPermissions = [];
-
-            foreach ($data as $permission) {
+            // dd($data);
+            foreach ($data as $k => $permission) {
 
                 $explode = explode("-", $permission);
                 $page = $explode[0];
                 if (!array_key_exists($permission, $translatedPermissions)) {
                     // Add the 'translatedPermissions' translatedPermissions with a default value to the array
-                    $translatedPermissions[trans($page)][] = trans($permission);
+                    $translatedPermissions[trans($page)][] = [$k,trans($permission)];
                 }
             }
             return $this->sendResponse(data: $translatedPermissions);
