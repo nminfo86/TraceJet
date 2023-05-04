@@ -109,15 +109,20 @@
 
                         // Create a new cell element for the actions
                         var actions = $("<td>");
-
+                        var permission = `<div class='row'>
+                            <div class=" col-12 col-md-5 form-check form-switch form-check-inline">
+                <input class="form-check-input select-sup-permissions" type="checkbox"  role="switch">
+                <label class="form-check-label ">{{ __('Sélectionner tout') }}</label></div>
+                <div class="col-12 col-md-6">`;
                         // Loop through each item in the values array
                         $.each(values, function(index, value) {
                             // Create a new permission element using the permissionsList() function
-                            var permission = permissionsList(value[0], value[1]);
+                            permission += permissionsList(value[0], value[1]);
 
-                            // Append the permission element to the actions cell
-                            actions.append(permission);
                         });
+                        permission += "</div></div>";
+                        // Append the permission element to the actions cell
+                        actions.append(permission);
 
                         // Append the page and actions cells to the row element
                         row.append(page).append(actions);
@@ -130,7 +135,26 @@
 
 
         });
-
+        // select all sup permissions
+        $(document).on('click', '.select-sup-permissions', function(e) {
+            //e.preventDefault()
+            var nextDiv = $(this).parent().next();
+            //console.log(nextDiv);
+            // loop through each input element within the next div
+            if ($(this).prop("checked")) {
+                nextDiv.find("input").each(function() {
+                    // do something with each input element here
+                    //console.log($(this).val());
+                    $('#appendPermission #' + $(this).val()).prop('checked', true);
+                });
+            } else {
+                nextDiv.find("input").each(function() {
+                    // do something with each input element here
+                    //console.log($(this).val());
+                    $('#appendPermission #' + $(this).val()).prop('checked', false);
+                });
+            }
+        });
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -206,13 +230,9 @@
         });
 
         function permissionsList(index, value) {
-            // value = '{{ __('messages.list') }}';
-            return '<div class="form-check form-switch form-check-inline">' +
-                '<input class="form-check-input" type="checkbox" id="' +
-                index + '" name="permissions[]" role="switch" value="' +
-                index + '">' +
-                '<label class="form-check-label ">' + value + '</label>' +
-                '</div>';
+            return `<div class="form-check form-switch form-check-inline">
+                <input class="form-check-input" type="checkbox" id="${index}" name="permissions[]" role="switch" value="${index}">
+                <label class="form-check-label ">${value}</label></div><br>`;
         }
     </script>
 @endpush
