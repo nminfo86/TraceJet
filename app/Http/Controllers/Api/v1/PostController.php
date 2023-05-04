@@ -25,7 +25,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('posts_type:id,posts_type')->get();
+        $posts = Post::join('posts as a', 'posts.previous_post_id', '=', 'a.id')
+            ->join('sections', 'posts.section_id', '=', 'sections.id')
+            ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
+            ->get(['posts.id', 'posts.code', 'posts.post_name', 'posts_types.posts_type', 'sections.section_name', 'posts.ip_address', 'a.post_name as previous_post']);
         // dd($posts);
         //Send response with success
         return $this->sendResponse(data: $posts);
