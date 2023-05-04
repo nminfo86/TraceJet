@@ -96,20 +96,33 @@
                 })
                 // When the response is received, execute the following function
                 .done(function(response) {
-                    data = response.data;
+                    // Store the response data in a variable
+                    var data = response.data;
 
+                    // Loop through each item in the data object
                     $.each(data, function(key, values) {
-                        let row = $("<tr>"),
-                            page = $("<td>").addClass("text-capitalize").text(key),
-                            actions = $("<td>");
+                        // Create a new row element
+                        var row = $("<tr>");
 
+                        // Create a new cell element for the page name and add the "text-capitalize" class
+                        var page = $("<td>").addClass("text-capitalize").text(key);
+
+                        // Create a new cell element for the actions
+                        var actions = $("<td>");
+
+                        // Loop through each item in the values array
                         $.each(values, function(index, value) {
+                            // Create a new permission element using the permissionsList() function
+                            var permission = permissionsList(value[0], value[1]);
 
-                            permission = permissionsList(value[0], value[1]);
+                            // Append the permission element to the actions cell
                             actions.append(permission);
                         });
 
+                        // Append the page and actions cells to the row element
                         row.append(page).append(actions);
+
+                        // Append the row element to the table body
                         $("#permissions_table tbody").append(row);
                     });
 
