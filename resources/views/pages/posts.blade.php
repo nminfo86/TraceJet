@@ -21,9 +21,10 @@
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
+                                    <th>{{ __('Code') }}</th>
                                     <th>{{ __('Nom de poste') }}</th>
                                     <th>{{ __('Type de poste') }}</th>
-                                    <th>{{ __('Code') }}</th>
+                                    <th>{{ __('Section') }}</th>
                                     <th>{{ __('Adrèsse IP') }}</th>
                                     <th>{{ __('Poste précédent') }}</th>
                                     <th>{{ __('Options') }}</th>
@@ -52,55 +53,60 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label>{{ __('Nom de poste') }}:*</label>
+                                <label>{{ __('Nom de section') }}:*</label>
                                 <div class="input-group mb-3">
-                                    <select id="product_id" class=""
-                                        data-placeholder="{{ __('Selectionner un produit') }}">
+                                    <select id="section_id" class=""
+                                        data-placeholder="{{ __('Selectionner un section') }}">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
-                                        <strong id="product_id-error"></strong>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-8">
-                                <label>{{ __('Calibre') }}:*</label>
-                                <div class="input-group mb-3">
-                                    <select id="caliber_id" class=""
-                                        data-placeholder="{{ __('Selectionner un calibre') }}" name="caliber_id">
-                                        <option></option>
-                                    </select>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong id="caliber_id-error"></strong>
+                                        <strong id="section_id-error"></strong>
                                     </span>
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <label>{{ __('Qté OF') }}:*</label>
-                                <input type="number" name="quantity" id="quantity" class="form-control"
-                                    placeholder="{{ __('Qté intiale') }}" />
+                                <label>{{ __('Code') }}:*</label>
+                                <input type="text" name="code" id="code" class="form-control"
+                                    placeholder="{{ __('Code') }}" />
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="quantity-error"></strong>
+                                    <strong id="code-error"></strong>
                                 </span>
                             </div>
-
-                            <div class="col-lg-6">
-                                <label>{{ __('Status') }}:*</label>
-
-                                <select id="status" disabled name="status"
-                                    data-placeholder="{{ __('Selectionner un status') }}">
+                            <div class="col-lg-8">
+                                <label>{{ __('Nom de post') }}:*</label>
+                                <input type="text" name="post_name" id="post_name" class="form-control"
+                                    placeholder="{{ __('Nom de post') }}" />
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="post_name-error"></strong>
+                                </span>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ __('Type') }}:*</label>
+                                <select id="posts_type_id" name="posts_type_id"
+                                    data-placeholder="{{ __('Selectionner un type') }}">
                                     <option></option>
                                 </select>
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="status-error"></strong>
+                                    <strong id="posts_type_id-error"></strong>
                                 </span>
                             </div>
-                            <div class="col-lg-6">
-                                <label for="new_quantity">{{ __('Qté globale d\'OF') }}</label>
-                                <input type="number" id="new_quantity" name="new_quantity" class="form-control"
-                                    placeholder="Qte globale de l'OF" disabled>
+
+                            <div class="col-lg-8">
+                                <label for="ip_address">{{ __('IP address') }}</label>
+                                <input type="number" id="ip_address" name="ip_address" class="form-control"
+                                    placeholder="address IP">
                                 <span class="invalid-feedback" role="alert">
-                                    <strong id="new_quantity-error"></strong>
+                                    <strong id="ip_address-error"></strong>
+                                </span>
+                            </div>
+                            <div class="col-lg-12 d-none" id="d-previous-post">
+                                <label>{{ __('Poste précédent') }}:*</label>
+                                <select id="previous_post_id" name="previous_post_id"
+                                    data-placeholder="{{ __('Selectionner un type') }}">
+                                    <option></option>
+                                </select>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="previous_post_id-error"></strong>
                                 </span>
                             </div>
                         </div>
@@ -118,30 +124,24 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            form_title = " {{ __('Nouvel Of') }}",
+            form_title = " {{ __('Nouveau Post') }}",
             url = base_url + '/posts';
 
         formToggle(form_title);
-        $(document).on('click', "#add_btn", (e) => {
-            $('#status,#new_quantity').prop('disabled', true);
-            // $('#new_quantity').prop('disabled', true);
-        });
+        // $(document).on('click', "#add_btn", (e) => {
+        //     $('#status,#new_quantity').prop('disabled', true);
+        //     // $('#new_quantity').prop('disabled', true);
+        // });
         $(document).ready(function() {
 
-            /*----------------------get products list ---------------------------*/
-            callAjax("GET", base_url + '/pluck/products', data = {
-                filter: "hasCal"
-            }).done(function(response) {
-                appendToSelect(response.data, "#product_id")
+            // /*----------------------get sections list ---------------------------*/
+            callAjax("GET", base_url + '/pluck/sections').done(function(response) {
+                appendToSelect(response.data, "#section_id")
             })
-            /*----------------- Get of status list (Enum) --------------------*/
-            callAjax('GET', base_url + '/of_status').done(function(response) {
-                let opt = ``;
-                $.each(response, function(key, val) {
-                    opt += ` <option value=${key}>${val} </option>`;
-                });
-                $('#status').append(opt);
-            });
+            // /*----------------- Get posts type list --------------------*/
+            callAjax("GET", base_url + '/pluck/posts_types').done(function(response) {
+                appendToSelect(response.data, "#posts_type_id")
+            })
         });
 
         form.on('submit', function(e) {
@@ -152,12 +152,14 @@
                 "{{ __('Of modifié avec succès') }}");
         });
 
-        var caliber_id = 0;
-        /* ---------------------------------- Edit ---------------------------------- */
-        $(document).on('click', "#add_btn", (e) => {
-            // form.find(".row").last().html("klklk");
-            $(".status").remove();
-            $('#quantity').prop('disabled', false);
+        $(document).on('change', "#section_id", (e) => {
+            /*----------------- Get posts list --------------------*/
+            callAjax("GET", base_url + '/pluck/posts', {
+                section_id: 1
+            }).done(function(response) {
+                appendToSelect(response.data, "#previous_post_id");
+                $("#d-previous-post").removeClass("d-none");
+            })
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
@@ -205,38 +207,25 @@
         table = table.DataTable({
             "ajax": ajaxCallDatatables(url),
             columns: [{
-                    data: 'of_code'
+                    data: 'code'
                 },
                 {
-                    data: 'of_number'
+                    data: 'post_name'
                 },
                 {
-                    data: 'new_quantity'
+                    data: 'posts_type'
                 },
                 {
-                    data: 'caliber_name'
+                    data: 'section_name'
+                }, {
+                    data: 'ip_address'
                 },
                 {
-                    data: 'status',
-                    render: function(data, type, row) {
-                        switch (data) {
-                            case "inProd":
-                                return `<label class="badge bg-primary">inProduction</label>`;
-                                break;
-                            case "new":
-                                return `<label class="badge bg-info">Vide</label>`;
-                                break;
-                            case "closed":
-                                return `<label class="badge bg-success">Fermé</label>`;
-                                break;
-                            case "posed":
-                                return `<label class="badge bg-warning">Pause</label>`;
-                                break;
-                                // default:
-                                //     break;
-                        }
-                    }
+                    data: 'previous_post'
                 },
+                // {
+                //     data: 'status',
+                // },
                 {
                     data: 'id',
                     render: function(data, type, row) {

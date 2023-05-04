@@ -57,7 +57,7 @@ Route::group(
         Route::get('/products', function () {
             return view('pages.products');
         })->middleware('permission:product-list');
-        Route::get('section', function () {
+        Route::get('sections', function () {
             return view('pages.section');
         })->middleware('permission:section-list');
         Route::get('posts', function () {
@@ -76,7 +76,7 @@ Route::group(
         Route::get('packaging', function () {
             return view('pages.packaging');
         });
-        Route::get('operator', function () {
+        Route::get('operators', function () {
             return view('pages.operator');
         });
     }
