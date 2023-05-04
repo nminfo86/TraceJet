@@ -130,53 +130,28 @@
                 })
                 // When the response is received, execute the following function
                 .done(function(response) {
-                    // Extract the first permission type from the response data and split it into two parts
-                    var oldPermission = Object.values(response.data)[0].split('-')[0];
-                    // Create an empty Map to store the actions for each permission type
-                    var actions = new Map();
-                    // Create a variable to store the HTML code for the table rows
-                    let appendPermissions = "<tr>";
-                    // Loop through each permission in the response data
-                    $.each(response.data, function(indexInArray, valueOfElement) {
-                        // Split the permission into two parts: the permission type and the action
-                        let permission = valueOfElement.split('-');
-                        let newPermission = permission[1];
-
-                        // If the current permission type is the same as the previous one, add the action to the Map
-                        if (oldPermission == permission[0]) {
-                            actions[indexInArray] = newPermission;
-                        } else {
-                            // Otherwise, create a new table row and add the previous permission type and its actions to the HTML code
-                            appendPermissions +=
-                                `<td class="text-capitalize">${oldPermission}</td><td>`;
+                    let table = $("#permissions_table tbody");
+                    console.log(response.data);
+                    for (var module in response.data) {
+                        if (response.data.hasOwnProperty(module)) {
+                            var actions = response.data[module];
+                            var row = $("<tr>");
+                            row.append($("<td>").text(module));
+                            //row.append($("<td>").text(actions.join(", ")));
+                            let appendPermissions = "";
 
                             $.each(actions, function(index, value) {
-                                // Call the permissionsList function to generate the HTML code for each action
+
                                 appendPermissions += permissionsList(index, value);
                             });
-                            appendPermissions += '</td></tr>';
-                            // Clear the Map and add the current action to it
-                            actions = {};
-                            actions[indexInArray] = newPermission;
+                            row.append($("<td>").html(appendPermissions));
+                            //console.log(actions);
+                            table.append(row);
                         }
-                        // Set the current permission type as the previous one for the next iteration
-                        oldPermission = permission[0];
-                    });
-                    // Add the last permission type and its actions to the HTML code
-                    appendPermissions += `<tr><td class="text-capitalize">${oldPermission}</td><td>`;
+                    }
 
-                    $.each(actions, function(index, value) {
-                        // Call the permissionsList function to generate the HTML code for each action
-                        appendPermissions += permissionsList(index, value);
-                    });
-                    appendPermissions += '</td></tr>';
-                    // Add the HTML code for the table rows to the permissions_table element
-                    $('#permissions_table').append(appendPermissions);
                 });
-
-
         });
-
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -203,7 +178,8 @@
             e.preventDefault();
             id = $(this).attr("id");
             /* ----------------- Fire alert to user about delete warning ---------------- */
-            Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}", "{{ __('Fermer') }}")
+            Dialog("{{ __('Confirmer la suppression') }}", "{{ __('Confirmer') }}",
+                    "{{ __('Fermer') }}")
                 .then((
                     result) => {
                     /* ---------- if he confirme deleting modal we start delete action ---------- */
