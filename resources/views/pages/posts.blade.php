@@ -191,7 +191,11 @@
                 $(".toggle-show").toggleClass('d-none');
                 $("#section_id").val(response.data.section_id).trigger('change');
                 $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
-                $("#previous_post_id").val(response.data.previous_post_id).trigger('change');
+                if (response.data.previous_post_id != null)
+                    $("#previous_post_id").val(response.data.previous_post_id).trigger('change');
+                else {
+
+                }
                 $('#post_name').val(response.data.post_name);
                 $('#code').val(response.data.code);
                 $('#ip_address').val(response.data.ip_address);
