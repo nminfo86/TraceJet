@@ -1,11 +1,15 @@
 <?php
 
+use App\Models\Of;
 use Carbon\Carbon;
+use App\Models\Post;
+use App\Models\Movement;
 use App\Models\SerialNumber;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebAuthController;
-use App\Models\Movement;
+use App\Models\Caliber;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +82,56 @@ Route::group(
         });
         Route::get('operators', function () {
             return view('pages.operator');
+        });
+
+        Route::get('test', function () {
+            return Post::leftJoin('posts as a', 'posts.previous_post_id', '=', 'a.id')
+                ->rightJoin('sections', 'posts.section_id', '=', 'sections.id')
+                ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
+                ->get(['posts.id', 'posts.code', 'posts.post_name', 'posts_types.posts_type', 'sections.section_name', 'posts.ip_address', 'a.post_name as previous_post']);
+        });
+
+
+        Route::get('dash', function () {
+
+            $product_list = Of::select("id", "of_number", "new_quantity")->with("serialNumbers:of_id,qr")->get();
+
+
+
+            $of = Of::with("serialNumbers:of_id,serial_number,valid")->find(1, ["id", "of_number", "new_quantity"]);
+            // return   $posts = Post::select("id", "post_name", "code")->withCount("movements")->get();
+            $posts = Post::select("id", "post_name", "code")->withCount('movements')
+                // ->with(["movements" => function ($join) {
+                // $join->join("posts", "movements.movement_post_id", "posts.id");
+                // ->join("serial_numbers", "movements.serial_number_id", "serial_numbers.id")
+
+                // ->select("movement_post_id", "result", "serial_number", "movements.created_at", "post_name");
+
+                // ->whereIn("movements.created_at", function ($query) {
+                //     $query->selectRaw("MAX(created_at)")
+                //         ->from("movements")
+                //         ->groupBy("serial_number_id");
+                // });
+                // }])
+                ->get()
+                ->map(function ($post) {
+                    $post->movement_percentage = $post->movements_count / 4 * 100; # 4 is of quantity
+                    $post->stayed = 100 - $post->movement_percentage; # 4 is of quantity
+                    return $post;
+                });
+            return compact("of", "posts");
+            // $result = $posts->movements->count();
+            // return  $result["ofQr"] = Of::select("id", "of_number", "new_quantity")->with(["serialNumbers" => function ($q) {
+            //     // $q->with("movements:serial_number_id,movement_post_id,result,created_at");
+            //     $q->with(["movements" => function ($join) {
+            //         $join->join("posts", "movements.movement_post_id", "posts.id");
+            //         $join->select("created_at", "result", "serial_number_id", "post_name");
+            //     }]);
+            // }])->find(1);
+
+            // $result["posts"] = Movement::join("posts", "movements.movement_post_id", "posts.id")->whereSectionId(1)->get();
+
+            // return $result;
         });
     }
 );

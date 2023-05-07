@@ -55,7 +55,7 @@
                             <div class="col-lg-12">
                                 <label>{{ __('Nom de section') }}:*</label>
                                 <div class="input-group mb-3">
-                                    <select id="section_id" class=""
+                                    <select id="section_id" name="section_id"
                                         data-placeholder="{{ __('Selectionner un section') }}">
                                         <option></option>
                                     </select>

@@ -2,12 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Caliber;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['pivot'];
+
 
     /**
      * Indicates if the model should be timestamped.
@@ -21,7 +32,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address"];
+    protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address", "section_id", "code"];
 
 
     /* -------------------------------------------------------------------------- */
@@ -31,5 +42,26 @@ class Post extends Model
     public function posts_type()
     {
         return $this->belongsTo(PostsType::class);
+    }
+
+    /**
+     * Get all of the movements for the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function movements(): HasMany
+    {
+        return $this->hasMany(Movement::class, 'movement_post_id', 'id');
+    }
+
+
+    /**
+     * The calibers that belong to the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function calibers(): BelongsToMany
+    {
+        return $this->belongsToMany(Caliber::class);
     }
 }
