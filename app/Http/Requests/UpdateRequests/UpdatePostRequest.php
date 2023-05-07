@@ -31,7 +31,8 @@ class UpdatePostRequest extends FormRequest
             "post_name"              => "required|unique:posts,post_name," . $this->post->id,
             "posts_type_id"     => "required",
             "previous_post"     => "integer",
-            "mac"               => "required"
+            "ip_address"               => "required",
+            "section_id" => "required",
         ];
     }
 }

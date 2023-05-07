@@ -182,18 +182,19 @@
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
-            $('#status, #new_quantity').prop('disabled', false);
-            $('#quantity').prop('disabled', true);
+            // $('#status, #new_quantity').prop('disabled', false);
+            // $('#quantity').prop('disabled', true);
             form_title = " {{ __('Modification OF') }}";
 
             /* ------------------------------ Get Of values ----------------------------- */
             callAjax('GET', url + '/' + id).done(function(response) {
                 $(".toggle-show").toggleClass('d-none');
-                $("#product_id").val(response.data.caliber.product_id).trigger('change');
-                $('#status').val(response.data.status).trigger('change');
-                $('#quantity').val(response.data.quantity);
-                $('#caliber_id').val(response.data.caliber_id).trigger('change');
-                $('#new_quantity').val(response.data.new_quantity);
+                $("#section_id").val(response.data.section_id).trigger('change');
+                $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
+                $("#previous_post_id").val(response.data.previous_post_id).trigger('change');
+                $('#post_name').val(response.data.post_name);
+                $('#code').val(response.data.code);
+                $('#ip_address').val(response.data.ip_address);
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {
