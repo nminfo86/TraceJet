@@ -23,9 +23,6 @@ class Post extends Model
      */
 <<<<<<< HEAD
     protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address", "section_id", "code"];
-=======
-    protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address","section_id","code"];
->>>>>>> fa3c6559cba32a7910608f6196b04e6498d02d6c
 
 
     /* -------------------------------------------------------------------------- */
