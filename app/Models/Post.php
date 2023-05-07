@@ -21,11 +21,7 @@ class Post extends Model
      *
      * @var array
      */
-<<<<<<< HEAD
     protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address", "section_id", "code"];
-=======
-    protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address","section_id","code"];
->>>>>>> fa3c6559cba32a7910608f6196b04e6498d02d6c
 
 
     /* -------------------------------------------------------------------------- */
@@ -36,7 +32,6 @@ class Post extends Model
     {
         return $this->belongsTo(PostsType::class);
     }
-<<<<<<< HEAD
 
     /**
      * Get all of the movements for the Post
@@ -57,10 +52,9 @@ class Post extends Model
     public function calibers(): BelongsToMany
     {
         return $this->belongsToMany(Caliber::class);
-=======
-    public function sections()
+    }
+        public function sections()
     {
         return $this->belongsTo(Section::class);
->>>>>>> fa3c6559cba32a7910608f6196b04e6498d02d6c
     }
 }

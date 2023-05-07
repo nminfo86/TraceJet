@@ -191,6 +191,9 @@
                 $(".toggle-show").toggleClass('d-none');
                 $("#section_id").val(response.data.section_id).trigger('change');
                 $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
+                $('#post_name').val(response.data.post_name);
+                $('#code').val(response.data.code);
+                $('#ip_address').val(response.data.ip_address);
                 if (response.data.previous_post_id != null) {
                     $("#is_first").prop("checked", false);
                     $("#previous_post_id").prop("disabled", false);
@@ -199,9 +202,6 @@
                     $("#is_first").prop("checked", true);
                     $("#previous_post_id").prop("disabled", true);
                 }
-                $('#post_name').val(response.data.post_name);
-                $('#code').val(response.data.code);
-                $('#ip_address').val(response.data.ip_address);
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {
@@ -257,8 +257,7 @@
                     data: 'id',
                     render: function(data, type, row) {
                         return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </div>`;
+                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
                     }
                 },
             ],
