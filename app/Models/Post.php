@@ -21,7 +21,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address"];
+    protected $fillable = ['posts_type_id', 'post_name', 'previous_post', "ip_address","section_id","code"];
 
 
     /* -------------------------------------------------------------------------- */

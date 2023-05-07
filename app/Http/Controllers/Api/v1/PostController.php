@@ -43,7 +43,6 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $post = Post::create($request->all());
-
         //Send response with success
         return $this->sendResponse($this->create_success_msg, $post);
     }

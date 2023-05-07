@@ -29,7 +29,8 @@ class StorePostRequest extends FormRequest
             "posts_type_id"     => "required",
             "post_name"         => 'required|unique:posts,post_name',
             "previous_post"     => "integer",
-            "mac"               => "required"
+            "ip_address"               => "required",
+            "section_id" => "required",
         ];
     }
 }
