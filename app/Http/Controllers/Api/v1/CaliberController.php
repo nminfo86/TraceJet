@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Caliber;
 use App\Traits\ResponseTrait;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreCaliberRequest;
 use App\Http\Requests\UpdateRequests\UpdateCaliberRequest;
@@ -31,12 +32,12 @@ class CaliberController extends Controller
      */
     public function index()
     {
-        // $sections = Caliber::with('product')->get();
-        $sections = Caliber::join('products', function ($join) {
+        // $calibers = Caliber::with('product')->get();
+        $calibers = Caliber::join('products', function ($join) {
             $join->on('calibers.product_id', '=', 'products.id');
         })->get(["calibers.id", "caliber_code", "caliber_name", "box_quantity", "product_name"]);
-        //Send response with success
-        return $this->sendResponse(data: $sections);
+        // //Send response with success
+        return $this->sendResponse(data: $calibers);
     }
 
     /**
@@ -47,11 +48,30 @@ class CaliberController extends Controller
      */
     public function store(StoreCaliberRequest $request)
     {
-        $section = Caliber::create($request->all());
+        // dd($request->only("post_id"));
+        // $section = Caliber::create($request->all());
 
-        //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg, $section);
+        // //Send response with success
+        // $msg = $this->getResponseMessage("success");
+        // return $this->sendResponse($msg, $section);
+
+        /* -------------------------------------------------------------------------- */
+        /*                                   Update                                   */
+        /* -------------------------------------------------------------------------- */
+        try {
+            DB::beginTransaction();
+            # code...
+            $section = Caliber::create($request->except("post_id"));
+            $posts = $section->posts()->attach($request->only("post_id")["post_id"]);
+            DB::commit();
+            //Send response with success
+            $msg = $this->getResponseMessage("success");
+            return $this->sendResponse($msg, $section);
+        } catch (\Throwable $e) {
+            # code...
+        }
+        // $p = [1, 2, 3];
+
     }
 
     /**
