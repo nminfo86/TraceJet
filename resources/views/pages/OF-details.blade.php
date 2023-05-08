@@ -425,7 +425,7 @@
         /* -------------------------------------------------------------------------- */
         /*                                   Boualem                                  */
         /* -------------------------------------------------------------------------- */
-        callAjax("GET", "dash", data = {
+        callAjax("GET", "{{ url('dash') }}", data = {
             of_id: 1
         }).done(function(response) {
             // console.log(response);
@@ -517,7 +517,7 @@
 
         })
 
-        callAjax("GET", "sn_dash", data = {
+        callAjax("GET", "{{ url('sn_dash') }}", data = {
             sn_id: 1
         }).done(function(response) {
             html = "";

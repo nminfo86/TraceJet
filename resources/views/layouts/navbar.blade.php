@@ -11,15 +11,15 @@
                 <b class="logo-icon">
                     <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                     <!-- Dark Logo icon -->
-                    <img src="../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                    <img src="{{asset('/assets/images/logo-icon.png')}}" alt="homepage" class="dark-logo" />
                     <!-- Light Logo icon -->
                     <!--End Logo icon -->
                     <!-- Logo text -->
                     <span class="logo-text">
                         <!-- dark Logo text -->
-                        <img src="../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                        <img src="{{asset('/assets/images/logo-text.png')}}" alt="homepage" class="dark-logo" />
                         <!-- Light Logo text -->
-                        <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                        <img src="{{asset('/assets/images/logo-light-text.png" class="light-logo')}}" alt="homepage" />
                     </span>
             </a>
             <!-- ============================================================== -->
@@ -79,17 +79,15 @@
                 <b class="logo-icon">
                     <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                     <!-- Dark Logo icon -->
-                    <img src="../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                    <img src="{{ asset('/assets/images/logo-icon.png') }}" alt="homepage" class="dark-logo" />
                     <!-- Light Logo icon -->
-                    <img src="../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                    <img src="{{ asset('/assets/images/logo-light-icon.png') }}" alt="homepage" class="light-logo" />
                 </b>
                 <!--End Logo icon -->
                 <!-- Logo text -->
                 <span class="logo-text">
                     <!-- dark Logo text -->
-                    <img src="../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                    <!-- Light Logo text -->
-                    <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+                    <img src="{{ asset('/assets/images/logo-text.png') }}" alt="homepage" class="dark-logo" />
                 </span>
             </a>
             <!-- ============================================================== -->
@@ -107,19 +105,6 @@
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
             <ul class="navbar-nav float-start me-auto">
-                <!-- ============================================================== -->
-                <!-- Search -->
-                <!-- ============================================================== -->
-                {{-- <li class="nav-item ">
-                    <a class="link sidebartoggler d-none d-md-inline d-flex align-items-center"
-                        href="javascript:void(0)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-menu">
-                            <line x1="3" y1="12" x2="21" y2="12"></line>
-                            <line x1="3" y1="6" x2="21" y2="6"></line>
-                            <line x1="3" y1="18" x2="21" y2="18"></line>
-                        </svg></a>
-                </li> --}}
                 <li class="nav-item">
                     <nav class="page-breadcrumb py-0" aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 d-flex align-items-center">
