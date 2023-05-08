@@ -86,9 +86,7 @@
             form_title = " {{ __('Nouveau rôle') }}",
             url = 'api/v1/roles';
         formToggle(form_title);
-
         $(document).ready(function() {
-
             // Send an AJAX request to the server to get the permissions data
             $.ajax({
                     method: 'GET',
@@ -98,46 +96,60 @@
                 .done(function(response) {
                     // Store the response data in a variable
                     var data = response.data;
-
                     // Loop through each item in the data object
                     $.each(data, function(key, values) {
                         // Create a new row element
                         var row = $("<tr>");
-
                         // Create a new cell element for the page name and add the "text-capitalize" class
                         var page = $("<td>").addClass("text-capitalize").text(key);
-
                         // Create a new cell element for the actions
                         var actions = $("<td>");
-
+                        var permission = `<div class='row'>
+                            <div class=" col-12 col-md-5 form-check form-switch form-check-inline">
+                <input class="form-check-input select-sup-permissions" type="checkbox"  role="switch">
+                <label class="form-check-label ">{{ __('Sélectionner tout') }}</label></div>
+                <div class="col-12 col-md-6">`;
                         // Loop through each item in the values array
                         $.each(values, function(index, value) {
                             // Create a new permission element using the permissionsList() function
-                            var permission = permissionsList(value[0], value[1]);
-
-                            // Append the permission element to the actions cell
-                            actions.append(permission);
+                            permission += permissionsList(value[0], value[1]);
                         });
-
+                        permission += "</div></div>";
+                        // Append the permission element to the actions cell
+                        actions.append(permission);
                         // Append the page and actions cells to the row element
                         row.append(page).append(actions);
-
                         // Append the row element to the table body
                         $("#permissions_table tbody").append(row);
                     });
-
                 });
-
-
         });
-
+        // select all sup permissions
+        $(document).on('click', '.select-sup-permissions', function(e) {
+            //e.preventDefault()
+            var nextDiv = $(this).parent().next();
+            //console.log(nextDiv);
+            // loop through each input element within the next div
+            if ($(this).prop("checked")) {
+                nextDiv.find("input").each(function() {
+                    // do something with each input element here
+                    //console.log($(this).val());
+                    $('#appendPermission #' + $(this).val()).prop('checked', true);
+                });
+            } else {
+                nextDiv.find("input").each(function() {
+                    // do something with each input element here
+                    //console.log($(this).val());
+                    $('#appendPermission #' + $(this).val()).prop('checked', false);
+                });
+            }
+        });
         form.on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
             storObject(url, formData, id, "{{ __('Rôle ajouté avec succès') }}",
                 "{{ __('Rôle modifié avec succès') }}");
         });
-
         /* ---------------------------------- Edit ---------------------------------- */
         $(document).on('click', '.edit', function(e) {
             e.preventDefault()
@@ -170,7 +182,6 @@
             e.preventDefault()
             id = $(this).attr('id');
             form_title = " {{ __('Voir le rôle') }}";
-
             callAjax('GET', url + "/" + id, {}).done(function(response) {
                 //$.each(response.role, function(key, val) {
                 $('#name').val(response.data.name);
@@ -206,13 +217,9 @@
         });
 
         function permissionsList(index, value) {
-            // value = '{{ __('messages.list') }}';
-            return '<div class="form-check form-switch form-check-inline">' +
-                '<input class="form-check-input" type="checkbox" id="' +
-                index + '" name="permissions[]" role="switch" value="' +
-                index + '">' +
-                '<label class="form-check-label ">' + value + '</label>' +
-                '</div>';
+            return `<div class="form-check form-switch form-check-inline">
+                <input class="form-check-input" type="checkbox" id="${index}" name="permissions[]" role="switch" value="${index}">
+                <label class="form-check-label ">${value}</label></div><br>`;
         }
     </script>
 @endpush
