@@ -53,17 +53,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label>{{ __('Nom de section') }}:*</label>
+                                <label>{{ __('Section') }}:*</label>
                                 <div class="input-group mb-3">
-                                    <select id="section_id" name="section_id"
-                                        data-placeholder="{{ __('Selectionner un section') }}">
-                                        <select id="section_id" class="" name="section_id"
-                                            data-placeholder="{{ __('Selectionner une section') }}">
-                                            <option></option>
-                                        </select>
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong id="section_id-error"></strong>
-                                        </span>
+                                    <select id="section_id" class="" name="section_id"
+                                        data-placeholder="{{ __('Selectionner une section') }}">
+                                        <option></option>
+                                    </select>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="section_id-error"></strong>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -95,21 +93,32 @@
 
                             <div class="col-lg-8">
                                 <label for="ip_address">{{ __('IP address') }}</label>
-                                <input type="number" id="ip_address" name="ip_address" class="form-control"
+                                <input type="text" id="ip_address" name="ip_address" class="form-control"
                                     placeholder="address IP">
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="ip_address-error"></strong>
                                 </span>
                             </div>
-                            <div class="col-lg-12 d-none" id="d-previous-post">
-                                <label>{{ __('Poste précédent') }}:*</label>
-                                <select id="previous_post_id" name="previous_post_id"
-                                    data-placeholder="{{ __('Selectionner un type') }}">
-                                    <option></option>
-                                </select>
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="previous_post_id-error"></strong>
-                                </span>
+                            <div class=" row d-none" id="d-previous-post">
+                                <div class="col-lg-6">
+                                    <label>{{ __('Poste précédent') }}:*</label>
+                                    <select id="previous_post_id" name="previous_post_id"
+                                        data-placeholder="{{ __('Selectionner un type') }}">
+                                        <option></option>
+                                    </select>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="previous_post_id-error"></strong>
+                                    </span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label></label>
+                                    <div class="form-check form-switch d-flex align-items-center pt-2">
+                                        <input class="form-check-input" type="checkbox" id="is_first" role="switch">
+                                        <label class="form-check-label pt-2 ps-2"
+                                            for="status">{{ __(" N'a pas de poste précédent") }}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -130,10 +139,7 @@
             url = base_url + '/posts';
 
         formToggle(form_title);
-        // $(document).on('click', "#add_btn", (e) => {
-        //     $('#status,#new_quantity').prop('disabled', true);
-        //     // $('#new_quantity').prop('disabled', true);
-        // });
+
         $(document).ready(function() {
 
             // /*----------------------get sections list ---------------------------*/
@@ -144,6 +150,14 @@
             callAjax("GET", base_url + '/pluck/posts_types').done(function(response) {
                 appendToSelect(response.data, "#posts_type_id")
             })
+        });
+
+        $(document).on('click', '#is_first', function(e) {
+            if ($(this).prop("checked")) {
+                $("#previous_post_id").prop("disabled", true);
+            } else {
+                $("#previous_post_id").prop("disabled", false);
+            }
         });
 
         form.on('submit', function(e) {
@@ -157,16 +171,19 @@
         $(document).on('change', "#section_id", (e) => {
             /*----------------- Get posts list --------------------*/
             callAjax("GET", base_url + '/pluck/posts', {
-                section_id: 1
-            }).done(function(response) {
+                section_id: $("#section_id").val()
+            }, false).done(function(response) {
+                // clean old options after change
+                $("#previous_post_id").html("");
+                // append the news options
                 appendToSelect(response.data, "#previous_post_id");
                 $("#d-previous-post").removeClass("d-none");
             })
         }).on('click', '.edit', function(e) {
             e.preventDefault()
             id = $(this).attr('id');
-            $('#status, #new_quantity').prop('disabled', false);
-            $('#quantity').prop('disabled', true);
+            // $('#status, #new_quantity').prop('disabled', false);
+            // $('#quantity').prop('disabled', true);
             form_title = " {{ __('Modification OF') }}";
 
             /* ------------------------------ Get Of values ----------------------------- */
@@ -174,14 +191,17 @@
                 $(".toggle-show").toggleClass('d-none');
                 $("#section_id").val(response.data.section_id).trigger('change');
                 $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
-                if (response.data.previous_post_id != null)
-                    $("#previous_post_id").val(response.data.previous_post_id).trigger('change');
-                else {
-
-                }
                 $('#post_name').val(response.data.post_name);
                 $('#code').val(response.data.code);
                 $('#ip_address').val(response.data.ip_address);
+                if (response.data.previous_post_id != null) {
+                    $("#is_first").prop("checked", false);
+                    $("#previous_post_id").prop("disabled", false);
+                    $("#previous_post_id").val(response.data.previous_post_id).trigger('change');
+                } else {
+                    $("#is_first").prop("checked", true);
+                    $("#previous_post_id").prop("disabled", true);
+                }
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {
@@ -230,21 +250,14 @@
                 {
                     data: 'previous_post'
                 },
-                // {
-                //     data: 'status',
-                // },
                 {
                     data: 'id',
                     render: function(data, type, row) {
                         return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </div>`;
+                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
                     }
                 },
             ],
-            // TODO::SAmir table ordring probleme
-            // order: false
-
         });
     </script>
 @endpush
