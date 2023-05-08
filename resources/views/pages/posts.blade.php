@@ -172,7 +172,7 @@
             /*----------------- Get posts list --------------------*/
             callAjax("GET", base_url + '/pluck/posts', {
                 section_id: $("#section_id").val()
-            }).done(function(response) {
+            }, false).done(function(response) {
                 // clean old options after change
                 $("#previous_post_id").html("");
                 // append the news options
@@ -243,21 +243,14 @@
                 {
                     data: 'previous_post'
                 },
-                // {
-                //     data: 'status',
-                // },
                 {
                     data: 'id',
                     render: function(data, type, row) {
                         return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </div>`;
+                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
                     }
                 },
             ],
-            // TODO::SAmir table ordring probleme
-            // order: false
-
         });
     </script>
 @endpush
