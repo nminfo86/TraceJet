@@ -70,6 +70,9 @@ Route::group(
         Route::get('ofs', function () {
             return view('pages.ofs');
         })->middleware('permission:of-list');
+        Route::get('of-detail/{id}', function () {
+            return view('pages.OF-details');
+        })->middleware('permission:of-list');
         Route::get('roles', function () {
             return view('pages.roles');
         })->middleware('permission:role-list');
