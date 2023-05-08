@@ -34,7 +34,6 @@ class Post extends Model
         return $this->belongsTo(PostsType::class);
     }
 
-
     /**
      * Get all of the movements for the Post
      *
