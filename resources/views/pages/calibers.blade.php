@@ -94,22 +94,6 @@
                                     <strong id="box_quantity-error"></strong>
                                 </span>
                             </div>
-
-
-                            <div class="col-lg-12 mb-2">
-                                <label>{{ __('Posts') }}:*</label>
-                                <select name="post_id[]" id="post_id" multiple="multiple"
-                                    placeholder="{{ __('Posts') }}">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-
-
-                                </select>
-                                <span class="invalid-feedback" role="alert">
-                                    <strong id="box_quantity-error"></strong>
-                                </span>
-                            </div>
                         </div>
                     </div>
                     @include('components.footer_form')
@@ -135,9 +119,6 @@
             callAjax('GET', base_url + '/pluck/products').done(function(response) {
                 appendToSelect(response.data, "#product_id");
             });
-            //alert(url);
-            /*-----------------------intialize select fields ------------------------*/
-            //customSelect2("fr");
         });
 
         form.on('submit', function(e) {

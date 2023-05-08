@@ -55,18 +55,15 @@
                             <div class="col-lg-12">
                                 <label>{{ __('Nom de section') }}:*</label>
                                 <div class="input-group mb-3">
-<<<<<<< HEAD
                                     <select id="section_id" name="section_id"
                                         data-placeholder="{{ __('Selectionner un section') }}">
-=======
-                                    <select id="section_id" class="" name="section_id"
-                                        data-placeholder="{{ __('Selectionner une section') }}">
->>>>>>> fa3c6559cba32a7910608f6196b04e6498d02d6c
-                                        <option></option>
-                                    </select>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong id="section_id-error"></strong>
-                                    </span>
+                                        <select id="section_id" class="" name="section_id"
+                                            data-placeholder="{{ __('Selectionner une section') }}">
+                                            <option></option>
+                                        </select>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong id="section_id-error"></strong>
+                                        </span>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -175,13 +172,6 @@
             /* ------------------------------ Get Of values ----------------------------- */
             callAjax('GET', url + '/' + id).done(function(response) {
                 $(".toggle-show").toggleClass('d-none');
-<<<<<<< HEAD
-                $("#product_id").val(response.data.caliber.product_id).trigger('change');
-                $('#status').val(response.data.status).trigger('change');
-                $('#quantity').val(response.data.quantity);
-                $('#caliber_id').val(response.data.caliber_id).trigger('change');
-                $('#new_quantity').val(response.data.new_quantity);
-=======
                 $("#section_id").val(response.data.section_id).trigger('change');
                 $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
                 if (response.data.previous_post_id != null)
@@ -192,7 +182,6 @@
                 $('#post_name').val(response.data.post_name);
                 $('#code').val(response.data.code);
                 $('#ip_address').val(response.data.ip_address);
->>>>>>> fa3c6559cba32a7910608f6196b04e6498d02d6c
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {
