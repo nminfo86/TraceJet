@@ -191,10 +191,17 @@
                 $(".toggle-show").toggleClass('d-none');
                 $("#section_id").val(response.data.section_id).trigger('change');
                 $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
-                $("#previous_post_id").val(response.data.previous_post_id).trigger('change');
                 $('#post_name').val(response.data.post_name);
                 $('#code').val(response.data.code);
                 $('#ip_address').val(response.data.ip_address);
+                if (response.data.previous_post_id != null) {
+                    $("#is_first").prop("checked", false);
+                    $("#previous_post_id").prop("disabled", false);
+                    $("#previous_post_id").val(response.data.previous_post_id).trigger('change');
+                } else {
+                    $("#is_first").prop("checked", true);
+                    $("#previous_post_id").prop("disabled", true);
+                }
                 $('#title').text(form_title);
             });
         }).on('click', '.delete', function(e) {

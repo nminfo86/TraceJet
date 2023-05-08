@@ -62,13 +62,13 @@
                 @endcan
                 @can('section-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
-                            href="{{ url('section') }}" aria-expanded="false"><i class="mdi mdi-format-section"></i><span
-                                class="hide-menu">{{ __('Section') }}</span></a></li>
+                            href="{{ url('sections') }}" aria-expanded="false"><i class="mdi mdi-format-section"></i><span
+                                class="hide-menu">{{ __('Sections') }}</span></a></li>
                 @endcan
                 @can('post-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('posts') }}" aria-expanded="false"><i class="mdi mdi-application"></i><span
-                                class="hide-menu">{{ __('Poste') }}</span></a></li>
+                                class="hide-menu">{{ __('Postes') }}</span></a></li>
                 @endcan
                 @can('of-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"

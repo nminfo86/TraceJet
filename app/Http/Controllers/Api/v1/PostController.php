@@ -27,14 +27,9 @@ class PostController extends Controller
     {
         $posts = Post::leftJoin('posts as a', 'posts.previous_post_id', '=', 'a.id')
             ->join('sections', 'posts.section_id', '=', 'sections.id')
-
             ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
             ->get(['posts.id', 'posts.code', 'posts.post_name', 'posts_types.posts_type', 'sections.section_name', 'posts.ip_address', 'a.post_name as previous_post']);
-        // $posts = Post::join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
-        //     ->join('sections', 'posts.section_id', '=', 'sections.id')
-        //     ->join('posts')
-        //     ->get(['posts.id', 'posts.code', 'posts.post_name', 'posts_types.posts_type', 'sections.section_name', 'posts.ip_address', 'posts.post_name as previous_post']);
-        //$posts=Post::get();
+        // dd($posts);
         //Send response with success
         return $this->sendResponse(data: $posts);
     }
@@ -48,6 +43,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $post = Post::create($request->all());
+
         //Send response with success
         return $this->sendResponse($this->create_success_msg, $post);
     }

@@ -29,8 +29,13 @@ class StorePostRequest extends FormRequest
             "posts_type_id"     => "required",
             "post_name"         => 'required|unique:posts,post_name',
             "previous_post"     => "integer",
+<<<<<<< HEAD
+            "section_id"     => "required",
+            // "mac"               => "required"
+=======
             "ip_address"               => "required",
             "section_id" => "required",
+>>>>>>> fa3c6559cba32a7910608f6196b04e6498d02d6c
         ];
     }
 }

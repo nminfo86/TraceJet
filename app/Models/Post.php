@@ -32,7 +32,28 @@ class Post extends Model
     {
         return $this->belongsTo(PostsType::class);
     }
-    public function sections()
+
+    /**
+     * Get all of the movements for the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function movements(): HasMany
+    {
+        return $this->hasMany(Movement::class, 'movement_post_id', 'id');
+    }
+
+
+    /**
+     * The calibers that belong to the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function calibers(): BelongsToMany
+    {
+        return $this->belongsToMany(Caliber::class);
+    }
+        public function sections()
     {
         return $this->belongsTo(Section::class);
     }

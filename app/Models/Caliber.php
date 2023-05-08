@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Models\Of;
+use App\Models\Post;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Caliber extends Model
 {
@@ -51,5 +53,15 @@ class Caliber extends Model
     public function ofs()
     {
         return $this->hasMany(Of::class);
+    }
+
+    /**
+     * The posts that belong to the Caliber
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class)->select("posts.id", "post_name");
     }
 }

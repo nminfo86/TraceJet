@@ -31,8 +31,4 @@ class Section extends Model
     {
         return $this->hasMany(Product::class);
     }
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
 }
