@@ -90,15 +90,20 @@ Route::group(
                 ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
                 ->get(['posts.id', 'posts.code', 'posts.post_name', 'posts_types.posts_type', 'sections.section_name', 'posts.ip_address', 'a.post_name as previous_post']);
         });
+        // Route::get('test', function () {
+        // return Movement::whereSerialNumberId(1)
+        //     ->join("posts", "movement_post_id", "posts.id")
+        //     ->get(["post_name", "result", "created_at"]);
+        // });
 
 
         Route::get('dash', function () {
+            // return Post::with("movements")->get();
+            // $product_list = Of::select("id", "of_number", "new_quantity")->with("serialNumbers:of_id,qr")->get();
 
-            $product_list = Of::select("id", "of_number", "new_quantity")->with("serialNumbers:of_id,qr")->get();
 
 
-
-            $of = Of::with("serialNumbers:of_id,serial_number,valid")->find(1, ["id", "of_number", "new_quantity"]);
+            $of = Of::with("serialNumbers:of_id,qr,valid")->find(1, ["id", "of_number", "new_quantity"]);
             // return   $posts = Post::select("id", "post_name", "code")->withCount("movements")->get();
             $posts = Post::select("id", "post_name", "code")->withCount('movements')
                 // ->with(["movements" => function ($join) {
@@ -132,6 +137,14 @@ Route::group(
             // $result["posts"] = Movement::join("posts", "movements.movement_post_id", "posts.id")->whereSectionId(1)->get();
 
             // return $result;
+        });
+
+
+
+        route::get("sn_dash", function () {
+            return Movement::whereSerialNumberId(1)
+                ->join("posts", "movement_post_id", "posts.id")
+                ->get(["post_name", "result", "created_at"]);
         });
     }
 );

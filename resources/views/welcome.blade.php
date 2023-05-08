@@ -271,8 +271,9 @@
                         <div class="card-body">
                             <h4 class="card-title">historique</h4>
                             <h6 class="card-subtitle">historique d'un Numéro de serie</h6>
-                            <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
-                                <div class="vertical-timeline-item vertical-timeline-element">
+                            <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
+                                id="qr_life">
+                                {{-- <div class="vertical-timeline-item vertical-timeline-element">
                                     <div>
                                         <span class="vertical-timeline-element-icon bounce-in">
                                             <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
@@ -288,7 +289,7 @@
                                 <div class="vertical-timeline-item vertical-timeline-element">
                                     <div>
                                         <span class="vertical-timeline-element-icon bounce-in">
-                                            {{-- <i class=" badge-warning"> </i> --}}
+
                                             <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
                                         </span>
                                         <div class="vertical-timeline-element-content bounce-in">
@@ -315,7 +316,7 @@
                                 <div class="vertical-timeline-item vertical-timeline-element">
                                     <div>
                                         <span class="vertical-timeline-element-icon bounce-in">
-                                            {{-- <i class=" badge-warning"> </i> --}}
+
                                             <i class="mdi mdi-nut text-warning fs-2 bg-white"></i>
                                         </span>
                                         <div class="vertical-timeline-element-content bounce-in">
@@ -325,7 +326,7 @@
                                             <span class="vertical-timeline-element-date">12:25 PM</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                             </div>
                         </div>
@@ -454,7 +455,7 @@
                             </span>
                         </div>
                         <div class="ms-auto">
-                            <span class="badge bg-light text-muted" id="movement_percentage">${post.        movement_percentage} %
+                            <span class="badge bg-success text-white" id="movement_percentage">${post.movements_count} Pcs
                             </span>
                         </div>
                     </div>`;
@@ -513,27 +514,30 @@
                 }
             });
 
-            /* -------------------------------------------------------------------------- */
-            /*                                    Table                                   */
-            /* -------------------------------------------------------------------------- */
 
+        })
 
-
-
-
-
-            // let html = `<div class="mt-5 pb-3 d-flex align-items-center">
-        //                 <span class="btn btn-primary btn-circle d-flex align-items-center">
-        //                     <i class="mdi mdi-barcode-scan fs-4"></i>
-        //                 </span>
-        //                 <div class="ms-3">
-        //                     <h5 class="mb-0 fw-bold" id="post_name">Générateur de ticket</h5>
-        //                     <span class="text-muted fs-6">code de post: <span id="code"></span></span>
-        //                 </div>
-        //                 <div class="ms-auto">
-        //                     <span class="badge bg-light text-muted" id="movement_percentage">+68%</span>
-        //                 </div>
-        //             </div>`;
+        callAjax("GET", "sn_dash", data = {
+            sn_id: 1
+        }).done(function(response) {
+            html = "";
+            response.forEach(movement => {
+                // Build HTML for post card
+                html +=
+                    `<div class="vertical-timeline-item vertical-timeline-element">
+                        <div>
+                            <span class="vertical-timeline-element-icon bounce-in">
+                                <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
+                            </span>
+                            <div class="vertical-timeline-element-content bounce-in">
+                                <h4 class="timeline-title">${movement.post_name}</h4>
+                                <p>opéré par quelqu'un le <a href="javascript:void(0);" data-abc="true">${movement.created_at.split(' ')[0]}</a></p>
+                                <span class="vertical-timeline-element-date">${movement.created_at.split(' ')[1]}</span>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            $("#qr_life").append(html);
         })
     </script>
 @endpush
