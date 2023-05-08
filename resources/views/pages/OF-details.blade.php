@@ -521,6 +521,7 @@
             sn_id: 1
         }).done(function(response) {
             html = "";
+            alert();
             response.forEach(movement => {
                 // Build HTML for post card
                 html +=
