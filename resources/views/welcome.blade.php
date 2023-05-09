@@ -20,15 +20,19 @@
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
                                 <div>
-                                    <h4 class="card-title">{{ __('OF Numéro') }} <span class="badge bg-primary"
-                                            id="of_number"></span></h4>
+                                    <h4 class="card-title">{{ __('OF Numéro') }}</h4>
                                     <h6 class="card-subtitle">{{ __('Statistique de production par chaque post') }}</h6>
                                 </div>
-                                <div class="ms-auto d-flex no-block align-items-center">
-                                    <h4 class="card-title">{{ __('Qantity') }} <span class="badge bg-primary"
-                                            id="new_quantity"></span></h4>
-
-                                </div>
+                                {{-- <div class="ms-auto d-flex no-block align-items-center">
+                                    <ul class="list-inline dl d-flex align-items-center m-r-15 m-b-0">
+                                        <li class="list-inline-item d-flex align-items-center text-info"><i
+                                                class="fa fa-circle font-10 me-1"></i> {{ __('Produise') }}
+                                        </li>
+                                        <li class="list-inline-item d-flex align-items-center text-primary"><i
+                                                class="fa fa-circle font-10 me-1"></i> {{ __('reste') }}
+                                        </li>
+                                    </ul>
+                                </div> --}}
                             </div>
                             <div class="amp-pxl mt-4">
                                 <div class="">
@@ -38,21 +42,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 d-flex align-items-stretch" id="posts_avancement">
+                <div class="col-lg-4 d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-body">
                             <h4 class="card-title">avancement par post</h4>
-                            <h6 class="card-subtitle mb-5">avancement de production par post</h6>
-                            {{-- <div class="mt-5 pb-3 d-flex align-items-center">
+                            <h6 class="card-subtitle">avancement de production par post</h6>
+                            <div class="mt-5 pb-3 d-flex align-items-center">
                                 <span class="btn btn-primary btn-circle d-flex align-items-center">
                                     <i class="mdi mdi-barcode-scan fs-4"></i>
                                 </span>
                                 <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold" id="post_name">Générateur de ticket</h5>
-                                    <span class="text-muted fs-6">code de post: <span id="code"></span></span>
+                                    <h5 class="mb-0 fw-bold">Générateur de ticket</h5>
+                                    <span class="text-muted fs-6">code de post: 100</span>
                                 </div>
                                 <div class="ms-auto">
-                                    <span class="badge bg-light text-muted" id="movement_percentage">+68%</span>
+                                    <span class="badge bg-light text-muted">+68%</span>
                                 </div>
                             </div>
                             <div class="py-3 d-flex align-items-center">
@@ -103,17 +107,17 @@
                                 <div class="ms-auto">
                                     <span class="badge bg-light text-muted">+90%</span>
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- <div class="row">
+            <div class="row">
                 {{-- <div class="col-lg-3">
                     <canvas id="FPY1" width="auto" height="auto"></canvas>
                     <p class="percent" id="percent">
                     </p>
-                </div>
+                </div> --}}
                 <div class="col-3">
                     <div class="card">
                         <div class="card-boy p-3">
@@ -158,7 +162,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
             <!-- ============================================================== -->
             <!-- Sales chart -->
             <!-- ============================================================== -->
@@ -189,11 +193,10 @@
                                         <tr>
                                             <th class="border-top-0">{{ __('Numéro de Serie') }}</th>
                                             <th class="border-top-0">{{ __('status') }}</th>
-                                            {{-- <th class="border-top-0">{{ __('Emplacement') }}</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- <tr>
+                                        <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="m-r-10"><a
@@ -258,7 +261,7 @@
                                                 <label class="badge bg-purple">Emballage</label>
                                             </td>
 
-                                        </tr> --}}
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -271,9 +274,8 @@
                         <div class="card-body">
                             <h4 class="card-title">historique</h4>
                             <h6 class="card-subtitle">historique d'un Numéro de serie</h6>
-                            <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
-                                id="qr_life">
-                                {{-- <div class="vertical-timeline-item vertical-timeline-element">
+                            <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+                                <div class="vertical-timeline-item vertical-timeline-element">
                                     <div>
                                         <span class="vertical-timeline-element-icon bounce-in">
                                             <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
@@ -289,7 +291,7 @@
                                 <div class="vertical-timeline-item vertical-timeline-element">
                                     <div>
                                         <span class="vertical-timeline-element-icon bounce-in">
-
+                                            {{-- <i class=" badge-warning"> </i> --}}
                                             <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
                                         </span>
                                         <div class="vertical-timeline-element-content bounce-in">
@@ -316,7 +318,7 @@
                                 <div class="vertical-timeline-item vertical-timeline-element">
                                     <div>
                                         <span class="vertical-timeline-element-icon bounce-in">
-
+                                            {{-- <i class=" badge-warning"> </i> --}}
                                             <i class="mdi mdi-nut text-warning fs-2 bg-white"></i>
                                         </span>
                                         <div class="vertical-timeline-element-content bounce-in">
@@ -326,7 +328,7 @@
                                             <span class="vertical-timeline-element-date">12:25 PM</span>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
 
                             </div>
                         </div>
@@ -377,167 +379,78 @@
         //         cutoutPercentage: 85
         //     }
         // }
-
-
-
-        // $("#percent1").text(92 + ' %');
-        // $("#percent2").text(90 + ' %');
-        // $("#percent3").text(98 + ' %');
-        // $("#percent4").text(80 + ' %');
-        // var options1 = {
-        //     type: 'doughnut',
-        //     data: {
-        //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [92, 8],
-        //             backgroundColor: [
-        //                 'rgba(46, 204, 113, 1)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255, 255, 255 ,1)'
-        //             ],
-        //             borderWidth: 5
-        //         }]
-        //     },
-        //     options: {
-        //         rotation: 1 * Math.PI,
-        //         circumference: 1 * Math.PI,
-        //         legend: {
-        //             display: false
-        //         },
-        //         tooltip: {
-        //             enabled: false
-        //         },
-        //         cutoutPercentage: 85
-        //     }
-        // }
-        // var ctx1 = document.getElementById('FPY1').getContext('2d');
-        // var ctx2 = document.getElementById('FPY2').getContext('2d');
-        // var ctx3 = document.getElementById('FPY3').getContext('2d');
-        // var ctx4 = document.getElementById('FPY4').getContext('2d');
+        // var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
         // var chart1 = new Chart(ctx1, options1);
-        // var chart2 = new Chart(ctx2, options1);
-        // var chart3 = new Chart(ctx3, options1);
-        // var chart4 = new Chart(ctx4, options1);
+        const ctx = document.getElementById('chartJSContainer');
 
-
-        /* -------------------------------------------------------------------------- */
-        /*                                   Boualem                                  */
-        /* -------------------------------------------------------------------------- */
-        callAjax("GET", "dash", data = {
-            of_id: 1
-        }).done(function(response) {
-            // console.log(response);
-            // Initialize variables
-            const posts_list = [];
-            const produced = [];
-            const stayed = [];
-            let html = "";
-            let table = "";
-            console.log(response.of.serial_numbers);
-            // Loop through each post in the response
-            response.posts.forEach(post => {
-                // Push post data to respective arrays
-                posts_list.push(post.post_name);
-                produced.push(post.movement_percentage);
-                stayed.push(post.stayed);
-
-                // Build HTML for post card
-                html +=
-                    `<div class="mt-3 pb-3 d-flex align-items-center">
-                        <span class="btn btn-primary btn-circle d-flex align-items-center">
-                            <i class="mdi mdi-barcode-scan fs-4"></i>
-                        </span>
-                        <div class="ms-3">
-                            <h5 class="mb-0 fw-bold" id="post_name">${post.post_name}</h5>
-                            <span class="text-muted fs-6">code de post: <span id="code">${post.code}</span>
-                            </span>
-                        </div>
-                        <div class="ms-auto">
-                            <span class="badge bg-success text-white" id="movement_percentage">${post.movements_count} Pcs
-                            </span>
-                        </div>
-                    </div>`;
-            });
-            response.of.serial_numbers.forEach(product => {
-                table +=
-                    `<tr>
-                        <td>
-                            <label class="m-b-0 font-16">${product.qr}</label>
-                        </td>
-                        <td>
-                            <label class="badge bg-success ">${product.valid}</label>
-                        </td>
-                    </tr>`;
-            });
-            $("#of_number").text(response.of.of_number)
-            $("#new_quantity").text(response.of.new_quantity)
-
-            // Append the HTML to the DOM
-            $("#posts_avancement .card-body").append(html);
-            $("table tbody").append(table);
-
-            /* -------------------------------------------------------------------------- */
-            /*                                    Char                                    */
-            /* -------------------------------------------------------------------------- */
-            const ctx = document.getElementById('chartJSContainer');
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    // labels: ['Générateur', 'Opé_1', 'Opé_2', 'Opé_3', 'Emballage'],
-                    labels: posts_list,
-                    datasets: [{
-                            label: "{{ __('Produise') }}",
-                            // data: [12, 19, 3, 5, 100],
-                            data: produced,
-                            borderWidth: 1,
-                            backgroundColor: "#1a9bfc",
-                        },
-                        {
-                            label: "{{ __('reste') }}",
-                            // data: [12, 19, 3, 5, 5],
-                            data: stayed,
-                            borderWidth: 1,
-                            backgroundColor: "#1e4db7",
-                        }
-                    ],
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Générateur', 'Opé_1', 'Opé_2', 'Opé_3', 'Emballage'],
+                datasets: [{
+                        label: "{{ __('Produise') }}",
+                        data: [12, 19, 3, 5, 3],
+                        borderWidth: 1,
+                        backgroundColor: "#1a9bfc",
                     },
-                    //legend: false,
-                }
-            });
+                    {
+                        label: "{{ __('reste') }}",
+                        data: [12, 19, 3, 5, 5],
+                        borderWidth: 1,
+                        backgroundColor: "#1e4db7",
+                    }
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                //legend: false,
+            }
+        });
 
 
-        })
-
-        callAjax("GET", "sn_dash", data = {
-            sn_id: 1
-        }).done(function(response) {
-            html = "";
-            response.forEach(movement => {
-                // Build HTML for post card
-                html +=
-                    `<div class="vertical-timeline-item vertical-timeline-element">
-                        <div>
-                            <span class="vertical-timeline-element-icon bounce-in">
-                                <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
-                            </span>
-                            <div class="vertical-timeline-element-content bounce-in">
-                                <h4 class="timeline-title">${movement.post_name}</h4>
-                                <p>opéré par quelqu'un le <a href="javascript:void(0);" data-abc="true">${movement.created_at.split(' ')[0]}</a></p>
-                                <span class="vertical-timeline-element-date">${movement.created_at.split(' ')[1]}</span>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-            $("#qr_life").append(html);
-        })
+        $("#percent1").text(92 + ' %');
+        $("#percent2").text(90 + ' %');
+        $("#percent3").text(98 + ' %');
+        $("#percent4").text(80 + ' %');
+        var options1 = {
+            type: 'doughnut',
+            data: {
+                labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [92, 8],
+                    backgroundColor: [
+                        'rgba(46, 204, 113, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI,
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: false
+                },
+                cutoutPercentage: 85
+            }
+        }
+        var ctx1 = document.getElementById('FPY1').getContext('2d');
+        var ctx2 = document.getElementById('FPY2').getContext('2d');
+        var ctx3 = document.getElementById('FPY3').getContext('2d');
+        var ctx4 = document.getElementById('FPY4').getContext('2d');
+        var chart1 = new Chart(ctx1, options1);
+        var chart2 = new Chart(ctx2, options1);
+        var chart3 = new Chart(ctx3, options1);
+        var chart4 = new Chart(ctx4, options1);
     </script>
 @endpush

@@ -14,22 +14,43 @@
             <!-- ============================================================== -->
             <!-- Sales chart -->
             <!-- ============================================================== -->
+            {{-- <div class="row">
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-boy p-3">
+                            <h5 class="card-title">OF </h5>
+
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="65"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <h6 class="text-muted fw-normal mt-2">
+                                98% de production
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
             <div class="row">
                 <div class="col-lg-8 d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-body">
-                            <div class="d-md-flex align-items-center">
-                                <div>
-                                    <h4 class="card-title">{{ __('OF Numéro') }} <span class="badge bg-primary"
-                                            id="of_number"></span></h4>
-                                    <h6 class="card-subtitle">{{ __('Statistique de production par chaque post') }}</h6>
-                                </div>
-                                <div class="ms-auto d-flex no-block align-items-center">
-                                    <h4 class="card-title">{{ __('Qantity') }} <span class="badge bg-primary"
-                                            id="new_quantity"></span></h4>
+                            <div class="d-flex justify-content-between">
 
+                                <div>
+                                    <h4 class="">{{ __('OF Numéro') }} <span class="badge bg-primary"
+                                            id="of_number"></span></h4>
+                                </div>
+                                <div>
+                                    <h4>{{ __('Date de lancement') }} <span class="badge bg-primary" id="of_number"></span>
+                                    </h4>
+                                </div>
+                                <div>
+                                    <h4 class="">{{ __('Qantity lancé') }} <span class="badge bg-primary"
+                                            id="new_quantity"></span></h4>
                                 </div>
                             </div>
+                            <h6 class="card-subtitle pt-2">{{ __('Statistique de production par chaque post') }}</h6>
                             <div class="amp-pxl mt-4">
                                 <div class="">
                                     <canvas id="chartJSContainer" max-height="350px"></canvas>
@@ -39,11 +60,28 @@
                     </div>
                 </div>
                 <div class="col-lg-4 d-flex align-items-stretch" id="posts_avancement">
-                    <div class="card  w-100">
-                        <div class="card-body">
-                            <h4 class="card-title">avancement par post</h4>
-                            <h6 class="card-subtitle mb-5">avancement de production par post</h6>
-                            {{-- <div class="mt-5 pb-3 d-flex align-items-center">
+                    <div class="row">
+                        <div class="col-12 card w-100" style="height: 100px;">
+                            <div class="">
+                                <div class="card-boy p-3">
+                                    <h5 class="card-title">taux d'avancement</h5>
+                                    {{-- <h6 class="card-subtitle">Poste 1</h6> --}}
+                                    <div class="progress mt-2">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 65%"
+                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h6 class="text-muted fw-normal mt-2">
+                                        98% de production
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 card w-100" style="min-height: 75%;">
+                            <div class="">
+                                <div class="card-body">
+                                    <h4 class="card-title">avancement par post</h4>
+                                    <h6 class="card-subtitle mb-5">avancement de production par post</h6>
+                                    {{-- <div class="mt-5 pb-3 d-flex align-items-center">
                                 <span class="btn btn-primary btn-circle d-flex align-items-center">
                                     <i class="mdi mdi-barcode-scan fs-4"></i>
                                 </span>
@@ -104,6 +142,8 @@
                                     <span class="badge bg-light text-muted">+90%</span>
                                 </div>
                             </div> --}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

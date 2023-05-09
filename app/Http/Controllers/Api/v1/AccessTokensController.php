@@ -35,15 +35,13 @@ class AccessTokensController extends Controller
         // Check for the device being used
         $user['post_information'] =  Post::whereIpAddress("10.0.0.201")->first() ?? [];
 
-        if (empty($user['post_information']))
-            return $this->sendResponse("Invalid host, please contact the system administrator", status: false);
-
+        //if (empty($user['post_information']))
+            //return $this->sendResponse("Invalid host, please contact the system administrator", status: false);
         $data = [
             'token' => $user->createToken($device_name)->plainTextToken,
             'data' => $user,
             'status' => true
         ];
-
         //  Send Response with data
         return response($data);
     }
