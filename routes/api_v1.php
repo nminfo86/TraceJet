@@ -79,9 +79,12 @@ Route::group(
             return Of::latest()->findOrFail($id, ['quantity', 'of_code']);
         });
 
+
+
         // route::get('check_qr', [SerialNumberController::class, 'validProduct']);
         route::post('serial_numbers/qr_print', [SerialNumberController::class, 'printQrCode']);
         route::get('of_details/{of_id}', [OfController::class, 'getOfDetails']);
+        route::get('of_statistics/{of_id}', [OfController::class, 'ofStatistics']);
 
 
 
