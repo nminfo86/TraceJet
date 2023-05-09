@@ -138,10 +138,10 @@ class OfController extends Controller
      * @param  Int $id
      * @return Response
      */
-    public function ofStatistic($id)
+    public function ofStatistics($id)
     {
         // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
-        $of = Of::with(['serialNumbers:of_id,qr', 'caliber.product.section.posts' => function ($query) {
+        $of = Of::with(['serialNumbers:of_id,id,qr', 'caliber.product.section.posts' => function ($query) {
             // Limiter les résultats aux posts de la section 1
             $query->where('section_id', 1)
                 ->select('id', 'post_name', 'section_id')

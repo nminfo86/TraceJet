@@ -10,7 +10,226 @@
         <!-- ============================================================== -->
         <!-- Container fluid  -->
         <!-- ============================================================== -->
+        <style>
+            .alert-light-info,
+            .bg-light-info,
+            .btn-light-info {
+                background-color: rgba(11, 178, 251, .3) !important;
+                border-color: rgba(11, 178, 251, .1) !important
+            }
+
+            .alert-light-success,
+            .bg-light-success,
+            .btn-light-success,
+            .email-app .email-table .selected {
+                background-color: rgba(57, 203, 127, .3) !important;
+                border-color: rgba(57, 203, 127, .1) !important
+            }
+
+            .alert-light-warning,
+            .bg-light-warning,
+            .btn-light-warning {
+                background-color: rgba(253, 201, 15, .3) !important;
+                border-color: rgba(253, 201, 15, .1) !important
+            }
+
+            .alert-light-danger,
+            .bg-light-danger,
+            .btn-light-danger {
+                background-color: rgba(252, 75, 108, .3) !important;
+                border-color: rgba(252, 75, 108, .1) !important
+            }
+
+            .bg-light-cyan,
+            .btn-light-cyan {
+                background-color: #405863 !important;
+                border-color: #405863 !important
+            }
+
+            .alert-light-secondary,
+            .bg-light-secondary,
+            .btn-light-secondary {
+                background-color: rgba(108, 117, 125, .3) !important;
+                border-color: rgba(108, 117, 125, .1) !important
+            }
+
+            .bg-light-inverse {
+                background-color: #0c111b !important
+            }
+
+            .alert-light-primary,
+            .bg-light-primary,
+            .btn-light-primary {
+                background-color: rgba(30, 77, 183, .3) !important;
+                border-color: rgba(30, 77, 183, .1) !important
+            }
+
+            .btn-light-primary:focus,
+            .btn-light-primary:hover {
+                background-color: #1e4db7 !important;
+                border-color: #1e4db7 !important;
+                color: #fff !important
+            }
+
+            .btn-light-success:focus,
+            .btn-light-success:hover {
+                background-color: #39cb7f !important;
+                border-color: #39cb7f !important;
+                color: #fff !important
+            }
+
+            .btn-light-warning:focus,
+            .btn-light-warning:hover {
+                background-color: #fdc90f !important;
+                border-color: #fdc90f !important;
+                color: #fff !important
+            }
+
+            .btn-light-danger:focus,
+            .btn-light-danger:hover {
+                background-color: #fc4b6c !important;
+                border-color: #fc4b6c !important;
+                color: #fff !important
+            }
+
+            .btn-light-secondary:focus,
+            .btn-light-secondary:hover {
+                background-color: #6c757d !important;
+                border-color: #6c757d !important;
+                color: #fff !important
+            }
+
+            .btn-light-info:focus,
+            .btn-light-info:hover {
+                background-color: #0bb2fb !important;
+                border-color: #0bb2fb !important;
+                color: #fff !important
+            }
+
+            .badge-light {
+                background-color: #11142d;
+                color: #e6e5e8
+            }
+
+            .btn-light {
+                background-color: #11142d;
+                border-color: #11142d;
+                color: #e6e5e8
+            }
+
+            .badge-light-success {
+                background-color: #516d55
+            }
+
+            .badge-light-info {
+                background-color: #27546f
+            }
+
+            .badge-light-danger {
+                background-color: #583a41
+            }
+        </style>
         <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-body">
+                                <span
+                                    class="
+                              btn btn-xl btn-light-info
+                              text-info
+                              btn-circle
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                            ">
+                                    <i class="fas fa-desktop"></i>
+                                </span>
+                                <h3 class="mt-3 pt-1 mb-0">
+                                    39,354
+                                    <span class="fs-2 ms-1 text-danger font-weight-medium">Postes</span>
+                                </h3>
+                                {{-- <h6 class="text-muted mb-0 fw-normal">Postes</h6> --}}
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <span
+                                    class="
+                              btn btn-xl btn-light-warning
+                              text-warning
+                              btn-circle
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                            ">
+                                    <i class="mdi mdi-account-outline fs-3"></i>
+                                </span>
+                                <h3 class="mt-3 pt-1 mb-0">
+                                    4396
+                                    <span class="fs-2 ms-1 text-success font-weight-medium">+23%</span>
+                                </h3>
+                                <h6 class="text-muted mb-0 fw-normal">Products</h6>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <span
+                                    class="
+                              btn btn-xl btn-light-danger
+                              text-danger
+                              btn-circle
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                            ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart">
+                                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                                    </svg>
+                                </span>
+                                <h3 class="mt-3 pt-1 mb-0 d-flex align-items-center">
+                                    423,39
+                                    <span class="fs-2 ms-1 text-success font-weight-medium">+38%</span>
+                                </h3>
+                                <h6 class="text-muted mb-0 fw-normal">Sales</h6>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <span
+                                    class="
+                              btn btn-xl btn-light-success
+                              text-success
+                              btn-circle
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                            ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw">
+                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <h3 class="mt-3 pt-1 mb-0">
+                                    835
+                                    <span class="fs-2 ms-1 text-danger font-weight-medium">-12%</span>
+                                </h3>
+                                <h6 class="text-muted mb-0 fw-normal">Refunds</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- ============================================================== -->
             <!-- Sales chart -->
             <!-- ============================================================== -->

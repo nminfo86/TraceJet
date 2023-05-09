@@ -72,8 +72,8 @@ Route::group(
         Route::get('ofs', function () {
             return view('pages.ofs');
         })->middleware('permission:of-list');
-        Route::get('of-detail/{id}', function () {
-            return view('pages.OF-details');
+        Route::get('of_statistics/{id}', function () {
+            return view('pages.of_statistics');
         })->middleware('permission:of-list');
         Route::get('roles', function () {
             return view('pages.roles');

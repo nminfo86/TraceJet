@@ -55,7 +55,7 @@
      var realised = "{{ __('réalisé') }}";
      var to_realise = "{{ __('à réaliser') }}";
 
-     var base_url = "api/v1";
+     var base_url = "/api/v1";
 
 
      /* -------------------------------------------------------------------------- */

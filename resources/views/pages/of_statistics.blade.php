@@ -75,7 +75,7 @@
                                     </h6>
                                 </div>
                             </div>
-                        </div>ss
+                        </div>
                         <div class="col-12 card w-100" style="min-height: 75%;">
                             <div class="">
                                 <div class="card-body">
@@ -227,7 +227,9 @@
                                 <table class="table mb-0 table-hover align-middle text-nowrap">
                                     <thead>
                                         <tr>
+                                            <th class="border-top-0">#</th>
                                             <th class="border-top-0">{{ __('Numéro de Serie') }}</th>
+
                                             <th class="border-top-0">{{ __('status') }}</th>
                                             {{-- <th class="border-top-0">{{ __('Emplacement') }}</th> --}}
                                         </tr>
@@ -465,19 +467,19 @@
         /* -------------------------------------------------------------------------- */
         /*                                   Boualem                                  */
         /* -------------------------------------------------------------------------- */
-        callAjax("GET", "{{ url('dash') }}", data = {
-            of_id: 1
-        }).done(function(response) {
-            // console.log(response);
+        const currentUrl = window.location.pathname; // get the current URL
+        const lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1); // get the last segment of the URL
+
+        callAjax("GET", base_url + "/of_statistics/" + lastSegment).done(function(response) {
             // Initialize variables
-            const posts_list = [];
-            const produced = [];
-            const stayed = [];
-            let html = "";
-            let table = "";
-            console.log(response.of.serial_numbers);
+            const posts_list = [],
+                produced = [],
+                stayed = [];
+            let html = "",
+                table = "";
+            let posts = response.caliber.product.section.posts;
             // Loop through each post in the response
-            response.posts.forEach(post => {
+            posts.forEach(post => {
                 // Push post data to respective arrays
                 posts_list.push(post.post_name);
                 produced.push(post.movement_percentage);
@@ -500,9 +502,12 @@
                         </div>
                     </div>`;
             });
-            response.of.serial_numbers.forEach(product => {
+            response.serial_numbers.forEach(product => {
                 table +=
                     `<tr>
+                        <td>
+                            <label class="m-b-0 font-16">${product.id}</label>
+                        </td>
                         <td>
                             <label class="m-b-0 font-16">${product.qr}</label>
                         </td>
@@ -511,8 +516,8 @@
                         </td>
                     </tr>`;
             });
-            $("#of_number").text(response.of.of_number)
-            $("#new_quantity").text(response.of.new_quantity)
+            $("#of_number").text(response.of_number)
+            $("#new_quantity").text(response.new_quantity)
 
             // Append the HTML to the DOM
             $("#posts_avancement .card-body").append(html);
