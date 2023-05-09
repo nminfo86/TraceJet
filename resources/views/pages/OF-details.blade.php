@@ -78,7 +78,7 @@
                         </div>
                         <div class="col-12 card w-100" style="min-height: 75%;">
                             <div class="">
-                                <div class="card-body">sss
+                                <div class="card-body">
                                     <h4 class="card-title">avancement par post</h4>
                                     <h6 class="card-subtitle mb-5">avancement de production par post</h6>
                                     {{-- <div class="mt-5 pb-3 d-flex align-items-center">
