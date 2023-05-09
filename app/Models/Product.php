@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Of;
+use App\Models\Caliber;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Product extends Model
 {
@@ -36,5 +40,15 @@ class Product extends Model
     public function calibers()
     {
         return $this->hasMany(caliber::class);
+    }
+
+    /**
+     * Get the section that owns the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class);
     }
 }

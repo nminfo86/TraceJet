@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Section extends Model
 {
@@ -30,5 +31,10 @@ class Section extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

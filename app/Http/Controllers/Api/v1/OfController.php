@@ -130,4 +130,35 @@ class OfController extends Controller
 
         return $of_info;
     }
+
+
+    /**
+     * ofStatistic this method used called on dashboard
+     *
+     * @param  Int $id
+     * @return Response
+     */
+    public function ofStatistic($id)
+    {
+        // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
+        $of = Of::with(['serialNumbers:of_id,qr', 'caliber.product.section.posts' => function ($query) {
+            // Limiter les résultats aux posts de la section 1
+            $query->where('section_id', 1)
+                ->select('id', 'post_name', 'section_id')
+                ->withCount('movements');
+        }])
+            ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
+            ->find($id);
+
+        $of_quantity = $of->new_quantity;
+        $posts = $of->caliber->product->section->posts;
+        // Calculer les pourcentages de mouvements et de stockage pour chaque post
+        $posts->each(function ($post) use ($of_quantity) {
+            $post->movement_percentage = $post->movements_count / $of_quantity * 100;
+            $post->stayed = 100 - $post->movement_percentage;
+        });
+
+        // Retourner l'OF avec les informations des numéros de série et des posts
+        return $of;
+    }
 }
