@@ -130,7 +130,29 @@
             }
         </style>
         <div class="container-fluid">
-
+            <div class="row">
+                <div class="col-lg-8 col-md-6 col-12 align-self-center">
+                    <h4 class="text-muted mb-0 fw-normal">Welcome Johnathan</h4>
+                    <h1 class="mb-0 fw-bold">eCommerce Dashboard</h1>
+                </div>
+                <div
+                    class="
+                    col-lg-4 col-md-6
+                    d-none d-md-flex
+                    align-items-center
+                    justify-content-end
+                  ">
+                    <select class="form-select theme-select border-0" aria-label="Default select example">
+                        <option value="1">Today 23 March</option>
+                        <option value="2">Today 24 March</option>
+                        <option value="3">Today 25 March</option>
+                    </select>
+                    <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2">
+                        <i class="ri-add-line me-1"></i>
+                        Add New
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card-group">
@@ -165,13 +187,13 @@
                               align-items-center
                               justify-content-center
                             ">
-                                    <i class="mdi mdi-account-outline fs-3"></i>
+                                    <i class="fas fa-users"></i>
                                 </span>
                                 <h3 class="mt-3 pt-1 mb-0">
                                     4396
-                                    <span class="fs-2 ms-1 text-success font-weight-medium">+23%</span>
+                                    <span class="fs-2 ms-1 text-success font-weight-medium">Utilisateurs</span>
                                 </h3>
-                                <h6 class="text-muted mb-0 fw-normal">Products</h6>
+
                             </div>
                         </div>
                         <div class="card">
