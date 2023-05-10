@@ -83,6 +83,13 @@ Route::group(
 
         // route::get('check_qr', [SerialNumberController::class, 'validProduct']);
         route::post('serial_numbers/qr_print', [SerialNumberController::class, 'printQrCode']);
+        route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
+        // Route::controller(RegimentController::class)->group(function () {
+        //     Route::post('add_students_to_regiment', 'addStudents');
+        //     Route::delete('del_students_from_regiment', 'deleteStudents');
+        // });
+
+
         route::get('of_details/{of_id}', [OfController::class, 'getOfDetails']);
         route::get('of_statistics/{of_id}', [OfController::class, 'ofStatistics']);
 

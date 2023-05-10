@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebAuthController;
+use App\Http\Controllers\Api\v1\SerialNumberController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,105 @@ Route::group(
         });
 
         Route::get('test', function () {
+
+
+            // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
+            $of = Of::with([
+                // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+                'caliber.product.section.posts' => fn ($query) =>
+                // Limiter les résultats aux posts de la section 1
+                $query->where('section_id', 1)
+                    ->orderByDesc("post_name")
+                    ->select('id', 'post_name', 'code', 'section_id')
+                    ->withCount('movements')
+            ])
+                ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
+                ->find(1);
+
+            $of_quantity = $of->new_quantity;
+            $posts = $of->caliber->product->section->posts;
+            // Calculer les pourcentages de mouvements et de stockage pour chaque post
+            $posts->each(function ($post) use ($of_quantity) {
+                $post->movement_percentage = $post->movements_count / $of_quantity * 100;
+                $post->stayed = 100 - $post->movement_percentage;
+            });
+
+            // Retourner l'OF avec les informations des numéros de série et des posts
+            // return $of;
+
+
+
+            // Retrieve all serial numbers with their latest movements and associated posts
+            $serialNumbers = serialNumber::with(['movements' => function ($query) {
+                $query->latest('created_at')
+                    ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
+                    ->with('posts:id,post_name');
+            }])->where('of_id', $of->id)->get()
+                // Group serial numbers by their serial number
+                ->groupBy('serial_number')
+                // Map the grouped serial numbers to a new format with the latest movement and associated post
+                ->map(function ($group) {
+                    $lastMovement = $group->flatMap(function ($serialNumber) {
+                        return $serialNumber['movements'];
+                    })
+                        ->sortByDesc('created_at')
+                        ->first();
+
+                    return [
+                        'id' => $group->first()['id'],
+                        'serial_number' => $group->first()['serial_number'],
+                        'qr' => $group->first()['qr'],
+                        'result' => $lastMovement['result'] ?? null,
+                        'posts' => $lastMovement['posts']['post_name'] ?? null,
+                    ];
+                })->values()->all();
+
+            // return $serialNumbers;
+            return compact("of", "serialNumbers");
+
+            // $serialNumbersWithLatestMovements = $groupedSerialNumbers->map(function ($group) {
+            //     $lastMovement = $group->flatMap(function ($serialNumber) {
+            //         return $serialNumber['movements'];
+            //     })->sortByDesc('created_at')->first();
+
+            //     return [
+            //         'serial_number' => $group->first()['serial_number'],
+            //         'qr' => $group->first()['qr'],
+            //         'result' => $lastMovement["result"],
+            //         'posts' => $lastMovement["posts"]["post_name"]
+            //     ];
+            // });
+
+            // return $serialNumbersWithLatestMovements->values()->all();
+
+
+
+
+
+            // return $orderedMovements;
+
+
+            // // Access the serialNumbers collection of the OF
+            // $serialNumbers = $of->serialNumbers;
+
+            // // Loop through each serialNumber
+            // foreach ($serialNumbers as $serialNumber) {
+            //     // Access the movements collection of the serialNumber
+            //     $movements = $serialNumber->movements;
+
+            //     // If the serialNumber has at least one movement
+            //     if ($movements->count() > 0) {
+            //         // Access the first movement of the serialNumber (since the query above ordered them)
+            //         $firstMovement = $movements->first();
+
+            //         // Do something with the firstMovement record
+            //         // For example, echo its description
+            //         echo $firstMovement->description;
+            //     }
+            // }
+            // return $serialNumbers;
+
+            // return Of::with(['serialNumbers.movements' => fn ($q) => $q->select("*")->orderBy("movements.created_at")->first()])->find(1);
             // $of = Of::select("id", "of_number", "of_name", "status", "new_quantity", "caliber_id")
             //     ->with([
             //         "serialNumbers:of_id,qr",
@@ -110,14 +210,16 @@ Route::group(
             // });
 
             // return $of;
-
+            //
             // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
-            $of = Of::with(['serialNumbers:of_id,qr', 'caliber.product.section.posts' => function ($query) {
+            $of = Of::with([
+                'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+                'caliber.product.section.posts' => fn ($query) =>
                 // Limiter les résultats aux posts de la section 1
                 $query->where('section_id', 1)
                     ->select('id', 'post_name', 'section_id')
-                    ->withCount('movements');
-            }])
+                    ->withCount('movements')
+            ])
                 ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
                 ->find(1);
 
@@ -200,7 +302,7 @@ Route::group(
             // return $result;
         });
 
-
+        // route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
 
         route::get("sn_dash", function () {
             return Movement::whereSerialNumberId(1)
