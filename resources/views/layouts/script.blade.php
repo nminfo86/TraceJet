@@ -36,19 +36,14 @@
              className: "text-center"
          }, ],
 
-         ajax: {
-             error: function(jqXHR, exception) {
-                 showAjaxAndValidationErrors(jqXHR, exception)
-             }
-         },
+         //  ajax: {
+         //       error: function(jqXHR, exception) {
+         //           showAjaxAndValidationErrors(jqXHR, exception)
+         //       }
+         //   },
          language: {
              url: "{{ asset('') }}assets/locale/fr.json"
          },
-         ajax: {
-             error: function(jqXHR, exception) {
-                 showAjaxAndValidationErrors(jqXHR, exception)
-             }
-         }
      });
      var yes = "{{ __('Oui') }}";
      var no = "{{ __('Non') }}";

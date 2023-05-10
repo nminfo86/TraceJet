@@ -139,7 +139,7 @@ class OfController extends Controller
      * @param  Int $id
      * @return Response
      */
-    public function ofStatistic($id)
+    public function ofStatistics($id)
     {
 
         // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
@@ -147,13 +147,13 @@ class OfController extends Controller
             // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
             'caliber.product.section.posts' => fn ($query) =>
             // Limiter les résultats aux posts de la section 1
-            $query->where('section_id', 1)
-                ->orderByDesc("post_name")
+            $query
+                ->orderBy("code")
                 ->select('id', 'post_name', 'code', 'section_id')
                 ->withCount('movements')
         ])
             ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
-            ->find(1);
+            ->find($id);
 
         $of_quantity = $of->new_quantity;
         $posts = $of->caliber->product->section->posts;

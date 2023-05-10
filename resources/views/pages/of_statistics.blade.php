@@ -14,23 +14,6 @@
             <!-- ============================================================== -->
             <!-- Sales chart -->
             <!-- ============================================================== -->
-            {{-- <div class="row">
-                <div class="col-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h5 class="card-title">OF </h5>
-
-                            <div class="progress mt-2">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="65"
-                                    aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <h6 class="text-muted fw-normal mt-2">
-                                98% de production
-                            </h6>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
             <div class="row">
                 <div class="col-lg-8 d-flex align-items-stretch">
                     <div class="card  w-100">
@@ -42,11 +25,12 @@
                                             id="of_number"></span></h4>
                                 </div>
                                 <div>
-                                    <h4>{{ __('Date de lancement') }} <span class="badge bg-primary" id="of_number"></span>
+                                    <h4>{{ __('Date de lancement') }} <span class="badge bg-warning"
+                                            id="launch_date"></span>
                                     </h4>
                                 </div>
                                 <div>
-                                    <h4 class="">{{ __('Qantity lancé') }} <span class="badge bg-primary"
+                                    <h4 class="">{{ __('Qantity lancé') }} <span class="badge bg-danger"
                                             id="new_quantity"></span></h4>
                                 </div>
                             </div>
@@ -66,17 +50,17 @@
                                 <div class="card-boy p-3">
                                     <h5 class="card-title">taux d'avancement</h5>
                                     {{-- <h6 class="card-subtitle">Poste 1</h6> --}}
-                                    <div class="progress mt-2">
+                                    <div class="progress mt-2" style="height: 12px;">
                                         <div class="progress-bar bg-info" role="progressbar" style="width: 65%"
                                             aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h6 class="text-muted fw-normal mt-2">
+                                    <h6 class="text-muted text-center fw-normal mt-2">
                                         98% de production
                                     </h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 card w-100" style="min-height: 75%;">
+                        <div class="col-12 card w-100" style="min-height:auto;">
                             <div class="">
                                 <div class="card-body">
                                     <h4 class="card-title">avancement par post</h4>
@@ -224,7 +208,7 @@
                             </div>
                             <!-- title -->
                             <div class="table-responsive">
-                                <table class="table mb-0 table-hover align-middle text-nowrap">
+                                <table class="table mb-0 table-hover align-middle text-nowrap" id="sn_table">
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
@@ -234,8 +218,8 @@
                                             {{-- <th class="border-top-0">{{ __('Emplacement') }}</th> --}}
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {{-- <tr>
+
+                                    {{-- <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="m-r-10"><a
@@ -301,7 +285,7 @@
                                             </td>
 
                                         </tr> --}}
-                                    </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -472,23 +456,25 @@
 
         callAjax("GET", base_url + "/of_statistics/" + lastSegment).done(function(response) {
             // Initialize variables
+            response = response;
             const posts_list = [],
                 produced = [],
                 stayed = [];
             let html = "",
                 table = "";
-            let posts = response.caliber.product.section.posts;
+            let posts = response.of.caliber.product.section.posts;
             // Loop through each post in the response
+            var color_array = ["primary", "warning", "danger", "success", "info"]
+            let i = 0;
             posts.forEach(post => {
                 // Push post data to respective arrays
                 posts_list.push(post.post_name);
                 produced.push(post.movement_percentage);
                 stayed.push(post.stayed);
-
                 // Build HTML for post card
                 html +=
                     `<div class="mt-3 pb-3 d-flex align-items-center">
-                        <span class="btn btn-primary btn-circle d-flex align-items-center">
+                        <span class="btn btn-${color_array[i]} btn-circle d-flex align-items-center text-white">
                             <i class="mdi mdi-barcode-scan fs-4"></i>
                         </span>
                         <div class="ms-3">
@@ -497,31 +483,39 @@
                             </span>
                         </div>
                         <div class="ms-auto">
-                            <span class="badge bg-success text-white" id="movement_percentage">${post.movements_count} Pcs
+                            <span class="badge bg-light text-dark" id="movement_percentage">${post.movements_count} Pcs
                             </span>
                         </div>
                     </div>`;
+                i++;
             });
-            response.serial_numbers.forEach(product => {
-                table +=
-                    `<tr>
-                        <td>
-                            <label class="m-b-0 font-16">${product.id}</label>
-                        </td>
-                        <td>
-                            <label class="m-b-0 font-16">${product.qr}</label>
-                        </td>
-                        <td>
-                            <label class="badge bg-success ">${product.valid}</label>
-                        </td>
-                    </tr>`;
+            var table4 = $("#sn_table").DataTable();
+            response.serialNumbers.forEach(product => {
+                // table +=
+                //     `<tr>
+            //     <td>
+            //         <label class="m-b-0 font-16">${product.id}</label>
+            //     </td>
+            //     <td>
+            //         <label class="m-b-0 font-16">${product.qr}</label>
+            //     </td>
+            //     <td>
+            //         <label class="badge bg-success ">${product.posts}</label>
+            //     </td>
+            // </tr>`;
+                table4.rows.add(
+                    [
+                        [product.id, product.qr, product.posts]
+                    ]
+                ).draw();
             });
-            $("#of_number").text(response.of_number)
-            $("#new_quantity").text(response.new_quantity)
+            $("#of_number").text(response.of.of_number)
+            $("#new_quantity").text(response.of.new_quantity)
+            $("#launch_date").text('response.launch_date')
 
             // Append the HTML to the DOM
             $("#posts_avancement .card-body").append(html);
-            $("table tbody").append(table);
+            $("table").append(table).dataTable();
 
             /* -------------------------------------------------------------------------- */
             /*                                    Char                                    */
@@ -566,7 +560,6 @@
             sn_id: 1
         }).done(function(response) {
             html = "";
-            alert();
             response.forEach(movement => {
                 // Build HTML for post card
                 html +=
@@ -585,5 +578,8 @@
             });
             $("#qr_life").append(html);
         })
+        callAjax("GET", base_url + "/serial_numbers/qr_life/" + 1).done(function(response) {
+            console.log(response);
+        });
     </script>
 @endpush
