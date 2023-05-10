@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Post;
 use DateTimeInterface;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -44,6 +46,16 @@ class Movement extends Model
     public function serialNumber()
     {
         return $this->belongsTo(SerialNumber::class);
+    }
+
+    /**
+     * Get all of the posts for the Movement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts() #HasMany
+    {
+        return $this->belongsTo(Post::class, "movement_post_id", "id");
     }
 
 

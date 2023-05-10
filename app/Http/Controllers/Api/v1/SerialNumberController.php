@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Of;
 use Carbon\Carbon;
+use App\Models\Movement;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -154,6 +155,14 @@ class SerialNumberController extends Controller
     }
 
 
+
+
+    public function productLife($id)
+    {
+        return Movement::whereSerialNumberId($id)
+            ->join("posts", "movement_post_id", "posts.id")
+            ->get(["post_name", "result", "created_at"]);
+    }
 
     // public function FunctionName(Type $var = null)
     // {
