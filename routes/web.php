@@ -106,6 +106,13 @@ Route::group(
                 ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
                 ->find(1);
 
+            $posts = $of->caliber->product->section->posts;
+            $quantity = $of->new_quantity;
+            $of->caliber->product->section->posts->map(function ($post) use ($quantity) {
+                $post->movement_percentage = $post->movements_count / $quantity * 100;
+                $post->stayed = 100 - $post->movement_percentage;
+                return $post;
+            });
 
 
             // Retrieve all serial numbers with their latest movements and associated posts
@@ -133,57 +140,18 @@ Route::group(
                     ];
                 })->values()->all();
 
+            /* -------------------------------------------------------------------------- */
+            /*                               Taux avancement                              */
+            /* -------------------------------------------------------------------------- */
+            $section_id = $of->caliber->product->section_id;
+            $count = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+                ->where('posts.section_id', '=', $section_id)
+                ->where('posts.posts_type_id', '=', 3)
+                ->count('movements.serial_number_id');
+            $of->taux =  $count / $quantity * 100 . "%";
             // return $serialNumbers;
-            return compact("of", "serialNumbers");
-
-
-            // // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
-            // $of = Of::with([
-            //     'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
-            //     'caliber.product.section.posts' => fn ($query) =>
-            //     // Limiter les résultats aux posts de la section 1
-            //     $query->where('section_id', 1)
-            //         ->select('id', 'post_name', 'section_id')
-            //         ->withCount('movements')
-            // ])
-            //     ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
-            //     ->find(1);
-
-            // $of_quantity = $of->new_quantity;
-            // $posts = $of->caliber->product->section->posts;
-            // // Calculer les pourcentages de mouvements et de stockage pour chaque post
-            // $posts->each(function ($post) use ($of_quantity) {
-            //     $post->movement_percentage = $post->movements_count / $of_quantity * 100;
-            //     $post->stayed = 100 - $post->movement_percentage;
-            // });
-
-            // // Retourner l'OF avec les informations des numéros de série et des posts
-            // return $of;
-
-
-            // return   $of = Of::with(["serialNumbers", "caliber.product.section" => function ($q) {
-            //     $q->where("section_id", 1);
-            // }])->find(1);
-            // $of = Of::with(["serialNumbers", "caliber.product" => function ($q) {
-            //     $q->where("section_id", 1);
-            // }])->find(1);
-
-            // $of = OF::join("calibers", "ofs.caliber_id", "=", "calibers.id")
-            //     ->get();
-
-            // $posts = Post::leftJoin('posts as a', 'posts.previous_post_id', '=', 'a.id')
-            //     ->rightJoin('sections', 'posts.section_id', '=', 'sections.id')
-            //     ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
-            //     ->where("posts.section_id", $of->caliber->product->section_id)
-            //     ->get(['posts.id', 'posts.code', 'posts.post_name', 'posts_types.posts_type', 'sections.section_name', 'posts.ip_address', 'a.post_name as previous_post']);
-
-            // return compact("of", "posts");
+            return   compact("of", "serialNumbers");
         });
-        // Route::get('test', function () {
-        // return Movement::whereSerialNumberId(1)
-        //     ->join("posts", "movement_post_id", "posts.id")
-        //     ->get(["post_name", "result", "created_at"]);
-        // });
 
 
         Route::get('dash', function () {
