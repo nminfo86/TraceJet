@@ -243,7 +243,7 @@ Route::group(
         route::get("sn_dash", function () {
             return Movement::whereSerialNumberId(1)
                 ->join("posts", "movement_post_id", "posts.id")
-                ->get(["post_name", "result", "created_at"]);
+                ->get(["post_name", "result", "created_at", "movements.created_by"]);
         });
     }
 );

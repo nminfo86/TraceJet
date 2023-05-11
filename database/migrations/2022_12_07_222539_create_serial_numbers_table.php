@@ -20,10 +20,13 @@ return new class extends Migration
             $table->text('serial_number');
             $table->string('qr')->unique()->nullable();
             $table->boolean('valid')->default(0);
+            $table->string('created_by', 50)->nullable();
+            $table->string('updated_by', 50)->nullable();
+
+
 
             $table->foreign('of_id')->references('id')->on('ofs')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreign('box_id')->references('id')->on('boxes')->restrictOnDelete()->cascadeOnUpdate();
-
 
             $table->timestamps();
         });

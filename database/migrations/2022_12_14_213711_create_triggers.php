@@ -22,7 +22,9 @@ return new class extends Migration
                         CREATE TRIGGER CREATE_FIRST_MOVEMENT AFTER UPDATE ON serial_numbers
                         FOR EACH ROW BEGIN
                             IF (NEW.valid = 1 AND (select count(*) from movements WHERE serial_number_id=new.id)<1) THEN
-                                insert into `movements` (`serial_number_id`,`movement_post_id`,`result`,`created_at`) values (new.id,1 , 'ok',CURRENT_TIMESTAMP);
+                                insert into `movements` (`serial_number_id`,`movement_post_id`,`result`,`created_at`,`created_by`) values (new.id,1 , 'ok',CURRENT_TIMESTAMP,new.created_by);
+
+                                update ofs set status='inProd',release_date=CURRENT_TIMESTAMP;
 
                             END IF;
                         END";

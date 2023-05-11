@@ -25,14 +25,14 @@ class SerialNumberController extends Controller
         // Get serial numbers valid list
         $product['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "updated_at"]);
         // return $valid_qr;
-        if ($product['list']->count() == 1) {
+        // if ($product['list']->count() == 1) {
 
-            // this kay for update status of of in blade
-            $of = Of::findOrFail($request->of_id, ["id", "status"]);
+        //     // this kay for update status of of in blade
+        //     $of = Of::findOrFail($request->of_id, ["id", "status"]);
 
-            // update of status in first valid action
-            $of->update(['status' => 'inProd']) ? $product["status"] = "inProd" : "";
-        }
+        //     // update of status in first valid action
+        //     $of->update(['status' => 'inProd']) ? $product["status"] = "inProd" : "";
+        // }
 
         // Get quantity of valid product (TODAY)
         $product['quantity_of_day'] = "0" . $product['list']->filter(function ($item) {
@@ -161,7 +161,7 @@ class SerialNumberController extends Controller
     {
         return Movement::whereSerialNumberId($id)
             ->join("posts", "movement_post_id", "posts.id")
-            ->get(["post_name", "result", "created_at"]);
+            ->get(["post_name", "color", "result", "movements.created_at", "movements.created_by"]);
     }
 
     // public function FunctionName(Type $var = null)

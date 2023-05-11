@@ -9,6 +9,7 @@ enum ColorEnum: string
     case Yellow = 'warning';
     case Red = 'danger';
     case Blue = 'info';
+    case Primary = 'primary';
     // case Closed = 'closed';
 
     public static function values(): array

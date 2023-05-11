@@ -256,11 +256,11 @@ class OfController extends Controller
             'caliber.product.section.posts' => fn ($q) =>
             // Limiter les résultats aux posts de la section 1
             // $query->where('section_id', 1)
-            $q->orderByDesc("post_name")
+            $q->orderBy("code")
                 ->select('id', 'post_name', 'code', 'section_id', 'color')
                 ->withCount('movements')
         ])
-            ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
+            ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
             ->find(1);
 
         $posts = $of->caliber->product->section->posts;
