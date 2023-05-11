@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Of;
+use App\Models\Movement;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Events\CreateOFEvent;
@@ -142,33 +143,82 @@ class OfController extends Controller
     public function ofStatistics($id)
     {
 
+        // // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
+        // $of = Of::with([
+        //     'caliber.product.section.posts' => fn ($query) =>
+        //     $query->orderByDesc("post_name")
+        //         ->select('id', 'post_name', 'code', 'section_id')
+        //         ->withCount('movements')
+        // ])->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')->find($id);
+
+        // $of_quantity = $of->new_quantity;
+        // $posts = $of->caliber->product->section->posts;
+
+        // // Calculer les pourcentages de mouvements et de stockage pour chaque post
+        // $posts->each(function ($post) use ($of_quantity) {
+        //     $post->movement_percentage = $post->movements_count / $of_quantity * 100;
+        //     $post->stayed = 100 - $post->movement_percentage;
+        // });
+
+        // /* -------------------------------------------------------------------------- */
+        // /*                                SerialNumbers                               */
+        // /* -------------------------------------------------------------------------- */
+
+        // // Retrieve all serial numbers with their latest movements and associated posts with OF ID
+        // $serialNumbers = SerialNumber::with(['movements' => function ($query) {
+        //     $query->latest('created_at')
+        //         ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
+        //         ->with('posts:id,post_name');
+        // }])->where('of_id', $of->id)->where("valid", 1)->get()
+        //     // Group serial numbers by their serial number
+        //     ->groupBy('serial_number')
+        //     // Map the grouped serial numbers to a new format with the latest movement and associated post
+        //     ->map(function ($group) {
+        //         $lastMovement = $group->flatMap(function ($serialNumber) {
+        //             return $serialNumber['movements'];
+        //         })
+        //             ->sortByDesc('created_at')
+        //             ->first();
+
+        //         return [
+        //             'id' => $group->first()['id'],
+        //             'serial_number' => $group->first()['serial_number'],
+        //             'qr' => $group->first()['qr'],
+        //             'result' => $lastMovement['result'] ?? null,
+        //             'posts' => $lastMovement['posts']['post_name'] ?? null,
+        //         ];
+        //     })
+        //     ->values()->all();
+        // return compact("of", "serialNumbers");
+
         // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
         $of = Of::with([
-            'caliber.product.section.posts' => fn ($query) =>
-            $query->orderByDesc("post_name")
+            // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+            'caliber.product.section.posts' => fn ($q) =>
+            // Limiter les résultats aux posts de la section 1
+            // $query->where('section_id', 1)
+            $q->orderByDesc("post_name")
                 ->select('id', 'post_name', 'code', 'section_id')
                 ->withCount('movements')
-        ])->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')->find($id);
+        ])
+            ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
+            ->find(1);
 
-        $of_quantity = $of->new_quantity;
         $posts = $of->caliber->product->section->posts;
-
-        // Calculer les pourcentages de mouvements et de stockage pour chaque post
-        $posts->each(function ($post) use ($of_quantity) {
-            $post->movement_percentage = $post->movements_count / $of_quantity * 100;
+        $quantity = $of->new_quantity;
+        $of->caliber->product->section->posts->map(function ($post) use ($quantity) {
+            $post->movement_percentage = $post->movements_count / $quantity * 100;
             $post->stayed = 100 - $post->movement_percentage;
+            return $post;
         });
 
-        /* -------------------------------------------------------------------------- */
-        /*                                SerialNumbers                               */
-        /* -------------------------------------------------------------------------- */
 
-        // Retrieve all serial numbers with their latest movements and associated posts with OF ID
-        $serialNumbers = SerialNumber::with(['movements' => function ($query) {
+        // Retrieve all serial numbers with their latest movements and associated posts
+        $serialNumbers = serialNumber::with(['movements' => function ($query) {
             $query->latest('created_at')
                 ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
                 ->with('posts:id,post_name');
-        }])->where('of_id', $of->id)->where("valid", 1)->get()
+        }])->where([['of_id', $of->id], ["valid", 1]])->get()
             // Group serial numbers by their serial number
             ->groupBy('serial_number')
             // Map the grouped serial numbers to a new format with the latest movement and associated post
@@ -186,8 +236,18 @@ class OfController extends Controller
                     'result' => $lastMovement['result'] ?? null,
                     'posts' => $lastMovement['posts']['post_name'] ?? null,
                 ];
-            })
-            ->values()->all();
-        return compact("of", "serialNumbers");
+            })->values()->all();
+
+        /* -------------------------------------------------------------------------- */
+        /*                               Taux avancement                              */
+        /* -------------------------------------------------------------------------- */
+        $section_id = $of->caliber->product->section_id;
+        $count = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+            ->where('posts.section_id', '=', $section_id)
+            ->where('posts.posts_type_id', '=', 3)
+            ->count('movements.serial_number_id');
+        $of->taux =  $count / $quantity * 100 . "%";
+        // return $serialNumbers;
+        return   compact("of", "serialNumbers");
     }
 }
