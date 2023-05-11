@@ -112,7 +112,7 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
         // if error is not validation, we show them in SweetAlert
     } else {
         if (jqXHR.status === 401) {
-            return window.location.href="/";
+            return window.location.href = "/";
         }
         SessionErrors(getAjaxErrorMessage(jqXHR, exception));
     }
@@ -241,26 +241,31 @@ function deleteObject(url, success_message, error_message) {
 /* -------------------------------------------------------------------------- */
 
 
-window.datatableSettings = {
-    ajax: {
-        error: function (jqXHR, exception) {
-            showAjaxAndValidationErrors(jqXHR, exception)
-        }
-    },
-    aLengthMenu: [
-        [1, 5, 10, 15, 25, 50, -1],
-        [1, 5, 10, 15, 25, 50, "All"]
-    ],
-    iDisplayLength: 1,
-    // order: [0, 'desc'],
-};
+// window.datatableSettings = {
+//     ajax: {
+//         error: function (jqXHR, exception) {
+//             showAjaxAndValidationErrors(jqXHR, exception)
+//         }
+//     },
+//     aLengthMenu: [
+//         [55, 10, 15, 25, 50, -1],
+//         [55, 10, 15, 25, 50, "All"]
+//     ],
+//     iDisplayLength: 1,
+//     // order: [0, 'desc'],
+// };
 
 function ajaxCallDatatables(url) {
     // Define desired object
     var obj = {
         type: "GET",
         url: url,
-        dataSrc: function(json) {
+        ajax: {
+            error: function (jqXHR, exception) {
+                showAjaxAndValidationErrors(jqXHR, exception)
+            }
+        },
+        dataSrc: function (json) {
             if (json.status == true)
                 return json.data;
             else
@@ -269,7 +274,7 @@ function ajaxCallDatatables(url) {
     };
     // Return it
     return obj;
-  }
+}
 customSelect2("fr");
 function customSelect2(lang) {
     $('select').select2({

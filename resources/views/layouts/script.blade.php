@@ -36,26 +36,21 @@
              className: "text-center"
          }, ],
 
-         ajax: {
-             error: function(jqXHR, exception) {
-                 showAjaxAndValidationErrors(jqXHR, exception)
-             }
-         },
+         //  ajax: {
+         //       error: function(jqXHR, exception) {
+         //           showAjaxAndValidationErrors(jqXHR, exception)
+         //       }
+         //   },
          language: {
              url: "{{ asset('') }}assets/locale/fr.json"
          },
-         ajax: {
-             error: function(jqXHR, exception) {
-                 showAjaxAndValidationErrors(jqXHR, exception)
-             }
-         }
      });
      var yes = "{{ __('Oui') }}";
      var no = "{{ __('Non') }}";
      var realised = "{{ __('réalisé') }}";
      var to_realise = "{{ __('à réaliser') }}";
 
-     var base_url = "api/v1";
+     var base_url = "/api/v1";
 
 
      /* -------------------------------------------------------------------------- */

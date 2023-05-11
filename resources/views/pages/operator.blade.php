@@ -272,17 +272,6 @@
                 e.preventDefault();
                 cleanValidationAlert();
                 let qr = $("#qr").val();
-                // let formData = {
-                //     "qr": scanned_qr,
-                //     "of_id": of_id,
-                //     // "lang": "fr",
-                //     "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-                //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
-                //     "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
-                //     "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
-                //     "id": "{{ Session::get('user_data')['post_information']['id'] }}",
-                //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
-                // };
 
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {

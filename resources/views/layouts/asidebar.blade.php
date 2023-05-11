@@ -28,12 +28,6 @@
                                 class="hide-menu"> {{ __('utilisateurs') }} </span></a>
                     </li>
                 @endcan
-                @can('user-list')
-                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ url('hosts') }}" aria-expanded="false"><i class="mdi mdi-account-network"></i><span
-                                class="hide-menu"> {{ __('Hosts') }} </span></a>
-                    </li>
-                @endcan
                 {{-- <h6 class="text-uppercase text-muted pb-1 pt-2 hide-menu text-truncate">{{ __('Produits') }}</h6> --}}
                 @can('product-list')
                     <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate ">{{ __('produits') }}</h6>
