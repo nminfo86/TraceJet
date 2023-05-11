@@ -1,13 +1,14 @@
 <?php
 
 use App\Models\Of;
+use App\Models\Post;
+use App\Enums\ColorEnum;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\OperatorController;
 use App\Http\Controllers\api\v1\PackagingController;
 use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController};
-use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,8 +101,11 @@ Route::group(
         /*                                    Enums                                   */
         /* -------------------------------------------------------------------------- */
         route::get('of_status', function () {
-            // return 'jlksdjfs';
             return OfStatusEnum::values();
+        });
+
+        route::get('colors', function () {
+            return ColorEnum::values();
         });
 
 
