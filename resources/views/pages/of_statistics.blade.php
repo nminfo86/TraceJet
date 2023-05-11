@@ -7,19 +7,16 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <div class="row">
-        <!-- ============================================================== -->
-        <!-- Container fluid  -->
-        <!-- ============================================================== -->
         <div class="container-fluid">
-            <!-- ============================================================== -->
-            <!-- Sales chart -->
-            <!-- ============================================================== -->
+
             <div class="row">
+                <!-- ============================================================== -->
+                <!-- Production chart -->
+                <!-- ============================================================== -->
                 <div class="col-lg-8 d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-
                                 <div>
                                     <h4 class="">{{ __('OF Numéro') }} <span class="badge bg-primary"
                                             id="of_number"></span></h4>
@@ -43,167 +40,61 @@
                         </div>
                     </div>
                 </div>
+                <!-- ============================================================== -->
+                <!-- End roduction chart -->
+                <!-- ============================================================== -->
                 <div class="col-lg-4 d-flex align-items-stretch" id="posts_avancement">
                     <div class="row">
+                        <!-- ============================================================== -->
+                        <!-- progress bar rate -->
+                        <!-- ============================================================== -->
                         <div class="col-12 card w-100" style="height: 100px;">
                             <div class="">
                                 <div class="card-boy p-3">
                                     <h5 class="card-title">taux d'avancement</h5>
                                     {{-- <h6 class="card-subtitle">Poste 1</h6> --}}
                                     <div class="progress mt-2" style="height: 12px;">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 65%"
-                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-info" id="progress_rate" role="progressbar"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h6 class="text-muted text-center fw-normal mt-2">
-                                        98% de production
+                                        <span></span> de production
                                     </h6>
                                 </div>
                             </div>
                         </div>
+                        <!-- ============================================================== -->
+                        <!-- End progress bar rate -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- progress in each post -->
+                        <!-- ============================================================== -->
                         <div class="col-12 card w-100" style="min-height:auto;">
                             <div class="">
                                 <div class="card-body">
                                     <h4 class="card-title">avancement par post</h4>
                                     <h6 class="card-subtitle mb-5">avancement de production par post</h6>
-                                    {{-- <div class="mt-5 pb-3 d-flex align-items-center">
-                                <span class="btn btn-primary btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-barcode-scan fs-4"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold" id="post_name">Générateur de ticket</h5>
-                                    <span class="text-muted fs-6">code de post: <span id="code"></span></span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted" id="movement_percentage">+68%</span>
-                                </div>
-                            </div>
-                            <div class="py-3 d-flex align-items-center">
-                                <span class="btn btn-warning btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-laptop fs-4"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Operateur 1</h5>
-                                    <span class="text-muted fs-6">code de post: 200</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+68%</span>
-                                </div>
-                            </div>
-                            <div class="py-3 d-flex align-items-center">
-                                <span class="btn btn-success btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-laptop text-white fs-4"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Operateur 2</h5>
-                                    <span class="text-muted fs-6">code de post: 300</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+68%</span>
-                                </div>
-                            </div>
-                            <div class="py-3 d-flex align-items-center">
-                                <span class="btn btn-info btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-laptop fs-4 text-white"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Operateur 3</h5>
-                                    <span class="text-muted fs-6">code de post: 400</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+15%</span>
-                                </div>
-                            </div>
-
-                            <div class="pt-3 d-flex align-items-center">
-                                <span class="btn btn-danger btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-package-variant-closed fs-4 text-white"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Emballage</h5>
-                                    <span class="text-muted fs-6">code de post: 300</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+90%</span>
-                                </div>
-                            </div> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- <div class="row">
-                {{-- <div class="col-lg-3">
-                    <canvas id="FPY1" width="auto" height="auto"></canvas>
-                    <p class="percent" id="percent">
-                    </p>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 1</h6>
-                            <canvas id="FPY1" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent1">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 2</h6>
-                            <canvas id="FPY2" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent2">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 3</h6>
-                            <canvas id="FPY3" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent3">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 4</h6>
-                            <canvas id="FPY4" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent4">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
             <!-- ============================================================== -->
-            <!-- Sales chart -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Table -->
+            <!-- Productions chart end -->
             <!-- ============================================================== -->
             <div class="row">
-                <!-- column -->
+                <!-- ============================================================== -->
+                <!-- Table -->
+                <!-- ============================================================== -->
                 <div class="col-lg-8 d-flex align-items-stretch">
                     <div class="card w-100">
                         <div class="card-body">
                             <!-- title -->
                             <div class="d-md-flex">
                                 <div>
-                                    <h4 class="card-title">{{ __('List de NS') }}</h4>
-                                    <h5 class="card-subtitle">{{ __('resumé sur les Numéros de series') }} </h5>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="dl">
-                                        <input class="form-control" placeholder={{ __('Chercher NS') }} />
-                                    </div>
+                                    {{-- <h4 class="card-title">{{ __('List de NS') }}</h4> --}}
+                                    <h4 class="card-title pb-2">{{ __('Resumé sur les Numéros de series') }} </h4>
                                 </div>
                             </div>
                             <!-- title -->
@@ -213,85 +104,22 @@
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">{{ __('Numéro de Serie') }}</th>
-
                                             <th class="border-top-0">{{ __('status') }}</th>
                                             {{-- <th class="border-top-0">{{ __('Emplacement') }}</th> --}}
                                         </tr>
                                     </thead>
-
-                                    {{-- <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-info text-white">EA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Elite Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <label class="badge bg-danger">ticket_generator</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-orange text-white">MA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Monster Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-info">Opérateur 1</label>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-success text-white">MP</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Material Pro Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-success">Opérateur 2</label>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-purple text-white">AA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Ample Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-purple">Emballage</label>
-                                            </td>
-
-                                        </tr> --}}
-
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- ============================================================== -->
+                <!-- end Table -->
+                <!-- ============================================================== -->
 
+                <!-- ============================================================== -->
+                <!-- Historique  production of SN -->
+                <!-- ============================================================== -->
                 <div class="col-lg-4 d-flex align-items-stretch">
                     <div class="card w-100">
                         <div class="card-body">
@@ -299,71 +127,15 @@
                             <h6 class="card-subtitle">historique d'un Numéro de serie</h6>
                             <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
                                 id="qr_life">
-                                {{-- <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <h4 class="timeline-title">Génération du QR code</h4>
-                                            <p>généré par quelqu'un le <a href="javascript:void(0);"
-                                                    data-abc="true">12/12/2020</a></p>
-                                            <span class="vertical-timeline-element-date">9:30 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-
-                                            <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <h4 class="timeline-title">Opération une</h4>
-                                            <p>opéré par quelqu'un le <a href="javascript:void(0);"
-                                                    data-abc="true">12/12/2020</a></p>
-                                            <span class="vertical-timeline-element-date">9:30 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <p>opération num deux, at <b class="text-danger">3:00 PM</b>
-                                            </p>
-                                            <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                            <span class="vertical-timeline-element-date">12:25 PM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-
-                                            <i class="mdi mdi-nut text-warning fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <p>Another meeting with UK client today, at <b class="text-danger">3:00 PM</b>
-                                            </p>
-                                            <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                            <span class="vertical-timeline-element-date">12:25 PM</span>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- ============================================================== -->
+                <!--  End Historique production of SN -->
+                <!-- ============================================================== -->
             </div>
 
-
-            <!-- ============================================================== -->
-            <!-- Table -->
-            <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
@@ -375,85 +147,12 @@
 @endsection
 @push('custom_js')
     <script type="text/javascript">
-        // var options1 = {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [10, 2],
-        //             backgroundColor: [
-        //                 'rgba(46, 204, 113, 1)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255, 255, 255 ,1)'
-        //             ],
-        //             borderWidth: 5
-        //         }]
-        //     },
-        //     options: {
-        //         rotation: 1 * Math.PI,
-        //         circumference: 1 * Math.PI,
-        //         legend: {
-        //             display: false
-        //         },
-        //         tooltip: {
-        //             enabled: false
-        //         },
-        //         cutoutPercentage: 85
-        //     }
-        // }
-
-
-
-        // $("#percent1").text(92 + ' %');
-        // $("#percent2").text(90 + ' %');
-        // $("#percent3").text(98 + ' %');
-        // $("#percent4").text(80 + ' %');
-        // var options1 = {
-        //     type: 'doughnut',
-        //     data: {
-        //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [92, 8],
-        //             backgroundColor: [
-        //                 'rgba(46, 204, 113, 1)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255, 255, 255 ,1)'
-        //             ],
-        //             borderWidth: 5
-        //         }]
-        //     },
-        //     options: {
-        //         rotation: 1 * Math.PI,
-        //         circumference: 1 * Math.PI,
-        //         legend: {
-        //             display: false
-        //         },
-        //         tooltip: {
-        //             enabled: false
-        //         },
-        //         cutoutPercentage: 85
-        //     }
-        // }
-        // var ctx1 = document.getElementById('FPY1').getContext('2d');
-        // var ctx2 = document.getElementById('FPY2').getContext('2d');
-        // var ctx3 = document.getElementById('FPY3').getContext('2d');
-        // var ctx4 = document.getElementById('FPY4').getContext('2d');
-        // var chart1 = new Chart(ctx1, options1);
-        // var chart2 = new Chart(ctx2, options1);
-        // var chart3 = new Chart(ctx3, options1);
-        // var chart4 = new Chart(ctx4, options1);
-
-
         /* -------------------------------------------------------------------------- */
-        /*                                   Boualem                                  */
+        /*                                   js traitement                            */
         /* -------------------------------------------------------------------------- */
         const currentUrl = window.location.pathname; // get the current URL
         const lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1); // get the last segment of the URL
-
+        var table4 = $("#sn_table");
         callAjax("GET", base_url + "/of_statistics/" + lastSegment).done(function(response) {
             // Initialize variables
             response = response;
@@ -489,21 +188,10 @@
                     </div>`;
                 i++;
             });
-            var table4 = $("#sn_table").DataTable();
+
+            sn_datatables = table4.DataTable();
             response.serialNumbers.forEach(product => {
-                // table +=
-                //     `<tr>
-            //     <td>
-            //         <label class="m-b-0 font-16">${product.id}</label>
-            //     </td>
-            //     <td>
-            //         <label class="m-b-0 font-16">${product.qr}</label>
-            //     </td>
-            //     <td>
-            //         <label class="badge bg-success ">${product.posts}</label>
-            //     </td>
-            // </tr>`;
-                table4.rows.add(
+                sn_datatables.rows.add(
                     [
                         [product.id, product.qr, product.posts]
                     ]
@@ -512,6 +200,9 @@
             $("#of_number").text(response.of.of_number)
             $("#new_quantity").text(response.of.new_quantity)
             $("#launch_date").text('response.launch_date')
+            $('#progress_rate').css('width', response.of.taux);
+            //$('#progress_rate').parent().next("span").text(response.of.taux);
+            $('#progress_rate').parent().next().find('span:first').text(response.of.taux)
 
             // Append the HTML to the DOM
             $("#posts_avancement .card-body").append(html);
@@ -549,21 +240,20 @@
                             beginAtZero: true
                         }
                     },
-                    //legend: false,
                 }
             });
-
-
         })
 
-        callAjax("GET", "{{ url('sn_dash') }}", data = {
-            sn_id: 1
-        }).done(function(response) {
-            html = "";
-            response.forEach(movement => {
-                // Build HTML for post card
-                html +=
-                    `<div class="vertical-timeline-item vertical-timeline-element">
+
+        table4.on('click', 'tr', function() {
+            var data = sn_datatables.row(this).data();
+            $("#qr_life").html("");
+            callAjax("GET", base_url + "/serial_numbers/qr_life/" + data[0]).done(function(response) {
+                html = "";
+                response.forEach(movement => {
+                    // Build HTML for post card
+                    html +=
+                        `<div class="vertical-timeline-item vertical-timeline-element">
                         <div>
                             <span class="vertical-timeline-element-icon bounce-in">
                                 <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
@@ -575,11 +265,9 @@
                             </div>
                         </div>
                     </div>`;
-            });
-            $("#qr_life").append(html);
-        })
-        callAjax("GET", base_url + "/serial_numbers/qr_life/" + 1).done(function(response) {
-            console.log(response);
+                });
+                $("#qr_life").append(html);
+            })
         });
     </script>
 @endpush
