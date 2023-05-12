@@ -96,7 +96,7 @@
                                 <div class="row border-bottom mt-4 gx-0 mx-0">
                                     <div class="col-4 pb-3 border-end">
                                         <h6 class="fw-normal fs-5 mb-0">{{ __('Date lancement') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-primary" id="created_at"></span>
+                                        <span class="fs-3 font-weight-medium text-primary" id="release_date"></span>
                                     </div>
                                     <div class="col-4 pb-3 border-end ps-3">
                                         <h6 class="fw-normal fs-5 mb-0">{{ __('Produit') }}</h6>

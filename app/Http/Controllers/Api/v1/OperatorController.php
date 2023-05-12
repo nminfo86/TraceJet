@@ -25,23 +25,26 @@ class OperatorController extends Controller
      */
     public function index(Request $request)
     {
-        $qr_operator_list = [];
-
-        // Get the list of movements for the given OF and host ID
-        $qr_operator_list['list'] = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+        // Retrieve the movement list for the given Order Form and host ID
+        $products = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.of_id', $request->of_id)
             ->where('movements.movement_post_id', $request->host_id)
             ->get(["serial_number", "movements.created_at", "movements.result"]);
 
-        // Filter the list to get the quantity of valid products for today
-        $qr_operator_list['quantity_of_day'] = "0" . $qr_operator_list['list']
-            ->filter(function ($item) {
-                return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
-            })
+        // Filter the movements list to get the count of movements made today
+        $quantity_of_day = $products->filter(function ($item) {
+            return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
+        })
             ->count();
 
-        // Send the response with the result
-        return $this->sendResponse(data: $qr_operator_list);
+        // Construct the response array
+        $response = [
+            'list' => $products,
+            'quantity_of_day' => "0" . $quantity_of_day
+        ];
+
+        // Return the response
+        return $this->sendResponse(data: $response);
     }
 
     // /**
