@@ -35,6 +35,8 @@ class WebAuthController extends AccessTokensController
                 /* redirect posts to there url */
                 if (request()->ip() == "10.0.0.201") {
                     return redirect("/serial_numbers");
+                } else if (request()->ip() == "127.0.0.1") {
+                    return redirect()->intended("/dashboard");
                 } else if (request()->ip() == "192.168.100.3") {
                     return redirect()->intended("/users");
                 }

@@ -24,12 +24,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $products = Product::inSection()->get();
         // $products = Product::with('section')->get();
-        $products = Product::join('sections', function ($join) {
-            $join->on('products.section_id', '=', 'sections.id');
-        })->get(["products.id", "section_name", "product_code", "product_name"]);
+        // $products = Product::join('sections', function ($join) {
+        //     $join->on('products.section_id', '=', 'sections.id');
+        // })->get(["products.id", "section_name", "product_code", "product_name"]);
 
         //Send response with data
         return $this->sendResponse(data: $products);

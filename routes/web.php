@@ -87,7 +87,7 @@ Route::group(
             return view('pages.packaging');
         });
         Route::get('operators', function () {
-            return view('pages.operators');
+            return view('pages.operator');
         });
 
         Route::get('test', function () {
@@ -240,10 +240,46 @@ Route::group(
 
         // route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
 
-        route::get("sn_dash", function () {
-            return Movement::whereSerialNumberId(1)
-                ->join("posts", "movement_post_id", "posts.id")
-                ->get(["post_name", "result", "created_at", "movements.created_by"]);
+        route::get("t", function () {
+            return Product::get();
+            // $roles_list = ["owner", "super_admin", "admin"];
+            // $user = Auth::user();
+            // $section_id = $user->section_id;
+            // $role = $user->roles_name[0];
+
+            // // $has_role = false;
+
+
+            // if (in_array($role, $roles_list)) {
+            //     return Product::get();
+            // }
+
+            // $post = Post::where("ip_address", "127.0.0.1")->first()->section_id;
+            // // dd($post);
+            // return Product::whereHas('section', function ($query) use ($post) {
+            //     $query->where('section_id', $post);
+            // })->get();
+
+
+
+            // if ($has_role) {
+            //     // The user has at least one of the roles in $roles_name
+            // } else {
+            //     // The user doesn't have any of the roles in $roles_name
+            // }
+
+
+
+            // return  Product::inSection()->get();
+            // $user = Auth::user()->roles_name;
+            // if (in_array("super_admin", $user)) {
+            //     return "222";
+            // }
+            // return Product::inSection(1)->first();
+            // $section_id = 1;
+            // return   Product::whereHas('section', function ($query) use ($section_id) {
+            // $query->where('section_id', $section_id);
+            // })->get();
         });
     }
 );
