@@ -128,7 +128,7 @@ class OfController extends Controller
         // Get of information
         $of_info = Of::join('calibers', 'ofs.caliber_id', 'calibers.id')
             ->join('products', 'calibers.product_id', 'products.id')
-            ->find($id, ["calibers.caliber_name", "products.product_name", "ofs.created_at", "ofs.of_number", "ofs.new_quantity", 'ofs.status']);
+            ->find($id, ["calibers.caliber_name", "products.product_name", "ofs.release_date", "ofs.of_number", "ofs.new_quantity", 'ofs.status']);
 
         return $of_info;
     }

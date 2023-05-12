@@ -126,10 +126,10 @@ class SerialNumberController extends Controller
      * @param  mixed $of_id
      * @return Int
      */
-    public function countValidProducts($of_id)
-    {
-        return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
-    }
+    // public function countValidProducts($of_id)
+    // {
+    //     return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
+    // }
 
 
 

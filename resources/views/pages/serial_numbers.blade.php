@@ -72,7 +72,7 @@
                                 <div class="row border-bottom mt-4 gx-0 mx-0">
                                     <div class="col-4 pb-3 border-end">
                                         <h6 class="fw-normal fs-5 mb-0">{{ __('Date lancement') }}</h6>
-                                        <span class="fs-3 font-weight-medium text-primary" id="created_at"></span>
+                                        <span class="fs-3 font-weight-medium text-primary" id="release_date"></span>
                                     </div>
                                     <div class="col-4 pb-3 border-end ps-3">
                                         <h6 class="fw-normal fs-5 mb-0">{{ __('Produit') }}</h6>
@@ -193,21 +193,24 @@
         var percent = 0;
         var newPercent = 0;
 
+        function getOfDetails(of_id) {
+            callAjax('GET', base_url + '/of_details/' + of_id, {
+                of_id: of_id
+            }).done(function(response) {
+                $.each(response, function(key, value) {
+                    $("#" + key).text(value);
+                });
+                total_quantity_of = response.new_quantity;
+                $(".of_number").removeClass('d-none')
+                $(".of_info").removeClass("d-none");
+                $("#qr").focus();
+            });
+        }
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
                 of_id = $(this).val();
                 getSnTable(of_id);
-                callAjax('GET', base_url + '/of_details/' + of_id, {
-                    of_id: of_id
-                }).done(function(response) {
-                    $.each(response, function(key, value) {
-                        $("#" + key).text(value);
-                    });
-                    total_quantity_of = response.new_quantity;
-                    $(".of_number").removeClass('d-none')
-                    $(".of_info").removeClass("d-none");
-                    $("#qr").focus();
-                });
+                getOfDetails(of_id);
             })
             /* -------------------------------------------------------------------------- */
             /*                                Print QR code                               */
@@ -234,6 +237,8 @@
                         return SessionErrors(response.message);
                     }
                     getSnTable(of_id);
+                    // TODO::Change later with samir
+                    getOfDetails(of_id);
                     ajaxSuccess(response.message);
                     $('#qr').val('');
                 });
