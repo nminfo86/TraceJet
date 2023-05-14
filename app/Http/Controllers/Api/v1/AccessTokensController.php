@@ -33,7 +33,7 @@ class AccessTokensController extends Controller
         $user['permission'] =  $user->getPermissionsViaRoles()->pluck('name');
 
         // Check for the device being used
-        $user['post_information'] =  Post::whereIpAddress("10.0.0.100")->first() ?? [];
+        $user['post_information'] =  Post::whereIpAddress("127.0.0.1")->first() ?? [];
 
         if (empty($user['post_information']))
             return $this->sendResponse("Invalid host, please contact the system administrator", status: false);

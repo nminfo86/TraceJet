@@ -194,7 +194,9 @@
             response.serialNumbers.forEach(product => {
                 sn_datatables.rows.add(
                     [
-                        [product.id, product.qr, product.posts]
+                        [product.id, product.qr,
+                            `<span class="badge bg-${product.color}">${product.post}</span>`
+                        ]
                     ]
                 ).draw();
             });

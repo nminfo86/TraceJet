@@ -290,10 +290,10 @@ class OfController extends Controller
 
                 return [
                     'id' => $group->first()['id'],
-                    'serial_number' => $group->first()['serial_number'],
+                    // 'serial_number' => $group->first()['serial_number'],
                     'qr' => $group->first()['qr'],
-                    'result' => $lastMovement['result'] ?? null,
-                    'posts' => $lastMovement['posts']['post_name'] ?? null,
+                    // 'result' => $lastMovement['result'] ?? null,
+                    'post' => $lastMovement['posts']['post_name'] ?? null,
                     'color' => $lastMovement['posts']['color'] ?? null,
                 ];
             })->values()->all();
