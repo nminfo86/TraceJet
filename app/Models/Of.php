@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class Of extends Model
      *
      * @var array
      */
-    protected $fillable = ['caliber_id', 'user_id', 'of_number', 'of_name', 'of_code', 'status', 'quantity', 'new_quantity', 'created_by', 'updated_by'];
+    protected $fillable = ['caliber_id', 'user_id', 'of_number', 'of_name', 'of_code', 'status', 'quantity', 'new_quantity', 'created_by', 'updated_by', "release_date"];
 
 
     protected $casts = [
@@ -32,13 +33,24 @@ class Of extends Model
      * @param  string  $value
      * @return string
      */
-    protected function createdAt(): Attribute
+    protected function releaseDate(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:m:s'),
+            get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:i:s'),
 
         );
     }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    // protected function serializeDate(DateTimeInterface $date)
+    // {
+    //     return $date->format('d-m-Y H:i:s');
+    // }
     /* -------------------------------------------------------------------------- */
     /*                                RelationShips                               */
     /* -------------------------------------------------------------------------- */

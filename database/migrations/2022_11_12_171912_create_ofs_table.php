@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('status')->default('new');
             $table->integer('quantity');
             $table->integer('new_quantity');
+            $table->timestamp('release_date')->nullable();
             $table->string('created_by', 50)->nullable();
             $table->string('updated_by', 50)->nullable();
             $table->timestamps();

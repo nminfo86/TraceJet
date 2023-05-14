@@ -24,22 +24,12 @@ class SerialNumberController extends Controller
 
         // Get serial numbers valid list
         $product['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "updated_at"]);
-        // return $valid_qr;
-        if ($product['list']->count() == 1) {
-
-            // this kay for update status of of in blade
-            $of = Of::findOrFail($request->of_id, ["id", "status"]);
-
-            // update of status in first valid action
-            $of->update(['status' => 'inProd']) ? $product["status"] = "inProd" : "";
-        }
 
         // Get quantity of valid product (TODAY)
         $product['quantity_of_day'] = "0" . $product['list']->filter(function ($item) {
             return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
         })->count();
-        // dd($product["list"]);
-        return $this->sendResponse("c", data: $product);
+        return $this->sendResponse(data: $product);
     }
 
 
@@ -53,43 +43,30 @@ class SerialNumberController extends Controller
     //valid product
     public function store(StoreSerialNumberRequest $request)
     {
+        // Check if the Order Form (OF) with the given ID is closed
+        $of = OF::findOrFail($request->of_id);
 
-        // Retrieve the SerialNumber with the provided QR code and that has not been validated yet
-        $product = SerialNumber::where('qr', $request->qr)->where('valid', 0)->first();
-
-        // Retrieve the new quantity of the Order Form (OF) with the given ID
-        $of_quantity = OF::findOrFail($request->of_id)->new_quantity;
-
-        // Retrieve the number of validated products for the OF with the given ID
-        $valid_product = $this->countValidProducts($request->of_id);
-
-        // If the SerialNumber is not found
-        if (!$product) {
-            // TODO::nassim about quantitiy of in generator r post
-            // Check if the OF is already closed
-            // if ($of_quantity <= $valid_product) {
-            //     $msg = $this->getResponseMessage('of_closed');
-            //     return $this->sendResponse($msg, true);
-            // }
-
-            // Otherwise, return an error message indicating that the product is not found
-            $msg = $this->getResponseMessage('not_found', ['attribute' => 'product']);
-            return $this->sendResponse($msg, false);
-        }
-        // TODO::nassim about quantitiy of in generator r post
-        // Check if the OF is already closed
-        // if ($of_quantity <= $valid_product) {
-        //     $msg = $this->getResponseMessage('of_closed');
-        //     return $this->sendResponse($msg, true);
-        // }
-        // Mark the product as validated
-        $product->update(['valid' => 1]);
-
-        // If the OF is now closed (all products have been validated)
-        if ($of_quantity == $valid_product + 1) {
+        if ($of->status->value == "closed") {
+            // Return a success response indicating that the OF is already closed
             $msg = $this->getResponseMessage('of_closed');
             return $this->sendResponse($msg, true);
         }
+
+        // Retrieve the SerialNumber with the provided QR code and that has not been validated yet
+        $product = SerialNumber::where('qr', $request->qr)
+            ->where('valid', 0)
+            ->first();
+
+        // If the SerialNumber is not found
+        if (!$product) {
+            // Return an error response indicating that the product is not found
+            $msg = $this->getResponseMessage('not_found', ['attribute' => 'product']);
+            return $this->sendResponse($msg, status: false);
+        }
+
+        // Mark the product as validated
+        $product->update(['valid' => 1]);
+
         // Generate a new SerialNumber
         return $this->generateNewSN($request->of_id);
     }
@@ -149,10 +126,10 @@ class SerialNumberController extends Controller
      * @param  mixed $of_id
      * @return Int
      */
-    public function countValidProducts($of_id)
-    {
-        return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
-    }
+    // public function countValidProducts($of_id)
+    // {
+    //     return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
+    // }
 
 
 
@@ -161,7 +138,7 @@ class SerialNumberController extends Controller
     {
         return Movement::whereSerialNumberId($id)
             ->join("posts", "movement_post_id", "posts.id")
-            ->get(["post_name", "result", "created_at"]);
+            ->get(["post_name", "color", "result", "movements.created_at", "movements.created_by"]);
     }
 
     // public function FunctionName(Type $var = null)

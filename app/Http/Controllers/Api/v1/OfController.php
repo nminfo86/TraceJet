@@ -128,7 +128,7 @@ class OfController extends Controller
         // Get of information
         $of_info = Of::join('calibers', 'ofs.caliber_id', 'calibers.id')
             ->join('products', 'calibers.product_id', 'products.id')
-            ->find($id, ["calibers.caliber_name", "products.product_name", "ofs.created_at", "ofs.of_number", "ofs.new_quantity", 'ofs.status']);
+            ->find($id, ["calibers.caliber_name", "products.product_name", "ofs.release_date", "ofs.of_number", "ofs.new_quantity", 'ofs.status']);
 
         return $of_info;
     }
@@ -192,16 +192,75 @@ class OfController extends Controller
         // return compact("of", "serialNumbers");
 
         // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
+        // $of = Of::with([
+        //     // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+        //     'caliber.product.section.posts' => fn ($q) =>
+        //     // Limiter les résultats aux posts de la section 1
+        //     // $query->where('section_id', 1)
+        //     $q->orderByDesc("post_name")
+        //         ->select('id', 'post_name', 'code', 'section_id')
+        //         ->withCount('movements')
+        // ])
+        //     ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
+        //     ->find(1);
+
+        // $posts = $of->caliber->product->section->posts;
+        // $quantity = $of->new_quantity;
+        // $of->caliber->product->section->posts->map(function ($post) use ($quantity) {
+        //     $post->movement_percentage = $post->movements_count / $quantity * 100;
+        //     $post->stayed = 100 - $post->movement_percentage;
+        //     return $post;
+        // });
+
+
+        // // Retrieve all serial numbers with their latest movements and associated posts
+        // $serialNumbers = serialNumber::with(['movements' => function ($query) {
+        //     $query->latest('created_at')
+        //         ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
+        //         ->with('posts:id,post_name');
+        // }])->where([['of_id', $of->id], ["valid", 1]])->get()
+        //     // Group serial numbers by their serial number
+        //     ->groupBy('serial_number')
+        //     // Map the grouped serial numbers to a new format with the latest movement and associated post
+        //     ->map(function ($group) {
+        //         $lastMovement = $group->flatMap(function ($serialNumber) {
+        //             return $serialNumber['movements'];
+        //         })
+        //             ->sortByDesc('created_at')
+        //             ->first();
+
+        //         return [
+        //             'id' => $group->first()['id'],
+        //             'serial_number' => $group->first()['serial_number'],
+        //             'qr' => $group->first()['qr'],
+        //             'result' => $lastMovement['result'] ?? null,
+        //             'posts' => $lastMovement['posts']['post_name'] ?? null,
+        //         ];
+        //     })->values()->all();
+
+        // /* -------------------------------------------------------------------------- */
+        // /*                               Taux avancement                              */
+        // /* -------------------------------------------------------------------------- */
+        // $section_id = $of->caliber->product->section_id;
+        // $count = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+        //     ->where('posts.section_id', '=', $section_id)
+        //     ->where('posts.posts_type_id', '=', 3)
+        //     ->count('movements.serial_number_id');
+        // $of->taux =  $count / $quantity * 100 . "%";
+        // // return $serialNumbers;
+        // return   compact("of", "serialNumbers");
+
+        // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
         $of = Of::with([
             // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
             'caliber.product.section.posts' => fn ($q) =>
             // Limiter les résultats aux posts de la section 1
             // $query->where('section_id', 1)
-            $q->orderByDesc("post_name")
-                ->select('id', 'post_name', 'code', 'section_id')
+            $q->orderBy("code")
+                ->select('id', 'post_name', 'code', 'section_id', 'color')
                 ->withCount('movements')
         ])
-            ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
+            ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
             ->find(1);
 
         $posts = $of->caliber->product->section->posts;
@@ -217,7 +276,7 @@ class OfController extends Controller
         $serialNumbers = serialNumber::with(['movements' => function ($query) {
             $query->latest('created_at')
                 ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
-                ->with('posts:id,post_name');
+                ->with('posts:id,post_name,color');
         }])->where([['of_id', $of->id], ["valid", 1]])->get()
             // Group serial numbers by their serial number
             ->groupBy('serial_number')
@@ -231,10 +290,11 @@ class OfController extends Controller
 
                 return [
                     'id' => $group->first()['id'],
-                    'serial_number' => $group->first()['serial_number'],
+                    // 'serial_number' => $group->first()['serial_number'],
                     'qr' => $group->first()['qr'],
-                    'result' => $lastMovement['result'] ?? null,
-                    'posts' => $lastMovement['posts']['post_name'] ?? null,
+                    // 'result' => $lastMovement['result'] ?? null,
+                    'post' => $lastMovement['posts']['post_name'] ?? null,
+                    'color' => $lastMovement['posts']['color'] ?? null,
                 ];
             })->values()->all();
 

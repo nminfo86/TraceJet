@@ -23,6 +23,8 @@ return new class extends Migration
             $table->text('code', 3);
             $table->ipAddress()->unique()->nullable();
 
+            $table->string('color')->default('info');
+
             $table->foreign('posts_type_id')->references('id')->on('posts_types')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreign('section_id')->references('id')->on('sections')->restrictOnDelete()->cascadeOnUpdate();
         });

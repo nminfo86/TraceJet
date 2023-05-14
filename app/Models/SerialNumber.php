@@ -8,6 +8,7 @@ use App\Models\Part;
 use DateTimeInterface;
 use App\Models\Movement;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -109,7 +110,7 @@ class SerialNumber extends Model
      */
     protected function serializeDate(DateTimeInterface $date)
     {
-        return $date->format('Y-m-d H:i:s');
+        return $date->format('d-m-Y H:i:s');
     }
 
 
@@ -125,6 +126,7 @@ class SerialNumber extends Model
                 ->where('serial_numbers.of_id', $model->of_id)
                 ->select(DB::raw("CONCAT_WS('#',ofs.of_code,ofs.of_number,calibers.caliber_name,serial_number, NOW()) as qr"))->orderBy('serial_numbers.id', 'desc')->first();
             $model->qr = $generate_qr->qr;
+            $model->created_by = Auth::user()->name;
             $model->save();
         });
     }

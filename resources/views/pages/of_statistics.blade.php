@@ -22,8 +22,8 @@
                                             id="of_number"></span></h4>
                                 </div>
                                 <div>
-                                    <h4>{{ __('Date de lancement') }} <span class="badge bg-warning"
-                                            id="launch_date"></span>
+                                    <h4>{{ __('Date de lancement') }} <span class="badge bg-secondary"
+                                            id="release_date"></span>
                                     </h4>
                                 </div>
                                 <div>
@@ -113,7 +113,7 @@
                             </div>
                             <!-- title -->
                             <div class="table-responsive">
-                                <table class="table mb-0 table-hover align-middle text-nowrap" id="sn_table">
+                                <table class="table mb-0 table-hover align-middle text-nowrap table-sm" id="sn_table">
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
@@ -134,7 +134,7 @@
                 <!-- ============================================================== -->
                 <!-- Historique  production of SN -->
                 <!-- ============================================================== -->
-                <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="col-lg-4 d-flex align-items-stretch d-none" id="product_history">
                     <div class="card w-100">
                         <div class="card-body">
                             <h4 class="card-title">historique</h4>
@@ -166,17 +166,18 @@
         const currentUrl = window.location.pathname; // get the current URL
         const lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1); // get the last segment of the URL
         var table4 = $("#sn_table");
+
+        // TODO::realtime refresh
         callAjax("GET", base_url + "/of_statistics/" + lastSegment).done(function(response) {
+
             // Initialize variables
-            response = response;
             const posts_list = [],
                 produced = [],
                 stayed = [];
             let html = "",
-                table = "";
-            let posts = response.of.caliber.product.section.posts;
+                posts = response.of.caliber.product.section.posts;
             // Loop through each post in the response
-            var color_array = ["primary", "warning", "danger", "success", "info"]
+            // var color_array = ["primary", "warning", "danger", "success", "info"]
             let i = 0;
             posts.forEach(post => {
                 // Push post data to respective arrays
@@ -186,7 +187,7 @@
                 // Build HTML for post card
                 html +=
                     `<div class="mt-3 pb-3 d-flex align-items-center">
-                        <span class="btn btn-${color_array[i]} btn-circle d-flex align-items-center text-white">
+                        <span class="btn btn-${post.color} btn-circle d-flex align-items-center text-white">
                             <i class="mdi mdi-barcode-scan fs-4"></i>
                         </span>
                         <div class="ms-3">
@@ -207,7 +208,7 @@
                 sn_datatables.rows.add(
                     [
                         [product.id, product.qr,
-                            `<span class="badge bg-success">${product.posts}</span>`
+                            `<span class="badge bg-${product.color}">${product.post}</span>`
                         ]
                     ]
                 ).draw();
@@ -219,13 +220,14 @@
             $("#section").text(response.of.caliber.product.section.section_name)
             //$("#product").text(response.of.caliber.product.)
             //$("#calibre").text('response.launch_date')
+            $("#release_date").text(response.of.release_date)
             $('#progress_rate').css('width', response.of.taux);
             //$('#progress_rate').parent().next("span").text(response.of.taux);
             $('#progress_rate').parent().next().find('span:first').text(response.of.taux)
 
             // Append the HTML to the DOM
             $("#posts_avancement .card-body").append(html);
-            $("table").append(table).dataTable();
+            // $("table").append(table).dataTable();
 
             /* -------------------------------------------------------------------------- */
             /*                                    Char                                    */
@@ -265,6 +267,7 @@
 
 
         table4.on('click', 'tr', function() {
+            let html = "";
             var data = sn_datatables.row(this).data();
             $("#qr_life").html("");
             callAjax("GET", base_url + "/serial_numbers/qr_life/" + data[0], false).done(function(response) {
@@ -275,17 +278,18 @@
                         `<div class="vertical-timeline-item vertical-timeline-element">
                         <div>
                             <span class="vertical-timeline-element-icon bounce-in">
-                                <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
+                                <i class="mdi mdi-nut text-${movement.color} fs-2 bg-white"></i>
                             </span>
                             <div class="vertical-timeline-element-content bounce-in">
                                 <h4 class="timeline-title">${movement.post_name}</h4>
-                                <p>opéré par quelqu'un le <a href="javascript:void(0);" data-abc="true">${movement.created_at.split(' ')[0]}</a></p>
+                                <p>opéré par ${movement.created_by} le <a href="javascript:void(0);" data-abc="true">${movement.created_at.split(' ')[0]}</a></p>
                                 <span class="vertical-timeline-element-date">${movement.created_at.split(' ')[1]}</span>
                             </div>
                         </div>
                     </div>`;
                 });
                 $("#qr_life").append(html);
+                $("#product_history").removeClass("d-none");
             })
         });
     </script>

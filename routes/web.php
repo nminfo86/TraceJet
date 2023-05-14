@@ -87,7 +87,7 @@ Route::group(
             return view('pages.packaging');
         });
         Route::get('operators', function () {
-            return view('pages.operator');
+            return view('pages.operators');
         });
 
         Route::get('test', function () {
@@ -100,7 +100,7 @@ Route::group(
                 // Limiter les résultats aux posts de la section 1
                 // $query->where('section_id', 1)
                 $q->orderByDesc("post_name")
-                    ->select('id', 'post_name', 'code', 'section_id')
+                    ->select('id', 'post_name', 'code', 'section_id', 'color')
                     ->withCount('movements')
             ])
                 ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
@@ -119,7 +119,7 @@ Route::group(
             $serialNumbers = serialNumber::with(['movements' => function ($query) {
                 $query->latest('created_at')
                     ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
-                    ->with('posts:id,post_name');
+                    ->with('posts:id,post_name,color');
             }])->where([['of_id', $of->id], ["valid", 1]])->get()
                 // Group serial numbers by their serial number
                 ->groupBy('serial_number')
@@ -137,6 +137,7 @@ Route::group(
                         'qr' => $group->first()['qr'],
                         'result' => $lastMovement['result'] ?? null,
                         'posts' => $lastMovement['posts']['post_name'] ?? null,
+                        'color' => $lastMovement['posts']['color'] ?? null,
                     ];
                 })->values()->all();
 
@@ -242,7 +243,7 @@ Route::group(
         route::get("sn_dash", function () {
             return Movement::whereSerialNumberId(1)
                 ->join("posts", "movement_post_id", "posts.id")
-                ->get(["post_name", "result", "created_at"]);
+                ->get(["post_name", "result", "created_at", "movements.created_by"]);
         });
     }
 );
