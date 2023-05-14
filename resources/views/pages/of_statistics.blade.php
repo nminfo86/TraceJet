@@ -31,6 +31,20 @@
                                             id="new_quantity"></span></h4>
                                 </div>
                             </div>
+                            <div class="d-flex justify-content-between pt-2">
+                                <div>
+                                    <h4 class="">{{ __('Section') }} <span class="badge bg-primary"
+                                            id="section"></span></h4>
+                                </div>
+                                <div>
+                                    <h4>{{ __('Produit') }} <span class="badge bg-warning" id="Product"></span>
+                                    </h4>
+                                </div>
+                                <div>
+                                    <h4 class="">{{ __('calibre') }} <span class="badge bg-danger"
+                                            id="calibre"></span></h4>
+                                </div>
+                            </div>
                             <h6 class="card-subtitle pt-2">{{ __('Statistique de production par chaque post') }}</h6>
                             <div class="amp-pxl mt-4">
                                 <div class="">
@@ -135,7 +149,6 @@
                 <!--  End Historique production of SN -->
                 <!-- ============================================================== -->
             </div>
-
         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
@@ -193,13 +206,19 @@
             response.serialNumbers.forEach(product => {
                 sn_datatables.rows.add(
                     [
-                        [product.id, product.qr, product.posts]
+                        [product.id, product.qr,
+                            `<span class="badge bg-success">${product.posts}</span>`
+                        ]
                     ]
                 ).draw();
             });
+
             $("#of_number").text(response.of.of_number)
             $("#new_quantity").text(response.of.new_quantity)
             $("#launch_date").text('response.launch_date')
+            $("#section").text(response.of.caliber.product.section.section_name)
+            //$("#product").text(response.of.caliber.product.)
+            //$("#calibre").text('response.launch_date')
             $('#progress_rate').css('width', response.of.taux);
             //$('#progress_rate').parent().next("span").text(response.of.taux);
             $('#progress_rate').parent().next().find('span:first').text(response.of.taux)
@@ -248,7 +267,7 @@
         table4.on('click', 'tr', function() {
             var data = sn_datatables.row(this).data();
             $("#qr_life").html("");
-            callAjax("GET", base_url + "/serial_numbers/qr_life/" + data[0]).done(function(response) {
+            callAjax("GET", base_url + "/serial_numbers/qr_life/" + data[0], false).done(function(response) {
                 html = "";
                 response.forEach(movement => {
                     // Build HTML for post card
