@@ -56,10 +56,10 @@ class AccessTokensController extends Controller
         /*                                  New Code                                  */
         /* -------------------------------------------------------------------------- */
         // Retrieve post information for user's IP address
-        $user['post_information'] = Post::whereIpAddress($request->ip())->first();
+        $post_information = Post::whereIpAddress($request->ip())->first();
 
         // Return error response if post information is not found
-        if (empty($user['post_information'])) {
+        if (empty($post_information)) {
             // TODO::Translate msg
             return $this->sendResponse("Invalid host, please contact the system administrator", status: false);
         }
@@ -79,6 +79,7 @@ class AccessTokensController extends Controller
 
         // Add user's permissions to response data
         $user['permissions'] = $user->roles->flatMap->permissions->pluck('name')->unique()->toArray();
+        $user['post_information'] = $post_information;
 
         // Create token for user and return response with token and user data
         $token = $user->createToken($device_name)->plainTextToken;

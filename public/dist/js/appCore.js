@@ -255,11 +255,12 @@ function deleteObject(url, success_message, error_message) {
 //     // order: [0, 'desc'],
 // };
 
-function ajaxCallDatatables(url) {
+function ajaxCallDatatables(url,data={}) {
     // Define desired object
     var obj = {
         type: "GET",
         url: url,
+        data:data,
         ajax: {
             error: function (jqXHR, exception) {
                 showAjaxAndValidationErrors(jqXHR, exception)

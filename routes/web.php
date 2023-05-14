@@ -240,46 +240,23 @@ Route::group(
 
         // route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
 
-        route::get("t", function () {
-            return Product::get();
-            // $roles_list = ["owner", "super_admin", "admin"];
-            // $user = Auth::user();
-            // $section_id = $user->section_id;
-            // $role = $user->roles_name[0];
+        route::get("t/{post_section_id}", function ($post_section_id) {
 
-            // // $has_role = false;
-
-
-            // if (in_array($role, $roles_list)) {
-            //     return Product::get();
-            // }
-
-            // $post = Post::where("ip_address", "127.0.0.1")->first()->section_id;
-            // // dd($post);
-            // return Product::whereHas('section', function ($query) use ($post) {
-            //     $query->where('section_id', $post);
-            // })->get();
+            $of = Of::find(1);
 
 
 
-            // if ($has_role) {
-            //     // The user has at least one of the roles in $roles_name
-            // } else {
-            //     // The user doesn't have any of the roles in $roles_name
-            // }
-
-
-
-            // return  Product::inSection()->get();
-            // $user = Auth::user()->roles_name;
-            // if (in_array("super_admin", $user)) {
-            //     return "222";
-            // }
-            // return Product::inSection(1)->first();
-            // $section_id = 1;
-            // return   Product::whereHas('section', function ($query) use ($section_id) {
-            // $query->where('section_id', $section_id);
-            // })->get();
+            return $of = Of::with([
+                // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+                'caliber.product.section.posts' => fn ($q) =>
+                // Limiter les résultats aux posts de la section 1
+                // $query->where('section_id', 1)
+                $q->orderBy("code")
+                    ->select('id', 'post_name', 'code', 'section_id', 'color')
+                    ->withCount('movements')
+            ])
+                ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
+                ->find(1);
         });
     }
 );

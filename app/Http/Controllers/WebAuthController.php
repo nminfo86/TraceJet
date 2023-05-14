@@ -30,6 +30,7 @@ class WebAuthController extends AccessTokensController
                     Auth::guard('sanctum')->guest();
                     return redirect("/")->with('error', $response["message"]);
                 }
+                // dd($response['data']);
                 $request->session()->put('token', $response['token']);
                 $request->session()->put('user_data', $response['data']);
                 /* redirect posts to there url */

@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        $products = Product::inSection()->get();
+        $products = Product::get();
         // $products = Product::with('section')->get();
         // $products = Product::join('sections', function ($join) {
         //     $join->on('products.section_id', '=', 'sections.id');

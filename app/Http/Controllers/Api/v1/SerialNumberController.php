@@ -21,15 +21,22 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
+        $valid_products = SerialNumber::whereOfId($request->of_id)->whereValid(1)
+            ->get(["serial_number", "updated_at"]);
 
-        // Get serial numbers valid list
-        $product['list'] = SerialNumber::whereOfId($request->of_id)->whereValid(1)->get(["serial_number", "updated_at"]);
-
-        // Get quantity of valid product (TODAY)
-        $product['quantity_of_day'] = "0" . $product['list']->filter(function ($item) {
+        // Get the quantity of valid serial numbers for today
+        $quantity_valid_for_today = $valid_products->filter(function ($item) {
             return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
         })->count();
-        return $this->sendResponse(data: $product);
+
+        // Prepare the response data
+        $data = [
+            'list' => $valid_products,
+            'quantity_of_day' => "0" . $quantity_valid_for_today
+        ];
+
+        // Return the response
+        return $this->sendResponse(data: $data);
     }
 
 
