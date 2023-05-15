@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des Sections') }}</h4>
+                        <h4 class="card-title text-capitalize">{{ __('liste des sections') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             @include('components.add_btn', ['label' => 'Nouveau'])
                         </div>
@@ -21,9 +21,9 @@
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __('Code') }}</th>
-                                    <th>{{ __('Nom de section') }}</th>
-                                    <th>{{ __('Opt') }}</th>
+                                    <th>{{ __('code') }}</th>
+                                    <th>{{ __('nom de section') }}</th>
+                                    <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -48,7 +48,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <label>{{ __('Code de section') }}:*</label>
+                                <label>{{ __('code de section') }}:*</label>
                                 <input type="text" name="section_code" id="section_code" class="form-control"
                                     placeholder="{{ __('EX: 1000') }}" />
                                 <span class="invalid-feedback" role="alert">
@@ -56,9 +56,9 @@
                                 </span>
                             </div>
                             <div class="col-lg-6">
-                                <label>{{ __('Nom de section') }}:*</label>
+                                <label>{{ __('nom de section') }}:*</label>
                                 <input type="text" name="section_name" id="section_name" class="form-control"
-                                    placeholder="{{ __('Nom de section') }}" />
+                                    placeholder="{{ __('nom de section') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="section_name-error"></strong>
                                 </span>

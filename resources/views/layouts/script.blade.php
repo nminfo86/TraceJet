@@ -42,7 +42,7 @@
          //       }
          //   },
          language: {
-             url: "{{ asset('') }}assets/locale/fr.json"
+             url: "{{ asset('') }}assets/locale/{{ LaravelLocalization::getCurrentLocale() }}.json"
          },
      });
      var yes = "{{ __('Oui') }}";
