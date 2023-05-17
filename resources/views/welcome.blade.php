@@ -130,10 +130,10 @@
             }
         </style>
         <div class="container-fluid">
-            <div class="row">
+            <div class="row pb-4">
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                    <h4 class="text-muted mb-0 fw-normal">Welcome Johnathan</h4>
-                    <h1 class="mb-0 fw-bold">eCommerce Dashboard</h1>
+                    <h4 class="text-muted mb-0 fw-normal"> {{ __('Bienvenu') }} Johnathan</h4>
+                    <h1 class="mb-0 fw-bold">{{ __('Tableau de bord de production') }}</h1>
                 </div>
                 <div
                     class="
@@ -149,7 +149,7 @@
                     </select>
                     <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2">
                         <i class="ri-add-line me-1"></i>
-                        Add New
+                        all
                     </a>
                 </div>
             </div>
@@ -248,6 +248,51 @@
                                 </h3>
                                 <h6 class="text-muted mb-0 fw-normal">Refunds</h6>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div
+                        class="
+                        card
+                        welcome-card2
+                        overflow-hidden
+                        bg-light-info
+                        border-0
+                      ">
+                        <style>
+                            .bg-tracejet {
+                                background-image: url("/assets/images/bg-tracejet.png");
+                                background-size: cover;
+                                /* Adjust as per your requirements */
+                                background-position: center;
+                                /* Adjust as per your requirements */
+                                /*opacity: 0.7;*/
+                                /* Adjust the value between 0 and 1 */
+                            }
+                        </style>
+                        <div class="card-body bg-tracejet">
+                            {{-- <img src="/assets/images/bg-tracejet.png" alt="Image"> --}}
+                            <div class="d-flex align-items-start position-relative">
+                                <div>
+                                    <h4 class="fw-bold">Filtrage</h4>
+                                    <h4 class="text-primary rounded p-1 bg-light d-inline">du : 10/10/2020 10:10 </h4>
+                                    <h4 class="text-primary rounded  p-1 bg-light d-inline">au : 10/10/2021 11:10
+                                    </h4>
+                                </div>
+                                <div class="ms-auto">
+                                    <span
+                                        class="
+                                btn btn-lg btn-primary btn-circle
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                              ">
+                                        <i class="mdi mdi-calendar-clock fs-2"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-info position-relative mt-2">changer</a>
                         </div>
                     </div>
                 </div>

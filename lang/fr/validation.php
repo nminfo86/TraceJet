@@ -199,9 +199,6 @@ return [
     "you_have_been_invited_to_join_team"=>"Vous avez été invité(e) à rejoindre l'équipe :teamName !",
     "you_have_x_invitations_remaining"=>" Il vous reste :count invitation(s).",
     "you_have_x_teams_remaining"=>"Il vous reste :teamCount équipes.",
-
-
-
     'attributes' => [
     'username' => 'Nom d\'utilisateur',
     'password' => 'mot de passe',
@@ -217,5 +214,11 @@ return [
     'box_quantity' => 'Quantité par carton',
     'quantity' => 'Quantité',
     'new_quantity' => 'Qté globale d\'OF',
+    "section_code"=>"code de section",
+    "section_name"=>"nom de section",
+    "code"=>"code",
+    "post_name"=>"nom de poste",
+    "post_type_id"=>"type de poste",
+    "ip_address"=>"adrèsse ip",
     ],
 ];
