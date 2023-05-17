@@ -207,19 +207,13 @@
                               align-items-center
                               justify-content-center
                             ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart">
-                                        <line x1="12" y1="20" x2="12" y2="10"></line>
-                                        <line x1="18" y1="20" x2="18" y2="4"></line>
-                                        <line x1="6" y1="20" x2="6" y2="16"></line>
-                                    </svg>
+                                    <i class="fas fa-box-open"></i>
                                 </span>
                                 <h3 class="mt-3 pt-1 mb-0 d-flex align-items-center">
                                     423,39
-                                    <span class="fs-2 ms-1 text-success font-weight-medium">+38%</span>
+                                    <span class="fs-2 ms-1 text-success font-weight-medium">Produits</span>
                                 </h3>
-                                <h6 class="text-muted mb-0 fw-normal">Sales</h6>
+                                <h6 class="text-muted mb-0 fw-normal">4146 <span>calibres</span></h6>
                             </div>
                         </div>
                         <div class="card">
@@ -233,66 +227,43 @@
                               align-items-center
                               justify-content-center
                             ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw">
-                                        <polyline points="23 4 23 10 17 10"></polyline>
-                                        <polyline points="1 20 1 14 7 14"></polyline>
-                                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15">
-                                        </path>
-                                    </svg>
+                                    <i class="mdi mdi-open-in-new"></i>
                                 </span>
                                 <h3 class="mt-3 pt-1 mb-0">
                                     835
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium">-12%</span>
+                                    <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
                                 </h3>
-                                <h6 class="text-muted mb-0 fw-normal">Refunds</h6>
+                                {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div
-                        class="
-                        card
-                        welcome-card2
-                        overflow-hidden
-                        bg-light-info
-                        border-0
-                      ">
-                        <style>
-                            .bg-tracejet {
-                                background-image: url("/assets/images/bg-tracejet.png");
-                                background-size: cover;
-                                /* Adjust as per your requirements */
-                                background-position: center;
-                                /* Adjust as per your requirements */
-                                /*opacity: 0.7;*/
-                                /* Adjust the value between 0 and 1 */
-                            }
-                        </style>
-                        <div class="card-body bg-tracejet">
-                            {{-- <img src="/assets/images/bg-tracejet.png" alt="Image"> --}}
-                            <div class="d-flex align-items-start position-relative">
-                                <div>
-                                    <h4 class="fw-bold">Filtrage</h4>
-                                    <h4 class="text-primary rounded p-1 bg-light d-inline">du : 10/10/2020 10:10 </h4>
-                                    <h4 class="text-primary rounded  p-1 bg-light d-inline">au : 10/10/2021 11:10
-                                    </h4>
-                                </div>
+                    <div class="card bg-info w-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title text-white">Filtrage</h4>
                                 <div class="ms-auto">
                                     <span
                                         class="
-                                btn btn-lg btn-primary btn-circle
-                                d-flex
-                                align-items-center
-                                justify-content-center
-                              ">
-                                        <i class="mdi mdi-calendar-clock fs-2"></i>
+                                  btn btn-lg btn-success btn-circle
+                                  d-flex
+                                  align-items-center
+                                  justify-content-center
+                                ">
+                                        <i class="mdi mdi-calendar-clock fs-3 rounded text-white"></i>
                                     </span>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-info position-relative mt-2">changer</a>
+                            <div class="mt-3 d-flex justify-content-around align-items-center">
+                                <div>
+                                    <h2 class="fs-8 text-white mb-2">du :$93,438.78</h2>
+                                    <h2 class="fs-8 text-white mb-0">au :$93,438.78</h2>
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger text-white">changer</button>
+                                </div> {{-- <span class="text-white op-5">Monthly revenue</span> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -328,7 +299,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-boy p-3">
+                            <h4 class="card-title">FPY</h4>
+                            <h6 class="card-subtitle">Poste 1</h6>
+                            <canvas id="FPY1" width="auto" height="auto"></canvas>
+                            <p class="percent" id="percent1">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-lg-4 d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-body">
                             <h4 class="card-title">avancement par post</h4>
@@ -396,7 +378,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="row">
                 {{-- <div class="col-lg-3">
