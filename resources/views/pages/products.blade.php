@@ -140,16 +140,18 @@
                 }
             });
         });
-
+        // TODO::host_section_id of host
         table = table.DataTable({
-            "ajax": ajaxCallDatatables(url),
+            "ajax": ajaxCallDatatables(url, {
+                post_section_id: 2
+            }),
             columns: [{
                     data: 'product_code'
                 },
                 {
                     data: 'product_name'
                 }, {
-                    data: 'section_name'
+                    data: 'section.section_name'
                 },
                 {
                     data: 'id',
