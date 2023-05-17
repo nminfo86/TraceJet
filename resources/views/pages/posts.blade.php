@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Postes') }}</li>
+    <li class="breadcrumb-item active text-capitalize" aria-current="page">{{ __('postes') }}</li>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -9,9 +9,9 @@
     <div class="row toggle-show">
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body text-capitalize">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des postes') }}</h4>
+                        <h4 class="card-title">{{ __('liste des postes') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             @include('components.add_btn', ['label' => 'Nouveau'])
                         </div>
@@ -21,13 +21,13 @@
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __('Code') }}</th>
-                                    <th>{{ __('Nom de poste') }}</th>
-                                    <th>{{ __('Type de poste') }}</th>
-                                    <th>{{ __('Section') }}</th>
-                                    <th>{{ __('Adrèsse IP') }}</th>
-                                    <th>{{ __('Poste précédent') }}</th>
-                                    <th>{{ __('Options') }}</th>
+                                    <th>{{ __('code') }}</th>
+                                    <th>{{ __('nom de poste') }}</th>
+                                    <th>{{ __('type de poste') }}</th>
+                                    <th>{{ __('section') }}</th>
+                                    <th>{{ __('adrèsse IP') }}</th>
+                                    <th>{{ __('poste précédent') }}</th>
+                                    <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -53,10 +53,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <label>{{ __('Section') }}:*</label>
+                                <label>{{ __('section') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="section_id" class="" name="section_id"
-                                        data-placeholder="{{ __('Selectionner une section') }}">
+                                        data-placeholder="{{ __('selectionner une section') }}">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
@@ -65,25 +65,25 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <label>{{ __('Code') }}:*</label>
+                                <label>{{ __('code') }}:*</label>
                                 <input type="text" name="code" id="code" class="form-control"
-                                    placeholder="{{ __('Code') }}" />
+                                    placeholder="{{ __('code') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="code-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-8">
-                                <label>{{ __('Nom de post') }}:*</label>
+                                <label>{{ __('nom de poste') }}:*</label>
                                 <input type="text" name="post_name" id="post_name" class="form-control"
-                                    placeholder="{{ __('Nom de post') }}" />
+                                    placeholder="{{ __('nom de poste') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="post_name-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-4">
-                                <label>{{ __('Type') }}:*</label>
+                                <label>{{ __('type') }}:*</label>
                                 <select id="posts_type_id" name="posts_type_id"
-                                    data-placeholder="{{ __('Selectionner un type') }}">
+                                    data-placeholder="{{ __('selectionner un type') }}">
                                     <option></option>
                                 </select>
                                 <span class="invalid-feedback" role="alert">
@@ -91,7 +91,7 @@
                                 </span>
                             </div>
                             <div class="col-lg-2">
-                                <label>{{ __('Color') }}:*</label>
+                                <label>{{ __('color') }}:*</label>
                                 <select id="color" name="color" data-placeholder="{{ __('Selectionner coleur') }}">
                                     <option></option>
                                 </select>

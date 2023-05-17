@@ -142,7 +142,7 @@
                 <li class="dropdown me-4">
                     <button class="btn btn-info btn-circle text-white pt-1" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ LaravelLocalization::getCurrentLocale() }}
+                        {{ __(LaravelLocalization::getCurrentLocale()) }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)

@@ -21,10 +21,10 @@
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>
-                                <tr class="">
+                                <tr class="text-capitalize">
                                     {{-- <th>#</th> --}}
-                                    <th width="90%" class="text-capitalize">{{ __('rôle') }}</th>
-                                    <th>{{ __('Options') }}</th>
+                                    <th width="90%">{{ __('rôle') }}</th>
+                                    <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -57,15 +57,15 @@
                                 </span>
                             </div>
                             <hr>
-                            <div class="col-12 mb-4">
-                                {{ __('Permissions') }}
+                            <div class="col-12 mb-4 text-capitalize">
+                                {{ __('permissions') }}
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-hover" id="permissions_table" width="100%">
+                                <table class="table table-hover text-capitalize" id="permissions_table" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>{{ __('Pages') }}</th>
-                                            <th>{{ __('Permissions') }}</th>
+                                            <th>{{ __('pages') }}</th>
+                                            <th>{{ __('permissions') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -107,7 +107,7 @@
                         var permission = `<div class='row'>
                             <div class=" col-12 col-md-5 form-check form-switch form-check-inline">
                 <input class="form-check-input select-sup-permissions" type="checkbox"  role="switch">
-                <label class="form-check-label ">{{ __('Sélectionner tout') }}</label></div>
+                <label class="form-check-label text-capitalize">{{ __('sélectionner tout') }}</label></div>
                 <div class="col-12 col-md-6">`;
                         // Loop through each item in the values array
                         $.each(values, function(index, value) {

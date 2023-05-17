@@ -19,13 +19,13 @@
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>
-                                <tr class="">
+                                <tr class="text-capitalize">
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __('Code') }}</th>
+                                    <th>{{ __('code') }}</th>
                                     <th>{{ __('calibre') }}</th>
-                                    <th>{{ __('Produit') }}</th>
-                                    <th>{{ __('Quantité carton') }}</th>
-                                    <th>{{ __('Options') }}</th>
+                                    <th>{{ __('produit') }}</th>
+                                    <th>{{ __('quantité carton') }}</th>
+                                    <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -56,12 +56,12 @@
                 </div>
                 {{-- //TODO::Add products input --}}
                 <form id="main_form">
-                    <div class="card-body">
+                    <div class="card-body text-capitalize">
                         <div class="row">
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Code') }}:*</label>
+                                <label>{{ __('code') }}:*</label>
                                 <input type="text" name="caliber_code" id="caliber_code" class="form-control"
-                                    placeholder="{{ __('Code') }}" />
+                                    placeholder="{{ __('code') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="caliber_code-error"></strong>
                                 </span>

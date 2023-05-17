@@ -21,12 +21,12 @@
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>
-                                <tr class="">
+                                <tr class="text-capitalize">
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __('Code') }}</th>
-                                    <th>{{ __('Produit') }}</th>
-                                    <th>{{ __('Section') }}</th>
-                                    <th>{{ __('Options') }}</th>
+                                    <th>{{ __('code') }}</th>
+                                    <th>{{ __('produit') }}</th>
+                                    <th>{{ __('section') }}</th>
+                                    <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -49,29 +49,29 @@
                     </div>
                 </div>
                 <form id="main_form">
-                    <div class="card-body">
+                    <div class="card-body text-capitalize">
                         <div class="row">
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Code') }}:*</label>
+                                <label>{{ __('code') }}:*</label>
                                 <input type="text" name="product_code" id="product_code" class="form-control"
-                                    placeholder="{{ __('Code') }}" />
+                                    placeholder="{{ __('code') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="product_code-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-6 mb-2">
-                                <label>{{ __('Produit') }}:*</label>
+                                <label>{{ __('produit') }}:*</label>
                                 <input type="text" name="product_name" id="product_name" class="form-control"
-                                    placeholder="{{ __('Produit') }}" />
+                                    placeholder="{{ __('produit') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="product_name-error"></strong>
                                 </span>
                             </div>
                             <div class="col-lg-12">
-                                <label>{{ __('Section') }}:*</label>
+                                <label>{{ __('section') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="section_id" class=""
-                                        data-placeholder="{{ __('Selectionner une section') }}" name="section_id">
+                                        data-placeholder="{{ __('selectionner une section') }}" name="section_id">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
@@ -79,14 +79,6 @@
                                     </span>
                                 </div>
                             </div>
-                            {{-- <div class="col-12 pt-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="status" role="switch"
-                                        value="1" checked>
-                                    <label class="form-check-label" for="status">{{ __('Actif') }}
-                                    </label>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                     @include('components.footer_form')

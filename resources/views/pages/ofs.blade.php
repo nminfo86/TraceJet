@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">{{ __('Ofs') }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ __('OFs') }}</li>
 @endsection
 @section('content')
     <!-- ============================================================== -->
@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('Liste des Ofs') }}</h4>
+                        <h4 class="card-title text-capitalize">{{ __('liste des Ofs') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             @include('components.add_btn', ['label' => 'Nouveau'])
                         </div>
@@ -21,12 +21,12 @@
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __('Code') }}</th>
-                                    <th>{{ __('N° Of') }}</th>
-                                    <th>{{ __('Quantity') }}</th>
-                                    <th>{{ __('Calibres') }}</th>
-                                    <th>{{ __('Status') }}</th>
-                                    <th>{{ __('Options') }}</th>
+                                    <th>{{ __('code') }}</th>
+                                    <th>{{ __('n° Of') }}</th>
+                                    <th>{{ __('quantité') }}</th>
+                                    <th>{{ __('calibres') }}</th>
+                                    <th>{{ __('statu') }}</th>
+                                    <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -50,11 +50,11 @@
                 </div>
                 <form id="main_form">
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row text-capitalize">
                             <div class="col-lg-12">
-                                <label>{{ __('Produit') }}:*</label>
+                                <label>{{ __('produit') }}:*</label>
                                 <div class="input-group mb-3">
-                                    <select id="product_id" class=""
+                                    <select id="product_id" class="" name="product_id"
                                         data-placeholder="{{ __('Selectionner un produit') }}">
                                         <option></option>
                                     </select>
@@ -67,7 +67,7 @@
                                 <label>{{ __('Calibre') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="caliber_id" class=""
-                                        data-placeholder="{{ __('Selectionner un calibre') }}" name="caliber_id">
+                                        data-placeholder="{{ __('selectionner un calibre') }}" name="caliber_id">
                                         <option></option>
                                     </select>
                                     <span class="invalid-feedback" role="alert">
@@ -76,19 +76,19 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <label>{{ __('Qté OF') }}:*</label>
+                                <label>{{ __('qté OF') }}:*</label>
                                 <input type="number" name="quantity" id="quantity" class="form-control"
-                                    placeholder="{{ __('Qté intiale') }}" />
+                                    placeholder="{{ __('qté intiale') }}" />
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="quantity-error"></strong>
                                 </span>
                             </div>
 
                             <div class="col-lg-6">
-                                <label>{{ __('Status') }}:*</label>
+                                <label>{{ __('statu') }}:*</label>
 
                                 <select id="status" disabled name="status"
-                                    data-placeholder="{{ __('Selectionner un status') }}">
+                                    data-placeholder="{{ __('selectionner un statu') }}">
                                     <option></option>
                                 </select>
                                 <span class="invalid-feedback" role="alert">
@@ -96,9 +96,9 @@
                                 </span>
                             </div>
                             <div class="col-lg-6">
-                                <label for="new_quantity">{{ __('Qté globale d\'OF') }}</label>
+                                <label for="new_quantity">{{ __('qté globale d\'OF') }}</label>
                                 <input type="number" id="new_quantity" name="new_quantity" class="form-control"
-                                    placeholder="Qte globale de l'OF" disabled>
+                                    placeholder="{{ __('qté globale d\'OF') }}" disabled>
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="new_quantity-error"></strong>
                                 </span>
@@ -118,7 +118,7 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            form_title = " {{ __('Nouvel Of') }}",
+            form_title = "{{ __('nouvel OF') }} ",
             url = base_url + '/ofs';
 
         formToggle(form_title);

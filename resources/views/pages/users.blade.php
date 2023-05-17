@@ -25,13 +25,13 @@
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
                             <thead>
-                                <tr class="">
+                                <tr class="text-capitalize">
                                     {{-- <th>#</th> --}}
                                     <th>{{ __('Nom d\'utilisateur') }}</th>
-                                    <th>{{ __('Section') }}</th>
-                                    <th>{{ __('Role') }}</th>
-                                    <th>{{ __('Actif') }}</th>
-                                    <th>{{ __('Options') }}</th>
+                                    <th>{{ __('section') }}</th>
+                                    <th>{{ __('role') }}</th>
+                                    <th>{{ __('actif') }}</th>
+                                    <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -99,7 +99,7 @@
                                 </span>
                             </div>
                             <div class="col-lg-6">
-                                <label>{{ __('Section') }}:*</label>
+                                <label>{{ __('section') }}:*</label>
                                 <div class="input-group mb-3">
                                     <select id="section_id" class=""
                                         data-placeholder="{{ __('Selectionner une section') }}" name="section_id">
