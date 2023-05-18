@@ -35,6 +35,7 @@ trait ResponseTrait
         ];
 
         $attributes = [
+            'label_generator' => __('response-messages.label_generator'),
             'product' => __('response-messages.product'),
             'operator 1' => __('response-messages.operator 1'),
             'operator 2' => __('response-messages.operator 2'),
