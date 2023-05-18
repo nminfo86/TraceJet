@@ -87,7 +87,7 @@ Route::group(
             return view('pages.packaging');
         });
         Route::get('operators', function () {
-            return view('pages.operators');
+            return view('pages.operator');
         });
 
         Route::get('test', function () {
@@ -240,10 +240,23 @@ Route::group(
 
         // route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
 
-        route::get("sn_dash", function () {
-            return Movement::whereSerialNumberId(1)
-                ->join("posts", "movement_post_id", "posts.id")
-                ->get(["post_name", "result", "created_at", "movements.created_by"]);
+        route::get("t/{post_section_id}", function ($post_section_id) {
+
+            $of = Of::find(1);
+
+
+
+            return $of = Of::with([
+                // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+                'caliber.product.section.posts' => fn ($q) =>
+                // Limiter les résultats aux posts de la section 1
+                // $query->where('section_id', 1)
+                $q->orderBy("code")
+                    ->select('id', 'post_name', 'code', 'section_id', 'color')
+                    ->withCount('movements')
+            ])
+                ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
+                ->find(1);
         });
     }
 );

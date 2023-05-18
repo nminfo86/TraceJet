@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Post;
+use App\Scopes\BySectionScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -37,4 +38,10 @@ class Section extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope(new BySectionScope(request()->post_section_id));
+    // }
 }
