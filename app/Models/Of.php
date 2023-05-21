@@ -76,6 +76,12 @@ class Of extends Model
     }
 
 
+    public function caliberss()
+    {
+        return $this->belongsTo(Caliber::class)->productBySection($this->section_id);
+    }
+
+
     public static function boot()
     {
         parent::boot();

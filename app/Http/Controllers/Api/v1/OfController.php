@@ -46,6 +46,7 @@ class OfController extends Controller
      */
     public function store(StoreOfRequest $request)
     {
+        // TODO::check of by section of products
         // Get last OF
         $last_of = Of::orderBy("id", "desc")->first();
         if ($last_of) {

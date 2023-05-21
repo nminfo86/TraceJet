@@ -34,7 +34,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::factory()->count(50)->create();
+        // Product::factory()->count(1)->create();
         Caliber::factory()->count(50)->create();
+        // Caliber::factory()->count(1)->create();
         $this->call(OfSeeder::class);
     }
 }

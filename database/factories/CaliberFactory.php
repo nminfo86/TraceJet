@@ -23,5 +23,11 @@ class CaliberFactory extends Factory
             'product_id'   => Product::inRandomOrder()->first()->id,
             "box_quantity" => $this->faker->numberBetween(2, 5),
         ];
+        // return [
+        //     'caliber_code' => "LC1D09220V",
+        //     'caliber_name' => "Contacteur9220",
+        //     'product_id'   => 1,
+        //     "box_quantity" => 5,
+        // ];
     }
 }

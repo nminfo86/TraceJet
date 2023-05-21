@@ -28,6 +28,9 @@ class Caliber extends Model
     public $timestamps = false;
 
 
+    // protected $with = ["product"];
+
+
 
     /**
      * Scope a query to only include product_id
@@ -50,6 +53,7 @@ class Caliber extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
     public function ofs()
     {
         return $this->hasMany(Of::class);
@@ -63,5 +67,23 @@ class Caliber extends Model
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class)->select("posts.id", "post_name");
+    }
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                                Local Scopes                                */
+    /* -------------------------------------------------------------------------- */
+    /**
+     * Scope a query to only include sectionID
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeProductBySection($query, $section_id)
+    {
+        // return $query->where("id", $section_id);
+        return $query->whereHas('product', function ($query) use ($section_id) {
+            $query->where('section_id', $section_id);
+        });
     }
 }

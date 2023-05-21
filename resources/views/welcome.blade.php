@@ -381,12 +381,8 @@
                 </div> --}}
             </div>
             <div class="row">
-                {{-- <div class="col-lg-3">
-                    <canvas id="FPY1" width="auto" height="auto"></canvas>
-                    <p class="percent" id="percent">
-                    </p>
-                </div> --}}
-                <div class="col-3">
+
+                {{-- <div class="col-3">
                     <div class="card">
                         <div class="card-boy p-3">
                             <h4 class="card-title">FPY</h4>
@@ -430,295 +426,296 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- Sales chart -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Table -->
-            <!-- ============================================================== -->
-            <div class="row">
-                <!-- column -->
-                <div class="col-lg-8 d-flex align-items-stretch">
-                    <div class="card w-100">
-                        <div class="card-body">
-                            <!-- title -->
-                            <div class="d-md-flex">
-                                <div>
-                                    <h4 class="card-title">{{ __('List de NS') }}</h4>
-                                    <h5 class="card-subtitle">{{ __('resumé sur les Numéros de series') }} </h5>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="dl">
-                                        <input class="form-control" placeholder={{ __('Chercher NS') }} />
+            </div> --}}
+                <!-- ============================================================== -->
+                <!-- Sales chart -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Table -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-8 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <!-- title -->
+                                <div class="d-md-flex">
+                                    <div>
+                                        <h4 class="card-title">{{ __('List de NS') }}</h4>
+                                        <h5 class="card-subtitle">{{ __('resumé sur les Numéros de series') }} </h5>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="dl">
+                                            <input class="form-control" placeholder={{ __('Chercher NS') }} />
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- title -->
+                                <div class="table-responsive">
+                                    <table class="table mb-0 table-hover align-middle text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-top-0">{{ __('Numéro de Serie') }}</th>
+                                                <th class="border-top-0">{{ __('status') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="m-r-10"><a
+                                                                class="btn btn-circle d-flex btn-info text-white">EA</a>
+                                                        </div>
+                                                        <div class="">
+                                                            <h4 class="m-b-0 font-16">Elite Admin</h4>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <label class="badge bg-danger">ticket_generator</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="m-r-10"><a
+                                                                class="btn btn-circle d-flex btn-orange text-white">MA</a>
+                                                        </div>
+                                                        <div class="">
+                                                            <h4 class="m-b-0 font-16">Monster Admin</h4>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <label class="badge bg-info">Opérateur 1</label>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="m-r-10"><a
+                                                                class="btn btn-circle d-flex btn-success text-white">MP</a>
+                                                        </div>
+                                                        <div class="">
+                                                            <h4 class="m-b-0 font-16">Material Pro Admin</h4>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <label class="badge bg-success">Opérateur 2</label>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="m-r-10"><a
+                                                                class="btn btn-circle d-flex btn-purple text-white">AA</a>
+                                                        </div>
+                                                        <div class="">
+                                                            <h4 class="m-b-0 font-16">Ample Admin</h4>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <label class="badge bg-purple">Emballage</label>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <!-- title -->
-                            <div class="table-responsive">
-                                <table class="table mb-0 table-hover align-middle text-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-top-0">{{ __('Numéro de Serie') }}</th>
-                                            <th class="border-top-0">{{ __('status') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-info text-white">EA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Elite Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <label class="badge bg-danger">ticket_generator</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-orange text-white">MA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Monster Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
+                        </div>
+                    </div>
 
-                                            <td>
-                                                <label class="badge bg-info">Opérateur 1</label>
-                                            </td>
+                    <div class="col-lg-4 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body">
+                                <h4 class="card-title">historique</h4>
+                                <h6 class="card-subtitle">historique d'un Numéro de serie</h6>
+                                <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                        <div>
+                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
+                                            </span>
+                                            <div class="vertical-timeline-element-content bounce-in">
+                                                <h4 class="timeline-title">Génération du QR code</h4>
+                                                <p>généré par quelqu'un le <a href="javascript:void(0);"
+                                                        data-abc="true">12/12/2020</a></p>
+                                                <span class="vertical-timeline-element-date">9:30 AM</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                        <div>
+                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                {{-- <i class=" badge-warning"> </i> --}}
+                                                <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
+                                            </span>
+                                            <div class="vertical-timeline-element-content bounce-in">
+                                                <h4 class="timeline-title">Opération une</h4>
+                                                <p>opéré par quelqu'un le <a href="javascript:void(0);"
+                                                        data-abc="true">12/12/2020</a></p>
+                                                <span class="vertical-timeline-element-date">9:30 AM</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                        <div>
+                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
+                                            </span>
+                                            <div class="vertical-timeline-element-content bounce-in">
+                                                <p>opération num deux, at <b class="text-danger">3:00 PM</b>
+                                                </p>
+                                                <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
+                                                <span class="vertical-timeline-element-date">12:25 PM</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vertical-timeline-item vertical-timeline-element">
+                                        <div>
+                                            <span class="vertical-timeline-element-icon bounce-in">
+                                                {{-- <i class=" badge-warning"> </i> --}}
+                                                <i class="mdi mdi-nut text-warning fs-2 bg-white"></i>
+                                            </span>
+                                            <div class="vertical-timeline-element-content bounce-in">
+                                                <p>Another meeting with UK client today, at <b class="text-danger">3:00
+                                                        PM</b>
+                                                </p>
+                                                <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
+                                                <span class="vertical-timeline-element-date">12:25 PM</span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-success text-white">MP</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Material Pro Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-success">Opérateur 2</label>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-purple text-white">AA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Ample Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-purple">Emballage</label>
-                                            </td>
-
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-4 d-flex align-items-stretch">
-                    <div class="card w-100">
-                        <div class="card-body">
-                            <h4 class="card-title">historique</h4>
-                            <h6 class="card-subtitle">historique d'un Numéro de serie</h6>
-                            <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <h4 class="timeline-title">Génération du QR code</h4>
-                                            <p>généré par quelqu'un le <a href="javascript:void(0);"
-                                                    data-abc="true">12/12/2020</a></p>
-                                            <span class="vertical-timeline-element-date">9:30 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            {{-- <i class=" badge-warning"> </i> --}}
-                                            <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <h4 class="timeline-title">Opération une</h4>
-                                            <p>opéré par quelqu'un le <a href="javascript:void(0);"
-                                                    data-abc="true">12/12/2020</a></p>
-                                            <span class="vertical-timeline-element-date">9:30 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <p>opération num deux, at <b class="text-danger">3:00 PM</b>
-                                            </p>
-                                            <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                            <span class="vertical-timeline-element-date">12:25 PM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            {{-- <i class=" badge-warning"> </i> --}}
-                                            <i class="mdi mdi-nut text-warning fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <p>Another meeting with UK client today, at <b class="text-danger">3:00 PM</b>
-                                            </p>
-                                            <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                            <span class="vertical-timeline-element-date">12:25 PM</span>
-                                        </div>
-                                    </div>
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- ============================================================== -->
+                <!-- Table -->
+                <!-- ============================================================== -->
             </div>
-
-
             <!-- ============================================================== -->
-            <!-- Table -->
+            <!-- End Container fluid  -->
             <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- End Container fluid  -->
+        <!-- End PAge Content -->
         <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End PAge Content -->
-    <!-- ============================================================== -->
-@endsection
-@push('custom_js')
-    <script type="text/javascript">
-        // var options1 = {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [10, 2],
-        //             backgroundColor: [
-        //                 'rgba(46, 204, 113, 1)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255, 255, 255 ,1)'
-        //             ],
-        //             borderWidth: 5
-        //         }]
-        //     },
-        //     options: {
-        //         rotation: 1 * Math.PI,
-        //         circumference: 1 * Math.PI,
-        //         legend: {
-        //             display: false
-        //         },
-        //         tooltip: {
-        //             enabled: false
-        //         },
-        //         cutoutPercentage: 85
-        //     }
-        // }
-        // var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
-        // var chart1 = new Chart(ctx1, options1);
-        const ctx = document.getElementById('chartJSContainer');
+    @endsection
+    @push('custom_js')
+        <script type="text/javascript">
+            // var options1 = {
+            //     type: 'bar',
+            //     data: {
+            //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+            //         datasets: [{
+            //             label: '# of Votes',
+            //             data: [10, 2],
+            //             backgroundColor: [
+            //                 'rgba(46, 204, 113, 1)'
+            //             ],
+            //             borderColor: [
+            //                 'rgba(255, 255, 255 ,1)'
+            //             ],
+            //             borderWidth: 5
+            //         }]
+            //     },
+            //     options: {
+            //         rotation: 1 * Math.PI,
+            //         circumference: 1 * Math.PI,
+            //         legend: {
+            //             display: false
+            //         },
+            //         tooltip: {
+            //             enabled: false
+            //         },
+            //         cutoutPercentage: 85
+            //     }
+            // }
+            // var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
+            // var chart1 = new Chart(ctx1, options1);
+            const ctx = document.getElementById('chartJSContainer');
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Générateur', 'Opé_1', 'Opé_2', 'Opé_3', 'Emballage'],
-                datasets: [{
-                        label: "{{ __('Produise') }}",
-                        data: [12, 19, 3, 5, 3],
-                        borderWidth: 1,
-                        backgroundColor: "#1a9bfc",
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Générateur', 'Opé_1', 'Opé_2', 'Opé_3', 'Emballage'],
+                    datasets: [{
+                            label: "{{ __('Produise') }}",
+                            data: [12, 19, 3, 5, 3],
+                            borderWidth: 1,
+                            backgroundColor: "#1a9bfc",
+                        },
+                        {
+                            label: "{{ __('reste') }}",
+                            data: [12, 19, 3, 5, 5],
+                            borderWidth: 1,
+                            backgroundColor: "#1e4db7",
+                        }
+                    ],
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     },
-                    {
-                        label: "{{ __('reste') }}",
-                        data: [12, 19, 3, 5, 5],
-                        borderWidth: 1,
-                        backgroundColor: "#1e4db7",
-                    }
-                ],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                //legend: false,
-            }
-        });
+                    //legend: false,
+                }
+            });
 
 
-        $("#percent1").text(92 + ' %');
-        $("#percent2").text(90 + ' %');
-        $("#percent3").text(98 + ' %');
-        $("#percent4").text(80 + ' %');
-        var options1 = {
-            type: 'doughnut',
-            data: {
-                labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [92, 8],
-                    backgroundColor: [
-                        'rgba(46, 204, 113, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 255, 255 ,1)'
-                    ],
-                    borderWidth: 5
-                }]
-            },
-            options: {
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI,
-                legend: {
-                    display: false
+            $("#percent1").text(92 + ' %');
+            $("#percent2").text(90 + ' %');
+            $("#percent3").text(98 + ' %');
+            $("#percent4").text(80 + ' %');
+            var options1 = {
+                type: 'doughnut',
+                data: {
+                    labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [92, 8],
+                        backgroundColor: [
+                            'rgba(46, 204, 113, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 255, 255 ,1)'
+                        ],
+                        borderWidth: 5
+                    }]
                 },
-                tooltip: {
-                    enabled: false
-                },
-                cutoutPercentage: 85
+                options: {
+                    rotation: 1 * Math.PI,
+                    circumference: 1 * Math.PI,
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: false
+                    },
+                    cutoutPercentage: 85
+                }
             }
-        }
-        var ctx1 = document.getElementById('FPY1').getContext('2d');
-        var ctx2 = document.getElementById('FPY2').getContext('2d');
-        var ctx3 = document.getElementById('FPY3').getContext('2d');
-        var ctx4 = document.getElementById('FPY4').getContext('2d');
-        var chart1 = new Chart(ctx1, options1);
-        var chart2 = new Chart(ctx2, options1);
-        var chart3 = new Chart(ctx3, options1);
-        var chart4 = new Chart(ctx4, options1);
-    </script>
-@endpush
+            var ctx1 = document.getElementById('FPY1').getContext('2d');
+            var ctx2 = document.getElementById('FPY2').getContext('2d');
+            var ctx3 = document.getElementById('FPY3').getContext('2d');
+            var ctx4 = document.getElementById('FPY4').getContext('2d');
+            var chart1 = new Chart(ctx1, options1);
+            var chart2 = new Chart(ctx2, options1);
+            var chart3 = new Chart(ctx3, options1);
+            var chart4 = new Chart(ctx4, options1);
+        </script>
+    @endpush

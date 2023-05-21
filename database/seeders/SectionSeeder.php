@@ -16,9 +16,9 @@ class SectionSeeder extends Seeder
     public function run()
     {
         $sections = [
-            ["section_code" => "S01", "section_name" => 'AMC'],
-            ["section_code" => "S02", "section_name" => 'MEI'],
-            ["section_code" => "S03", "section_name" => 'SNS'],
+            ["section_code" => "S01", "section_name" => 'Contacteur'],
+            ["section_code" => "S02", "section_name" => 'Discontacteur'],
+            ["section_code" => "S03", "section_name" => 'Relais'],
 
         ];
         foreach ($sections as $section) {

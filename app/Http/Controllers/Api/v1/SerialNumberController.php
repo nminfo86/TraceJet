@@ -46,6 +46,7 @@ class SerialNumberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // TODO::Qty /QTY_of
 
     //valid product
     public function store(StoreSerialNumberRequest $request)

@@ -20,15 +20,15 @@ class PostSeeder extends Seeder
         $posts_type = PostsType::get();
         foreach ($posts_type as $type) {
             if ($type->id == 1) {
-                Post::create(['post_name' => 'label_generator', 'posts_type_id' => $type->id, 'previous_post_id' => NULL,  'code' => "100", "ip_address" => "10.0.0.100", "section_id" => "1", "color" => "primary"]);
+                Post::create(['post_name' => 'label_generator', 'posts_type_id' => $type->id, 'previous_post_id' => NULL,  'code' => "100", "ip_address" => "127.0.0.1", "section_id" => "1", "color" => "primary"]);
             }
             if ($type->id == 2) {
                 // for ($i = 1; $i <= 3; $i++) {
-                Post::create(['post_name' => 'Operator ' . $i, 'posts_type_id' => $type->id, 'previous_post_id' => $i,  'code' => "200", "ip_address" => "10.0.0." . $type->id . "00", "section_id" => "1", "color" => "warning"]);
+                Post::create(['post_name' => 'Operator ' . $i, 'posts_type_id' => $type->id, 'previous_post_id' => 1,  'code' => "200", "ip_address" => "10.0.0." . $type->id . "00", "section_id" => "1", "color" => "warning"]);
                 // }
             }
             if ($type->id == 3) {
-                Post::create(['post_name' => 'Packaging', 'posts_type_id' => $type->id, 'previous_post_id' => $i, 'code' => "300", "ip_address" => "10.0.0." . $type->id . "00", "section_id" => "1", "color" => "success"]);
+                Post::create(['post_name' => 'Packaging', 'posts_type_id' => $type->id, 'previous_post_id' => 2, 'code' => "300", "ip_address" => "10.0.0." . $type->id . "00", "section_id" => "1", "color" => "success"]);
             }
         }
     }

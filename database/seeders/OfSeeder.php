@@ -17,11 +17,11 @@ class OfSeeder extends Seeder
     {
         $payload = [
             "caliber_id" => 1,
-            "of_number" => "OFNUMBER001",
-            "of_name" => "nameof1",
+            "of_number" => "001",
+            "of_name" => "Contacteur09220",
             "status" => "new",
-            "quantity" => 4,
-            "new_quantity" => 4
+            "quantity" => 5,
+            "new_quantity" => 5
         ];
         Of::create($payload);
     }
