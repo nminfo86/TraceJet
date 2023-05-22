@@ -50,6 +50,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+
         try {
             DB::beginTransaction();
             // register user

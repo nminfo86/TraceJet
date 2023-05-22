@@ -241,5 +241,5 @@ return [
     |
     */
 
-    'app_api_key' => env("APP_API_KEY"),
+    // 'app_api_key' => env("APP_API_KEY"),
 ];

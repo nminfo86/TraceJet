@@ -252,16 +252,25 @@ Route::group(
             //             ->orWhere('brand', 'Adidas');
             //     })
             //     ->get();
+            // $sectionId = 3;
+
+            // // $query->whereHas('caliber.product', fn ($q) => $q->where('section_id', $sectionId))->toSql();
 
 
-            return  Of::filterBySection()->orWhere(function ($query) {
-                $query->where("status", "inProd")
-                    ->orWhere("status", "new");
-            })->get();
-            return  Of::filterBySection()->where("status", "inProd")->orWhere("status", "new")->pluck('of_name', 'id');
-            // dd(Session::all());
-            return Of::filterBySection()->get();
-            return $products = Product::filterBySection()->get();
+            // $ofs = Of::where('status', 'new')
+            //     ->whereHas('caliber', function ($query) use ($sectionId) {
+            //         $query->whereHas('product', function ($query) use ($sectionId) {
+            //             $query->where('section_id', $sectionId);
+            //         });
+            //     })
+            //     ->get();
+
+            return  Of::filterBySection()->where("status", "new")->orWhere("status", "inProd")->get();
+
+            // return  Of::filterBySection()->where("status", "inProd")->orWhere("status", "new")->pluck('of_name', 'id');
+            // // dd(Session::all());
+            // return Of::filterBySection()->get();
+            // return $products = Product::filterBySection()->get();
         });
     }
 );
