@@ -37,18 +37,19 @@ class PluckController extends Controller
 
         // dd($request->filter);
         $data = match (true) {
-            $model_name == "sections" => Section::pluck('section_name', 'id'),
+            $model_name == "sections" => Section::filterBySection()->pluck('section_name', 'id'),
+            // $model_name == "sections" => Section::pluck('section_name', 'id'),
             $model_name == "permissions" => Permission::pluck('name', 'id'),
             $model_name == "roles" => Role::pluck('name', 'id'),
             $model_name == "posts_types" => PostsType::pluck('posts_type', 'id'),
 
             // Multiple pluck
-            $model_name == "products" && $request->filter == null => Product::pluck('product_name', 'id'),
-            $model_name == "products"  && $request->filter == "hasCal" => Product::has("calibers")->pluck('product_name', 'id'),
+            $model_name == "products" && $request->filter == null => Product::filterBySection()->pluck('product_name', 'id'),
+            $model_name == "products"  && $request->filter == "hasCal" => Product::filterBySection()->has("calibers")->pluck('product_name', 'id'),
 
             $model_name == "posts" && collect($request->all())->keys()[0] === "section_id" => Post::whereSectionId($request->section_id)->pluck('post_name', 'id'),
 
-            $model_name == "ofs" && $request->filter == "status" => Of::whereStatus("inProd")->orWhere("status", "new")->pluck('of_name', 'id'),
+            $model_name == "ofs" && $request->filter == "status" => Of::filterBySection()->whereStatus("inProd")->orWhere("status", "new")->pluck('of_name', 'id'),
             $model_name == "ofs" => Of::pluck('of_name', 'id'),
 
             $model_name == "calibers" && $request->filter == null => Caliber::pluck('caliber_name', 'id'),

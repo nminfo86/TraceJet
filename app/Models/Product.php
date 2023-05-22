@@ -6,15 +6,17 @@ use App\Models\Of;
 use App\Models\Post;
 use App\Models\Caliber;
 use App\Scopes\BySectionScope;
+use App\Traits\FilteredBySection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, FilteredBySection;
     /**
      * The attributes that are mass assignable.
      *
@@ -61,9 +63,10 @@ class Product extends Model
     {
         return $this->belongsToMany(Post::class);
     }
-    protected static function booted()
+
+    public function scopeInSection($query, $sectionId)
     {
-        static::addGlobalScope(new BySectionScope(request()->post_section_id));
+        return $query->where('section_id', $sectionId);
     }
 
     // public function scopeInSection($query, $host_id)

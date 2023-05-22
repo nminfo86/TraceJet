@@ -32,7 +32,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::join("sections", function ($join) {
+
+        $users = User::filterBySection()->join("sections", function ($join) {
             $join->on('users.section_id', '=', 'sections.id');
         })->get(["users.id", "username", "name", "status", "section_name", "roles_name"]);
 

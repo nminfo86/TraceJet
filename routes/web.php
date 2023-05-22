@@ -3,6 +3,7 @@
 use App\Models\Of;
 use Carbon\Carbon;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Caliber;
 use App\Models\Product;
 use App\Models\Section;
@@ -11,6 +12,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\WebAuthController;
 use App\Http\Controllers\Api\v1\SerialNumberController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -29,6 +31,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::prefix(LaravelLocalization::setLocale())->get('/', function () {
     if (Auth::check())
         return view('welcome');
+
     else
         return view('pages.login');
 })->name('login');
@@ -240,23 +243,25 @@ Route::group(
 
         // route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
 
-        route::get("t/{post_section_id}", function ($post_section_id) {
+        route::get("t", function () {
 
-            $of = Of::find(1);
+            // $products = Product::where('category_id', $categoryId)
+            //     ->orWhere('price', '>', 100)
+            //     ->orWhere(function ($query) {
+            //         $query->where('brand', 'Nike')
+            //             ->orWhere('brand', 'Adidas');
+            //     })
+            //     ->get();
 
 
-
-            return $of = Of::with([
-                // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
-                'caliber.product.section.posts' => fn ($q) =>
-                // Limiter les résultats aux posts de la section 1
-                // $query->where('section_id', 1)
-                $q->orderBy("code")
-                    ->select('id', 'post_name', 'code', 'section_id', 'color')
-                    ->withCount('movements')
-            ])
-                ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
-                ->find(1);
+            return  Of::filterBySection()->orWhere(function ($query) {
+                $query->where("status", "inProd")
+                    ->orWhere("status", "new");
+            })->get();
+            return  Of::filterBySection()->where("status", "inProd")->orWhere("status", "new")->pluck('of_name', 'id');
+            // dd(Session::all());
+            return Of::filterBySection()->get();
+            return $products = Product::filterBySection()->get();
         });
     }
 );

@@ -16,19 +16,19 @@ class BySectionScope implements Scope
      *
      * @var int
      */
-    protected $postSectionId;
+    protected $user_section_id;
 
     /**
      * Create a new scope instance.
      *
-     * @param int $postSectionId The section ID to filter by.
+     * @param int user_section_id The section ID to filter by.
      *
      * @return void
      */
-    public function __construct($post_section_id)
-    {
-        $this->postSectionId = $post_section_id;
-    }
+    // public function __construct($user_section_id)
+    // {
+    //     $this->user_section_id = $user_section_id;
+    // }
 
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -41,29 +41,34 @@ class BySectionScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
         // List of roles that can access all sections
-        $rolesList = ["owner", "super_admin"];
+        // $rolesList = ["owner", "super_admin"];
 
-        // Get the authenticated user
-        $user = Auth::user();
+        // // Get the authenticated user
+        // $user = Auth::user();
 
-        // Get the user's role
-        $role = $user->roles_name[0];
+        // // Get the user's role
+        // $role = $user->roles_name[0];
+        // $section_id = $user->section_id;
+        // // dd($role);
+        // // Check if the user's role is in the roles list
+        // // If so, the user can access all sections
+        // if (in_array($role, $rolesList)) {
+        //     return;
+        // }
 
-        // Check if the user's role is in the roles list
-        // If so, the user can access all sections
-        if (in_array($role, $rolesList)) {
-            return;
-        }
+        // // Filter the query to include only products in the user's section
+        // // $builder->whereHas('section', function ($query) {
+        // //     $query->where('section_id', $this->postSectionId);
+        // // });
 
-        // Filter the query to include only products in the user's section
-        $builder->whereHas('section', function ($query) {
-            $query->where('section_id', $this->postSectionId);
-        });
+        // $builder->whereHas('section', function ($query) use ($section_id) {
+        //     $query->where('section_id', $section_id);
+        // });
 
 
 
 
-         // Check if the model is the Section model
+        // Check if the model is the Section model
         //  if ($model instanceof Section) {
         //     return $builder->where("id", $this->postSectionId);
         // }

@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests\AccessTokensRequest;
 use App\Http\Controllers\Api\v1\AccessTokensController;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp\Psr7\Request;
+
+use Illuminate\Support\Facades\Request;
 
 class WebAuthController extends AccessTokensController
 {
@@ -18,37 +19,36 @@ class WebAuthController extends AccessTokensController
     public function webLogin(AccessTokensRequest $request)
     {
         try {
+            // Check database connection
             DB::connection()->getPdo();
-            $credentials = $request->only('username', 'password');
-            if (Auth::attempt($credentials)) {
-                $content = $this->login($request)->getContent();
-                $response = json_decode($content, true);
-                /* if faild to login in api so logout from web */
-                if ($response["status"] == false) {
-                    Session::flush();
-                    Auth::guard('web')->logout();
-                    Auth::guard('sanctum')->guest();
-                    return redirect("/")->with('error', $response["message"]);
-                }
-                // dd($response['data']);
-                $request->session()->put('token', $response['token']);
-                $request->session()->put('user_data', $response['data']);
-                /* redirect posts to there url */
-                if (request()->ip() == "10.0.0.201") {
-                    return redirect("/serial_numbers");
-                } else if (request()->ip() == "127.0.0.1") {
-                    return redirect()->intended("/dashboard");
-                } else if (request()->ip() == "192.168.100.3") {
-                    return redirect()->intended("/users");
-                }
-                return redirect()->intended('/dashboard');
+
+            // Make the login request and get the response
+            $response = json_decode($this->login($request)->getContent(), true);
+
+            if ($response["status"] === false) {
+                // If login fails, redirect back with error message
+                return redirect("/")->with('error', $response["message"]);
             }
-            return redirect("/")->with('error', "les informations d'authentification ne sont pas valides");
+
+            // Determine the client IP address
+            $clientIp = Request::ip();
+
+            // Handle redirection based on the client IP address
+            if ($clientIp === "10.0.0.201") {
+                // Redirect to /serial_numbers if IP is 10.0.0.201
+                return redirect("/serial_numbers");
+            } elseif ($clientIp === "192.168.100.3") {
+                // Redirect to /users if IP is 192.168.100.3
+                return redirect()->intended("/users");
+            }
+
+            // Default redirection to /dashboard for other IP addresses
+            return redirect()->intended('/dashboard');
         } catch (\Exception $e) {
+            // Handle exception and redirect back with error message
             return redirect("/")->with('error', "Etat 2002 du serveur");
         }
     }
-
     public function webLogout()
     {
         Session::flush();

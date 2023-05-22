@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Models\Post;
 use App\Scopes\BySectionScope;
+use App\Traits\FilteredBySection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Section extends Model
 {
-    use HasFactory;
+    use HasFactory, FilteredBySection;
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +38,11 @@ class Section extends Model
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function scopeInSection($query, $sectionId)
+    {
+        return $query->where('id', $sectionId);
     }
 
 

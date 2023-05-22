@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StoreRequests\StoreProductRequest;
 use App\Http\Requests\UpdateRequests\UpdateProductRequest;
 
@@ -26,8 +27,8 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-
-        $products = Product::get();
+        // (Session::all());
+        $products = Product::filterBySection()->get();
         // $products = Product::with('section')->get();
         // $products = Product::join('sections', function ($join) {
         //     $join->on('products.section_id', '=', 'sections.id');
