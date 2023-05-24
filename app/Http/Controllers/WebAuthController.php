@@ -18,7 +18,6 @@ class WebAuthController extends AccessTokensController
     public function webLogin(AccessTokensRequest $request)
     {
         try {
-            DB::connection()->getPdo();
             $credentials = $request->only('username', 'password');
             if (Auth::attempt($credentials)) {
                 $content = $this->login($request)->getContent();

@@ -61,10 +61,10 @@ class Product extends Model
     {
         return $this->belongsToMany(Post::class);
     }
-    protected static function booted()
-    {
-        static::addGlobalScope(new BySectionScope(request()->post_section_id));
-    }
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope(new BySectionScope(request()->post_section_id));
+    // }
 
     // public function scopeInSection($query, $host_id)
     // {

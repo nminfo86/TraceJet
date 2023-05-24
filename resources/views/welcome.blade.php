@@ -236,6 +236,69 @@
                                 {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
                             </div>
                         </div>
+
+                    </div>
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-body">
+                                <span
+                                    class="
+                              btn btn-xl btn-light-success
+                              text-success
+                              btn-circle
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                            ">
+                                    <i class="mdi mdi-open-in-new"></i>
+                                </span>
+                                <h3 class="mt-3 pt-1 mb-0">
+                                    835
+                                    <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
+                                </h3>
+                                {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <span
+                                    class="
+                              btn btn-xl btn-light-success
+                              text-success
+                              btn-circle
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                            ">
+                                    <i class="mdi mdi-open-in-new"></i>
+                                </span>
+                                <h3 class="mt-3 pt-1 mb-0">
+                                    835
+                                    <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
+                                </h3>
+                                {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <span
+                                    class="
+                              btn btn-xl btn-light-success
+                              text-success
+                              btn-circle
+                              d-flex
+                              align-items-center
+                              justify-content-center
+                            ">
+                                    <i class="mdi mdi-open-in-new"></i>
+                                </span>
+                                <h3 class="mt-3 pt-1 mb-0">
+                                    835
+                                    <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
+                                </h3>
+                                {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
