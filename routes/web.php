@@ -90,7 +90,7 @@ Route::group(
             return view('pages.packaging');
         });
         Route::get('operators', function () {
-            return view('pages.operator');
+            return view('pages.operators');
         });
 
         Route::get('test', function () {

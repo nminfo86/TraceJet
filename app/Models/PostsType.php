@@ -22,5 +22,5 @@ class PostsType extends Model
      *
      * @var array
      */
-    protected $fillable = ['posts_type'];
+    protected $fillable = ['posts_type', 'icon'];
 }
