@@ -25,9 +25,8 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        // (Session::all());
         $products = Product::filterBySection()->get();
         // $products = Product::with('section')->get();
         // $products = Product::join('sections', function ($join) {

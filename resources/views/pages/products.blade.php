@@ -142,9 +142,7 @@
         });
         // TODO::host_section_id of host
         table = table.DataTable({
-            "ajax": ajaxCallDatatables(url, {
-                post_section_id: 2
-            }),
+            "ajax": ajaxCallDatatables(url),
             columns: [{
                     data: 'product_code'
                 },
@@ -160,7 +158,8 @@
                     <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
                     }
                 },
-            ]
+            ],
+            //TODO::add group rows
         });
     </script>
 @endpush

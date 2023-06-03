@@ -244,6 +244,70 @@ Route::group(
         // route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
 
         route::get("t", function () {
+            $request = ["of_id" => 1, "start_date" => "2023-06-01 00:00:00", "end_date" => "2023-11-11 23:23:23"];
+            // $request  = json_encode($arr);
+            // dd($request);
+            // $ofs = Of::with("caliber.product")->get();
+            // $ofs = Of::select('of_name', 'caliber_id')->with("caliber.product.section")
+
+            // ->addSelect('caliber.product.section.section_name')
+            // ->get();
+            $ofs = Of::with('caliber.product.section:id,section_name')
+
+                ->get();
+
+            $ofs = $ofs->map(function ($of) {
+                return [
+                    'id' => $of->id,
+                    'of_name' => $of->of_name,
+                    'section_name' => $of->caliber->product->section->section_name
+                ];
+            });
+
+            // return $ofs;
+            // $result = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+            //     ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
+            //     ->where('serial_numbers.of_id', 1) // Filter by specific of_id
+            //     ->whereBetween('movements.created_at', ['2023-05-01 00:00:00', '2023-05-31 00:00:00']) // Filter by date range
+            //     ->groupBy('movement_post_id') // Group by movement_post_id
+            //     ->select('posts.post_name') // Select the post_name column
+            //     ->selectRaw('COUNT(IF(movements.result = "OK", 1, NULL)) AS count_ok') // Count occurrences of "OK"
+            //     ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok') // Count occurrences of "NOK"
+            //     ->get(); // Retrieve the results
+
+            // Initialize the base query
+            $query = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+                ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id');
+
+            // Apply condition: Filter by 'of_id' if present in the request
+            if ($request["of_id"] != "") {
+                $ofId = $request["of_id"];
+                $query->where('serial_numbers.of_id', $ofId);
+            }
+
+            // Apply condition: Filter by 'date' if present in the request
+            if ($request["start_date"] != "" && $request["end_date"] != "") {
+
+                $startDate = $request["start_date"];
+                $endDate = $request["end_date"];
+                $query->whereBetween('movements.created_at', [$startDate, $endDate]);
+            }
+
+            // Perform grouping and select statements
+            $query->groupBy('movement_post_id')
+                ->select('posts.post_name')
+                ->selectRaw('COUNT(IF(movements.result = "OK", 1, NULL)) AS count_ok')
+                ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok');
+
+            // Execute the query and retrieve the results
+            $result = $query->get();
+
+            // The $result variable now contains the queried data with eager loaded 'post' relationship
+
+            // Add appropriate comments explaining the purpose and result of the code
+
+            return compact("ofs", "result");
+
 
             // $products = Product::where('category_id', $categoryId)
             //     ->orWhere('price', '>', 100)
@@ -265,7 +329,7 @@ Route::group(
             //     })
             //     ->get();
 
-            return  Of::filterBySection()->where("status", "new")->orWhere("status", "inProd")->get();
+            // return  Of::filterBySection()->where("status", "new")->orWhere("status", "inProd")->get();
 
             // return  Of::filterBySection()->where("status", "inProd")->orWhere("status", "new")->pluck('of_name', 'id');
             // // dd(Session::all());

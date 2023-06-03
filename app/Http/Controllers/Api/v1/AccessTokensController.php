@@ -58,15 +58,13 @@ class AccessTokensController extends Controller
         /* -------------------------------------------------------------------------- */
         // Retrieve post information for user's IP address
         $post_information = Post::whereIpAddress($request->ip())->first();
-        // Store data in session
-        // Session::put('post_information', $post_information);
+
 
         // Return error response if post information is not found
         if (empty($post_information)) {
 
-            // $this->logout();
-            // TODO::Translate msg
-            return $this->sendResponse("Invalid host, please contact the system administrator", status: false);
+            $msg = $this->getResponseMessage("invalid_host");
+            return $this->sendResponse($msg, status: false);
         }
 
         // Attempt to authenticate user with given credentials

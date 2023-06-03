@@ -19,6 +19,9 @@ trait ResponseTrait
     protected function getResponseMessage($key, $replacements = [])
     {
         $messages = [
+            //login
+            "invalid_host" => __('response-messages.invalid_host'),
+
             //Ajax
             "success" => __('response-messages.success'),
 
