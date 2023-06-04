@@ -135,27 +135,179 @@
                     <h4 class="text-muted mb-0 fw-normal"> {{ __('Bienvenu') }} Johnathan</h4>
                     <h1 class="mb-0 fw-bold">{{ __('Tableau de bord de production') }}</h1>
                 </div>
-                <div
-                    class="
-                    col-lg-4 col-md-6
-                    d-none d-md-flex
-                    align-items-center
-                    justify-content-end
-                  ">
-                    <select class="form-select theme-select border-0" aria-label="Default select example">
-                        <option value="1">Today 23 March</option>
-                        <option value="2">Today 24 March</option>
-                        <option value="3">Today 25 March</option>
-                    </select>
-                    <a href="javascript:void(0)" class="btn btn-info d-flex align-items-center ms-2">
-                        <i class="ri-add-line me-1"></i>
-                        all
-                    </a>
-                </div>
             </div>
+            <style>
+                .MultiCarousel {
+                    float: left;
+                    overflow: hidden;
+                    width: 100%;
+                    position: relative;
+                }
+
+                .MultiCarousel .MultiCarousel-inner {
+                    transition: 1s ease all;
+                    float: left;
+                }
+
+                .MultiCarousel .MultiCarousel-inner .item {
+                    float: left;
+                }
+
+                .MultiCarousel .MultiCarousel-inner .item>div {
+                    margin: 5px;
+                }
+
+                /* btn carousel style */
+                .MultiCarousel .leftLst,
+                .MultiCarousel .rightLst {
+                    position: absolute;
+                    border-radius: 50%;
+                    top: calc(50% - 20px);
+                }
+
+                .MultiCarousel .leftLst {
+                    left: 0;
+                }
+
+                .MultiCarousel .rightLst {
+                    right: 0;
+                }
+
+                .MultiCarousel .leftLst.over,
+                .MultiCarousel .rightLst.over {
+                    display: none;
+                }
+            </style>
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="card-group">
+                <div class="col-lg-12">
+                    {{-- <div class="card bg-info w-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title text-white">Filtrage</h4>
+                                <div class="ms-auto">
+                                    <span
+                                        class="
+                                  btn btn-lg btn-success btn-circle
+                                  d-flex
+                                  align-items-center
+                                  justify-content-center
+                                ">
+                                        <i class="mdi mdi-calendar-clock fs-3 rounded text-white"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div>
+                                    <div class="input-group date" id="id_0">
+                                        <input type="text" value="" class="form-control" name="datetimes" />
+                                    </div>
+                                    <h2 class="fs-8 text-white mb-0">au :$93,438.78</h2>
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger text-white" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">changer</button>
+                                </div> <span class="text-white op-5">Monthly revenue</span>
+                            </div>
+                        </div>
+                    </div> --}}
+                    {{-- <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Filtrage') }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" class="datepickers">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <label class="label-control" for="id_start_datetime">date, temps début:</label>
+                                    </div>
+                                    <div class="col">
+                                        {{-- <div class="input-group date" id="id_0">
+                                            <input type="text" value="" class="form-control" name="datetimes" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-2 align-items-center">
+                                    <div class="col-md-4">
+                                        <label class="label-control" for="id_start_datetime">date, temps fin:</label>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group date" id="id_1">
+                                            <input type="text" value="" class="form-control"
+                                                placeholder="DD/MM/YYYY hh:mm:ss" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-2 align-items-center">
+                                    <div class="col-auto">
+                                        <label class="label-control" for="id_start_datetime">OF:</label>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <input type="text" value="" class="form-control" placeholder=""
+                                                required />
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label class="label-control" for="id_start_datetime">Type:</label>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <input type="text" value="" class="form-control" placeholder=""
+                                                required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div> --}}
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            feltrage
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <label for="inputField" class="col-form-label">Section</label>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select theme-select border-0" aria-label="Default select example">
+                                        <option value="1">Today 23 March</option>
+                                        <option value="2">Today 24 March</option>
+                                        <option value="3">Today 25 March</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <label for="inputField" class="col-form-label">date début et fin</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" value="" class="form-control" name="datetimes" />
+                                </div>
+                                <div class="col-auto">
+                                    <label for="inputField" class="col-form-label">OF</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputField">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="inputField" class="col-form-label">Type</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="inputField">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary">GO</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    {{-- <div class="card-group">
                         <div class="card" style="min-width:250px">
                             <div class="card-body">
                                 <span
@@ -173,7 +325,6 @@
                                     39,354
                                     <span class="fs-2 ms-1 text-danger font-weight-medium">Postes</span>
                                 </h3>
-                                {{-- <h6 class="text-muted mb-0 fw-normal">Postes</h6> --}}
                             </div>
                         </div>
                         <div class="card" style="min-width:250px">
@@ -233,7 +384,6 @@
                                     835
                                     <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
                                 </h3>
-                                {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
                             </div>
                         </div>
                         <div class="card" style="min-width:250px">
@@ -253,7 +403,6 @@
                                     835
                                     <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
                                 </h3>
-                                {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
                             </div>
                         </div>
                         <div class="card" style="min-width:250px">
@@ -273,46 +422,65 @@
                                     835
                                     <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
                                 </h3>
-                                {{-- <h6 class="text-muted mb-0 fw-normal">Refunds</h6> --}}
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card bg-info w-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <h4 class="card-title text-white">Filtrage</h4>
-                                <div class="ms-auto">
-                                    <span
-                                        class="
-                                  btn btn-lg btn-success btn-circle
-                                  d-flex
-                                  align-items-center
-                                  justify-content-center
-                                ">
-                                        <i class="mdi mdi-calendar-clock fs-3 rounded text-white"></i>
-                                    </span>
+                    </div> --}}
+                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel" data-interval="1000">
+                        <div class="MultiCarousel-inner">
+                            <div class="item">
+                                <div class="card my-0">
+                                    <div class="card-body">
+                                        <span
+                                            class="
+                                      btn btn-xl btn-light-info
+                                      text-info
+                                      btn-circle
+                                      d-flex
+                                      align-items-center
+                                      justify-content-center
+                                    ">
+                                            <i class="fas fa-desktop"></i>
+                                        </span>
+                                        <h3 class="mt-3 pt-1 mb-0">
+                                            39,354
+                                            <span class="fs-2 ms-1 text-danger font-weight-medium">Postes</span>
+                                        </h3>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mt-3 d-flex justify-content-around align-items-center">
-                                <div>
-                                    <h2 class="fs-8 text-white mb-2">du :$93,438.78</h2>
-                                    <h2 class="fs-8 text-white mb-0">au :$93,438.78</h2>
+                            <div class="item">
+                                <div class="card my-0">
+                                    <div class="card-body">
+                                        <span
+                                            class="
+                                      btn btn-xl btn-light-warning
+                                      text-warning
+                                      btn-circle
+                                      d-flex
+                                      align-items-center
+                                      justify-content-center
+                                    ">
+                                            <i class="fas fa-barcode"></i>
+                                        </span>
+                                        <h3 class="mt-3 pt-1 mb-0">
+                                            4396
+                                            <span class="fs-2 ms-1 text-success font-weight-medium">Utilisateurs</span>
+                                        </h3>
+
+                                    </div>
                                 </div>
-                                <div>
-                                    <button class="btn btn-danger text-white" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">changer</button>
-                                </div> {{-- <span class="text-white op-5">Monthly revenue</span> --}}
                             </div>
                         </div>
+                        <button class="btn btn-primary leftLst">
+                            < </button>
+                                <button class="btn btn-primary rightLst">></button>
                     </div>
                 </div>
             </div>
             <!-- ============================================================== -->
             <!-- Sales chart -->
             <!-- ============================================================== -->
-            <div class="row">
+            <div class="row pt-3">
                 <div class="col-lg-8 d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-body">
@@ -341,13 +509,18 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 1</h6>
-                            <canvas id="FPY1" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent1">
-                            </p>
+                    <div class="card  w-100">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0 table-hover align-middle text-nowrap">
+                                    <thead>
+                                        <tr class="text-capitalize">
+                                            <th class="border-top-0">{{ __('#') }}</th>
+                                            <th class="border-top-0">{{ __('OF') }}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -421,234 +594,6 @@
                     </div>
                 </div> --}}
             </div>
-            <div class="row">
-                {{-- <div class="col-lg-3">
-                    <canvas id="FPY1" width="auto" height="auto"></canvas>
-                    <p class="percent" id="percent">
-                    </p>
-                </div> --}}
-                <div class="col-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 1</h6>
-                            <canvas id="FPY1" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent1">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 2</h6>
-                            <canvas id="FPY2" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent2">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 3</h6>
-                            <canvas id="FPY3" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent3">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-boy p-3">
-                            <h4 class="card-title">FPY</h4>
-                            <h6 class="card-subtitle">Poste 4</h6>
-                            <canvas id="FPY4" width="auto" height="auto"></canvas>
-                            <p class="percent" id="percent4">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- Sales chart -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Table -->
-            <!-- ============================================================== -->
-            <div class="row">
-                <!-- column -->
-                <div class="col-lg-8 d-flex align-items-stretch">
-                    <div class="card w-100">
-                        <div class="card-body">
-                            <!-- title -->
-                            <div class="d-md-flex">
-                                <div>
-                                    <h4 class="card-title">{{ __('List de NS') }}</h4>
-                                    <h5 class="card-subtitle">{{ __('resumé sur les Numéros de series') }} </h5>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="dl">
-                                        <input class="form-control" placeholder={{ __('Chercher NS') }} />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- title -->
-                            <div class="table-responsive">
-                                <table class="table mb-0 table-hover align-middle text-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-top-0">{{ __('Numéro de Serie') }}</th>
-                                            <th class="border-top-0">{{ __('status') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-info text-white">EA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Elite Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <label class="badge bg-danger">ticket_generator</label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-orange text-white">MA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Monster Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-info">Opérateur 1</label>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-success text-white">MP</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Material Pro Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-success">Opérateur 2</label>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"><a
-                                                            class="btn btn-circle d-flex btn-purple text-white">AA</a>
-                                                    </div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">Ample Admin</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td>
-                                                <label class="badge bg-purple">Emballage</label>
-                                            </td>
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 d-flex align-items-stretch">
-                    <div class="card w-100">
-                        <div class="card-body">
-                            <h4 class="card-title">historique</h4>
-                            <h6 class="card-subtitle">historique d'un Numéro de serie</h6>
-                            <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <h4 class="timeline-title">Génération du QR code</h4>
-                                            <p>généré par quelqu'un le <a href="javascript:void(0);"
-                                                    data-abc="true">12/12/2020</a></p>
-                                            <span class="vertical-timeline-element-date">9:30 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            {{-- <i class=" badge-warning"> </i> --}}
-                                            <i class="mdi mdi-nut text-primary fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <h4 class="timeline-title">Opération une</h4>
-                                            <p>opéré par quelqu'un le <a href="javascript:void(0);"
-                                                    data-abc="true">12/12/2020</a></p>
-                                            <span class="vertical-timeline-element-date">9:30 AM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            <i class="mdi mdi-nut text-info fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <p>opération num deux, at <b class="text-danger">3:00 PM</b>
-                                            </p>
-                                            <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                            <span class="vertical-timeline-element-date">12:25 PM</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-timeline-item vertical-timeline-element">
-                                    <div>
-                                        <span class="vertical-timeline-element-icon bounce-in">
-                                            {{-- <i class=" badge-warning"> </i> --}}
-                                            <i class="mdi mdi-nut text-warning fs-2 bg-white"></i>
-                                        </span>
-                                        <div class="vertical-timeline-element-content bounce-in">
-                                            <p>Another meeting with UK client today, at <b class="text-danger">3:00 PM</b>
-                                            </p>
-                                            <p>Yet another one, at <span class="text-success">5:00 PM</span></p>
-                                            <span class="vertical-timeline-element-date">12:25 PM</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- ============================================================== -->
-            <!-- Table -->
-            <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
@@ -659,14 +604,54 @@
     <!-- ============================================================== -->
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Filtrage') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form action="" method="post" class="datepickers">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <label class="label-control" for="id_start_datetime">date, temps début:</label>
+                            </div>
+                            <div class="col">
+                                {{-- <div class="input-group date" id="id_0">
+                                    <input type="text" value="" class="form-control" name="datetimes" />
+                                </div> --}}
+                            </div>
+                        </div>
+                        <div class="row pt-2 align-items-center">
+                            <div class="col-md-4">
+                                <label class="label-control" for="id_start_datetime">date, temps fin:</label>
+                            </div>
+                            <div class="col">
+                                <div class="input-group date" id="id_1">
+                                    <input type="text" value="" class="form-control"
+                                        placeholder="DD/MM/YYYY hh:mm:ss" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pt-2 align-items-center">
+                            <div class="col-auto">
+                                <label class="label-control" for="id_start_datetime">OF:</label>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <input type="text" value="" class="form-control" placeholder="" required />
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <label class="label-control" for="id_start_datetime">Type:</label>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <input type="text" value="" class="form-control" placeholder="" required />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -678,6 +663,106 @@
 @endsection
 @push('custom_js')
     <script type="text/javascript">
+        $(document).ready(function() {
+            var itemsMainDiv = ('.MultiCarousel');
+            var itemsDiv = ('.MultiCarousel-inner');
+            var itemWidth = "";
+
+            $('.leftLst, .rightLst').click(function() {
+                var condition = $(this).hasClass("leftLst");
+                if (condition)
+                    click(0, this);
+                else
+                    click(1, this)
+            });
+            ResCarouselSize();
+            $(window).resize(function() {
+                ResCarouselSize();
+            });
+
+            //this function define the size of the items
+            function ResCarouselSize() {
+                var incno = 0;
+                var dataItems = ("data-items");
+                var itemClass = ('.item');
+                var id = 0;
+                var btnParentSb = '';
+                var itemsSplit = '';
+                var sampwidth = $(itemsMainDiv).width();
+                var bodyWidth = $('body').width();
+                $(itemsDiv).each(function() {
+                    id = id + 1;
+                    var itemNumbers = $(this).find(itemClass).length;
+                    btnParentSb = $(this).parent().attr(dataItems);
+                    console.log(btnParentSb);
+                    itemsSplit = btnParentSb.split(',');
+                    $(this).parent().attr("id", "MultiCarousel" + id);
+                    if (bodyWidth >= 1200) {
+                        // alert(itemsSplit[1]);
+                        incno = itemsSplit[1];
+                        itemWidth = sampwidth / incno;
+                    } else if (bodyWidth >= 992) {
+                        incno = itemsSplit[1];
+                        itemWidth = sampwidth / incno;
+                    } else if (bodyWidth >= 768) {
+                        incno = itemsSplit[1];
+                        itemWidth = sampwidth / incno;
+                    } else {
+                        incno = itemsSplit[0];
+                        itemWidth = sampwidth / incno;
+                    }
+                    $(this).css({
+                        'transform': 'translateX(0px)',
+                        'width': itemWidth * itemNumbers
+                    });
+                    $(this).find(itemClass).each(function() {
+                        $(this).outerWidth(itemWidth);
+                    });
+
+                    $(".leftLst").addClass("over");
+                    $(".rightLst").removeClass("over");
+
+                });
+            }
+            //this function used to move the items
+            function ResCarousel(e, el, s) {
+                var leftBtn = ('.leftLst');
+                var rightBtn = ('.rightLst');
+                var translateXval = '';
+                var divStyle = $(el + ' ' + itemsDiv).css('transform');
+                var values = divStyle.match(/-?[\d\.]+/g);
+                var xds = Math.abs(values[4]);
+                if (e == 0) {
+                    translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                    $(el + ' ' + rightBtn).removeClass("over");
+
+                    if (translateXval <= itemWidth / 2) {
+                        translateXval = 0;
+                        $(el + ' ' + leftBtn).addClass("over");
+                    }
+                } else if (e == 1) {
+                    var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                    translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                    $(el + ' ' + leftBtn).removeClass("over");
+
+                    if (translateXval >= itemsCondition - itemWidth / 2) {
+                        translateXval = itemsCondition;
+                        $(el + ' ' + rightBtn).addClass("over");
+                    }
+                }
+                $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+            }
+
+            //It is used to get some elements from btn
+            function click(ell, ee) {
+                var Parent = "#" + $(ee).parent().attr("id");
+                var slide = $(Parent).attr("data-slide");
+                ResCarousel(ell, Parent, slide);
+            }
+
+        });
+
+
         // var options1 = {
         //     type: 'bar',
         //     data: {

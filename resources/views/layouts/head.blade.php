@@ -26,4 +26,6 @@
     @endif
     <link href="{{ asset('/dist/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/dist/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/dist/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/dist/css/daterangepicker.css') }}">
     {{-- <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'> --}}
