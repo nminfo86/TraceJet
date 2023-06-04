@@ -27,10 +27,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SectionSeeder::class,
+
+            PostsTypeSeeder::class,
+            PostSeeder::class,
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
-            PostsTypeSeeder::class,
-            PostSeeder::class
         ]);
 
         Product::factory()->count(50)->create();

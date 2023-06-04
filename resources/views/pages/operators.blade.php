@@ -267,7 +267,6 @@
             /*                                Valid Product                               */
             /* -------------------------------------------------------------------------- */
 
-            // TODO::Change mac address with ip_address
             .on('submit', 'form', function(e) {
                 e.preventDefault();
                 cleanValidationAlert();

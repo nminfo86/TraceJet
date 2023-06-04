@@ -31,7 +31,7 @@ class OfController extends Controller
     public function index()
     {
         // $ofs = Of::with('caliber')->get();
-        $ofs = Of::join('calibers', function ($join) {
+        $ofs = Of::filterBySection()->join('calibers', function ($join) {
             $join->on('calibers.id', '=', 'ofs.caliber_id');
         })->orderBy("ofs.id", "desc")->get(["ofs.id", "of_number", "of_code", "status", "new_quantity", "caliber_name", "updated_at"]);
 
@@ -47,11 +47,14 @@ class OfController extends Controller
     public function store(StoreOfRequest $request)
     {
         // Get last OF
-        $last_of = Of::orderBy("id", "desc")->first();
+        $last_of = Of::filterBySection()->orderBy("id", "desc")->first();
+        // dd($last_of);
         if ($last_of) {
 
             // Check if any of in production
             if ($last_of->status == "inProd" && $last_of->caliber_id == $request->caliber_id) {
+
+                // TODO::Trans msg
                 //Send response with message
                 return $this->sendResponse("Can't created, OF with same caliber in production", status: false);
             }
@@ -261,7 +264,7 @@ class OfController extends Controller
                 ->withCount('movements')
         ])
             ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
-            ->find(1);
+            ->find($id);
 
         $posts = $of->caliber->product->section->posts;
         $quantity = $of->new_quantity;

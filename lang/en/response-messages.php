@@ -10,6 +10,7 @@ return [
     'operator 1' => "operator 1",
     'operator 2' => "operator 2",
     'operator 4' => "operator 4",
+    'label_generator' => "label_generator",
     'product' => "product",
 
     'user-list' => "Display list of all users",

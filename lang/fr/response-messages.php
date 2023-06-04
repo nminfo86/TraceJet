@@ -11,12 +11,14 @@ return [
     // 'not_found' =>  'Hello :attribute, your email is :email and phone number is :phone.',
     'unauthorized' => "Vous n'êtes pas autorisé à accéder à cette ressource.",
 
+    "invalid_host" => "Hôte non valide, veuillez contacter l'administrateur système",
 
 
 
     /* -------------------------------------------------------------------------- */
     /*                                 Attributes                                 */
     /* -------------------------------------------------------------------------- */
+    'label_generator' => "génération QR",
     'operator' => "opérateur",
     'operator 1' => "opérateur 1",
     'product' => "produit",
