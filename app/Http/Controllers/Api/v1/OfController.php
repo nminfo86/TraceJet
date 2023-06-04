@@ -264,7 +264,7 @@ class OfController extends Controller
                 ->withCount('movements')
         ])
             ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
-            ->find(1);
+            ->find($id);
 
         $posts = $of->caliber->product->section->posts;
         $quantity = $of->new_quantity;

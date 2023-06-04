@@ -37,7 +37,7 @@ class DashboardController extends Controller
         // Calculate total FPY for the chain
         $total_fpy = $fpy->reduce(fn ($carry, $item) => $carry * ($item->FPY / 100), 1) * 100;
 
-        // Return the response
+        // Return the results
         return $this->sendResponse(data: compact("ofs", "fpy", "total_fpy"));
     }
 }
