@@ -275,10 +275,9 @@
                                     <label for="inputField" class="col-form-label">Section</label>
                                 </div>
                                 <div class="col">
-                                    <select class="form-select theme-select border-0" aria-label="Default select example">
-                                        <option value="1">Today 23 March</option>
-                                        <option value="2">Today 24 March</option>
-                                        <option value="3">Today 25 March</option>
+                                    <select class="form-select theme-select border-0" id="section_id" name="section_id"
+                                        aria-label="Default select example">
+
                                     </select>
                                 </div>
                                 <div class="col-auto">
@@ -760,6 +759,10 @@
                 ResCarousel(ell, Parent, slide);
             }
 
+
+            callAjax('GET', base_url + '/pluck/sections').done(function(response) {
+                appendToSelect(response.data, "#section_id");
+            });
         });
 
 
