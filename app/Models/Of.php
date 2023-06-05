@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use DateTimeInterface;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
+use App\Traits\FilteredBySection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Of extends Model
 {
-    use HasFactory;
+    use HasFactory, FilteredBySection;
 
     /**
      * The attributes that are mass assignable.
@@ -73,6 +74,24 @@ class Of extends Model
     public function serialNumbers()
     {
         return $this->hasMany(SerialNumber::class);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                 Local Scope                                */
+    /* -------------------------------------------------------------------------- */
+    // public function scopeInSection($query, $sectionId)
+    // {
+
+    //     return $query->where('section_id', $sectionId);
+    // }
+
+
+    public function scopeInSection($query,  $sectionId)
+    {
+        return
+
+
+            $query->whereHas('caliber.product', fn ($q) => $q->where('section_id', $sectionId));
     }
 
 

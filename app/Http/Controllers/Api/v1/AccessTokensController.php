@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\AccessTokensRequest;
 
 
@@ -23,7 +24,7 @@ class AccessTokensController extends Controller
 
     public function login(AccessTokensRequest $request)
     {
-        // // Attempt to authenticate user with given credentials
+        // Attempt to authenticate user with given credentials
         // if (!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
         //     // Return error response if authentication fails
         //     return $this->sendResponse('Username & Password does not match with our record.', status: false);
@@ -58,14 +59,17 @@ class AccessTokensController extends Controller
         // Retrieve post information for user's IP address
         $post_information = Post::whereIpAddress($request->ip())->first();
 
+
         // Return error response if post information is not found
         if (empty($post_information)) {
-            // TODO::Translate msg
-            return $this->sendResponse("Invalid host, please contact the system administrator", status: false);
+
+            $msg = $this->getResponseMessage("invalid_host");
+            return $this->sendResponse($msg, status: false);
         }
 
         // Attempt to authenticate user with given credentials
         if (!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            // $this->logout();
             // TODO::Translate msg
             // Return error response if authentication fails
             return $this->sendResponse('Username & Password does not match with our record.', status: false);
@@ -73,21 +77,30 @@ class AccessTokensController extends Controller
 
         // Retrieve authenticated user with their roles and permissions
         $user = Auth::user()->load('roles.permissions');
-
         // Get device name or user agent from request
         $device_name = $request->post('device_name', $request->userAgent());
 
         // Add user's permissions to response data
         $user['permissions'] = $user->roles->flatMap->permissions->pluck('name')->unique()->toArray();
+
+        // TODO:: remove it later ness it on operator posts in footer
         $user['post_information'] = $post_information;
 
         // Create token for user and return response with token and user data
         $token = $user->createToken($device_name)->plainTextToken;
+
+        // Storing an array in the session
+        Session::put('post_information',  $post_information);
+        Session::put('token', $token);
+        Session::put('user_data', $user);
+
+
         $data = [
             'token' => $token,
             'data' => $user,
             'status' => true
         ];
+
 
         return response($data);
     }

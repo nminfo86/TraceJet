@@ -141,7 +141,7 @@ class PackagingController extends Controller
         $snCount = $of->serialNumbers()->whereNotNull('box_id')->count();
 
         if ($of_quantity === $snCount) {
-            if ($of->status !== 'closed') {
+            if ($of->status->value !== 'closed') {
                 // If all serial numbers have a box assigned, close the OF
                 $of->update(['status' => 'closed']);
 

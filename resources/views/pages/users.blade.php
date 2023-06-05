@@ -142,7 +142,7 @@
             /*--------------------- get role list ------------------------*/
             // appendToSelect('GET', base_url + '/pluck/roles', "#roles_name", {}, true);
             callAjax('GET', base_url + '/pluck/roles').done(function(response) {
-                appendToSelect(response.data, "#roles_name");
+                appendToSelect(response.data, "#roles_name", true);
             });
 
             /*----------------------get sections list ---------------------------*/

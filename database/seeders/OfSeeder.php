@@ -17,7 +17,7 @@ class OfSeeder extends Seeder
     {
         $payload = [
             "caliber_id" => 1,
-            "of_number" => "OFNUMBER001",
+            "of_number" => "001",
             "of_name" => "nameof1",
             "status" => "new",
             "quantity" => 4,

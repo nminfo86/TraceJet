@@ -179,6 +179,9 @@
             callAjax('GET', base_url + '/pluck/ofs', {
                 filter: "status"
             }).done(function(response) {
+                if (response.status == false) {
+                    return ajaxError(response.message);
+                }
                 appendToSelect(response.data, "#of_id");
             });
         });

@@ -58,6 +58,7 @@ class SerialNumberController extends Controller
             $msg = $this->getResponseMessage('of_closed');
             return $this->sendResponse($msg, true);
         }
+        //TODO::add alert about all sn is valid and of not closed
 
         // Retrieve the SerialNumber with the provided QR code and that has not been validated yet
         $product = SerialNumber::where('qr', $request->qr)
@@ -75,7 +76,7 @@ class SerialNumberController extends Controller
         $product->update(['valid' => 1]);
 
         // Generate a new SerialNumber
-        return $this->generateNewSN($request->of_id);
+        return $this->generateNewSN($request->of_id, $of->new_quantity);
     }
 
 
@@ -85,8 +86,15 @@ class SerialNumberController extends Controller
      * @param  mixed $of_id
      * @return \Illuminate\Http\Response
      */
-    public function generateNewSN($of_id)
+    public function generateNewSN($of_id, $of_quantity)
     {
+        // dd($of_quantity . "/" . $this->countValidProducts($of_id));
+        // Check with OF quantity
+        if ($of_quantity === $this->countValidProducts($of_id)) {
+
+            //Send response with Error
+            return $this->sendResponse("OF Valid");
+        }
         /* -------------------------------------------------------------------------- */
         /*                                    TEST                                    */
         /* -------------------------------------------------------------------------- */
@@ -133,10 +141,10 @@ class SerialNumberController extends Controller
      * @param  mixed $of_id
      * @return Int
      */
-    // public function countValidProducts($of_id)
-    // {
-    //     return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
-    // }
+    public function countValidProducts($of_id)
+    {
+        return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
+    }
 
 
 
@@ -150,6 +158,73 @@ class SerialNumberController extends Controller
 
     // public function FunctionName(Type $var = null)
     // {
+    //     // $printLabel = new PrintLabelService("192.168.98.121", "TSPL", "40_20");
+    //     // $qrCode = $new_sn->qr;
+
+    //     // // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+    //     // $qr = explode("#", $qrCode);
+    //     // $sn = $qr[3];
+    //     // $of_num = $qr[1];
+    //     // $product_name = $qr[2];
+    //     // $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
+    // }
+
+
+    // //valid product
+    // public function store(StoreSerialNumberRequest $request)
+    // {
+
+    //     // get invalid product with QR code
+    //     $product = SerialNumber::with("of:id,new_quantity")->whereQr($request->qr)->whereValid(0)->first();
+
+    //     // Check qr in db
+    //     if ($product) {
+
+    //         $of_quantity = $product->of->new_quantity;
+
+    //         // Check with OF quantity
+    //         if ($of_quantity <= $this->countValidProducts($request->of_id)) {
+
+    //             // Send response with error
+    //             return $this->sendResponse("OF Valid", status: true);
+    //         }
+
+    //         // Valid product
+    //         $product->update(['valid' => 1]);
+
+    //         // Create new sn (next serial number)
+    //         return $this->generateNewSN($request->of_id, $of_quantity);
+    //     }
+
+    //     // Send response with error
+    //     return $this->sendResponse("This product valid or does not belong to this OF", status: false);
+    // }
+
+
+    // public function generateNewSN($of_id, $of_quantity)
+    // {
+
+    //     // Check with OF quantity
+    //     if ($of_quantity <= $this->countValidProducts($of_id)) {
+
+    //         //Send response with Error
+    //         return $this->sendResponse("OF Valid");
+    //     }
+
+    //     // Get last sn by of_id
+    //     $product = SerialNumber::whereOfId($of_id)->orderBy("id", "desc")->first();
+
+    //     // Increment SN
+    //     $product->serial_number++;
+
+    //     // Create new sn (next serial number)
+    //     $new_sn = SerialNumber::create([
+    //         "of_id" => $product->of_id,
+    //         "serial_number" =>  str_pad($product->serial_number++, 3, 0, STR_PAD_LEFT),
+    //     ]);
+
+    //     //Send response with QR success
+    //     return $this->sendResponse($this->create_success_msg, $new_sn->only('qr'));
     //     // $printLabel = new PrintLabelService("192.168.98.121", "TSPL", "40_20");
     //     // $qrCode = $new_sn->qr;
 

@@ -1,0 +1,3930 @@
+{
+	"info": {
+		"_postman_id": "87f6da11-1be2-4088-87e5-be2a4fdf507f",
+		"name": "TraceJet_v1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24492300"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Create access token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var current_app_api_key=\"B@lmsieH\";\r",
+									"\r",
+									"pm.test('api-key should exist and equal current app key', function () {\r",
+									"    if (pm.environment.has('api-key') ) {\r",
+									"        if(pm.expect(pm.environment.get('api-key')).to.equal(current_app_api_key)){\r",
+									"           console.log('accepted licence'+current_app_api_key)\r",
+									"        }\r",
+									"    };\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Token is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"token\", pm.response.json().token)\r",
+									"});\r",
+									"   \r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "XMLHttpRequest",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"super_admin\", \r\n    \"password\":\"123123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/access_token/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"access_token",
+								""
+							]
+						},
+						"description": "for login"
+					},
+					"response": []
+				},
+				{
+					"name": "Get authenticatd user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout (Revoke token)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Logout code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/auth/logout/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Sections",
+			"item": [
+				{
+					"name": "Create section",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Section is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"section_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "section_code",
+									"value": "0053",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "section_name",
+									"value": "test",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "observation",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sections",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all sections",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/sections/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sections",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one section by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\" Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", pm.response.json().data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sections/{{section_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sections",
+								"{{section_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update section",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "section_code",
+									"value": "0053",
+									"type": "text"
+								},
+								{
+									"key": "section_name",
+									"value": "{{section_name}}",
+									"type": "text"
+								},
+								{
+									"key": "observation",
+									"value": "updated",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/sections/{{section_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sections",
+								"{{section_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete section by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sections/{{section_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sections",
+								"{{section_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Create role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Section is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"role_id\", pm.response.json().data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "viewer",
+									"description": "Required|unique",
+									"type": "text"
+								},
+								{
+									"key": "permissions[]",
+									"value": "user-list",
+									"type": "text"
+								},
+								{
+									"key": "permissions[]",
+									"value": "role-list",
+									"type": "text"
+								},
+								{
+									"key": "permissions[]",
+									"value": "section-list",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/roles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all roles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/roles/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", pm.response.json().data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/roles/{{role_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"{{role_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "viewer",
+									"description": "Required|unique",
+									"type": "text"
+								},
+								{
+									"key": "permissions[]",
+									"value": "user-list",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[]",
+									"value": "role-list",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "permissions[]",
+									"value": "section-list",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/roles/{{role_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"{{role_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/roles/{{role_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"{{role_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"   if(pm.expect(json.status).to.equal(true)){\r",
+									"        pm.environment.set(\"user_id\", json.data.id)\r",
+									"        console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "userdfsfs",
+									"description": "Required",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "samirxxq",
+									"description": "Required|unique",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123123",
+									"description": "Required",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123123",
+									"type": "text"
+								},
+								{
+									"key": "roles_name",
+									"value": "super_admin",
+									"description": "Required",
+									"type": "text"
+								},
+								{
+									"key": "section_id",
+									"value": "1",
+									"description": "Required",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get all users Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", json.data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/{{user_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is true\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "samirxx",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "mohamed rassimm",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "roles_name",
+									"value": "superAdmin",
+									"type": "text"
+								},
+								{
+									"key": "section_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/users/{{user_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is True\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/{{user_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"product_id\",json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product_name",
+									"value": "pr23",
+									"description": "Required|unique",
+									"type": "text"
+								},
+								{
+									"key": "product_code",
+									"value": "p023",
+									"description": "Required|unique",
+									"type": "text"
+								},
+								{
+									"key": "section_id",
+									"value": "{{section_id}}",
+									"description": "Required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/products/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one products by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"product_name\",json.data.product_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products/{{product_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update section",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall products Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product_code",
+									"value": "25",
+									"type": "text"
+								},
+								{
+									"key": "product_name",
+									"value": "{{product_name}}",
+									"type": "text"
+								},
+								{
+									"key": "section_id",
+									"value": "{{section_id}}",
+									"type": "text"
+								},
+								{
+									"key": "observation",
+									"value": "5456464",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/products/{{product_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete section by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"delete products Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products/{{product_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Calibers",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status is true\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"        pm.environment.set(\"caliber_id\", json.data.id)\r",
+									"\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "caliber_code",
+									"value": "calTest",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "caliber_name",
+									"value": "caliberTEST",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "product_id",
+									"value": "{{product_id}}",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "box_quantity",
+									"value": "6",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "observation",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/calibers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"calibers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status is true\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/calibers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"calibers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status is true\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"caliber_name\",json.data.caliber_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/calibers/{{caliber_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"calibers",
+								"{{caliber_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status is true\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "caliber_code",
+									"value": "calTestup",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "caliber_name",
+									"value": "caliberTESTup",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "product_id",
+									"value": "{{product_id}}",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "box_quantity",
+									"value": "6",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "observation",
+									"value": "updated",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/calibers/{{caliber_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"calibers",
+								"{{caliber_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"delete products Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/calibers/{{caliber_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"calibers",
+								"{{caliber_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ofs",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Section is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"of_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "caliber_id",
+									"value": "{{caliber_id}}",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "of_number",
+									"value": "OF001",
+									"description": "required|unique",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "quantity",
+									"value": "20",
+									"description": "required|integer",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/ofs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\" Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/ofs/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", pm.response.json().data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ofs/{{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"{{of_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "caliber_id",
+									"value": "{{caliber_id}}",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "2",
+									"description": "required\\integer",
+									"type": "text"
+								},
+								{
+									"key": "of_number",
+									"value": "OF001s",
+									"description": "required|unique",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/ofs/{{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"{{of_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/ofs/{{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"{{of_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Boxes",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Section is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"of_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "of_id",
+									"value": "{{of_id}}",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "box_qr",
+									"value": "of_id#001",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "open",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/boxes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"boxes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\" Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/boxes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"boxes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", pm.response.json().data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ofs/{{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"{{of_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "caliber_id",
+									"value": "{{caliber_id}}",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "2",
+									"description": "required\\integer",
+									"type": "text"
+								},
+								{
+									"key": "of_number",
+									"value": "OF001s",
+									"description": "required|unique",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/ofs/{{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"{{of_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/ofs/{{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"{{of_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts_types",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"posts_type_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"posts_type\":\"generator\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/posts_types",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts_types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/posts_types",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts_types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", pm.response.json().data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/posts_types/{{posts_type_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts_types",
+								"{{posts_type_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"caliber_id\":2,\r\n    \"user_id\": 1,\r\n    \"of_number\": \"OFBLM\",\r\n    \"status\": \"posed\",\r\n    \"quantity\": \"15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/ofs/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/ofs/{{posts_type}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ofs",
+								"{{posts_type}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"post_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "posts_type_id",
+									"value": "1",
+									"description": "Required",
+									"type": "text"
+								},
+								{
+									"key": "post_name",
+									"value": "post 152",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "mac",
+									"value": "564654610",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "previous_post",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/posts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"post_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1f",
+									"description": "Required",
+									"type": "text"
+								},
+								{
+									"key": "post_name",
+									"value": "post 152",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "mac",
+									"value": "564654610",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "previous_post",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/pluck/calibers?id=4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pluck",
+								"calibers"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/posts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"post_name\", pm.response.json().data.post)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/posts/{{post_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "posts_type_id",
+									"value": "1",
+									"description": "Required",
+									"type": "text"
+								},
+								{
+									"key": "post_name",
+									"value": "post 1523",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "mac",
+									"value": "564654610",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "previous_post",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/posts/{{post_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/posts/{{post_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"posts",
+								"{{post_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Parts",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Section is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"part_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "part",
+									"value": "part1",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "observation",
+									"value": "",
+									"description": "null",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/parts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\" Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/parts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"parts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", pm.response.json().data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/parts/{{part_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"parts",
+								"{{part_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "part",
+									"value": "part1",
+									"description": "required|unique",
+									"type": "text"
+								},
+								{
+									"key": "observation",
+									"value": "updated",
+									"description": "null",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/parts/{{part_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"parts",
+								"{{part_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/parts/{{part_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"parts",
+								"{{part_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Serial_numbers",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"sn_id\", json.data.id);\r",
+									"    pm.environment.set(\"sn_qr\", json.data.qr);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "of_id",
+									"value": "{{of_id}}",
+									"type": "text"
+								},
+								{
+									"key": "qr",
+									"value": "{{sn_qr}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/serial_numbers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"serial_numbers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Print_Qr",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"sn_id\", json.data.id);\r",
+									"    pm.environment.set(\"sn_qr\", json.data.qr);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "of_id",
+									"value": "{{of_id}}",
+									"description": "required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/serial_numbers/qr_print",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"serial_numbers",
+								"qr_print"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/serial_numbers/?of_id={{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"serial_numbers",
+								""
+							],
+							"query": [
+								{
+									"key": "of_id",
+									"value": "{{of_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"section_name\", pm.response.json().data.section_name)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/serial_numbers/{{sn_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"serial_numbers",
+								"{{sn_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"             pm.environment.set(\"sn_id\", json.data.id)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"of_id\": {{of_id}},\r\n    \"box_id\": 1,\r\n    \"qr\": \"S03#P25297#Lavada Spinka#Clb20659#OF001#SN01#2022\",\r\n    \"of_quantity\": {{of_quantity}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/serial_numbers/{{sn_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"serial_numbers",
+								"{{sn_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check_QR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"             pm.environment.set(\"sn_qr\", json.data.qr)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"of_id\": {{of_id}},\r\n    \"qr\": {{sn_qr}},\r\n    \"of_quantity\": \"{{of_quantity}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/check_qr",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"check_qr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/serial_numbers/{{sn_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"serial_numbers",
+								"{{sn_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get of_quantity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is true\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"of_quantity\", json.quantity)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/of_quantity/{{of_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"of_quantity",
+								"{{of_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movements",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"movement_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "qr",
+									"value": "S01P12226Clb11529212023#Odio.#001#2023-01-24 15:01:42",
+									"type": "text"
+								},
+								{
+									"key": "mac",
+									"value": "mac5",
+									"type": "text"
+								},
+								{
+									"key": "result",
+									"value": "ok",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/movements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/movements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"post_name\", pm.response.json().data.post)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"posts_type_id\":1,\r\n    \"post\":\"post 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Packaging",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"movement_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "qr",
+									"value": "{{sn_qr}}",
+									"type": "text"
+								},
+								{
+									"key": "mac",
+									"value": "mac5",
+									"type": "text"
+								},
+								{
+									"key": "result",
+									"value": "ok",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/movements",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "qr",
+									"value": "{{sn_qr}}",
+									"type": "text"
+								},
+								{
+									"key": "mac",
+									"value": "mac5",
+									"type": "text"
+								},
+								{
+									"key": "result",
+									"value": "ok",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/packaging",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packaging"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"post_name\", pm.response.json().data.post)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"posts_type_id\":1,\r\n    \"post\":\"post 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reparation",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"is created\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"movement_id\", json.data.id)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "qr",
+									"value": "S01P130179Clb46771OF0012023#Nemo.#001#2023-01-10 14:48:22",
+									"type": "text"
+								},
+								{
+									"key": "task[0][part_id]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "task0][observation]",
+									"value": "damaged",
+									"type": "text"
+								},
+								{
+									"key": "task[0][quantity]",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "task[1][part_id]",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "task[1][quantity]",
+									"value": "15",
+									"type": "text"
+								},
+								{
+									"key": "task[1][observation]",
+									"value": "not fit",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/repairs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"repairs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/repairs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"repairs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Aall sections Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"          pm.environment.set(\"post_name\", pm.response.json().data.post)\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"posts_type_id\":1,\r\n    \"post\":\"post 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete  by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json=pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    if(pm.expect(json.status).to.equal(true)){\r",
+									"           console.log(json)\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/movements/{{movement_id}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movements",
+								"{{movement_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pluck",
+			"item": [
+				{
+					"name": "Roles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/pluck/roles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pluck",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Permissions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/pluck/permissions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pluck",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sections",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/pluck/sections",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pluck",
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Calibers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/pluck/calibers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pluck",
+								"calibers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ofs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/pluck/ofs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pluck",
+								"ofs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{host}}/pluck/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"pluck",
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({",
+					"    key: \"Accept\",",
+					"    value: \"application/json\"",
+					"});",
+					"// pm.request.headers.add({",
+					"//     key: \"x-api-key\",",
+					"//     value:\"{{api-key}}\"",
+					"// });",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
