@@ -34,14 +34,13 @@ class WebAuthController extends AccessTokensController
             $clientIp = Request::ip();
 
             // Handle redirection based on the client IP address
-            if ($clientIp === "10.0.0.201") {
+            if ($clientIp === "10.0.1.201") {
                 // Redirect to /serial_numbers if IP is 10.0.0.201
                 return redirect("/serial_numbers");
             } elseif ($clientIp === "192.168.100.3") {
                 // Redirect to /users if IP is 192.168.100.3
                 return redirect()->intended("/users");
             }
-
             // Default redirection to /dashboard for other IP addresses
             return redirect()->intended('/dashboard');
         } catch (\Exception $e) {

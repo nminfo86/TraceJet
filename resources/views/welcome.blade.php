@@ -137,45 +137,54 @@
                 </div>
             </div>
             <style>
-                .MultiCarousel {
-                    float: left;
-                    overflow: hidden;
-                    width: 100%;
-                    position: relative;
+                .carousel-inner {
+                    padding: 1em;
                 }
 
-                .MultiCarousel .MultiCarousel-inner {
-                    transition: 1s ease all;
-                    float: left;
+                .card {
+                    margin: 0 0.5em;
+                    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+                    border: none;
                 }
 
-                .MultiCarousel .MultiCarousel-inner .item {
-                    float: left;
-                }
-
-                .MultiCarousel .MultiCarousel-inner .item>div {
-                    margin: 5px;
-                }
-
-                /* btn carousel style */
-                .MultiCarousel .leftLst,
-                .MultiCarousel .rightLst {
-                    position: absolute;
+                .carousel-control-prev,
+                .carousel-control-next {
+                    background-color: #e1e1e1;
+                    width: 6vh;
+                    height: 6vh;
                     border-radius: 50%;
-                    top: calc(50% - 20px);
+                    top: 50%;
+                    transform: translateY(-50%);
                 }
 
-                .MultiCarousel .leftLst {
-                    left: 0;
+                @media (min-width: 768px) {
+                    .carousel-item {
+                        margin-right: 0;
+                        flex: 0 0 20%;
+                        display: block;
+                    }
+
+                    .carousel-inner {
+                        display: flex;
+                    }
                 }
 
-                .MultiCarousel .rightLst {
-                    right: 0;
+                .card .img-wrapper {
+                    max-width: 100%;
+                    height: 13em;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
 
-                .MultiCarousel .leftLst.over,
-                .MultiCarousel .rightLst.over {
-                    display: none;
+                .card img {
+                    max-height: 100%;
+                }
+
+                @media (max-width: 767px) {
+                    .card .img-wrapper {
+                        height: 17em;
+                    }
                 }
             </style>
             <div class="row">
@@ -266,213 +275,59 @@
                         </div>
                     </div> --}}
                     <div class="card">
-                        <div class="card-header bg-info text-white">
-                            feltrage
-                        </div>
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <label for="inputField" class="col-form-label">Section</label>
-                                </div>
-                                <div class="col">
-                                    <select class="form-select theme-select border-0" id="section_id" name="section_id"
-                                        aria-label="Default select example">
+                        <form id="main_form">
+                            <div class="card-header bg-info text-white">
+                                feltrage
+                            </div>
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <label for="inputField" class="col-form-label">Section</label>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-select theme-select border-0" id="section_id" name="section_id"
+                                            aria-label="Default select example">
 
-                                    </select>
-                                </div>
-                                <div class="col-auto">
-                                    <label for="inputField" class="col-form-label">date début et fin</label>
-                                </div>
-                                <div class="col">
-                                    <input type="text" value="" class="form-control" name="datetimes" />
-                                </div>
-                                <div class="col-auto">
-                                    <label for="inputField" class="col-form-label">OF</label>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="inputField">
-                                </div>
-                                <div class="col-auto">
-                                    <label for="inputField" class="col-form-label">Type</label>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="inputField">
-                                </div>
-                                <div class="col-auto">
-                                    <button type="submit" class="btn btn-primary">GO</button>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label for="inputField" class="col-form-label">date début et fin</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" value="" class="form-control" id="datetimes"
+                                            name="datetimes" />
+                                    </div>
+                                    <div class="col-auto">
+                                        <label for="inputField" class="col-form-label">OF</label>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-select theme-select border-0" id="of_id" name="of_id"
+                                            aria-label="">
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-primary">GO</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    {{-- <div class="card-group">
-                        <div class="card" style="min-width:250px">
-                            <div class="card-body">
-                                <span
-                                    class="
-                              btn btn-xl btn-light-info
-                              text-info
-                              btn-circle
-                              d-flex
-                              align-items-center
-                              justify-content-center
-                            ">
-                                    <i class="fas fa-desktop"></i>
-                                </span>
-                                <h3 class="mt-3 pt-1 mb-0">
-                                    39,354
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium">Postes</span>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="card" style="min-width:250px">
-                            <div class="card-body">
-                                <span
-                                    class="
-                              btn btn-xl btn-light-warning
-                              text-warning
-                              btn-circle
-                              d-flex
-                              align-items-center
-                              justify-content-center
-                            ">
-                                    <i class="fas fa-barcode"></i>
-                                </span>
-                                <h3 class="mt-3 pt-1 mb-0">
-                                    4396
-                                    <span class="fs-2 ms-1 text-success font-weight-medium">Utilisateurs</span>
-                                </h3>
+                    <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+                        <div class="carousel-inner">
 
-                            </div>
                         </div>
-                        <div class="card" style="min-width:250px">
-                            <div class="card-body">
-                                <span
-                                    class="
-                              btn btn-xl btn-light-danger
-                              text-danger
-                              btn-circle
-                              d-flex
-                              align-items-center
-                              justify-content-center
-                            ">
-                                    <i class="fas fa-box-open"></i>
-                                </span>
-                                <h3 class="mt-3 pt-1 mb-0 d-flex align-items-center">
-                                    423,39
-                                    <span class="fs-2 ms-1 text-success font-weight-medium">Produits</span>
-                                </h3>
-                                <h6 class="text-muted mb-0 fw-normal">4146 <span>calibres</span></h6>
-                            </div>
-                        </div>
-                        <div class="card" style="min-width:250px">
-                            <div class="card-body">
-                                <span
-                                    class="
-                              btn btn-xl btn-light-success
-                              text-success
-                              btn-circle
-                              d-flex
-                              align-items-center
-                              justify-content-center
-                            ">
-                                    <i class="fas fa-wrench"></i>
-                                </span>
-                                <h3 class="mt-3 pt-1 mb-0">
-                                    835
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="card" style="min-width:250px">
-                            <div class="card-body">
-                                <span
-                                    class="
-                              btn btn-xl btn-light-success
-                              text-success
-                              btn-circle
-                              d-flex
-                              align-items-center
-                              justify-content-center
-                            ">
-                                    <i class="fas fa-wrench"></i>
-                                </span>
-                                <h3 class="mt-3 pt-1 mb-0">
-                                    835
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="card" style="min-width:250px">
-                            <div class="card-body">
-                                <span
-                                    class="
-                              btn btn-xl btn-light-success
-                              text-success
-                              btn-circle
-                              d-flex
-                              align-items-center
-                              justify-content-center
-                            ">
-                                    <i class="fas fa-wrench"></i>
-                                </span>
-                                <h3 class="mt-3 pt-1 mb-0">
-                                    835
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium">OF</span>
-                                </h3>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel" data-interval="1000">
-                        <div class="MultiCarousel-inner">
-                            <div class="item">
-                                <div class="card my-0">
-                                    <div class="card-body">
-                                        <span
-                                            class="
-                                      btn btn-xl btn-light-info
-                                      text-info
-                                      btn-circle
-                                      d-flex
-                                      align-items-center
-                                      justify-content-center
-                                    ">
-                                            <i class="fas fa-desktop"></i>
-                                        </span>
-                                        <h3 class="mt-3 pt-1 mb-0">
-                                            39,354
-                                            <span class="fs-2 ms-1 text-danger font-weight-medium">Postes</span>
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="card my-0">
-                                    <div class="card-body">
-                                        <span
-                                            class="
-                                      btn btn-xl btn-light-warning
-                                      text-warning
-                                      btn-circle
-                                      d-flex
-                                      align-items-center
-                                      justify-content-center
-                                    ">
-                                            <i class="fas fa-barcode"></i>
-                                        </span>
-                                        <h3 class="mt-3 pt-1 mb-0">
-                                            4396
-                                            <span class="fs-2 ms-1 text-success font-weight-medium">Utilisateurs</span>
-                                        </h3>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary leftLst">
-                            < </button>
-                                <button class="btn btn-primary rightLst">></button>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -488,16 +343,6 @@
                                     <h4 class="card-title">{{ __('OF Numéro') }}</h4>
                                     <h6 class="card-subtitle">{{ __('Statistique de production par chaque post') }}</h6>
                                 </div>
-                                {{-- <div class="ms-auto d-flex no-block align-items-center">
-                                    <ul class="list-inline dl d-flex align-items-center m-r-15 m-b-0">
-                                        <li class="list-inline-item d-flex align-items-center text-info"><i
-                                                class="fa fa-circle font-10 me-1"></i> {{ __('Produise') }}
-                                        </li>
-                                        <li class="list-inline-item d-flex align-items-center text-primary"><i
-                                                class="fa fa-circle font-10 me-1"></i> {{ __('reste') }}
-                                        </li>
-                                    </ul>
-                                </div> --}}
                             </div>
                             <div class="amp-pxl mt-4">
                                 <div class="">
@@ -523,75 +368,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="col-lg-4 d-flex align-items-stretch">
-                    <div class="card  w-100">
-                        <div class="card-body">
-                            <h4 class="card-title">avancement par post</h4>
-                            <h6 class="card-subtitle">avancement de production par post</h6>
-                            <div class="mt-5 pb-3 d-flex align-items-center">
-                                <span class="btn btn-primary btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-barcode-scan fs-4"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Générateur de ticket</h5>
-                                    <span class="text-muted fs-6">code de post: 100</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+68%</span>
-                                </div>
-                            </div>
-                            <div class="py-3 d-flex align-items-center">
-                                <span class="btn btn-warning btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-laptop fs-4"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Operateur 1</h5>
-                                    <span class="text-muted fs-6">code de post: 200</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+68%</span>
-                                </div>
-                            </div>
-                            <div class="py-3 d-flex align-items-center">
-                                <span class="btn btn-success btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-laptop text-white fs-4"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Operateur 2</h5>
-                                    <span class="text-muted fs-6">code de post: 300</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+68%</span>
-                                </div>
-                            </div>
-                            <div class="py-3 d-flex align-items-center">
-                                <span class="btn btn-info btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-laptop fs-4 text-white"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Operateur 3</h5>
-                                    <span class="text-muted fs-6">code de post: 400</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+15%</span>
-                                </div>
-                            </div>
-
-                            <div class="pt-3 d-flex align-items-center">
-                                <span class="btn btn-danger btn-circle d-flex align-items-center">
-                                    <i class="mdi mdi-package-variant-closed fs-4 text-white"></i>
-                                </span>
-                                <div class="ms-3">
-                                    <h5 class="mb-0 fw-bold">Emballage</h5>
-                                    <span class="text-muted fs-6">code de post: 300</span>
-                                </div>
-                                <div class="ms-auto">
-                                    <span class="badge bg-light text-muted">+90%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </div>
         <!-- ============================================================== -->
@@ -601,171 +377,224 @@
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Filtrage') }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="post" class="datepickers">
-                        <div class="row align-items-center">
-                            <div class="col-md-4">
-                                <label class="label-control" for="id_start_datetime">date, temps début:</label>
-                            </div>
-                            <div class="col">
-                                {{-- <div class="input-group date" id="id_0">
-                                    <input type="text" value="" class="form-control" name="datetimes" />
-                                </div> --}}
-                            </div>
-                        </div>
-                        <div class="row pt-2 align-items-center">
-                            <div class="col-md-4">
-                                <label class="label-control" for="id_start_datetime">date, temps fin:</label>
-                            </div>
-                            <div class="col">
-                                <div class="input-group date" id="id_1">
-                                    <input type="text" value="" class="form-control"
-                                        placeholder="DD/MM/YYYY hh:mm:ss" required />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pt-2 align-items-center">
-                            <div class="col-auto">
-                                <label class="label-control" for="id_start_datetime">OF:</label>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" value="" class="form-control" placeholder="" required />
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <label class="label-control" for="id_start_datetime">Type:</label>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" value="" class="form-control" placeholder="" required />
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @push('custom_js')
     <script type="text/javascript">
+        var form = $('#main_form');
         $(document).ready(function() {
-            var itemsMainDiv = ('.MultiCarousel');
-            var itemsDiv = ('.MultiCarousel-inner');
-            var itemWidth = "";
-
-            $('.leftLst, .rightLst').click(function() {
-                var condition = $(this).hasClass("leftLst");
-                if (condition)
-                    click(0, this);
-                else
-                    click(1, this)
-            });
-            ResCarouselSize();
-            $(window).resize(function() {
-                ResCarouselSize();
-            });
-
-            //this function define the size of the items
-            function ResCarouselSize() {
-                var incno = 0;
-                var dataItems = ("data-items");
-                var itemClass = ('.item');
-                var id = 0;
-                var btnParentSb = '';
-                var itemsSplit = '';
-                var sampwidth = $(itemsMainDiv).width();
-                var bodyWidth = $('body').width();
-                $(itemsDiv).each(function() {
-                    id = id + 1;
-                    var itemNumbers = $(this).find(itemClass).length;
-                    btnParentSb = $(this).parent().attr(dataItems);
-                    console.log(btnParentSb);
-                    itemsSplit = btnParentSb.split(',');
-                    $(this).parent().attr("id", "MultiCarousel" + id);
-                    if (bodyWidth >= 1200) {
-                        // alert(itemsSplit[1]);
-                        incno = itemsSplit[1];
-                        itemWidth = sampwidth / incno;
-                    } else if (bodyWidth >= 992) {
-                        incno = itemsSplit[1];
-                        itemWidth = sampwidth / incno;
-                    } else if (bodyWidth >= 768) {
-                        incno = itemsSplit[1];
-                        itemWidth = sampwidth / incno;
-                    } else {
-                        incno = itemsSplit[0];
-                        itemWidth = sampwidth / incno;
-                    }
-                    $(this).css({
-                        'transform': 'translateX(0px)',
-                        'width': itemWidth * itemNumbers
-                    });
-                    $(this).find(itemClass).each(function() {
-                        $(this).outerWidth(itemWidth);
-                    });
-
-                    $(".leftLst").addClass("over");
-                    $(".rightLst").removeClass("over");
-
-                });
-            }
-            //this function used to move the items
-            function ResCarousel(e, el, s) {
-                var leftBtn = ('.leftLst');
-                var rightBtn = ('.rightLst');
-                var translateXval = '';
-                var divStyle = $(el + ' ' + itemsDiv).css('transform');
-                var values = divStyle.match(/-?[\d\.]+/g);
-                var xds = Math.abs(values[4]);
-                if (e == 0) {
-                    translateXval = parseInt(xds) - parseInt(itemWidth * s);
-                    $(el + ' ' + rightBtn).removeClass("over");
-
-                    if (translateXval <= itemWidth / 2) {
-                        translateXval = 0;
-                        $(el + ' ' + leftBtn).addClass("over");
-                    }
-                } else if (e == 1) {
-                    var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
-                    translateXval = parseInt(xds) + parseInt(itemWidth * s);
-                    $(el + ' ' + leftBtn).removeClass("over");
-
-                    if (translateXval >= itemsCondition - itemWidth / 2) {
-                        translateXval = itemsCondition;
-                        $(el + ' ' + rightBtn).addClass("over");
-                    }
-                }
-                $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
-            }
-
-            //It is used to get some elements from btn
-            function click(ell, ee) {
-                var Parent = "#" + $(ee).parent().attr("id");
-                var slide = $(Parent).attr("data-slide");
-                ResCarousel(ell, Parent, slide);
-            }
-
 
             callAjax('GET', base_url + '/pluck/sections').done(function(response) {
                 appendToSelect(response.data, "#section_id");
+
+            });
+            $("#section_id").on("change", function(e) {
+                e.preventDefault();
+                callAjax('GET', base_url + '/pluck/ofs').done(function(response) {
+                    $("#of_id").empty();
+                    appendToSelect(response.data, "#of_id");
+                });
             });
         });
+        form.on('submit', function(e) {
+            e.preventDefault();
+            //var splitDates = dateRange();
+            let splitDates = $("#datetimes").val().split(' - ');
+            // alert(splitDates[0]);
+            // return false;
+            formData = {
+                "section_id": $("#section_id").val(),
+                "of_id": $("#of_id").val(),
+                "start_date": splitDates[0],
+                "end_date": splitDates[1]
+            }
+            callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
+                //$(".MultiCarousel-inner").append()
+                let items = "";
+                let i = "active";
+                response.data.fpy.forEach(fpy => {
+                    items += `<div class="carousel-item ${i}">
+                        <div class="card my-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div
+                                                class="
+                                      btn btn-xl btn-light-warning
+                                      text-warning
+                                      btn-circle
+                                    ">
+                                                <i class="fas fa-barcode"></i>
+                                            </div>
+                                            <h3 class="">
+                                                <span class="fs-2 ms-1 text-success font-weight-medium"> ${fpy.count_ok} OK</span>
+                                                <span class="fs-2 ms-1 text-danger font-weight-medium"> / ${fpy.count_nok} NOK</span>
+                                            </h3>
+                                        </div>
 
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar" role="progressbar" style="width: 100%"
+                                                aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>
+                                    </div>
+                                </div>
+                            </div>`;
+                    i = "";
+                });
+                $(".carousel-inner").empty().append(items);
+                var multipleCardCarousel = document.querySelector(
+                    "#carouselExampleControls"
+                );
+                if (window.matchMedia("(min-width: 768px)").matches) {
+                    var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+                        interval: false,
+                    });
+                    var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+                    var cardWidth = $(".carousel-item").width();
+                    var scrollPosition = 0;
+                    $("#carouselExampleControls .carousel-control-next").on("click", function() {
+                        if (scrollPosition < carouselWidth - cardWidth * 4) {
+                            scrollPosition += cardWidth;
+                            $("#carouselExampleControls .carousel-inner").animate({
+                                    scrollLeft: scrollPosition
+                                },
+                                600
+                            );
+                        }
+                    });
+                    $("#carouselExampleControls .carousel-control-prev").on("click", function() {
+                        if (scrollPosition > 0) {
+                            scrollPosition -= cardWidth;
+                            $("#carouselExampleControls .carousel-inner").animate({
+                                    scrollLeft: scrollPosition
+                                },
+                                600
+                            );
+                        }
+                    });
+                } else {
+                    $(multipleCardCarousel).addClass("slide");
+                }
+                let a = `<div class="item">
+                                <div class="card my-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div
+                                                class="
+                                      btn btn-xl btn-light-warning
+                                      text-warning
+                                      btn-circle
+                                    ">
+                                                <i class="fas fa-barcode"></i>
+                                            </div>
+                                            <h3 class="">
+                                                <span class="fs-2 ms-1 text-success font-weight-medium"> 44 OK</span>
+                                                <span class="fs-2 ms-1 text-danger font-weight-medium"> / 55 NOK</span>
+                                            </h3>
+                                        </div>
 
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar" role="progressbar" style="width: 100%"
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <h3 class="text-start mt-1">FPY: 25%</h3>
+                                    </div>
+                                </div>
+                            </div>`;
+                var itemsMainDiv = ('.MultiCarousel');
+                var itemsDiv = ('.MultiCarousel-inner');
+                var itemWidth = "";
+                $('.leftLst, .rightLst').click(function() {
+                    var condition = $(this).hasClass("leftLst");
+                    if (condition)
+                        click(0, this);
+                    else
+                        click(1, this)
+                });
+                ResCarouselSize();
+                $(window).resize(function() {
+                    ResCarouselSize();
+                });
+                //this function define the size of the items
+                function ResCarouselSize() {
+                    var incno = 0;
+                    var dataItems = ("data-items");
+                    var itemClass = ('.item');
+                    var id = 0;
+                    var btnParentSb = '';
+                    var itemsSplit = '';
+                    var sampwidth = $(itemsMainDiv).width();
+                    var bodyWidth = $('body').width();
+                    $(itemsDiv).each(function() {
+                        id = id + 1;
+                        var itemNumbers = $(this).find(itemClass).length;
+                        btnParentSb = $(this).parent().attr(dataItems);
+                        itemsSplit = btnParentSb.split(',');
+                        $(this).parent().attr("id", "MultiCarousel" + id);
+                        if (bodyWidth >= 1200) {
+                            // alert(itemsSplit[1]);
+                            incno = itemsSplit[1];
+                            itemWidth = sampwidth / incno;
+                        } else if (bodyWidth >= 992) {
+                            incno = itemsSplit[1];
+                            itemWidth = sampwidth / incno;
+                        } else if (bodyWidth >= 768) {
+                            incno = itemsSplit[1];
+                            itemWidth = sampwidth / incno;
+                        } else {
+                            incno = itemsSplit[0];
+                            itemWidth = sampwidth / incno;
+                        }
+                        $(this).css({
+                            'transform': 'translateX(0px)',
+                            'width': itemWidth * itemNumbers
+                        });
+                        $(this).find(itemClass).each(function() {
+                            $(this).outerWidth(itemWidth);
+                        });
+
+                        $(".leftLst").addClass("over");
+                        $(".rightLst").removeClass("over");
+
+                    });
+                }
+                //this function used to move the items
+                function ResCarousel(e, el, s) {
+                    var leftBtn = ('.leftLst');
+                    var rightBtn = ('.rightLst');
+                    var translateXval = '';
+                    var divStyle = $(el + ' ' + itemsDiv).css('transform');
+                    var values = divStyle.match(/-?[\d\.]+/g);
+                    var xds = Math.abs(values[4]);
+                    if (e == 0) {
+                        translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                        $(el + ' ' + rightBtn).removeClass("over");
+
+                        if (translateXval <= itemWidth / 2) {
+                            translateXval = 0;
+                            $(el + ' ' + leftBtn).addClass("over");
+                        }
+                    } else if (e == 1) {
+                        var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                        translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                        $(el + ' ' + leftBtn).removeClass("over");
+
+                        if (translateXval >= itemsCondition - itemWidth / 2) {
+                            translateXval = itemsCondition;
+                            $(el + ' ' + rightBtn).addClass("over");
+                        }
+                    }
+                    $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+                }
+                //It is used to get some elements from btn
+                function click(ell, ee) {
+                    var Parent = "#" + $(ee).parent().attr("id");
+                    var slide = $(Parent).attr("data-slide");
+                    ResCarousel(ell, Parent, slide);
+                }
+                //alert();
+                //console.log(response);
+            });
+        });
         // var options1 = {
         //     type: 'bar',
         //     data: {
@@ -825,12 +654,11 @@
                 //legend: false,
             }
         });
-
-
         $("#percent1").text(92 + ' %');
         $("#percent2").text(90 + ' %');
         $("#percent3").text(98 + ' %');
-        $("#percent4").text(80 + ' %');
+        $(
+            "#percent4").text(80 + ' %');
         var options1 = {
             type: 'doughnut',
             data: {
@@ -859,13 +687,5 @@
                 cutoutPercentage: 85
             }
         }
-        var ctx1 = document.getElementById('FPY1').getContext('2d');
-        var ctx2 = document.getElementById('FPY2').getContext('2d');
-        var ctx3 = document.getElementById('FPY3').getContext('2d');
-        var ctx4 = document.getElementById('FPY4').getContext('2d');
-        var chart1 = new Chart(ctx1, options1);
-        var chart2 = new Chart(ctx2, options1);
-        var chart3 = new Chart(ctx3, options1);
-        var chart4 = new Chart(ctx4, options1);
     </script>
 @endpush
