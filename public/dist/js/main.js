@@ -43,8 +43,8 @@
 $(function () {
     $('input[name="datetimes"]').daterangepicker({
         timePicker: true,
-        startDate: moment().startOf('hour'),
-        endDate: moment().startOf('hour').add(32, 'hour'),
+        startDate: moment().subtract(1, 'month').startOf('month'),
+        endDate: moment().subtract(1, 'month').endOf('month'),
         locale: {
             format: 'YYYY-MM-DD hh:mm:ss'
         },

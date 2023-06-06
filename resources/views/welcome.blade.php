@@ -137,14 +137,14 @@
                 </div>
             </div>
             <style>
-                .carousel-inner {
-                    padding: 1em;
-                }
+                /* .carousel-inner {
+                                                            padding: 1em;
+                                                        } */
 
                 .card {
                     margin: 0 0.5em;
-                    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-                    border: none;
+                    /* box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+                                                                        border: none; */
                 }
 
                 .carousel-control-prev,
@@ -160,25 +160,13 @@
                 @media (min-width: 768px) {
                     .carousel-item {
                         margin-right: 0;
-                        flex: 0 0 20%;
+                        flex: 0 0 33.3333333%;
                         display: block;
                     }
 
                     .carousel-inner {
                         display: flex;
                     }
-                }
-
-                .card .img-wrapper {
-                    max-width: 100%;
-                    height: 13em;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                .card img {
-                    max-height: 100%;
                 }
 
                 @media (max-width: 767px) {
@@ -189,91 +177,6 @@
             </style>
             <div class="row">
                 <div class="col-lg-12">
-                    {{-- <div class="card bg-info w-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <h4 class="card-title text-white">Filtrage</h4>
-                                <div class="ms-auto">
-                                    <span
-                                        class="
-                                  btn btn-lg btn-success btn-circle
-                                  d-flex
-                                  align-items-center
-                                  justify-content-center
-                                ">
-                                        <i class="mdi mdi-calendar-clock fs-3 rounded text-white"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <div>
-                                    <div class="input-group date" id="id_0">
-                                        <input type="text" value="" class="form-control" name="datetimes" />
-                                    </div>
-                                    <h2 class="fs-8 text-white mb-0">au :$93,438.78</h2>
-                                </div>
-                                <div>
-                                    <button class="btn btn-danger text-white" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">changer</button>
-                                </div> <span class="text-white op-5">Monthly revenue</span>
-                            </div>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('Filtrage') }}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="" method="post" class="datepickers">
-                                <div class="row align-items-center">
-                                    <div class="col-md-4">
-                                        <label class="label-control" for="id_start_datetime">date, temps début:</label>
-                                    </div>
-                                    <div class="col">
-                                        {{-- <div class="input-group date" id="id_0">
-                                            <input type="text" value="" class="form-control" name="datetimes" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row pt-2 align-items-center">
-                                    <div class="col-md-4">
-                                        <label class="label-control" for="id_start_datetime">date, temps fin:</label>
-                                    </div>
-                                    <div class="col">
-                                        <div class="input-group date" id="id_1">
-                                            <input type="text" value="" class="form-control"
-                                                placeholder="DD/MM/YYYY hh:mm:ss" required />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row pt-2 align-items-center">
-                                    <div class="col-auto">
-                                        <label class="label-control" for="id_start_datetime">OF:</label>
-                                    </div>
-                                    <div class="col">
-                                        <div class="input-group">
-                                            <input type="text" value="" class="form-control" placeholder=""
-                                                required />
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <label class="label-control" for="id_start_datetime">Type:</label>
-                                    </div>
-                                    <div class="col">
-                                        <div class="input-group">
-                                            <input type="text" value="" class="form-control" placeholder=""
-                                                required />
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div> --}}
                     <div class="card">
                         <form id="main_form">
                             <div class="card-header bg-info text-white">
@@ -313,10 +216,12 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-12">
-                    <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                <div class="col-lg-8">
+                    <div id="carouselExampleControls" class="carousel mx-0 px-0" data-bs-ride="carousel">
+                        <div class="carousel-inner pt-3">
+                            <div class="card" style="height: 150px">
 
+                            </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                             data-bs-slide="prev">
@@ -394,6 +299,8 @@
                     appendToSelect(response.data, "#of_id");
                 });
             });
+
+            form.submit();
         });
         form.on('submit', function(e) {
             e.preventDefault();
@@ -411,30 +318,57 @@
                 //$(".MultiCarousel-inner").append()
                 let items = "";
                 let i = "active";
+
+                // let tt = `<div class="d-flex justify-content-between align-items-center">
+            //                             <div
+            //                                 class="
+            //                       btn btn-xl btn-light-warning
+            //                       text-warning
+            //                       btn-circle
+            //                     ">
+            //                                 <i class="fas fa-barcode"></i>
+            //                             </div>
+            //                             <h3 class="">
+            //                                 <span class="fs-2 ms-1 text-success font-weight-medium"> ${fpy.count_ok} OK</span>
+            //                                 <span class="fs-2 ms-1 text-danger font-weight-medium"> / ${fpy.count_nok} NOK</span>
+            //                             </h3>
+            //                         </div>
+
+            //                         <div class="progress mt-3">
+            //                             <div class="progress-bar" role="progressbar" style="width: 100%"
+            //                                 aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
+            //                         </div>
+            //                         <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>`;
                 response.data.fpy.forEach(fpy => {
                     items += `<div class="carousel-item ${i}">
                         <div class="card my-0">
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div
-                                                class="
-                                      btn btn-xl btn-light-warning
-                                      text-warning
-                                      btn-circle
-                                    ">
-                                                <i class="fas fa-barcode"></i>
-                                            </div>
-                                            <h3 class="">
-                                                <span class="fs-2 ms-1 text-success font-weight-medium"> ${fpy.count_ok} OK</span>
-                                                <span class="fs-2 ms-1 text-danger font-weight-medium"> / ${fpy.count_nok} NOK</span>
-                                            </h3>
-                                        </div>
+                                        <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-colum justify-content-between">
+                                                                         <div
+                                             class="
+                                   btn btn-xl btn-light-warning
+                                   text-warning
+                                   btn-circle
+                                 ">
+                                             <i class="fas fa-barcode"></i>
+                                         </div>
 
-                                        <div class="progress mt-3">
-                                            <div class="progress-bar" role="progressbar" style="width: 100%"
-                                                aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                        <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>
+                                        <div class=" ms-2 d-block w-100">
+                                            <div class="progress mt-3">
+                                         <div class="progress-bar" role="progressbar" style="width: 100%"
+                                             aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
+                                     </div>
+                                     <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <h3 class="">
+                                             <span class="fs-2 ms-1 text-success font-weight-medium"> ${fpy.count_ok} OK</span>
+                                             <span class="fs-2 ms-1 text-danger font-weight-medium"> / ${fpy.count_nok} NOK</span>
+                                         </h3>
                                     </div>
                                 </div>
                             </div>`;
