@@ -273,7 +273,7 @@ Route::group(
                 ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok')
                 ->selectRaw('CAST((COUNT(CASE WHEN movements.result = "OK" THEN 1 END) / COUNT(*)) * 100 AS UNSIGNED) AS FPY')
 
-                ->groupBy('movements.movement_post_id')
+                ->groupBy('movements.movement_post_id','posts.post_name')
                 ->get();
 
             // Calculate total FPY for the chain

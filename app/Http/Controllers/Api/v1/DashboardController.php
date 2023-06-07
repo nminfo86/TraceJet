@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Of;
 use App\Models\Movement;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        // dd($request->all());
         $ofs = Of::inSection($request->section_id)
             // Apply condition: Filter by 'of_id' if present in the request
             ->when($request->has('of_id'), function ($query) use ($request) {
                 return $query->where('id', $request->of_id);
             })
             ->get(['id', 'of_name']);
-
-
         $fpy = Movement::when($request->has('start_date') && $request->has('end_date'), function ($query) use ($request) {
             // Apply condition: Filter by 'start_date' and 'end_date' if present in the request
             return $query->whereBetween('movements.created_at', [$request->start_date, $request->end_date]);
@@ -27,7 +27,7 @@ class DashboardController extends Controller
         })
             ->join('posts', 'movements.movement_post_id', '=', 'posts.id')
             ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
-            ->groupBy('movements.movement_post_id')
+            ->groupBy('movements.movement_post_id','posts.post_name')
             ->select('posts.post_name')
             ->selectRaw('COUNT(IF(movements.result = "OK", 1, NULL)) AS count_ok')
             ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok')
