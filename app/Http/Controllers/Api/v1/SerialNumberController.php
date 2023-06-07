@@ -4,14 +4,24 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Of;
 use Carbon\Carbon;
+use App\Models\Post;
 use App\Models\Movement;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckIpClient;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StoreRequests\StoreSerialNumberRequest;
+use Illuminate\Support\Facades\Cache;
 
 class SerialNumberController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckIpClient::class . ":1"); # 1 is label_generator post_type id
+        // Add more middleware and specify the desired methods if needed
+    }
 
     /**
      * Display a listing of the resource.
@@ -21,6 +31,7 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
+        // Continue with the rest of your code
         $valid_products = SerialNumber::whereOfId($request->of_id)->whereValid(1)
             ->get(["serial_number", "updated_at"]);
 
@@ -50,6 +61,14 @@ class SerialNumberController extends Controller
     //valid product
     public function store(StoreSerialNumberRequest $request)
     {
+        $current_post = $this->postsListFromCache(1);
+
+        if (isset($current_post['status'])) {
+            // Handle the case where the post does not exist in the user's section
+            return $this->sendResponse($current_post["message"], status: false);
+        }
+
+
         // Check if the Order Form (OF) with the given ID is closed
         $of = OF::findOrFail($request->of_id);
 

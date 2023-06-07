@@ -177,7 +177,7 @@
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
             callAjax('GET', base_url + '/pluck/ofs', {
-                filter: "status"
+                filter: "status",
             }).done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });
@@ -210,7 +210,7 @@
                 e.preventDefault()
                 of_id = $(this).val();
                 getSnTable(of_id);
-                getOfDetails(of_id);
+                // getOfDetails(of_id);
             })
             /* -------------------------------------------------------------------------- */
             /*                                Print QR code                               */
@@ -258,50 +258,58 @@
                     data: {
                         "of_id": of_id
                     },
+                    // TODO::samir
                     dataSrc: function(response) {
-                        $("#valid").text(response.data.list.length);
-                        $("#status").text(response.data.status);
-                        $("#quantity_of_day").text(response.data.quantity_of_day);
-                        let x = (parseInt(response.data.list.length) / parseInt(
-                            total_quantity_of));
-                        percent = Math.floor(x * 100);
-                        $("#percent").text(percent + ' %');
-                        let rest = 0;
-                        if (percent < 100) {
-                            rest = 100 - percent;
-                        }
-                        newPercent = [percent, rest];
-                        var options1 = {
-                            type: 'doughnut',
-                            data: {
-                                labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-                                datasets: [{
-                                    label: '# of Votes',
-                                    data: [percent, rest],
-                                    backgroundColor: [
-                                        'rgba(46, 204, 113, 1)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 255, 255 ,1)'
-                                    ],
-                                    borderWidth: 5
-                                }]
-                            },
-                            options: {
-                                rotation: 1 * Math.PI,
-                                circumference: 1 * Math.PI,
-                                legend: {
-                                    display: false
-                                },
-                                tooltip: {
-                                    enabled: false
-                                },
-                                cutoutPercentage: 85
+                        if (!response.status) {
+                            ajaxError(response.message);
+                        } else {
+                            getOfDetails(of_id);
+
+                            $("#valid").text(response.data.list.length);
+                            $("#status").text(response.data.status);
+                            $("#quantity_of_day").text(response.data.quantity_of_day);
+                            let x = (parseInt(response.data.list.length) / parseInt(
+                                total_quantity_of));
+                            percent = Math.floor(x * 100);
+                            $("#percent").text(percent + ' %');
+                            let rest = 0;
+                            if (percent < 100) {
+                                rest = 100 - percent;
                             }
+                            newPercent = [percent, rest];
+                            var options1 = {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                                    datasets: [{
+                                        label: '# of Votes',
+                                        data: [percent, rest],
+                                        backgroundColor: [
+                                            'rgba(46, 204, 113, 1)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 255, 255 ,1)'
+                                        ],
+                                        borderWidth: 5
+                                    }]
+                                },
+                                options: {
+                                    rotation: 1 * Math.PI,
+                                    circumference: 1 * Math.PI,
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltip: {
+                                        enabled: false
+                                    },
+                                    cutoutPercentage: 85
+                                }
+                            }
+                            var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
+                            var chart1 = new Chart(ctx1, options1);
+                            return response.data.list;
                         }
-                        var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
-                        var chart1 = new Chart(ctx1, options1);
-                        return response.data.list;
+
                     }
                 },
                 columns: [{

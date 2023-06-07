@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckIpClient
 {
@@ -15,8 +16,38 @@ class CheckIpClient
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, Int $post_type)
     {
+        // $lastSegment = $request->segments($request->segments);
+        // dd($lastSegment);
+        // $url = $request->requestUri();
+        // dd($url);
+        // $urlWithQueryString = $request->fullUrl();
+        // $request->fullUrlWithQuery(['type' => 'phone']);
+        // $request->host();
+        // // dd($request->segment);
+        // $request->httpHost();
+        // $request->schemeAndHttpHost();
+
+
+        // if ($request->url() == "http://localhost:8000/api/v1/pluck/ofs") {
+
+        $posts_list = Post::where("section_id", Auth::user()->section_id)->get();
+
+        $containsTypeId = $posts_list->contains('posts_type_id', $post_type); //1 is label generator
+
+        if (!$containsTypeId) {
+            // Code to execute if the collection contains an item with posts_type_id = 1
+            $result =  ['message' => 'Invalid host section, you have not a permission', "status" => false];
+            return response()->json($result);
+        }
+        // }
+        return $next($request);
+
+        // dd($request->url());
+        // $lastSegment = $request->segment($request->segments->count() - 1);
+
+        // dd($lastSegment);
         // $allowedIpAddress = $request->ip();
         // // dd($allowedIpAddress);
         // if ($request->ip() === "127.0.0.1") {

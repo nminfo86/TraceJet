@@ -162,7 +162,7 @@ Route::group(
         // });
 
         route::get("t", function (Request $request) {
-
+            // dd(Session::get('user_data')['post_information']['post_name']);
             // Retrieve OFs
             $ofs = Of::inSection(2)->where("id", 1)->get(['id', 'of_name']);
 

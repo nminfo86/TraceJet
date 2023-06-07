@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\AccessTokensRequest;
 
@@ -58,7 +59,6 @@ class AccessTokensController extends Controller
         /* -------------------------------------------------------------------------- */
         // Retrieve post information for user's IP address
         $post_information = Post::whereIpAddress($request->ip())->first();
-
 
         // Return error response if post information is not found
         if (empty($post_information)) {
@@ -114,6 +114,9 @@ class AccessTokensController extends Controller
 
             // delete the current token that was used for the request
             $user->currentAccessToken()->delete();
+
+            // Destroy the cache associated with the user's session
+            Cache::forget('posts_list');
 
             //  Send Response with success
             return $this->sendResponse();

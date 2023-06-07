@@ -74,8 +74,10 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
 
-        'check_ip_client' => \App\Http\Middleware\CheckIpClient::class,
+        // 'check_ip_client' => \App\Http\Middleware\CheckIpClient::class,
         'localLang' => \App\Http\Middleware\LocalLang::class,
+        // 'check_ip_client' => \App\Http\Middleware\CheckIpClient::class,
+
 
         /***********************localization middlware *******************************/
         'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,

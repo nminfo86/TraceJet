@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\WebAuthController;
 use App\Http\Controllers\Api\v1\SerialNumberController;
+use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,7 @@ Route::post('authLogin', [WebAuthController::class, 'webLogin']);
 // Route::get('logout', [WebAuthController::class, 'webLogout']);
 // /************************** end ************************************/
 
-// Route::group(['middleware' => ['auth:sanctum', /*'check_ip_client'*/]],
+
 
 //     function () {
 Route::group(
@@ -84,6 +85,15 @@ Route::group(
         })->middleware('permission:role-list');
         Route::get('serial_numbers', function () {
             // dd(Carbon::now());
+
+            // $posts = Post::where("section_id", 2)->get();
+
+            // $containsTypeId1 = $posts->contains('posts_type_id', 1);
+
+            // if (!$containsTypeId1) {
+            //     // Code to execute if the collection contains an item with posts_type_id = 1
+            //     return redirect("logout");
+            // }
             return view('pages.serial_numbers');
         });
         Route::get('packaging', function () {
@@ -468,6 +478,41 @@ Route::group(
             // // dd(Session::all());
             // return Of::filterBySection()->get();
             // return $products = Product::filterBySection()->get();
+        });
+
+
+        route::get("p", function () {
+
+            // Créez une instance du contrôleur
+            $controller = new \App\Http\Controllers\Controller;
+
+            // Appelez la méthode `postsListFromCache(3)`
+            $current_post = $controller->postsListFromCache(3);
+
+
+            if ($current_post["status"] == false) {
+                // Handle the case where the post does not exist in the user's section
+                return $this->sendResponse($current_post["message"], status: false);
+            }
+
+            return "suite";
+            // Continue with the rest of your code
+            $valid_products = SerialNumber::whereOfId($request->of_id)->whereValid(1)
+                ->get(["serial_number", "updated_at"]);
+
+            // Get the quantity of valid serial numbers for today
+            $quantity_valid_for_today = $valid_products->filter(function ($item) {
+                return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
+            })->count();
+
+            // Prepare the response data
+            $data = [
+                'list' => $valid_products,
+                'quantity_of_day' => "0" . $quantity_valid_for_today
+            ];
+
+            // Return the response
+            return $this->sendResponse(data: $data);
         });
     }
 );
