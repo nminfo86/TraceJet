@@ -6,18 +6,23 @@ use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\Movement;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Services\ProductService;
+use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckIpClient;
 
 class OperatorController extends Controller
 {
     protected $productService;
 
-    public function __construct(ProductService $productService)
+    // public function __construct(ProductService $productService)
+    // {
+    //     $this->productService = $productService;
+    // }
+    public function __construct()
     {
-        $this->productService = $productService;
+        $this->middleware(CheckIpClient::class . ":2"); # 2 is operator post_type id
+        // Add more middleware and specify the desired methods if needed
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +60,7 @@ class OperatorController extends Controller
     //  */
 
     /* @var checkProductSteps void */
-    public function store(Request $request)
+    public function store(Request $request, ProductService $productService)
     {
         // Retrieve the latest movement record associated with the given serial number and order form ID
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
@@ -65,7 +70,7 @@ class OperatorController extends Controller
             ->first(['serial_numbers.id AS sn_id', 'movement_post_id', 'result']);
 
         // Check if there were any errors in the product steps
-        $checkProductSteps = $this->productService->checkProductSteps($request, $product)->getData();
+        $checkProductSteps = $productService->checkProductSteps($request, $product)->getData();
 
         // If there were errors, return the error response
         if (!isset($checkProductSteps->data)) {
@@ -93,7 +98,7 @@ class OperatorController extends Controller
      * @var void $checkProductSteps
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request, ProductService $productService)
     {
         // Get the last movement of a product with the specified QR and OF id
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
@@ -104,29 +109,6 @@ class OperatorController extends Controller
 
         // Check if there are any errors with the product steps
         // If the current_post_id does not exist, there is an error
-        return $this->productService->checkProductSteps($request, $product);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return $productService->checkProductSteps($request, $product);
     }
 }

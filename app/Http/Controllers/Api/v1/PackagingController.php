@@ -15,26 +15,24 @@ use App\Services\MovementService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckIpClient;
 use Illuminate\Support\Facades\Response;
 
 class PackagingController extends Controller
 {
-    private $productService;
+    // private $productService;
 
-    public function __construct(ProductService $productService)
+    // public function __construct(ProductService $productService)
+    // {
+    //     $this->productService = $productService;
+    // }
+    public function __construct()
     {
-        $this->productService = $productService;
+        $this->middleware(CheckIpClient::class . ":3"); # 2 is operator post_type id
+        // Add more middleware and specify the desired methods if needed
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -43,7 +41,7 @@ class PackagingController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request)
+    public function store(Request $request, ProductService $productService)
     {
 
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
@@ -61,7 +59,7 @@ class PackagingController extends Controller
         }
 
         // Check if there were any errors in the product steps
-        $checkProductSteps = $this->productService->checkProductSteps($request, $product)->getData();
+        $checkProductSteps = $productService->checkProductSteps($request, $product)->getData();
 
         // If there were errors, return the error response
         if (!isset($checkProductSteps->data)) {
