@@ -138,8 +138,14 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                padding: 1em;
-                                                                                                            } */
+                                                            padding: 1em;
+                                                        } */
+
+                .card {
+                    margin: 0 0.5em;
+                    /* box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+                                                                        border: none; */
+                }
 
                 .carousel-control-prev,
                 .carousel-control-next {
@@ -153,7 +159,7 @@
 
                 @media (min-width: 768px) {
                     .carousel-item {
-                        margin-inline-start: 10px;
+                        margin-right: 0;
                         flex: 0 0 33.3333333%;
                         display: block;
                     }
@@ -174,7 +180,7 @@
                     <div class="card">
                         <form id="main_form">
                             <div class="card-header bg-info text-white">
-                                {{ __('feltrage') }}
+                                feltrage
                             </div>
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -203,14 +209,6 @@
                                         </select>
                                     </div>
                                     <div class="col-auto">
-                                        <label for="inputField" class="col-form-label">{{ __('Calibre') }}</label>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select theme-select border-0" id="caliber_id" name="caliber_id"
-                                            aria-label="">
-                                        </select>
-                                    </div>
-                                    <div class="col-auto">
                                         <button type="submit" class="btn btn-primary">GO</button>
                                     </div>
                                 </div>
@@ -220,7 +218,10 @@
                 </div>
                 <div class="col-lg-8">
                     <div id="carouselExampleControls" class="carousel mx-0 px-0" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner pt-3">
+                            <div class="card" style="height: 150px">
+
+                            </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                             data-bs-slide="prev">
@@ -232,40 +233,6 @@
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="carousel-item">
-                        <div class="card my-0">
-                            <div class="card-body">
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-colum justify-content-between">
-                                        <div
-                                            class="
-                                   btn btn-xl btn-light-warning
-                                   text-warning
-                                   btn-circle
-                                 ">
-                                            <i class="fas fa-barcode"></i>
-                                        </div>
-
-                                    </div>
-                                    <div class=" ms-2 d-block w-100">
-                                        <div class="progress mt-3">
-                                            <div class="progress-bar" role="progressbar" style="width: 100%"
-                                                aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h3 class="text-start mt-1">FPY: %</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <h3 class="">
-                                    <span class="fs-2 ms-1 text-success font-weight-medium"> </span>
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium"> </span>
-                                </h3>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -291,7 +258,7 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card  w-100 mt-5">
+                    <div class="card  w-100">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table mb-0 table-hover align-middle text-nowrap">
