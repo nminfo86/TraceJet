@@ -138,14 +138,14 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                                                                                                                            padding: 1em;
-                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                padding: 1em;
+                                                                                                                                                                                                                                                                                            } */
 
                 .card {
                     /* margin: 0 0.5em; */
                     /* margin-block-start: 0.5em; */
                     /* box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-                                                                                                                                                                                                                                        border: none; */
+                                                                                                                                                                                                                                                                                                            border: none; */
                 }
 
                 .carousel-control-prev,
@@ -325,6 +325,10 @@
                 appendToSelect(response.data, "#section_id");
 
             });
+            callAjax('GET', base_url + 'p/ofs').done(function(response) {
+                appendToSelect(response.data, "#section_id");
+
+            });
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
                 callAjax('GET', base_url + '/pluck/ofs').done(function(response) {
@@ -349,11 +353,19 @@
             }
             callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
                 //$(".MultiCarousel-inner").append()
+                var posts_label = [];
+                var ok = [],
+                    nok = [];
+
                 let items = "";
                 let i = "active";
                 $("#total_fpy").text(response.data.total_fpy);
                 $(".total_fpy").css('width', response.data.total_fpy + "%");
+
                 response.data.fpy.forEach(fpy => {
+                    posts_label.push(fpy.post_name);
+                    ok.push(fpy.count_ok);
+                    nok.push(fpy.count_nok);
                     items += `<div class="carousel-item ${i}">
                         <div class="card my-0 ms-2">
                                     <div class="card-body">
@@ -388,6 +400,8 @@
                             </div>`;
                     i = "";
                 });
+
+                posts_chart(posts_label, ok, nok);
                 $(".carousel-inner").empty().append(items);
                 var multipleCardCarousel = document.querySelector(
                     "#carouselExampleControls"
@@ -542,33 +556,39 @@
                 //alert();
                 //console.log(response);
             });
+
+            //console.log(posts_label);
+
         });
-        const ctx = document.getElementById('chartJSContainer');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Générateur', 'Opé_1', 'Opé_2', 'Opé_3', 'Emballage'],
-                datasets: [{
-                        label: "{{ __('Produise') }}",
-                        data: [12, 19, 3, 5, 3],
-                        borderWidth: 1,
-                        backgroundColor: "#1a9bfc",
-                    },
-                    {
-                        label: "{{ __('reste') }}",
-                        data: [12, 19, 3, 5, 5],
-                        borderWidth: 1,
-                        backgroundColor: "#1e4db7",
-                    }
-                ],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+
+        function posts_chart(posts_label, ok, nok) {
+            const ctx = document.getElementById('chartJSContainer');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: posts_label,
+                    datasets: [{
+                            label: "{{ __('OK') }}",
+                            data: ok,
+                            borderWidth: 1,
+                            backgroundColor: "#1a9bfc",
+                        },
+                        {
+                            label: "{{ __('Non Ok') }}",
+                            data: nok,
+                            borderWidth: 1,
+                            backgroundColor: "#1e4db7",
+                        }
+                    ],
                 },
-            }
-        });
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                }
+            });
+        }
     </script>
 @endpush
