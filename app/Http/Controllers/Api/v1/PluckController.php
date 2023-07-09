@@ -115,7 +115,11 @@ class PluckController extends Controller
                 if ($request->filter == "status") {
                     // Retrieve ofs with specific status and filtered by section
                     $data = Of::filterBySection()->whereIn("status", ["new", "inProd"])->pluck('of_name', 'id');
-                } else {
+                } else if($request->has("section_id"))
+                {
+                    $data = Of::InSection($request->section_id)->pluck('of_name', 'id');
+                }
+                else {
                     // Retrieve all ofs filtered by section
                     $data = Of::pluck('of_name', 'id');
                 }

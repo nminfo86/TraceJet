@@ -1,0 +1,10 @@
+un untisateur peut gérérer 0 ou plusieurs section.
+une section peut être managé par 1 ou plusieurs managers.
+
+
+dans le tableau de bord un manager selectionne une section pour voir la liste
+des OFs y appatient.
+
+selectionner un caliber avant un OF.
+
+afficher les postes même si vide.

@@ -138,8 +138,8 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                padding: 1em;
-                                                                                                            } */
+                                                                                                                                                                                                    padding: 1em;
+                                                                                                                                                                                                } */
 
                 .carousel-control-prev,
                 .carousel-control-next {
@@ -184,7 +184,7 @@
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="section_id" name="section_id"
                                             aria-label="Default select example">
-
+                                            <option selected disabled>{{ __('selectionner une section') }}</option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -325,14 +325,18 @@
                 appendToSelect(response.data, "#section_id");
 
             });
+
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
-                callAjax('GET', base_url + '/pluck/ofs').done(function(response) {
+                let id = $(this).val();
+                callAjax('GET', base_url + '/pluck/ofs', {
+                    "section_id": id
+                }).done(function(response) {
                     $("#of_id").empty();
                     appendToSelect(response.data, "#of_id");
                 });
             });
-
+            // $("#section_id").change();
             form.submit();
         });
         form.on('submit', function(e) {
