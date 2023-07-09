@@ -14,7 +14,7 @@ trait FilteredBySection
         $section_id = $user->section_id;
         if ($role === "super_admin") {
             return self::query(); // Retrieve all records
-        } else {
+        } else {    
             return self::inSection($section_id); // Retrieve records based on section
         }
     }
