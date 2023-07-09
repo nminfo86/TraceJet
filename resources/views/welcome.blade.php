@@ -138,15 +138,8 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                                                                                                                                                                                                padding: 1em;
-                                                                                                                                                                                                                                                                                            } */
-
-                .card {
-                    /* margin: 0 0.5em; */
-                    /* margin-block-start: 0.5em; */
-                    /* box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-                                                                                                                                                                                                                                                                                                            border: none; */
-                }
+                                                                                                                                                                                                    padding: 1em;
+                                                                                                                                                                                                } */
 
                 .carousel-control-prev,
                 .carousel-control-next {
@@ -160,7 +153,7 @@
 
                 @media (min-width: 768px) {
                     .carousel-item {
-                        margin-right: 0;
+                        margin-inline-start: 10px;
                         flex: 0 0 33.3333333%;
                         display: block;
                     }
@@ -181,7 +174,7 @@
                     <div class="card">
                         <form id="main_form">
                             <div class="card-header bg-info text-white">
-                                feltrage
+                                {{ __('feltrage') }}
                             </div>
                             <div class="card-body">
                                 <div class="row align-items-center">
@@ -191,7 +184,7 @@
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="section_id" name="section_id"
                                             aria-label="Default select example">
-
+                                            <option selected disabled>{{ __('selectionner une section') }}</option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -228,7 +221,6 @@
                 <div class="col-lg-8">
                     <div id="carouselExampleControls" class="carousel mx-0 px-0" data-bs-ride="carousel">
                         <div class="carousel-inner">
-
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                             data-bs-slide="prev">
@@ -243,27 +235,35 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="card my-0 bg-info h-100 ">
-                        <div class="card-body">
-                            <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="d-flex flex-colum justify-content-between">
-                                    <div
-                                        class="
+                    <div class="carousel-item">
+                        <div class="card my-0">
+                            <div class="card-body">
+                                <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="d-flex flex-colum justify-content-between">
+                                        <div
+                                            class="
                                    btn btn-xl btn-light-warning
                                    text-warning
                                    btn-circle
                                  ">
-                                        <i class="fas fa-chart-line"></i>
-                                    </div>
+                                            <i class="fas fa-barcode"></i>
+                                        </div>
 
-                                </div>
-                                <div class=" ms-2 d-block w-100">
-                                    <div class="progress mt-3 ">
-                                        <div class="progress-bar total_fpy" role="progressbar" aria-valuenow="100"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h3 class="text-start mt-1">FPY de chaine: <span id="total_fpy"></span>%</h3>
+                                    <div class=" ms-2 d-block w-100">
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar" role="progressbar" style="width: 100%"
+                                                aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <h3 class="text-start mt-1">FPY: %</h3>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="card-footer">
+                                <h3 class="">
+                                    <span class="fs-2 ms-1 text-success font-weight-medium"> </span>
+                                    <span class="fs-2 ms-1 text-danger font-weight-medium"> </span>
+                                </h3>
                             </div>
                         </div>
                     </div>
@@ -291,7 +291,7 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card  w-100">
+                    <div class="card  w-100 mt-5">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table mb-0 table-hover align-middle text-nowrap">
@@ -325,18 +325,18 @@
                 appendToSelect(response.data, "#section_id");
 
             });
-            callAjax('GET', base_url + 'p/ofs').done(function(response) {
-                appendToSelect(response.data, "#section_id");
 
-            });
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
-                callAjax('GET', base_url + '/pluck/ofs').done(function(response) {
+                let id = $(this).val();
+                callAjax('GET', base_url + '/pluck/ofs', {
+                    "section_id": id
+                }).done(function(response) {
                     $("#of_id").empty();
                     appendToSelect(response.data, "#of_id");
                 });
             });
-
+            // $("#section_id").change();
             form.submit();
         });
         form.on('submit', function(e) {
@@ -353,26 +353,37 @@
             }
             callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
                 //$(".MultiCarousel-inner").append()
-                var posts_label = [];
-                var ok = [],
-                    nok = [];
-
                 let items = "";
                 let i = "active";
-                $("#total_fpy").text(response.data.total_fpy);
-                $(".total_fpy").css('width', response.data.total_fpy + "%");
 
+                // let tt = `<div class="d-flex justify-content-between align-items-center">
+            //                             <div
+            //                                 class="
+            //                       btn btn-xl btn-light-warning
+            //                       text-warning
+            //                       btn-circle
+            //                     ">
+            //                                 <i class="fas fa-barcode"></i>
+            //                             </div>
+            //                             <h3 class="">
+            //                                 <span class="fs-2 ms-1 text-success font-weight-medium"> ${fpy.count_ok} OK</span>
+            //                                 <span class="fs-2 ms-1 text-danger font-weight-medium"> / ${fpy.count_nok} NOK</span>
+            //                             </h3>
+            //                         </div>
+
+            //                         <div class="progress mt-3">
+            //                             <div class="progress-bar" role="progressbar" style="width: 100%"
+            //                                 aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
+            //                         </div>
+            //                         <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>`;
                 response.data.fpy.forEach(fpy => {
-                    posts_label.push(fpy.post_name);
-                    ok.push(fpy.count_ok);
-                    nok.push(fpy.count_nok);
                     items += `<div class="carousel-item ${i}">
-                        <div class="card my-0 ms-2">
+                        <div class="card my-0">
                                     <div class="card-body">
                                         <div class="d-flex flex-row justify-content-between align-items-center">
                                         <div class="d-flex flex-colum justify-content-between">
-                                            <div
-                                            class="
+                                                                         <div
+                                             class="
                                    btn btn-xl btn-light-warning
                                    text-warning
                                    btn-circle
@@ -400,8 +411,6 @@
                             </div>`;
                     i = "";
                 });
-
-                posts_chart(posts_label, ok, nok);
                 $(".carousel-inner").empty().append(items);
                 var multipleCardCarousel = document.querySelector(
                     "#carouselExampleControls"
@@ -556,39 +565,98 @@
                 //alert();
                 //console.log(response);
             });
-
-            //console.log(posts_label);
-
         });
+        // var options1 = {
+        //     type: 'bar',
+        //     data: {
+        //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+        //         datasets: [{
+        //             label: '# of Votes',
+        //             data: [10, 2],
+        //             backgroundColor: [
+        //                 'rgba(46, 204, 113, 1)'
+        //             ],
+        //             borderColor: [
+        //                 'rgba(255, 255, 255 ,1)'
+        //             ],
+        //             borderWidth: 5
+        //         }]
+        //     },
+        //     options: {
+        //         rotation: 1 * Math.PI,
+        //         circumference: 1 * Math.PI,
+        //         legend: {
+        //             display: false
+        //         },
+        //         tooltip: {
+        //             enabled: false
+        //         },
+        //         cutoutPercentage: 85
+        //     }
+        // }
+        // var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
+        // var chart1 = new Chart(ctx1, options1);
+        const ctx = document.getElementById('chartJSContainer');
 
-        function posts_chart(posts_label, ok, nok) {
-            const ctx = document.getElementById('chartJSContainer');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: posts_label,
-                    datasets: [{
-                            label: "{{ __('OK') }}",
-                            data: ok,
-                            borderWidth: 1,
-                            backgroundColor: "#1a9bfc",
-                        },
-                        {
-                            label: "{{ __('Non Ok') }}",
-                            data: nok,
-                            borderWidth: 1,
-                            backgroundColor: "#1e4db7",
-                        }
-                    ],
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Générateur', 'Opé_1', 'Opé_2', 'Opé_3', 'Emballage'],
+                datasets: [{
+                        label: "{{ __('Produise') }}",
+                        data: [12, 19, 3, 5, 3],
+                        borderWidth: 1,
+                        backgroundColor: "#1a9bfc",
                     },
-                }
-            });
+                    {
+                        label: "{{ __('reste') }}",
+                        data: [12, 19, 3, 5, 5],
+                        borderWidth: 1,
+                        backgroundColor: "#1e4db7",
+                    }
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                //legend: false,
+            }
+        });
+        $("#percent1").text(92 + ' %');
+        $("#percent2").text(90 + ' %');
+        $("#percent3").text(98 + ' %');
+        $(
+            "#percent4").text(80 + ' %');
+        var options1 = {
+            type: 'doughnut',
+            data: {
+                labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [92, 8],
+                    backgroundColor: [
+                        'rgba(46, 204, 113, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 255, 255 ,1)'
+                    ],
+                    borderWidth: 5
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI,
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: false
+                },
+                cutoutPercentage: 85
+            }
         }
     </script>
 @endpush

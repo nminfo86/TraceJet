@@ -98,8 +98,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
             // update user
             $request['password'] = hash::make($request->password);
             $user->update($request->all());
@@ -116,7 +116,7 @@ class UserController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             // return $e->getMessage();
-            return $this->apiException($request, $e);
+            // return $this->apiException($request, $e);
         }
     }
 
