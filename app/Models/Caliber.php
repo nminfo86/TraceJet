@@ -64,4 +64,10 @@ class Caliber extends Model
     {
         return $this->belongsToMany(Post::class)->select("posts.id", "post_name");
     }
+
+
+    public function scopeInSection($query,  $sectionId)
+    {
+        return $query->whereHas('product', fn ($q) => $q->where('section_id', $sectionId));
+    }
 }

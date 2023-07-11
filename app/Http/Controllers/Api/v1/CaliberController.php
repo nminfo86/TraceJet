@@ -58,15 +58,17 @@ class CaliberController extends Controller
         /* -------------------------------------------------------------------------- */
         /*                                   Update                                   */
         /* -------------------------------------------------------------------------- */
+        // DB::beginTransaction();
+        // dd($request->all());
         try {
-            DB::beginTransaction();
             # code...
-            $section = Caliber::create($request->except("post_id"));
-            $posts = $section->posts()->attach($request->only("post_id")["post_id"]);
-            DB::commit();
+            // $section = Caliber::create($request->except("post_id"));
+            $caliber = Caliber::create($request->all());
+            // $posts = $caliber->posts()->attach($request->only("post_id")["post_id"]);
+            // DB::commit();
             //Send response with success
             $msg = $this->getResponseMessage("success");
-            return $this->sendResponse($msg, $section);
+            return $this->sendResponse($msg, $caliber);
         } catch (\Throwable $e) {
             # code...
         }

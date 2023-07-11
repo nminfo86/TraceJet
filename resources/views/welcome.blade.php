@@ -138,8 +138,8 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                                                                                                    padding: 1em;
-                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 1em;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
 
                 .carousel-control-prev,
                 .carousel-control-next {
@@ -194,19 +194,20 @@
                                         <input type="text" value="" class="form-control" id="datetimes"
                                             name="datetimes" />
                                     </div>
-                                    <div class="col-auto">
-                                        <label for="inputField" class="col-form-label">OF</label>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select theme-select border-0" id="of_id" name="of_id"
-                                            aria-label="">
-                                        </select>
-                                    </div>
+
                                     <div class="col-auto">
                                         <label for="inputField" class="col-form-label">{{ __('Calibre') }}</label>
                                     </div>
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="caliber_id" name="caliber_id"
+                                            aria-label="">
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label for="inputField" class="col-form-label">OF</label>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-select theme-select border-0" id="of_id" name="of_id"
                                             aria-label="">
                                         </select>
                                     </div>
@@ -240,12 +241,7 @@
                             <div class="card-body">
                                 <div class="d-flex flex-row justify-content-between align-items-center">
                                     <div class="d-flex flex-colum justify-content-between">
-                                        <div
-                                            class="
-                                   btn btn-xl btn-light-warning
-                                   text-warning
-                                   btn-circle
-                                 ">
+                                        <div class="btn btn-xl btn-light-warning text-warning btn-circle">
                                             <i class="fas fa-barcode"></i>
                                         </div>
 
@@ -294,11 +290,13 @@
                     <div class="card  w-100 mt-5">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table mb-0 table-hover align-middle text-nowrap">
+                                <table class="table mb-0 table-hover align-middle text-nowrap" id="main_table">
                                     <thead>
                                         <tr class="text-capitalize">
-                                            <th class="border-top-0">{{ __('#') }}</th>
-                                            <th class="border-top-0">{{ __('OF') }}</th>
+                                            <th class="border-top-0">{{ __('Number') }}</th>
+                                            <th class="border-top-0">{{ __('Name') }}</th>
+                                            <th class="border-top-0">{{ __('Status') }}</th>
+                                            <th class="border-top-0">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -319,6 +317,8 @@
 @push('custom_js')
     <script type="text/javascript">
         var form = $('#main_form');
+        var table = $('#main_table');
+        url = 'api/v1/ofsBySection';
         $(document).ready(function() {
 
             callAjax('GET', base_url + '/pluck/sections').done(function(response) {
@@ -329,13 +329,69 @@
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
                 let id = $(this).val();
+
+
+
+                table = table.DataTable({
+                    "ajax": ajaxCallDatatables(url + '/' + id),
+                    columns: [{
+                            data: 'of_number'
+                        },
+                        {
+                            data: 'of_code'
+                        }, {
+                            data: 'status'
+                        },
+                        {
+                            data: 'id',
+                            render: function(data, type, row) {
+                                return `  <a type="button" href="http://127.0.0.1:8000/of_statistics/${data}" class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </a>`;
+                            }
+                        },
+                    ],
+                    "destroy": true
+                });
+
+                // callAjax('GET', base_url + '/pluck/ofs', {
+                //     "section_id": id
+                // }).done(function(response) {
+                //     $("#of_id").empty();
+                //     appendToSelect(response.data, "#of_id");
+                // });
+
+                callAjax('GET', base_url + '/pluck/calibers', {
+                    "section_id": id,
+                    'has': "ofs"
+                }).done(function(response) {
+                    $("#caliber_id").empty();
+                    appendToSelect(response.data, "#caliber_id");
+                });
+
+
+                // callAjax('GET', base_url + '/pluck/ofs', {
+                //     "section_id": id,
+                //     'has': "ofs"
+                // }).done(function(response) {
+                //     $("#caliber_id").empty();
+                //     appendToSelect(response.data, "#caliber_id");
+                // });
+
+
+            });
+
+
+            $("#caliber_id").on("change", function(e) {
+                e.preventDefault();
+                let id = $(this).val();
                 callAjax('GET', base_url + '/pluck/ofs', {
-                    "section_id": id
+                    "caliber_id": id,
+                    "has": "caliber"
                 }).done(function(response) {
                     $("#of_id").empty();
                     appendToSelect(response.data, "#of_id");
                 });
             });
+            // $("#caliber_id").change();
             // $("#section_id").change();
             form.submit();
         });

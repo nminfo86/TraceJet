@@ -115,11 +115,13 @@ class PluckController extends Controller
                 if ($request->filter == "status") {
                     // Retrieve ofs with specific status and filtered by section
                     $data = Of::filterBySection()->whereIn("status", ["new", "inProd"])->pluck('of_name', 'id');
-                } else if($request->has("section_id"))
-                {
-                    $data = Of::InSection($request->section_id)->pluck('of_name', 'id');
                 }
-                else {
+                //  else if ($request->has("section_id")) {
+                //     $data = Of::InSection($request->section_id)->pluck('of_name', 'id');
+                // }
+                else if ($request->has("caliber_id") && $request->has('has')) {
+                    $data = Of::has($request->has)->whereCaliberId($request->caliber_id)->pluck('of_name', 'id');
+                } else {
                     // Retrieve all ofs filtered by section
                     $data = Of::pluck('of_name', 'id');
                 }
@@ -128,6 +130,8 @@ class PluckController extends Controller
                 if ($request->filter !== null) {
                     // Retrieve calibers filtered by product_id
                     $data = Caliber::whereProductId($request->filter)->pluck('caliber_name', 'id');
+                } else if ($request->has("section_id") && $request->has('has')) {
+                    $data = Caliber::InSection($request->section_id)->has($request->has)->pluck('caliber_name', 'id');
                 } else {
                     // Retrieve all calibers
                     $data = Caliber::pluck('caliber_name', 'id');

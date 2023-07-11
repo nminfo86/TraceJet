@@ -88,10 +88,7 @@ class Of extends Model
 
     public function scopeInSection($query,  $sectionId)
     {
-        return
-
-
-            $query->whereHas('caliber.product', fn ($q) => $q->where('section_id', $sectionId));
+        return $query->whereHas('caliber.product', fn ($q) => $q->where('section_id', $sectionId));
     }
 
 

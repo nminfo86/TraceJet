@@ -9,7 +9,7 @@ use App\Models\SerialNumber;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\v1\OperatorController;
 use App\Http\Controllers\api\v1\PackagingController;
-use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController,DashboardController};
+use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController, DashboardController};
 use Illuminate\Http\Client\Request;
 
 /*
@@ -99,6 +99,7 @@ Route::group(
 
 
         route::get('dashboard', [DashboardController::class, 'index']);
+        route::get('ofsBySection/{id}', [DashboardController::class, 'ofsListBySection']);
 
 
 

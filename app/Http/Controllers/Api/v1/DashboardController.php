@@ -39,8 +39,8 @@ class DashboardController extends Controller
             ->selectRaw('CAST((COUNT(CASE WHEN movements.result = "OK" THEN 1 END) / COUNT(*)) * 100 AS UNSIGNED) AS FPY')
             ->get();
 
-        if (!$fpy->isEmpty()) {
-            dd($fpy);
+        if ($fpy) {
+            // dd($fpy);
             # code...
             // Calculate total FPY for the chain
             $total_fpy = $fpy->reduce(fn ($carry, $item) => $carry * ($item->FPY / 100), 1) * 100;
@@ -49,5 +49,13 @@ class DashboardController extends Controller
         return $this->sendResponse("Empty FPY", status: false);
 
         // Return the results
+    }
+
+
+
+    public function ofsListBySection($sectionId)
+    {
+        $ofs = Of::inSection($sectionId)->get(['of_number', 'of_code', 'status', 'id']);
+        return $this->sendResponse(data: $ofs);
     }
 }
