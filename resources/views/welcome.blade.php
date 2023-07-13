@@ -138,8 +138,8 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 1em;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding: 1em;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } */
 
                 .carousel-control-prev,
                 .carousel-control-next {
@@ -201,7 +201,9 @@
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="caliber_id" name="caliber_id"
                                             aria-label="">
+                                            <option selected disabled>{{ __('choisir un calibre') }}</option>
                                         </select>
+
                                     </div>
                                     <div class="col-auto">
                                         <label for="inputField" class="col-form-label">OF</label>
@@ -209,6 +211,7 @@
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="of_id" name="of_id"
                                             aria-label="">
+                                            <option selected disabled>{{ __('choisir un OF') }}</option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -329,10 +332,7 @@
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
                 let id = $(this).val();
-
-
-
-                table = table.DataTable({
+                table.DataTable({
                     "ajax": ajaxCallDatatables(url + '/' + id),
                     columns: [{
                             data: 'of_number'
@@ -358,12 +358,13 @@
                 //     $("#of_id").empty();
                 //     appendToSelect(response.data, "#of_id");
                 // });
-
+                $("#of_id").empty().append("<option selected disabled>{{ __('choisir un OF') }}</option>");
                 callAjax('GET', base_url + '/pluck/calibers', {
                     "section_id": id,
                     'has': "ofs"
                 }).done(function(response) {
-                    $("#caliber_id").empty();
+                    $("#caliber_id").empty().append(
+                        "<option selected disabled>{{ __('choisir un calibre') }}</option>");
                     appendToSelect(response.data, "#caliber_id");
                 });
 
@@ -387,7 +388,8 @@
                     "caliber_id": id,
                     "has": "caliber"
                 }).done(function(response) {
-                    $("#of_id").empty();
+                    $("#of_id").empty().append(
+                        "<option selected disabled>{{ __('choisir un OF') }}</option>");
                     appendToSelect(response.data, "#of_id");
                 });
             });
@@ -404,6 +406,7 @@
             formData = {
                 "section_id": $("#section_id").val(),
                 "of_id": $("#of_id").val(),
+                "caliber_id": $("#caliber_id").val(),
                 "start_date": splitDates[0],
                 "end_date": splitDates[1]
             }
