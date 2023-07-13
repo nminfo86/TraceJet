@@ -1,7 +1,5 @@
-
-var id = 0, ajaxDataType = 'json';
-
-
+var id = 0,
+    ajaxDataType = "json";
 
 /* -------------------------------------------------------------------------- */
 /*                              SWEETALERT CONFIG                             */
@@ -9,9 +7,9 @@ var id = 0, ajaxDataType = 'json';
 function ajaxSuccess($title) {
     return Swal.fire({
         title: $title,
-        icon: 'success',
+        icon: "success",
         toast: true,
-        position: 'top-end',
+        position: "top-end",
         showConfirmButton: false,
         timer: 3000,
         // timerProgressBar: true,
@@ -23,11 +21,11 @@ function ajaxError($title) {
     return Swal.fire({
         title: $title,
         toast: true,
-        icon: 'error',
-        position: 'top-end',
+        icon: "error",
+        position: "top-end",
         showConfirmButton: false,
         showCloseButton: true,
-        background: /*'#22c44687',// '#cf5858'*/ '#fbdddd',
+        background: /*'#22c44687',// '#cf5858'*/ "#fbdddd",
         timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
         timerProgressBar: true,
     });
@@ -38,11 +36,11 @@ function SessionErrors($title) {
         title: $title,
         toast: true,
         width: 1000,
-        icon: 'error',
-        position: 'top',
+        icon: "error",
+        position: "top",
         showConfirmButton: false,
         showCloseButton: true,
-        background: /*'#22c44687',// '#cf5858'*/ '#fbdddd',
+        background: /*'#22c44687',// '#cf5858'*/ "#fbdddd",
         timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
         timerProgressBar: true,
     });
@@ -52,8 +50,8 @@ function Info($title) {
     return Swal.fire({
         text: $title,
         // toast: true,
-        icon: 'info',
-        position: 'center',
+        icon: "info",
+        position: "center",
         showConfirmButton: false,
         // background: /*'#22c44687',// '#cf5858'*/ '#e74a3b',
         // timer: 4500 // 4500 is bigger than success and info (3000) because errors must be read slowly
@@ -63,16 +61,14 @@ function Info($title) {
 function Dialog($title, yes, no) {
     return Swal.fire({
         title: $title,
-        icon: 'question',
+        icon: "question",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
         confirmButtonText: yes,
         cancelButtonText: no,
-    })
+    });
 }
-
-
 
 /* -------------------------------------------------------------------------- */
 /*                            Global ajax messages                            */
@@ -89,7 +85,7 @@ function callAjax(method, url, data = {}, is_async = true) {
         // Triggered if response status code is NOT 200 (OK)
         showAjaxAndValidationErrors(jqXHR, exception);
         //window.location.href="/";
-    })
+    });
 }
 
 // This function is used to process ajax and validation errors
@@ -100,19 +96,18 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
         var response = $.parseJSON(jqXHR.responseText);
         $.each(response.errors, function (key, val) {
             /* replace the dote of dynamique input with _ to match id of error show */
-            key = key.replace(/\./g, '_');
-            $('#' + key).addClass('is-invalid');
-            $('#' + key + "-error").text(val);
-
+            key = key.replace(/\./g, "_");
+            $("#" + key).addClass("is-invalid");
+            $("#" + key + "-error").text(val);
         });
 
         // got to the first error occured
-        $(window).scrollTop($('.is-invalid:first').offset().top - 30);
+        $(window).scrollTop($(".is-invalid:first").offset().top - 30);
 
         // if error is not validation, we show them in SweetAlert
     } else {
         if (jqXHR.status === 401) {
-            return window.location.href = "/";
+            return (window.location.href = "/");
         }
         SessionErrors(getAjaxErrorMessage(jqXHR, exception));
     }
@@ -120,27 +115,26 @@ function showAjaxAndValidationErrors(jqXHR, exception) {
 
 // This function is used to get error message for all ajax calls
 function getAjaxErrorMessage(jqXHR, exception) {
-    var msg = '';
+    var msg = "";
     if (jqXHR.status === 0) {
-        msg = 'Not connect.\n Verify Network.';
+        msg = "Not connect.\n Verify Network.";
     } else if (jqXHR.status === 404) {
-        msg = 'Requested page not found. [404]';
+        msg = "Requested page not found. [404]";
     } else if (jqXHR.status === 405) {
-        msg = 'Method Not Allowed';
+        msg = "Method Not Allowed";
     } else if (jqXHR.status === 500) {
-        msg = 'Internal Server Error [500].';
+        msg = "Internal Server Error [500].";
     }
     // else if (exception === 'parsererror') {
     //     msg = 'Requested JSON parse failed.';
     // }
-    else if (exception === 'timeout') {
-        msg = 'Time out error.';
-    } else if (exception === 'abort') {
-        msg = 'Ajax request aborted.';
-    } else if (exception === 'null') {
-        msg = '';
-    }
-    else {
+    else if (exception === "timeout") {
+        msg = "Time out error.";
+    } else if (exception === "abort") {
+        msg = "Ajax request aborted.";
+    } else if (exception === "null") {
+        msg = "";
+    } else {
         msg = jqXHR.responseText;
     }
     return msg;
@@ -152,38 +146,41 @@ function getAjaxErrorMessage(jqXHR, exception) {
 
 function cleanValidationAlert() {
     // $('.is-invalid').addClass('d-none');
-    $('.is-invalid').removeClass('is-invalid');
+    $(".is-invalid").removeClass("is-invalid");
 }
 
 function formToggle(form_title) {
-    $(document).on('click', "#add_btn", (e) => {
-        e.preventDefault();
-        $(".toggle-show").toggleClass('d-none');
-        $('#title').text(form_title);
-        id = 0;
-    }).on('click', ".close-btn", (e) => {
-        e.preventDefault();
-        form[0].reset();
-        form.find('select').val('').trigger('change');
-        form.find('.form-check-input').trigger('change');
-        cleanValidationAlert();
-        $(".toggle-show").toggleClass('d-none');
-        $(".status").remove();
-
-
-    });
+    $(document)
+        .on("click", "#add_btn", (e) => {
+            e.preventDefault();
+            $(".toggle-show").toggleClass("d-none");
+            $("#title").text(form_title);
+            id = 0;
+        })
+        .on("click", ".close-btn", (e) => {
+            e.preventDefault();
+            form[0].reset();
+            form.find("select").val("").trigger("change");
+            form.find(".form-check-input").trigger("change");
+            cleanValidationAlert();
+            $(".toggle-show").toggleClass("d-none");
+            $(".status").remove();
+        });
 }
 
-function storObject(url, formData, id = 0/*, success_store_message, success_update_message*/) {
-
+function storObject(
+    url,
+    formData,
+    id = 0 /*, success_store_message, success_update_message*/
+) {
     cleanValidationAlert();
     // let message = success_store_message;
     if (id !== 0) {
-        formData.append('_method', 'PUT');
-        url = url + '/' + id;
+        formData.append("_method", "PUT");
+        url = url + "/" + id;
         // message = success_update_message;
     }
-    formData.append('id', id);
+    formData.append("id", id);
     var check = false;
     $.ajax({
         async: false,
@@ -199,47 +196,44 @@ function storObject(url, formData, id = 0/*, success_store_message, success_upda
             check = true;
             table.ajax.reload();
             ajaxSuccess(response.message);
-            $('.close-btn:first').click();
+            $(".close-btn:first").click();
         },
         error: function (jqXHR, exception) {
-            showAjaxAndValidationErrors(jqXHR, exception)
-        }
+            showAjaxAndValidationErrors(jqXHR, exception);
+        },
     });
     return check;
 }
 
 function editObject(url, title, hasSelectPicker = false) {
-    callAjax('GET', url, {}, false).done(function (response) {
+    callAjax("GET", url, {}, false).done(function (response) {
         editBasicForm(response.data, title, hasSelectPicker);
     });
-};
+}
 
-function editBasicForm(response, title = '') {
+function editBasicForm(response, title = "") {
     $.each(response, function (key, val) {
-        $('#' + key).val(val);
+        $("#" + key).val(val);
     });
-    $('select').trigger('change');
+    $("select").trigger("change");
     //form.find('.form-check-input:first')
-    $('#title').text(title);
-    $(".toggle-show").toggleClass('d-none');
+    $("#title").text(title);
+    $(".toggle-show").toggleClass("d-none");
 }
 //Function thats delete an object
 function deleteObject(url, success_message, error_message) {
-    callAjax('DELETE', url).done(function (response) {
+    callAjax("DELETE", url).done(function (response) {
         table.ajax.reload();
-        if (response.status == true)
-            ajaxSuccess(success_message);
+        if (response.status == true) ajaxSuccess(success_message);
         else {
             ajaxError(error_message);
         }
     });
 }
 
-
 /* -------------------------------------------------------------------------- */
 /*                                  DataTable                                 */
 /* -------------------------------------------------------------------------- */
-
 
 // window.datatableSettings = {
 //     ajax: {
@@ -255,34 +249,32 @@ function deleteObject(url, success_message, error_message) {
 //     // order: [0, 'desc'],
 // };
 
-function ajaxCallDatatables(url,data={}) {
+function ajaxCallDatatables(url, data = {}) {
     // Define desired object
     var obj = {
         type: "GET",
         url: url,
-        data:data,
+        data: data,
         ajax: {
             error: function (jqXHR, exception) {
-                showAjaxAndValidationErrors(jqXHR, exception)
-            }
+                showAjaxAndValidationErrors(jqXHR, exception);
+            },
         },
         dataSrc: function (json) {
-            if (json.status == true)
-                return json.data;
-            else
-                ajaxError(json.message);
-        }
+            if (json.status == true) return json.data;
+            else ajaxError(json.message);
+        },
     };
     // Return it
     return obj;
 }
 customSelect2("fr");
 function customSelect2(lang) {
-    $('select').select2({
+    $("select").select2({
         theme: "bootstrap-5",
-        width: '100%',
-        placeholder: $(this).data('placeholder'),
-        language: lang
+        width: "100%",
+        placeholder: $(this).data("placeholder"),
+        language: lang,
     });
 }
 
@@ -310,22 +302,17 @@ function customSelect2(lang) {
 //     })
 // }
 
-
 function appendToSelect(data, select_id, by_val = false) {
     if (!by_val)
         $.each(data, function (key, val) {
             $(select_id).append(
-                '<option value=' + key + '>' + val +
-                '</option>'
-            )
-        })
+                "<option value=" + key + ">" + val + "</option>"
+            );
+        });
     else
         $.each(data, function (key, val) {
             $(select_id).append(
-                '<option value=' + val + '>' + val +
-                '</option>'
-            )
-        })
-};
-
-
+                "<option value=" + val + ">" + val + "</option>"
+            );
+        });
+}

@@ -138,8 +138,8 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 1em;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 1em;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
 
                 .carousel-control-prev,
                 .carousel-control-next {
@@ -331,7 +331,6 @@
                 let id = $(this).val();
 
 
-
                 table = table.DataTable({
                     "ajax": ajaxCallDatatables(url + '/' + id),
                     columns: [{
@@ -393,8 +392,9 @@
             });
             // $("#caliber_id").change();
             // $("#section_id").change();
-            form.submit();
+            // form.submit();
         });
+
         form.on('submit', function(e) {
             e.preventDefault();
             //var splitDates = dateRange();
@@ -404,6 +404,7 @@
             formData = {
                 "section_id": $("#section_id").val(),
                 "of_id": $("#of_id").val(),
+                "caliber_id": $("#caliber_id").val(),
                 "start_date": splitDates[0],
                 "end_date": splitDates[1]
             }
@@ -437,9 +438,7 @@
                         <div class="card my-0">
                                     <div class="card-body">
                                         <div class="d-flex flex-row justify-content-between align-items-center">
-                                        <div class="d-flex flex-colum justify-content-between">
-                                                                         <div
-                                             class="
+                                        <div class="d-flex flex-colum justify-content-between"><div class="
                                    btn btn-xl btn-light-warning
                                    text-warning
                                    btn-circle
@@ -459,8 +458,8 @@
                                     </div>
                                     <div class="card-footer">
                                         <h3 class="">
-                                             <span class="fs-2 ms-1 text-success font-weight-medium"> ${fpy.count_ok} OK</span>
-                                             <span class="fs-2 ms-1 text-danger font-weight-medium"> / ${fpy.count_nok} NOK</span>
+                                             <span class="fs-2 ms-1 text-success font-weight-medium">OK : ${fpy.count_ok} </span>
+                                             <span class="fs-2 ms-1 text-danger font-weight-medium"> / NOK : ${fpy.count_nok}</span>
                                          </h3>
                                     </div>
                                 </div>
