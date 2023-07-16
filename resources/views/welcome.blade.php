@@ -243,7 +243,6 @@
                         </button>
                     </div> --}}
                     <div class="container text-center my-3">
-                        {{-- <div class="row mx-auto my-auto justify-content-center"> --}}
                         <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner" role="listbox">
                                 {{-- carousel goes her --}}
@@ -257,9 +256,7 @@
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             </a>
                         </div>
-                        {{-- </div> --}}
                     </div>
-
                 </div>
                 <div class="col-lg-4">
                     {{-- <div class="carousel-item">
@@ -439,42 +436,36 @@
             }
             callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
                 //$(".MultiCarousel-inner").append()
-                // let items = "";
-                let i = "active";
-                $(".carousel-inner").append(`<div class="carousel-item active">
-                                        <div class="col-md-3">
-                                            <div class="card mx-3">
-                                                <div class="card-img ">
-  <div class="card-body">
-    <h5 class="card-title">Title</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6>
-    <p class="card-text">Card content goes here.</p>
-  </div>
-  <div class="card-footer">
-    <div class="row">
-      <div class="col">
-        Footer section 1
-      </div>
-      <div class="col">
-        Footer section 2
-      </div>
-    </div>
-  </div>
+                let items_t = "";
+                var i = "active";
+                response.data.fpy.forEach(element => {
+                    items_t += `<div class="carousel-item ${i}">
+                                    <div class="col-md-3">
+                                        <div class="card mx-3">
+                                            <div class="card-img ">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${element.post_name}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6>
+                                                    <p class="card-text">Card content goes here.</p>
                                                 </div>
-
+                                                <div class="card-footer">
+                                                    <div class="row">
+                                                    <div class="col">
+                                                        Footer section 1
+                                                    </div>
+                                                    <div class="col">
+                                                        Footer section 3
+                                                    </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="carousel-item">
-                                        <div class="col-md-3">
-                                            <div class="card">
-                                                <div class="card-img">
-                                                    <img src="//via.placeholder.com/500x400/e66?text=2" class="img-fluid">
-                                                </div>
-                                                <div class="card-img-overlay">Slide 3</div>
-                                            </div>
-                                        </div>
-                                    </div>`);
+                                </div>
+                                `;
+                    i = "";
+                });
+                $(".carousel-inner").append(items_t);
                 let items = document.querySelectorAll('.carousel .carousel-item')
 
                 items.forEach((el) => {
