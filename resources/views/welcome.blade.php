@@ -138,8 +138,8 @@
             </div>
             <style>
                 /* .carousel-inner {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 1em;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 1em;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
 
                 .carousel-control-prev,
                 .carousel-control-next {
@@ -201,6 +201,7 @@
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="caliber_id" name="caliber_id"
                                             aria-label="">
+                                            <option selected disabled>{{ __('selectionner un calibre') }}</option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -438,7 +439,8 @@
                         <div class="card my-0">
                                     <div class="card-body">
                                         <div class="d-flex flex-row justify-content-between align-items-center">
-                                        <div class="d-flex flex-colum justify-content-between"><div class="
+                                        <div class="d-flex flex-colum justify-content-between"><div
+                                             class="
                                    btn btn-xl btn-light-warning
                                    text-warning
                                    btn-circle

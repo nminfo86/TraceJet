@@ -22,9 +22,9 @@ class DashboardController extends Controller
         $fpy = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
             ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
 
-            ->when($request->start_date !== "" && $request->end_date !== "", function ($query) use ($request) {
-                return $query->whereBetween('movements.created_at', [$request->start_date, $request->end_date]);
-            })
+            // ->when($request->start_date !== "" && $request->end_date !== "", function ($query) use ($request) {
+            //     return $query->whereBetween('movements.created_at', [$request->start_date, $request->end_date]);
+            // })
 
             ->when($request->caliber_id !== "", function ($query) use ($request) {
                 // dd("sdsd");
@@ -44,11 +44,11 @@ class DashboardController extends Controller
             })
             // ->join('posts', 'movements.movement_post_id', '=', 'posts.id')
             // ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
-            ->select('posts.id', 'posts.post_name')
+            ->select('posts.id', 'posts.post_name', "posts.posts_type_id")
             ->selectRaw('COUNT(IF(movements.result = "OK", 1, NULL)) AS count_ok')
             ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok')
             ->selectRaw('CAST((COUNT(CASE WHEN movements.result = "OK" THEN 1 END) / COUNT(*)) * 100 AS UNSIGNED) AS FPY')
-            ->groupBy('movements.movement_post_id', 'posts.post_name', "posts.id")
+            ->groupBy('movements.movement_post_id', 'posts.post_name', "posts.id", "posts.posts_type_id")
             ->get();
 
 

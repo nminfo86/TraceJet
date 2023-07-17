@@ -130,7 +130,7 @@ class PluckController extends Controller
                 if ($request->filter !== null) {
                     // Retrieve calibers filtered by product_id
                     $data = Caliber::whereProductId($request->filter)->pluck('caliber_name', 'id');
-                } else if ($request->has("section_id") && $request->has('has')) {
+                } else if ($request->has("section_id") && $request->has('ofs')) {
                     $data = Caliber::InSection($request->section_id)->has($request->has)->pluck('caliber_name', 'id');
                 } else {
                     // Retrieve all calibers
