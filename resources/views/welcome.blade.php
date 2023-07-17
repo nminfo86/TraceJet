@@ -310,14 +310,14 @@
     </div>
     <style>
         /* .progress-middle {
-                                                                                                                                                                                                                                                                                                                                        justify-content: center;
-                                                                                                                                                                                                                                                                                                                                        align-items: center;
-                                                                                                                                                                                                                                                                                                                                        background: #000;
-                                                                                                                                                                                                                                                                                                                                        display: flex;
-                                                                                                                                                                                                                                                                                                                                        height: 100vh;
-                                                                                                                                                                                                                                                                                                                                        padding: 0;
-                                                                                                                                                                                                                                                                                                                                        margin: 0;
-                                                                                                                                                                                                                                                                                                                                    } */
+                                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                            align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                            background: #000;
+                                                                                                                                                                                                                                                                                                                                                                            display: flex;
+                                                                                                                                                                                                                                                                                                                                                                            height: 100vh;
+                                                                                                                                                                                                                                                                                                                                                                            padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                            margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                        } */
     </style>
     <!-- ============================================================== -->
     <!-- End PAge Content -->
@@ -423,7 +423,13 @@
                 //$(".MultiCarousel-inner").append()
                 let items_t = "";
                 var i = "active";
+                var post_names = [];
+                var dataset_ok = [];
+                var dataset_nok = [];
                 response.data.fpy.forEach(element => {
+                    post_names.push(element.post_name);
+                    dataset_ok.push(element.count_ok);
+                    dataset_nok.push(element.count_nok);
                     items_t += `<div class="carousel-item ${i}">
                                     <div class="col">
                                         <div class="card me-lg-3">
@@ -453,6 +459,7 @@
                                 </div>
                                 `;
                     i = "";
+
                 });
                 $(".carousel-inner").empty().append(items_t);
                 // <div class="card my-0">
@@ -490,273 +497,71 @@
                         next = next.nextElementSibling
                     }
                 })
-                // let tt = `<div class="d-flex justify-content-between align-items-center">
-            //                             <div
-            //                                 class="
-            //                       btn btn-xl btn-light-warning
-            //                       text-warning
-            //                       btn-circle
-            //                     ">
-            //                                 <i class="fas fa-barcode"></i>
-            //                             </div>
-            //                             <h3 class="">
-            //                                 <span class="fs-2 ms-1 text-success font-weight-medium"> ${fpy.count_ok} OK</span>
-            //                                 <span class="fs-2 ms-1 text-danger font-weight-medium"> / ${fpy.count_nok} NOK</span>
-            //                             </h3>
-            //                         </div>
 
-            //                         <div class="progress mt-3">
-            //                             <div class="progress-bar" role="progressbar" style="width: 100%"
-            //                                 aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
-            //                         </div>
-            //                         <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>`;
+                /*--------------------------- barchar -----------------------------------------*/
+                const ctx = document.getElementById('chartJSContainer');
 
-                // $(".carousel-inner").empty().append(items);
-                // var multipleCardCarousel = document.querySelector(
-                //     "#carouselExampleControls"
-                // );
-                // if (window.matchMedia("(min-width: 768px)").matches) {
-                //     var carousel = new bootstrap.Carousel(multipleCardCarousel, {
-                //         interval: false,
-                //     });
-                //     var carouselWidth = $(".carousel-inner")[0].scrollWidth;
-                //     var cardWidth = $(".carousel-item").width();
-                //     var scrollPosition = 0;
-                //     $("#carouselExampleControls .carousel-control-next").on("click", function() {
-                //         if (scrollPosition < carouselWidth - cardWidth * 4) {
-                //             scrollPosition += cardWidth;
-                //             $("#carouselExampleControls .carousel-inner").animate({
-                //                     scrollLeft: scrollPosition
-                //                 },
-                //                 600
-                //             );
-                //         }
-                //     });
-                //     $("#carouselExampleControls .carousel-control-prev").on("click", function() {
-                //         if (scrollPosition > 0) {
-                //             scrollPosition -= cardWidth;
-                //             $("#carouselExampleControls .carousel-inner").animate({
-                //                     scrollLeft: scrollPosition
-                //                 },
-                //                 600
-                //             );
-                //         }
-                //     });
-                // } else {
-                //     $(multipleCardCarousel).addClass("slide");
-                // }
-                // let a = `<div class="item">
-            //                 <div class="card my-0">
-            //                     <div class="card-body">
-            //                         <div class="d-flex justify-content-between align-items-center">
-            //                             <div
-            //                                 class="
-            //                       btn btn-xl btn-light-warning
-            //                       text-warning
-            //                       btn-circle
-            //                     ">
-            //                                 <i class="fas fa-barcode"></i>
-            //                             </div>
-            //                             <h3 class="">
-            //                                 <span class="fs-2 ms-1 text-success font-weight-medium"> 44 OK</span>
-            //                                 <span class="fs-2 ms-1 text-danger font-weight-medium"> / 55 NOK</span>
-            //                             </h3>
-            //                         </div>
-
-            //                         <div class="progress mt-3">
-            //                             <div class="progress-bar" role="progressbar" style="width: 100%"
-            //                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-            //                         </div>
-            //                         <h3 class="text-start mt-1">FPY: 25%</h3>
-            //                     </div>
-            //                 </div>
-            //             </div>`;
-                // var itemsMainDiv = ('.MultiCarousel');
-                // var itemsDiv = ('.MultiCarousel-inner');
-                // var itemWidth = "";
-                // $('.leftLst, .rightLst').click(function() {
-                //     var condition = $(this).hasClass("leftLst");
-                //     if (condition)
-                //         click(0, this);
-                //     else
-                //         click(1, this)
-                // });
-                // ResCarouselSize();
-                // $(window).resize(function() {
-                //     ResCarouselSize();
-                // });
-                // //this function define the size of the items
-                // function ResCarouselSize() {
-                //     var incno = 0;
-                //     var dataItems = ("data-items");
-                //     var itemClass = ('.item');
-                //     var id = 0;
-                //     var btnParentSb = '';
-                //     var itemsSplit = '';
-                //     var sampwidth = $(itemsMainDiv).width();
-                //     var bodyWidth = $('body').width();
-                //     $(itemsDiv).each(function() {
-                //         id = id + 1;
-                //         var itemNumbers = $(this).find(itemClass).length;
-                //         btnParentSb = $(this).parent().attr(dataItems);
-                //         itemsSplit = btnParentSb.split(',');
-                //         $(this).parent().attr("id", "MultiCarousel" + id);
-                //         if (bodyWidth >= 1200) {
-                //             // alert(itemsSplit[1]);
-                //             incno = itemsSplit[1];
-                //             itemWidth = sampwidth / incno;
-                //         } else if (bodyWidth >= 992) {
-                //             incno = itemsSplit[1];
-                //             itemWidth = sampwidth / incno;
-                //         } else if (bodyWidth >= 768) {
-                //             incno = itemsSplit[1];
-                //             itemWidth = sampwidth / incno;
-                //         } else {
-                //             incno = itemsSplit[0];
-                //             itemWidth = sampwidth / incno;
-                //         }
-                //         $(this).css({
-                //             'transform': 'translateX(0px)',
-                //             'width': itemWidth * itemNumbers
-                //         });
-                //         $(this).find(itemClass).each(function() {
-                //             $(this).outerWidth(itemWidth);
-                //         });
-
-                //         $(".leftLst").addClass("over");
-                //         $(".rightLst").removeClass("over");
-
-                //     });
-                // }
-                // //this function used to move the items
-                // function ResCarousel(e, el, s) {
-                //     var leftBtn = ('.leftLst');
-                //     var rightBtn = ('.rightLst');
-                //     var translateXval = '';
-                //     var divStyle = $(el + ' ' + itemsDiv).css('transform');
-                //     var values = divStyle.match(/-?[\d\.]+/g);
-                //     var xds = Math.abs(values[4]);
-                //     if (e == 0) {
-                //         translateXval = parseInt(xds) - parseInt(itemWidth * s);
-                //         $(el + ' ' + rightBtn).removeClass("over");
-
-                //         if (translateXval <= itemWidth / 2) {
-                //             translateXval = 0;
-                //             $(el + ' ' + leftBtn).addClass("over");
-                //         }
-                //     } else if (e == 1) {
-                //         var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
-                //         translateXval = parseInt(xds) + parseInt(itemWidth * s);
-                //         $(el + ' ' + leftBtn).removeClass("over");
-
-                //         if (translateXval >= itemsCondition - itemWidth / 2) {
-                //             translateXval = itemsCondition;
-                //             $(el + ' ' + rightBtn).addClass("over");
-                //         }
-                //     }
-                //     $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
-                // }
-                // //It is used to get some elements from btn
-                // function click(ell, ee) {
-                //     var Parent = "#" + $(ee).parent().attr("id");
-                //     var slide = $(Parent).attr("data-slide");
-                //     ResCarousel(ell, Parent, slide);
-                // }
-                //alert();
-                //console.log(response);
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: post_names,
+                        datasets: [{
+                                label: "{{ __('OK') }}",
+                                data: dataset_ok,
+                                borderWidth: 1,
+                                backgroundColor: "#1a9bfc",
+                            },
+                            {
+                                label: "{{ __('NOK') }}",
+                                data: dataset_nok,
+                                borderWidth: 1,
+                                backgroundColor: "#1e4db7",
+                            }
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        //legend: false,
+                    }
+                });
+                $("#percent1").text(92 + ' %');
+                $("#percent2").text(90 + ' %');
+                $("#percent3").text(98 + ' %');
+                $(
+                    "#percent4").text(80 + ' %');
+                var options1 = {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [92, 8],
+                            backgroundColor: [
+                                'rgba(46, 204, 113, 1)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 255, 255 ,1)'
+                            ],
+                            borderWidth: 5
+                        }]
+                    },
+                    options: {
+                        rotation: 1 * Math.PI,
+                        circumference: 1 * Math.PI,
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        },
+                        cutoutPercentage: 85
+                    }
+                }
             });
         });
-        // var options1 = {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-        //         datasets: [{
-        //             label: '# of Votes',
-        //             data: [10, 2],
-        //             backgroundColor: [
-        //                 'rgba(46, 204, 113, 1)'
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255, 255, 255 ,1)'
-        //             ],
-        //             borderWidth: 5
-        //         }]
-        //     },
-        //     options: {
-        //         rotation: 1 * Math.PI,
-        //         circumference: 1 * Math.PI,
-        //         legend: {
-        //             display: false
-        //         },
-        //         tooltip: {
-        //             enabled: false
-        //         },
-        //         cutoutPercentage: 85
-        //     }
-        // }
-        // var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
-        // var chart1 = new Chart(ctx1, options1);
-        const ctx = document.getElementById('chartJSContainer');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Générateur', 'Opé_1', 'Opé_2', 'Opé_3', 'Emballage'],
-                datasets: [{
-                        label: "{{ __('Produise') }}",
-                        data: [12, 19, 3, 5, 3],
-                        borderWidth: 1,
-                        backgroundColor: "#1a9bfc",
-                    },
-                    {
-                        label: "{{ __('reste') }}",
-                        data: [12, 19, 3, 5, 5],
-                        borderWidth: 1,
-                        backgroundColor: "#1e4db7",
-                    }
-                ],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                //legend: false,
-            }
-        });
-        $("#percent1").text(92 + ' %');
-        $("#percent2").text(90 + ' %');
-        $("#percent3").text(98 + ' %');
-        $(
-            "#percent4").text(80 + ' %');
-        var options1 = {
-            type: 'doughnut',
-            data: {
-                labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [92, 8],
-                    backgroundColor: [
-                        'rgba(46, 204, 113, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 255, 255 ,1)'
-                    ],
-                    borderWidth: 5
-                }]
-            },
-            options: {
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI,
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    enabled: false
-                },
-                cutoutPercentage: 85
-            }
-        }
     </script>
 @endpush
