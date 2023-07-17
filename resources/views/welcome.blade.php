@@ -263,7 +263,7 @@
             <!-- Sales chart -->
             <!-- ============================================================== -->
             <div class="row pt-3">
-                <div class="col-lg-8 d-flex align-items-stretch">
+                <div class="col-lg-6 d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
@@ -280,9 +280,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <div class="card  w-100 mt-5">
                         <div class="card-body">
+                            <div class="d-md-flex align-items-center">
+                                <div>
+                                    <h4 class="card-title">{{ __('Liste des Ofs') }}</h4>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table mb-0 table-hover align-middle text-nowrap" id="main_table">
                                     <thead>
@@ -317,7 +322,6 @@
 
             callAjax('GET', base_url + '/pluck/sections').done(function(response) {
                 appendToSelect(response.data, "#section_id");
-
             });
 
             $("#section_id").on("change", function(e) {
@@ -352,7 +356,7 @@
                 $("#of_id").empty().append("<option selected disabled>{{ __('choisir un OF') }}</option>");
                 callAjax('GET', base_url + '/pluck/calibers', {
                     "section_id": id,
-                    'has': "ofs"
+                    'has': "product"
                 }).done(function(response) {
                     $("#caliber_id").empty().append(
                         "<option selected disabled>{{ __('choisir un calibre') }}</option>");
@@ -417,18 +421,18 @@
                                                     <h5 class="card-title">${element.post_name}</h5>
                                                     <h6 class="card-subtitle mb-2 text-muted">FPY</h6>
                                                     <div class="progress" style="height: 20px;">
-                                                    <div class="progress-bar" role="progressbar"
+                                                    <div class="progress-bar bg-info" role="progressbar"
                                                     style="width: ${element.FPY}%;" aria-valuenow="${element.FPY}"
                                                      aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer bg-white">
                                                     <div class="row">
-                                                    <div class="col border-end">
-                                                        <div class="text-success">OK</div> <span class="text-success">${element.count_ok}</span>
+                                                    <div class="col border-end bg-success text-white">
+                                                        <div class="">OK</div> <span class="">${element.count_ok}</span>
                                                     </div>
-                                                    <div class="col">
-                                                        <div class="text-danger">NOK</div> <span class="text-danger">${element.count_nok}</span>
+                                                    <div class="col bg-danger text-white">
+                                                        <div class="">NOK</div> <span class="">${element.count_nok}</span>
                                                     </div>
                                                     </div>
                                                 </div>

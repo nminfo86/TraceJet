@@ -20,20 +20,19 @@ class DashboardController extends Controller
 
         // Apply condition: Filter by 'start_date' and 'end_date' if present in the request
         $fpy = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+            ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
             ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
 
             // ->when($request->start_date !== "" && $request->end_date !== "", function ($query) use ($request) {
             //     return $query->whereBetween('movements.created_at', [$request->start_date, $request->end_date]);
             // })
 
-            ->when($request->caliber_id !== "", function ($query) use ($request) {
-                // dd("sdsd");
+            ->when($request->caliber_id, function ($query) use ($request) {
                 $query->join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')->where('caliber_id', $request->caliber_id);
             })
 
 
-            ->when($request->of_id !== "", function ($query) use ($request) {
-                // dd($request->of_id);
+            ->when($request->of_id, function ($query) use ($request) {
                 $query->where('serial_numbers.of_id', $request->of_id);
             })
 
@@ -44,11 +43,11 @@ class DashboardController extends Controller
             })
             // ->join('posts', 'movements.movement_post_id', '=', 'posts.id')
             // ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
-            ->select('posts.id', 'posts.post_name', "posts.posts_type_id")
+            ->select('posts.id', 'posts.post_name', "posts.posts_type_id", 'icon')
             ->selectRaw('COUNT(IF(movements.result = "OK", 1, NULL)) AS count_ok')
             ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok')
             ->selectRaw('CAST((COUNT(CASE WHEN movements.result = "OK" THEN 1 END) / COUNT(*)) * 100 AS UNSIGNED) AS FPY')
-            ->groupBy('movements.movement_post_id', 'posts.post_name', "posts.id", "posts.posts_type_id")
+            ->groupBy('movements.movement_post_id', 'posts.post_name', "posts.id", "posts.posts_type_id", 'icon')
             ->get();
 
 

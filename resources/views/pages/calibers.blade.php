@@ -24,7 +24,7 @@
                                     <th>{{ __('code') }}</th>
                                     <th>{{ __('calibre') }}</th>
                                     <th>{{ __('produit') }}</th>
-                                    {{-- <th>{{ __('quantité carton') }}</th> --}}
+                                    <th>{{ __('quantité carton') }}</th>
                                     <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
