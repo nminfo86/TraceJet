@@ -9,7 +9,6 @@
     <!-- ============================================================== -->
     <!-- Start Page Content -->
     <!-- ============================================================== -->
-
     <div class="row">
         <div class="col-lg-6">
             <div class="row">
@@ -48,7 +47,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-12 d- of_info d-none">
                     <div class="card shadow border-primary">
                         <div class="card-body">
@@ -83,15 +81,16 @@
                                         <span class="fs-3 font-weight-medium text-primary " id="caliber_name"></span>
                                     </div>
                                 </div>
+                                {{-- <div class="">
+
+                                </div> --}}
                                 <div class="row mt-4 mx-0">
-                                    <div class="col-lg-6 outer">
-                                        <div class="">
-                                            <canvas id="chartJSContainer" width="auto" height="auto"></canvas>
-                                            <p class="percent" id="percent">
-                                            </p>
-                                        </div>
+                                    <div class="col outer">
+                                        <canvas id="chartJSContainer" width="auto" height="auto"></canvas>
+                                        <p class="percent" id="percent">
+                                        </p>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="card">
@@ -172,7 +171,6 @@
             of_id,
             last_qr = "";
         $(document).ready(function() {
-
             /* -------------------------------------------------------------------------- */
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
@@ -185,10 +183,6 @@
                 appendToSelect(response.data, "#of_id");
             });
         });
-
-
-
-
         /* -------------------------------------------------------------------------- */
         /*                               Get OF information                           */
         /* -------------------------------------------------------------------------- */
@@ -199,7 +193,7 @@
         function getOfDetails(of_id) {
             callAjax('GET', base_url + '/of_details/' + of_id, {
                 of_id: of_id
-            }).done(function(response) {
+            }, false).done(function(response) {
                 $.each(response, function(key, value) {
                     $("#" + key).text(value);
                 });
@@ -207,6 +201,7 @@
                 $(".of_number").removeClass('d-none')
                 $(".of_info").removeClass("d-none");
                 $("#qr").focus();
+
             });
         }
         $(document).on("change", "#of_id", function(e) {
@@ -274,6 +269,7 @@
                             let x = (parseInt(response.data.list.length) / parseInt(
                                 total_quantity_of));
                             percent = Math.floor(x * 100);
+
                             $("#percent").text(percent + ' %');
                             let rest = 0;
                             if (percent < 100) {

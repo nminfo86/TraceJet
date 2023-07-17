@@ -225,7 +225,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div id="recipeCarousel" class="col-lg-8 carousel slide" data-bs-ride="carousel">
                     {{-- <div id="carouselExampleControls" class="carousel mx-0 px-0" data-bs-ride="carousel">
                         <div class="carousel-inner">
 
@@ -242,50 +242,20 @@
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div> --}}
-                    <div class="container text-center my-3">
-                        <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner" role="listbox">
-                                {{-- carousel goes her --}}
-                            </div>
-                            <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            </a>
-                            <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    {{-- <div class="carousel-item">
-                        <div class="card my-0">
-                            <div class="card-body">
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-colum justify-content-between">
-                                        <div class="btn btn-xl btn-light-warning text-warning btn-circle">
-                                            <i class="fas fa-barcode"></i>
-                                        </div>
 
-                                    </div>
-                                    <div class=" ms-2 d-block w-100">
-                                        <div class="progress mt-3">
-                                            <div class="progress-bar" role="progressbar" style="width: 100%"
-                                                aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h3 class="text-start mt-1">FPY: %</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <h3 class="">
-                                    <span class="fs-2 ms-1 text-success font-weight-medium"> </span>
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium"> </span>
-                                </h3>
-                            </div>
-                        </div>
-                    </div> --}}
+                    <div class="carousel-inner" role="listbox">
+                        {{-- carousel goes her --}}
+                    </div>
+                    <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div class="col-lg-4 fpyTotal-inner">
 
                 </div>
             </div>
@@ -440,21 +410,25 @@
                 var i = "active";
                 response.data.fpy.forEach(element => {
                     items_t += `<div class="carousel-item ${i}">
-                                    <div class="col-md-3">
-                                        <div class="card mx-3">
+                                    <div class="col">
+                                        <div class="card me-lg-3">
                                             <div class="card-img ">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${element.post_name}</h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">Subtitle</h6>
-                                                    <p class="card-text">Card content goes here.</p>
+                                                    <h6 class="card-subtitle mb-2 text-muted">FPY</h6>
+                                                    <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar" role="progressbar"
+                                                    style="width: ${element.FPY}%;" aria-valuenow="${element.FPY}"
+                                                     aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
+                                                    </div>
                                                 </div>
-                                                <div class="card-footer">
+                                                <div class="card-footer bg-white">
                                                     <div class="row">
-                                                    <div class="col">
-                                                        Footer section 1
+                                                    <div class="col border-end">
+                                                        <div class="text-success">OK</div> <span class="text-success">${element.count_ok}</span>
                                                     </div>
                                                     <div class="col">
-                                                        Footer section 3
+                                                        <div class="text-danger">NOK</div> <span class="text-danger">${element.count_nok}</span>
                                                     </div>
                                                     </div>
                                                 </div>
@@ -465,7 +439,20 @@
                                 `;
                     i = "";
                 });
-                $(".carousel-inner").append(items_t);
+                $(".carousel-inner").empty().append(items_t);
+                $(".fpyTotal-inner").empty().append(`
+                <div class="card my-0">
+                        <div class="card-body">
+                            samir
+                        </div>
+                        <div class="card-footer">
+                            <h3 class="">
+                                <span class="fs-2 ms-1 text-success font-weight-medium"> ss</span>
+                                <span class="fs-2 ms-1 text-danger font-weight-medium"> ss</span>
+                            </h3>
+                        </div>
+                    </div>
+            `);
                 let items = document.querySelectorAll('.carousel .carousel-item')
 
                 items.forEach((el) => {

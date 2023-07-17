@@ -17,7 +17,7 @@
  <script src="{{ asset('/dist/js/select2/fr.js') }}"></script>
  <script src="{{ asset('/dist/js/chart/chart.min.js') }}"></script>
  <script src="{{ asset('/dist/js/appCore.js') }}"></script>
- <script src="{{ asset('js/popper.js') }}"></script>
+ <script src="{{ asset('/dist/js/popper.js') }}"></script>
  <script src="{{ asset('/dist/js/bootstrap.min.js') }}"></script>
  <script src="{{ asset('/dist/js/moment-with-locales.min.js') }}"></script>
  <script src="{{ asset('/dist/js/bootstrap-datetimepicker.min.js') }}"></script>
