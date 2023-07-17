@@ -140,7 +140,8 @@
                 }
             });
         });
-        // TODO::host_section_id of host
+
+        var collapsedGroups = {};
         table = table.DataTable({
             "ajax": ajaxCallDatatables(url),
             columns: [{
@@ -159,7 +160,41 @@
                     }
                 },
             ],
-            //TODO::add group rows
+            rowGroup: {
+                // Uses the 'row group' plugin
+                dataSrc: 'section.section_name',
+                startRender: function(rows, group) {
+                    var collapsed = !!collapsedGroups[group];
+
+                    rows.nodes().each(function(r) {
+                        r.style.display = 'none';
+                        if (collapsed) {
+                            r.style.display = '';
+                        }
+                    });
+
+                    // Add category name to the <tr>. NOTE: Hardcoded colspan
+                    return $('<tr/>')
+                        .append('<td colspan="3"> Section: ' + group + ' (' + rows.count() + ')</td>')
+                        .attr('data-name', group)
+                        .toggleClass('collapsed', collapsed);
+                }
+            },
+
+            "columnDefs": [{
+                "targets": 2,
+                "visible": false
+            }],
+
+            order: ['2', "asc"],
+            paging: false,
+        });
+
+        table.on('click', 'tr.dtrg-start', function() {
+
+            var name = $(this).data('name');
+            collapsedGroups[name] = !collapsedGroups[name];
+            table.draw(false);
         });
     </script>
 @endpush

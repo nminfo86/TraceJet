@@ -17,9 +17,16 @@ class PostsTypeSeeder extends Seeder
     public function run()
     {
         $posts = ['generator', 'operator', 'packaging', 'reparation'];
+        $posts = [
+            ["posts_type" => "generator", "icon" => 'fas fa-barcode'],
+            ["posts_type" => "operator", "icon" => 'fas fa-magic'],
+            ["posts_type" => "packaging", "icon" => 'fas fa-box-open'],
+            ["posts_type" => "reparation", "icon" => 'SNS'],
+
+        ];
 
         foreach ($posts as $post) {
-            PostsType::create(['posts_type' => $post]);
+            PostsType::create($post);
         }
     }
 }
