@@ -255,8 +255,12 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     </a>
                 </div>
-                <div class="col-lg-4 fpyTotal-inner">
+                <div class="col-lg-4">
+                    <div class="row d-flex align-items-center " style="height: 180px">
+                        <div class="col-xs-6 fpyTotal-inner">
 
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -304,6 +308,17 @@
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
     </div>
+    <style>
+        /* .progress-middle {
+                                                                                                                                                                                                                                                                                                                                        justify-content: center;
+                                                                                                                                                                                                                                                                                                                                        align-items: center;
+                                                                                                                                                                                                                                                                                                                                        background: #000;
+                                                                                                                                                                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                                                                                                                                                                        height: 100vh;
+                                                                                                                                                                                                                                                                                                                                        padding: 0;
+                                                                                                                                                                                                                                                                                                                                        margin: 0;
+                                                                                                                                                                                                                                                                                                                                    } */
+    </style>
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
@@ -440,19 +455,26 @@
                     i = "";
                 });
                 $(".carousel-inner").empty().append(items_t);
+                // <div class="card my-0">
+                //         <div class="card-body">
+                //             samir
+                //         </div>
+                //         <div class="card-footer">
+                //             <h3 class="">
+                //                 <span class="fs-2 ms-1 text-success font-weight-medium"> ss</span>
+                //                 <span class="fs-2 ms-1 text-danger font-weight-medium"> ss</span>
+                //             </h3>
+                //         </div>
+                //     </div>
                 $(".fpyTotal-inner").empty().append(`
-                <div class="card my-0">
-                        <div class="card-body">
-                            samir
-                        </div>
-                        <div class="card-footer">
-                            <h3 class="">
-                                <span class="fs-2 ms-1 text-success font-weight-medium"> ss</span>
-                                <span class="fs-2 ms-1 text-danger font-weight-medium"> ss</span>
-                            </h3>
+                    <h3> FPY total </h3>
+                    <div class="progress-middle">
+                        <div class="progress" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" style="width: ${response.data.total_fpy}%" aria-valuenow="${response.data.total_fpy}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
-            `);
+                    <h3 class="text-center"> ${response.data.total_fpy} % </h3>
+             `);
                 let items = document.querySelectorAll('.carousel .carousel-item')
 
                 items.forEach((el) => {
