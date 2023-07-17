@@ -137,36 +137,39 @@
                 </div>
             </div>
             <style>
-                /* .carousel-inner {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 1em;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
+                @media (max-width: 767px) {
+                    .carousel-inner .carousel-item>div {
+                        display: none;
+                    }
 
-                .carousel-control-prev,
-                .carousel-control-next {
-                    background-color: #e1e1e1;
-                    width: 6vh;
-                    height: 6vh;
-                    border-radius: 50%;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
-
-                @media (min-width: 768px) {
-                    .carousel-item {
-                        margin-inline-start: 10px;
-                        flex: 0 0 33.3333333%;
+                    .carousel-inner .carousel-item>div:first-child {
                         display: block;
                     }
+                }
 
-                    .carousel-inner {
-                        display: flex;
+                .carousel-inner .carousel-item.active,
+                .carousel-inner .carousel-item-next,
+                .carousel-inner .carousel-item-prev {
+                    display: flex;
+                }
+
+                /* medium and up screens */
+                @media (min-width: 768px) {
+
+                    .carousel-inner .carousel-item-end.active,
+                    .carousel-inner .carousel-item-next {
+                        transform: translateX(25%);
+                    }
+
+                    .carousel-inner .carousel-item-start.active,
+                    .carousel-inner .carousel-item-prev {
+                        transform: translateX(-25%);
                     }
                 }
 
-                @media (max-width: 767px) {
-                    .card .img-wrapper {
-                        height: 17em;
-                    }
+                .carousel-inner .carousel-item-end,
+                .carousel-inner .carousel-item-start {
+                    transform: translateX(0);
                 }
             </style>
             <div class="row">
@@ -201,8 +204,9 @@
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="caliber_id" name="caliber_id"
                                             aria-label="">
-                                            <option selected disabled>{{ __('selectionner un calibre') }}</option>
+                                            <option selected disabled>{{ __('choisir un calibre') }}</option>
                                         </select>
+
                                     </div>
                                     <div class="col-auto">
                                         <label for="inputField" class="col-form-label">OF</label>
@@ -210,6 +214,7 @@
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="of_id" name="of_id"
                                             aria-label="">
+                                            <option selected disabled>{{ __('choisir un OF') }}</option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -220,10 +225,12 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-8">
-                    <div id="carouselExampleControls" class="carousel mx-0 px-0" data-bs-ride="carousel">
+                <div id="recipeCarousel" class="col-lg-8 carousel slide" data-bs-ride="carousel">
+                    {{-- <div id="carouselExampleControls" class="carousel mx-0 px-0" data-bs-ride="carousel">
                         <div class="carousel-inner">
+
                         </div>
+
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                             data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -234,36 +241,22 @@
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="carousel-item">
-                        <div class="card my-0">
-                            <div class="card-body">
-                                <div class="d-flex flex-row justify-content-between align-items-center">
-                                    <div class="d-flex flex-colum justify-content-between">
-                                        <div class="btn btn-xl btn-light-warning text-warning btn-circle">
-                                            <i class="fas fa-barcode"></i>
-                                        </div>
+                    </div> --}}
 
-                                    </div>
-                                    <div class=" ms-2 d-block w-100">
-                                        <div class="progress mt-3">
-                                            <div class="progress-bar" role="progressbar" style="width: 100%"
-                                                aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h3 class="text-start mt-1">FPY: %</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <h3 class="">
-                                    <span class="fs-2 ms-1 text-success font-weight-medium"> </span>
-                                    <span class="fs-2 ms-1 text-danger font-weight-medium"> </span>
-                                </h3>
-                            </div>
-                        </div>
+                    <div class="carousel-inner" role="listbox">
+                        {{-- carousel goes her --}}
                     </div>
+                    <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div class="col-lg-4 fpyTotal-inner">
+
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -330,9 +323,7 @@
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
                 let id = $(this).val();
-
-
-                table = table.DataTable({
+                table.DataTable({
                     "ajax": ajaxCallDatatables(url + '/' + id),
                     columns: [{
                             data: 'of_number'
@@ -358,12 +349,13 @@
                 //     $("#of_id").empty();
                 //     appendToSelect(response.data, "#of_id");
                 // });
-
+                $("#of_id").empty().append("<option selected disabled>{{ __('choisir un OF') }}</option>");
                 callAjax('GET', base_url + '/pluck/calibers', {
                     "section_id": id,
                     'has': "ofs"
                 }).done(function(response) {
-                    $("#caliber_id").empty();
+                    $("#caliber_id").empty().append(
+                        "<option selected disabled>{{ __('choisir un calibre') }}</option>");
                     appendToSelect(response.data, "#caliber_id");
                 });
 
@@ -387,21 +379,24 @@
                     "caliber_id": id,
                     "has": "caliber"
                 }).done(function(response) {
-                    $("#of_id").empty();
+                    $("#of_id").empty().append(
+                        "<option selected disabled>{{ __('choisir un OF') }}</option>");
                     appendToSelect(response.data, "#of_id");
                 });
             });
             // $("#caliber_id").change();
             // $("#section_id").change();
-            // form.submit();
-        });
+            //form.submit();
 
+
+        });
         form.on('submit', function(e) {
             e.preventDefault();
             //var splitDates = dateRange();
             let splitDates = $("#datetimes").val().split(' - ');
             // alert(splitDates[0]);
             // return false;
+
             formData = {
                 "section_id": $("#section_id").val(),
                 "of_id": $("#of_id").val(),
@@ -411,9 +406,68 @@
             }
             callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
                 //$(".MultiCarousel-inner").append()
-                let items = "";
-                let i = "active";
+                let items_t = "";
+                var i = "active";
+                response.data.fpy.forEach(element => {
+                    items_t += `<div class="carousel-item ${i}">
+                                    <div class="col">
+                                        <div class="card me-lg-3">
+                                            <div class="card-img ">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${element.post_name}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-muted">FPY</h6>
+                                                    <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar" role="progressbar"
+                                                    style="width: ${element.FPY}%;" aria-valuenow="${element.FPY}"
+                                                     aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer bg-white">
+                                                    <div class="row">
+                                                    <div class="col border-end">
+                                                        <div class="text-success">OK</div> <span class="text-success">${element.count_ok}</span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="text-danger">NOK</div> <span class="text-danger">${element.count_nok}</span>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
+                    i = "";
+                });
+                $(".carousel-inner").empty().append(items_t);
+                $(".fpyTotal-inner").empty().append(`
+                <div class="card my-0">
+                        <div class="card-body">
+                            samir
+                        </div>
+                        <div class="card-footer">
+                            <h3 class="">
+                                <span class="fs-2 ms-1 text-success font-weight-medium"> ss</span>
+                                <span class="fs-2 ms-1 text-danger font-weight-medium"> ss</span>
+                            </h3>
+                        </div>
+                    </div>
+            `);
+                let items = document.querySelectorAll('.carousel .carousel-item')
 
+                items.forEach((el) => {
+                    const minPerSlide = 4
+                    let next = el.nextElementSibling
+                    for (var i = 1; i < minPerSlide; i++) {
+                        if (!next) {
+                            // wrap carousel by using first child
+                            next = items[0]
+                        }
+                        let cloneChild = next.cloneNode(true)
+                        el.appendChild(cloneChild.children[0])
+                        next = next.nextElementSibling
+                    }
+                })
                 // let tt = `<div class="d-flex justify-content-between align-items-center">
             //                             <div
             //                                 class="
@@ -434,191 +488,158 @@
             //                                 aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
             //                         </div>
             //                         <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>`;
-                response.data.fpy.forEach(fpy => {
-                    items += `<div class="carousel-item ${i}">
-                        <div class="card my-0">
-                                    <div class="card-body">
-                                        <div class="d-flex flex-row justify-content-between align-items-center">
-                                        <div class="d-flex flex-colum justify-content-between"><div
-                                             class="
-                                   btn btn-xl btn-light-warning
-                                   text-warning
-                                   btn-circle
-                                 ">
-                                             <i class="fas fa-barcode"></i>
-                                         </div>
 
-                                        </div>
-                                        <div class=" ms-2 d-block w-100">
-                                            <div class="progress mt-3">
-                                         <div class="progress-bar" role="progressbar" style="width: 100%"
-                                             aria-valuenow="${fpy.FPY}" aria-valuemin="0" aria-valuemax="100"></div>
-                                     </div>
-                                     <h3 class="text-start mt-1">FPY: ${fpy.FPY}%</h3>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <h3 class="">
-                                             <span class="fs-2 ms-1 text-success font-weight-medium">OK : ${fpy.count_ok} </span>
-                                             <span class="fs-2 ms-1 text-danger font-weight-medium"> / NOK : ${fpy.count_nok}</span>
-                                         </h3>
-                                    </div>
-                                </div>
-                            </div>`;
-                    i = "";
-                });
-                $(".carousel-inner").empty().append(items);
-                var multipleCardCarousel = document.querySelector(
-                    "#carouselExampleControls"
-                );
-                if (window.matchMedia("(min-width: 768px)").matches) {
-                    var carousel = new bootstrap.Carousel(multipleCardCarousel, {
-                        interval: false,
-                    });
-                    var carouselWidth = $(".carousel-inner")[0].scrollWidth;
-                    var cardWidth = $(".carousel-item").width();
-                    var scrollPosition = 0;
-                    $("#carouselExampleControls .carousel-control-next").on("click", function() {
-                        if (scrollPosition < carouselWidth - cardWidth * 4) {
-                            scrollPosition += cardWidth;
-                            $("#carouselExampleControls .carousel-inner").animate({
-                                    scrollLeft: scrollPosition
-                                },
-                                600
-                            );
-                        }
-                    });
-                    $("#carouselExampleControls .carousel-control-prev").on("click", function() {
-                        if (scrollPosition > 0) {
-                            scrollPosition -= cardWidth;
-                            $("#carouselExampleControls .carousel-inner").animate({
-                                    scrollLeft: scrollPosition
-                                },
-                                600
-                            );
-                        }
-                    });
-                } else {
-                    $(multipleCardCarousel).addClass("slide");
-                }
-                let a = `<div class="item">
-                                <div class="card my-0">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div
-                                                class="
-                                      btn btn-xl btn-light-warning
-                                      text-warning
-                                      btn-circle
-                                    ">
-                                                <i class="fas fa-barcode"></i>
-                                            </div>
-                                            <h3 class="">
-                                                <span class="fs-2 ms-1 text-success font-weight-medium"> 44 OK</span>
-                                                <span class="fs-2 ms-1 text-danger font-weight-medium"> / 55 NOK</span>
-                                            </h3>
-                                        </div>
+                // $(".carousel-inner").empty().append(items);
+                // var multipleCardCarousel = document.querySelector(
+                //     "#carouselExampleControls"
+                // );
+                // if (window.matchMedia("(min-width: 768px)").matches) {
+                //     var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+                //         interval: false,
+                //     });
+                //     var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+                //     var cardWidth = $(".carousel-item").width();
+                //     var scrollPosition = 0;
+                //     $("#carouselExampleControls .carousel-control-next").on("click", function() {
+                //         if (scrollPosition < carouselWidth - cardWidth * 4) {
+                //             scrollPosition += cardWidth;
+                //             $("#carouselExampleControls .carousel-inner").animate({
+                //                     scrollLeft: scrollPosition
+                //                 },
+                //                 600
+                //             );
+                //         }
+                //     });
+                //     $("#carouselExampleControls .carousel-control-prev").on("click", function() {
+                //         if (scrollPosition > 0) {
+                //             scrollPosition -= cardWidth;
+                //             $("#carouselExampleControls .carousel-inner").animate({
+                //                     scrollLeft: scrollPosition
+                //                 },
+                //                 600
+                //             );
+                //         }
+                //     });
+                // } else {
+                //     $(multipleCardCarousel).addClass("slide");
+                // }
+                // let a = `<div class="item">
+            //                 <div class="card my-0">
+            //                     <div class="card-body">
+            //                         <div class="d-flex justify-content-between align-items-center">
+            //                             <div
+            //                                 class="
+            //                       btn btn-xl btn-light-warning
+            //                       text-warning
+            //                       btn-circle
+            //                     ">
+            //                                 <i class="fas fa-barcode"></i>
+            //                             </div>
+            //                             <h3 class="">
+            //                                 <span class="fs-2 ms-1 text-success font-weight-medium"> 44 OK</span>
+            //                                 <span class="fs-2 ms-1 text-danger font-weight-medium"> / 55 NOK</span>
+            //                             </h3>
+            //                         </div>
 
-                                        <div class="progress mt-3">
-                                            <div class="progress-bar" role="progressbar" style="width: 100%"
-                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <h3 class="text-start mt-1">FPY: 25%</h3>
-                                    </div>
-                                </div>
-                            </div>`;
-                var itemsMainDiv = ('.MultiCarousel');
-                var itemsDiv = ('.MultiCarousel-inner');
-                var itemWidth = "";
-                $('.leftLst, .rightLst').click(function() {
-                    var condition = $(this).hasClass("leftLst");
-                    if (condition)
-                        click(0, this);
-                    else
-                        click(1, this)
-                });
-                ResCarouselSize();
-                $(window).resize(function() {
-                    ResCarouselSize();
-                });
-                //this function define the size of the items
-                function ResCarouselSize() {
-                    var incno = 0;
-                    var dataItems = ("data-items");
-                    var itemClass = ('.item');
-                    var id = 0;
-                    var btnParentSb = '';
-                    var itemsSplit = '';
-                    var sampwidth = $(itemsMainDiv).width();
-                    var bodyWidth = $('body').width();
-                    $(itemsDiv).each(function() {
-                        id = id + 1;
-                        var itemNumbers = $(this).find(itemClass).length;
-                        btnParentSb = $(this).parent().attr(dataItems);
-                        itemsSplit = btnParentSb.split(',');
-                        $(this).parent().attr("id", "MultiCarousel" + id);
-                        if (bodyWidth >= 1200) {
-                            // alert(itemsSplit[1]);
-                            incno = itemsSplit[1];
-                            itemWidth = sampwidth / incno;
-                        } else if (bodyWidth >= 992) {
-                            incno = itemsSplit[1];
-                            itemWidth = sampwidth / incno;
-                        } else if (bodyWidth >= 768) {
-                            incno = itemsSplit[1];
-                            itemWidth = sampwidth / incno;
-                        } else {
-                            incno = itemsSplit[0];
-                            itemWidth = sampwidth / incno;
-                        }
-                        $(this).css({
-                            'transform': 'translateX(0px)',
-                            'width': itemWidth * itemNumbers
-                        });
-                        $(this).find(itemClass).each(function() {
-                            $(this).outerWidth(itemWidth);
-                        });
+            //                         <div class="progress mt-3">
+            //                             <div class="progress-bar" role="progressbar" style="width: 100%"
+            //                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            //                         </div>
+            //                         <h3 class="text-start mt-1">FPY: 25%</h3>
+            //                     </div>
+            //                 </div>
+            //             </div>`;
+                // var itemsMainDiv = ('.MultiCarousel');
+                // var itemsDiv = ('.MultiCarousel-inner');
+                // var itemWidth = "";
+                // $('.leftLst, .rightLst').click(function() {
+                //     var condition = $(this).hasClass("leftLst");
+                //     if (condition)
+                //         click(0, this);
+                //     else
+                //         click(1, this)
+                // });
+                // ResCarouselSize();
+                // $(window).resize(function() {
+                //     ResCarouselSize();
+                // });
+                // //this function define the size of the items
+                // function ResCarouselSize() {
+                //     var incno = 0;
+                //     var dataItems = ("data-items");
+                //     var itemClass = ('.item');
+                //     var id = 0;
+                //     var btnParentSb = '';
+                //     var itemsSplit = '';
+                //     var sampwidth = $(itemsMainDiv).width();
+                //     var bodyWidth = $('body').width();
+                //     $(itemsDiv).each(function() {
+                //         id = id + 1;
+                //         var itemNumbers = $(this).find(itemClass).length;
+                //         btnParentSb = $(this).parent().attr(dataItems);
+                //         itemsSplit = btnParentSb.split(',');
+                //         $(this).parent().attr("id", "MultiCarousel" + id);
+                //         if (bodyWidth >= 1200) {
+                //             // alert(itemsSplit[1]);
+                //             incno = itemsSplit[1];
+                //             itemWidth = sampwidth / incno;
+                //         } else if (bodyWidth >= 992) {
+                //             incno = itemsSplit[1];
+                //             itemWidth = sampwidth / incno;
+                //         } else if (bodyWidth >= 768) {
+                //             incno = itemsSplit[1];
+                //             itemWidth = sampwidth / incno;
+                //         } else {
+                //             incno = itemsSplit[0];
+                //             itemWidth = sampwidth / incno;
+                //         }
+                //         $(this).css({
+                //             'transform': 'translateX(0px)',
+                //             'width': itemWidth * itemNumbers
+                //         });
+                //         $(this).find(itemClass).each(function() {
+                //             $(this).outerWidth(itemWidth);
+                //         });
 
-                        $(".leftLst").addClass("over");
-                        $(".rightLst").removeClass("over");
+                //         $(".leftLst").addClass("over");
+                //         $(".rightLst").removeClass("over");
 
-                    });
-                }
-                //this function used to move the items
-                function ResCarousel(e, el, s) {
-                    var leftBtn = ('.leftLst');
-                    var rightBtn = ('.rightLst');
-                    var translateXval = '';
-                    var divStyle = $(el + ' ' + itemsDiv).css('transform');
-                    var values = divStyle.match(/-?[\d\.]+/g);
-                    var xds = Math.abs(values[4]);
-                    if (e == 0) {
-                        translateXval = parseInt(xds) - parseInt(itemWidth * s);
-                        $(el + ' ' + rightBtn).removeClass("over");
+                //     });
+                // }
+                // //this function used to move the items
+                // function ResCarousel(e, el, s) {
+                //     var leftBtn = ('.leftLst');
+                //     var rightBtn = ('.rightLst');
+                //     var translateXval = '';
+                //     var divStyle = $(el + ' ' + itemsDiv).css('transform');
+                //     var values = divStyle.match(/-?[\d\.]+/g);
+                //     var xds = Math.abs(values[4]);
+                //     if (e == 0) {
+                //         translateXval = parseInt(xds) - parseInt(itemWidth * s);
+                //         $(el + ' ' + rightBtn).removeClass("over");
 
-                        if (translateXval <= itemWidth / 2) {
-                            translateXval = 0;
-                            $(el + ' ' + leftBtn).addClass("over");
-                        }
-                    } else if (e == 1) {
-                        var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
-                        translateXval = parseInt(xds) + parseInt(itemWidth * s);
-                        $(el + ' ' + leftBtn).removeClass("over");
+                //         if (translateXval <= itemWidth / 2) {
+                //             translateXval = 0;
+                //             $(el + ' ' + leftBtn).addClass("over");
+                //         }
+                //     } else if (e == 1) {
+                //         var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+                //         translateXval = parseInt(xds) + parseInt(itemWidth * s);
+                //         $(el + ' ' + leftBtn).removeClass("over");
 
-                        if (translateXval >= itemsCondition - itemWidth / 2) {
-                            translateXval = itemsCondition;
-                            $(el + ' ' + rightBtn).addClass("over");
-                        }
-                    }
-                    $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
-                }
-                //It is used to get some elements from btn
-                function click(ell, ee) {
-                    var Parent = "#" + $(ee).parent().attr("id");
-                    var slide = $(Parent).attr("data-slide");
-                    ResCarousel(ell, Parent, slide);
-                }
+                //         if (translateXval >= itemsCondition - itemWidth / 2) {
+                //             translateXval = itemsCondition;
+                //             $(el + ' ' + rightBtn).addClass("over");
+                //         }
+                //     }
+                //     $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+                // }
+                // //It is used to get some elements from btn
+                // function click(ell, ee) {
+                //     var Parent = "#" + $(ee).parent().attr("id");
+                //     var slide = $(Parent).attr("data-slide");
+                //     ResCarousel(ell, Parent, slide);
+                // }
                 //alert();
                 //console.log(response);
             });
