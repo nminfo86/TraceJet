@@ -181,17 +181,6 @@
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
     </div>
-    <style>
-        /* .progress-middle {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                background: #000;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                height: 100vh;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } */
-    </style>
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
@@ -258,11 +247,6 @@
                 "end_date": splitDates[1]
             }
             callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
-                if (!response.status) {
-                    $(".carousel-inner").empty().html(
-                        `<h3 class="text-start mt-1 text-info">${response.message}</h3>`);
-                    // alert(response.message)
-                }
                 //$(".MultiCarousel-inner").append()
                 $(".before-filter").addClass('d-none');
                 $(".after-filter").removeClass('d-none');
@@ -300,7 +284,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            `;
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
                     i = "";
 
                 });
