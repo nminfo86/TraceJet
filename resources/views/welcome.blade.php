@@ -10,132 +10,14 @@
         <!-- ============================================================== -->
         <!-- Container fluid  -->
         <!-- ============================================================== -->
-        <style>
-            .alert-light-info,
-            .bg-light-info,
-            .btn-light-info {
-                background-color: rgba(11, 178, 251, .3) !important;
-                border-color: rgba(11, 178, 251, .1) !important
-            }
-
-            .alert-light-success,
-            .bg-light-success,
-            .btn-light-success,
-            .email-app .email-table .selected {
-                background-color: rgba(57, 203, 127, .3) !important;
-                border-color: rgba(57, 203, 127, .1) !important
-            }
-
-            .alert-light-warning,
-            .bg-light-warning,
-            .btn-light-warning {
-                background-color: rgba(253, 201, 15, .3) !important;
-                border-color: rgba(253, 201, 15, .1) !important
-            }
-
-            .alert-light-danger,
-            .bg-light-danger,
-            .btn-light-danger {
-                background-color: rgba(252, 75, 108, .3) !important;
-                border-color: rgba(252, 75, 108, .1) !important
-            }
-
-            .bg-light-cyan,
-            .btn-light-cyan {
-                background-color: #405863 !important;
-                border-color: #405863 !important
-            }
-
-            .alert-light-secondary,
-            .bg-light-secondary,
-            .btn-light-secondary {
-                background-color: rgba(108, 117, 125, .3) !important;
-                border-color: rgba(108, 117, 125, .1) !important
-            }
-
-            .bg-light-inverse {
-                background-color: #0c111b !important
-            }
-
-            .alert-light-primary,
-            .bg-light-primary,
-            .btn-light-primary {
-                background-color: rgba(30, 77, 183, .3) !important;
-                border-color: rgba(30, 77, 183, .1) !important
-            }
-
-            .btn-light-primary:focus,
-            .btn-light-primary:hover {
-                background-color: #1e4db7 !important;
-                border-color: #1e4db7 !important;
-                color: #fff !important
-            }
-
-            .btn-light-success:focus,
-            .btn-light-success:hover {
-                background-color: #39cb7f !important;
-                border-color: #39cb7f !important;
-                color: #fff !important
-            }
-
-            .btn-light-warning:focus,
-            .btn-light-warning:hover {
-                background-color: #fdc90f !important;
-                border-color: #fdc90f !important;
-                color: #fff !important
-            }
-
-            .btn-light-danger:focus,
-            .btn-light-danger:hover {
-                background-color: #fc4b6c !important;
-                border-color: #fc4b6c !important;
-                color: #fff !important
-            }
-
-            .btn-light-secondary:focus,
-            .btn-light-secondary:hover {
-                background-color: #6c757d !important;
-                border-color: #6c757d !important;
-                color: #fff !important
-            }
-
-            .btn-light-info:focus,
-            .btn-light-info:hover {
-                background-color: #0bb2fb !important;
-                border-color: #0bb2fb !important;
-                color: #fff !important
-            }
-
-            .badge-light {
-                background-color: #11142d;
-                color: #e6e5e8
-            }
-
-            .btn-light {
-                background-color: #11142d;
-                border-color: #11142d;
-                color: #e6e5e8
-            }
-
-            .badge-light-success {
-                background-color: #516d55
-            }
-
-            .badge-light-info {
-                background-color: #27546f
-            }
-
-            .badge-light-danger {
-                background-color: #583a41
-            }
-        </style>
         <div class="container-fluid">
             <div class="row pb-4">
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                    <h4 class="text-muted mb-0 fw-normal"> {{ __('Bienvenu') }} Johnathan</h4>
+                    <h4 class="text-muted mb-0 fw-normal"> {{ __('Bienvenu') }} </h4>
                     <h1 class="mb-0 fw-bold">{{ __('Tableau de bord de production') }}</h1>
                 </div>
             </div>
+            {{-- custom style carousel in dashboard --}}
             <style>
                 @media (max-width: 767px) {
                     .carousel-inner .carousel-item>div {
@@ -177,12 +59,12 @@
                     <div class="card">
                         <form id="main_form">
                             <div class="card-header bg-info text-white">
-                                {{ __('feltrage') }}
+                                {{ __('filtrage') }}
                             </div>
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
-                                        <label for="inputField" class="col-form-label">Section</label>
+                                        <label for="inputField" class="col-form-label">{{ __('Section') }}</label>
                                     </div>
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="section_id" name="section_id"
@@ -191,7 +73,7 @@
                                         </select>
                                     </div>
                                     <div class="col-auto">
-                                        <label for="inputField" class="col-form-label">date début et fin</label>
+                                        <label for="inputField" class="col-form-label">{{ __('date début et fin') }}</label>
                                     </div>
                                     <div class="col">
                                         <input type="text" value="" class="form-control" id="datetimes"
@@ -209,7 +91,7 @@
 
                                     </div>
                                     <div class="col-auto">
-                                        <label for="inputField" class="col-form-label">OF</label>
+                                        <label for="inputField" class="col-form-label">{{ __('OF') }}</label>
                                     </div>
                                     <div class="col">
                                         <select class="form-select theme-select border-0" id="of_id" name="of_id"
@@ -218,7 +100,7 @@
                                         </select>
                                     </div>
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-primary">GO</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('GO') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -226,26 +108,10 @@
                     </div>
                 </div>
                 <div id="recipeCarousel" class="col-lg-8 carousel slide" data-bs-ride="carousel">
-                    {{-- <div id="carouselExampleControls" class="carousel mx-0 px-0" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-
-                        </div>
-
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div> --}}
-
                     <div class="carousel-inner" role="listbox">
                         {{-- carousel goes her --}}
                     </div>
+                    {{-- carousel btns next and previous --}}
                     <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -266,14 +132,15 @@
             <!-- ============================================================== -->
             <!-- Sales chart -->
             <!-- ============================================================== -->
-            <div class="row pt-3">
+            <h1 class="text-center before-filter">{{ __('Filtrer pour voir les résulats') }}</h1>
+            <div class="row pt-3 d-none after-filter">
                 <div class="col-lg-6 d-flex align-items-stretch">
                     <div class="card  w-100">
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
                                 <div>
                                     <h4 class="card-title">{{ __('OF Numéro') }}</h4>
-                                    <h6 class="card-subtitle">{{ __('Statistique de production par chaque post') }}</h6>
+                                    <h6 class="card-subtitle">{{ __('Statistiques de production par chaque post') }}</h6>
                                 </div>
                             </div>
                             <div class="amp-pxl mt-4">
@@ -296,10 +163,10 @@
                                 <table class="table mb-0 table-hover align-middle text-nowrap" id="main_table">
                                     <thead>
                                         <tr class="text-capitalize">
-                                            <th class="border-top-0">{{ __('Number') }}</th>
-                                            <th class="border-top-0">{{ __('Name') }}</th>
-                                            <th class="border-top-0">{{ __('Status') }}</th>
-                                            <th class="border-top-0">{{ __('Action') }}</th>
+                                            <th class="border-top-0">{{ __('OF Numéro') }}</th>
+                                            <th class="border-top-0">{{ __('nom') }}</th>
+                                            <th class="border-top-0">{{ __('statut') }}</th>
+                                            <th class="border-top-0">{{ __('action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -315,14 +182,14 @@
     </div>
     <style>
         /* .progress-middle {
-                                                                                                                                                                                                                                                                                                                                                                            justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                            align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                            background: #000;
-                                                                                                                                                                                                                                                                                                                                                                            display: flex;
-                                                                                                                                                                                                                                                                                                                                                                            height: 100vh;
-                                                                                                                                                                                                                                                                                                                                                                            padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                            margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                        } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: #000;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 100vh;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
     </style>
     <!-- ============================================================== -->
     <!-- End PAge Content -->
@@ -342,32 +209,9 @@
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
                 let id = $(this).val();
-                table.DataTable({
-                    "ajax": ajaxCallDatatables(url + '/' + id),
-                    columns: [{
-                            data: 'of_number'
-                        },
-                        {
-                            data: 'of_code'
-                        }, {
-                            data: 'status'
-                        },
-                        {
-                            data: 'id',
-                            render: function(data, type, row) {
-                                return `  <a type="button" href="http://127.0.0.1:8000/of_statistics/${data}" class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </a>`;
-                            }
-                        },
-                    ],
-                    "destroy": true
-                });
 
-                // callAjax('GET', base_url + '/pluck/ofs', {
-                //     "section_id": id
-                // }).done(function(response) {
-                //     $("#of_id").empty();
-                //     appendToSelect(response.data, "#of_id");
-                // });
+
+
                 $("#of_id").empty().append("<option selected disabled>{{ __('choisir un OF') }}</option>");
                 callAjax('GET', base_url + '/pluck/calibers', {
                     "section_id": id,
@@ -377,17 +221,6 @@
                         "<option selected disabled>{{ __('choisir un calibre') }}</option>");
                     appendToSelect(response.data, "#caliber_id");
                 });
-
-
-                // callAjax('GET', base_url + '/pluck/ofs', {
-                //     "section_id": id,
-                //     'has': "ofs"
-                // }).done(function(response) {
-                //     $("#caliber_id").empty();
-                //     appendToSelect(response.data, "#caliber_id");
-                // });
-
-
             });
 
 
@@ -425,6 +258,8 @@
             }
             callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
                 //$(".MultiCarousel-inner").append()
+                $(".before-filter").addClass('d-none');
+                $(".after-filter").removeClass('d-none');
                 let items_t = "";
                 var i = "active";
                 var post_names = [];
@@ -439,21 +274,22 @@
                                         <div class="card me-lg-3">
                                             <div class="card-img ">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">${element.post_name}</h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">FPY</h6>
+                                                    <i class="${element.icon} fs-3"></i>
+                                                    <h5 class="card-title  text-center">${element.post_name}</h5>
+                                                    <h6 class="card-subtitle mb-2 text-muted text-center">FPY</h6>
                                                     <div class="progress" style="height: 20px;">
-                                                    <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width: ${element.FPY}%;" aria-valuenow="${element.FPY}"
-                                                     aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                    style="width:1${element.FPY}%;" aria-valuenow="${element.FPY}"
+                                                     aria-valuemin="0" aria-valuemax="100">1${element.FPY}%</div>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer bg-white">
                                                     <div class="row">
-                                                    <div class="col border-end bg-success text-white">
-                                                        <div class="">OK</div> <span class="">${element.count_ok}</span>
+                                                    <div class="col border-end text-success">
+                                                        <div class="">OK</div> <span class="badge bg-success">${element.count_ok}</span>
                                                     </div>
-                                                    <div class="col bg-danger text-white">
-                                                        <div class="">NOK</div> <span class="">${element.count_nok}</span>
+                                                    <div class="col text-danger">
+                                                        <div class="">NOK</div> <span class="badge bg-danger">${element.count_nok}</span>
                                                     </div>
                                                     </div>
                                                 </div>
@@ -466,17 +302,6 @@
 
                 });
                 $(".carousel-inner").empty().append(items_t);
-                // <div class="card my-0">
-                //         <div class="card-body">
-                //             samir
-                //         </div>
-                //         <div class="card-footer">
-                //             <h3 class="">
-                //                 <span class="fs-2 ms-1 text-success font-weight-medium"> ss</span>
-                //                 <span class="fs-2 ms-1 text-danger font-weight-medium"> ss</span>
-                //             </h3>
-                //         </div>
-                //     </div>
                 $(".fpyTotal-inner").empty().append(`
                     <h3> FPY total </h3>
                     <div class="progress-middle">
@@ -565,6 +390,27 @@
                         cutoutPercentage: 85
                     }
                 }
+
+                /*---------------------------- datatables ----------------------------*/
+                table.DataTable({
+                    "ajax": ajaxCallDatatables(url + '/' + id),
+                    columns: [{
+                            data: 'of_number'
+                        },
+                        {
+                            data: 'of_code'
+                        }, {
+                            data: 'status'
+                        },
+                        {
+                            data: 'id',
+                            render: function(data, type, row) {
+                                return `  <a type="button" href="http://127.0.0.1:8000/of_statistics/${data}" class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </a>`;
+                            }
+                        },
+                    ],
+                    "destroy": true
+                });
             });
         });
     </script>
