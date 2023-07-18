@@ -160,7 +160,8 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table mb-0 table-hover align-middle text-nowrap" id="main_table">
+                                <table class="table mb-0 table-hover align-middle text-nowrap" id="main_table"
+                                    width="100%">
                                     <thead>
                                         <tr class="text-capitalize">
                                             <th class="border-top-0">{{ __('OF Numéro') }}</th>
@@ -182,14 +183,14 @@
     </div>
     <style>
         /* .progress-middle {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    background: #000;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    height: 100vh;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        justify-content: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        background: #000;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        height: 100vh;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin: 0;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
     </style>
     <!-- ============================================================== -->
     <!-- End PAge Content -->
@@ -274,22 +275,22 @@
                                         <div class="card me-lg-3">
                                             <div class="card-img ">
                                                 <div class="card-body">
-                                                    <i class="${element.icon} fs-3"></i>
-                                                    <h5 class="card-title  text-center">${element.post_name}</h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted text-center">FPY</h6>
+
+                                                    <h5 class="card-title  ">
+                                                    <i class="${element.icon} text-${element.color} fs-3 me-2"></i> ${element.post_name}</h5>
                                                     <div class="progress" style="height: 20px;">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width:1${element.FPY}%;" aria-valuenow="${element.FPY}"
-                                                     aria-valuemin="0" aria-valuemax="100">1${element.FPY}%</div>
+                                                    style="width:${element.FPY}%;" aria-valuenow="${element.FPY}"
+                                                     aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
                                                     </div>
                                                 </div>
-                                                <div class="card-footer bg-white">
+                                                <div class="card-footer bg-white fs-3">
                                                     <div class="row">
                                                     <div class="col border-end text-success">
-                                                        <div class="">OK</div> <span class="badge bg-success">${element.count_ok}</span>
+                                                        <div class="">OK</div> <span class="badge bg-success ">${element.count_ok}</span>
                                                     </div>
                                                     <div class="col text-danger">
-                                                        <div class="">NOK</div> <span class="badge bg-danger">${element.count_nok}</span>
+                                                        <div class="">NOK</div> <span class="badge bg-danger ">${element.count_nok}</span>
                                                     </div>
                                                     </div>
                                                 </div>
@@ -393,7 +394,7 @@
 
                 /*---------------------------- datatables ----------------------------*/
                 table.DataTable({
-                    "ajax": ajaxCallDatatables(url + '/' + id),
+                    "ajax": ajaxCallDatatables(url + '/' + $('#section_id').val()),
                     columns: [{
                             data: 'of_number'
                         },
