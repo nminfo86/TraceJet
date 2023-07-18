@@ -409,54 +409,59 @@
                 "end_date": splitDates[1]
             }
             callAjax('GET', base_url + '/dashboard', formData).done(function(response) {
+                if (!response.status) {
+                    $(".carousel-inner").empty().html(
+                        `<h3 class="text-start mt-1 text-info">${response.message}</h3>`);
+                    // alert(response.message)
+                }
                 //$(".MultiCarousel-inner").append()
                 let items_t = "";
                 var i = "active";
                 response.data.fpy.forEach(element => {
                     items_t += `<div class="carousel-item ${i}">
-                                    <div class="col">
-                                        <div class="card me-lg-3">
-                                            <div class="card-img ">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${element.post_name}</h5>
-                                                    <h6 class="card-subtitle mb-2 text-muted">FPY</h6>
-                                                    <div class="progress" style="height: 20px;">
-                                                    <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width: ${element.FPY}%;" aria-valuenow="${element.FPY}"
-                                                     aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer bg-white">
-                                                    <div class="row">
-                                                    <div class="col border-end bg-success text-white">
-                                                        <div class="">OK</div> <span class="">${element.count_ok}</span>
-                                                    </div>
-                                                    <div class="col bg-danger text-white">
-                                                        <div class="">NOK</div> <span class="">${element.count_nok}</span>
-                                                    </div>
+                                                <div class="col">
+                                                    <div class="card me-lg-3">
+                                                        <div class="card-img ">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${element.post_name}</h5>
+                                                                <h6 class="card-subtitle mb-2 text-muted">FPY</h6>
+                                                                <div class="progress" style="height: 20px;">
+                                                                <div class="progress-bar bg-info" role="progressbar"
+                                                                style="width: ${element.FPY}%;" aria-valuenow="${element.FPY}"
+                                                                 aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-footer bg-white">
+                                                                <div class="row">
+                                                                <div class="col border-end bg-success text-white">
+                                                                    <div class="">OK</div> <span class="">${element.count_ok}</span>
+                                                                </div>
+                                                                <div class="col bg-danger text-white">
+                                                                    <div class="">NOK</div> <span class="">${element.count_nok}</span>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                `;
+                                            `;
                     i = "";
                 });
                 $(".carousel-inner").empty().append(items_t);
                 $(".fpyTotal-inner").empty().append(`
-                <div class="card my-0">
-                        <div class="card-body">
-                            samir
-                        </div>
-                        <div class="card-footer">
-                            <h3 class="">
-                                <span class="fs-2 ms-1 text-success font-weight-medium"> ss</span>
-                                <span class="fs-2 ms-1 text-danger font-weight-medium"> ss</span>
-                            </h3>
-                        </div>
-                    </div>
-            `);
+                            <div class="card my-0">
+                                    <div class="card-body">
+                                        samir
+                                    </div>
+                                    <div class="card-footer">
+                                        <h3 class="">
+                                            <span class="fs-2 ms-1 text-success font-weight-medium"> ss</span>
+                                            <span class="fs-2 ms-1 text-danger font-weight-medium"> ss</span>
+                                        </h3>
+                                    </div>
+                                </div>
+                        `);
                 let items = document.querySelectorAll('.carousel .carousel-item')
 
                 items.forEach((el) => {
