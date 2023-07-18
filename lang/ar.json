@@ -61,7 +61,7 @@
     "Date lancement": "تاريخ البدء",
     "code": "الرمز",
     "quantité": "الكمية",
-    "statu": "الحالة",
+    "statut": "الحالة",
     "options": "خصائص",
     "selectionner un calibre": "اختر عيار",
     "OK / Jour": "Ok / اليوم",
@@ -176,5 +176,16 @@
     "adrèsse IP": "عنوان IP",
     "poste précédent": "المحطة السابقة",
     "type": "النوع",
-    "selectionner un type": "اختر نوع المحطة"
+    "selectionner un type": "اختر نوع المحطة",
+    "date début et fin": "من الى",
+    "Tableau de bord de production": "لوحة القيادة للانتاج",
+    "Bienvenu": "مرحبا",
+    "Section": "القسم",
+    "choisir un calibre": "اختر عيار",
+    "choisir un OF": "اختر OF",
+    "Filtrer pour voir les résulats": "قم بالتصفية لإضهار النتائج",
+    "Statistiques de production par chaque post": "احصائيات الإنتاج حسب كل محطة",
+    "Liste des Ofs": "قائمة OFs",
+    "action": "...",
+    "filtrage": "التصفية"
 }
