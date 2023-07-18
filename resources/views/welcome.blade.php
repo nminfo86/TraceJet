@@ -181,17 +181,6 @@
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
     </div>
-    <style>
-        /* .progress-middle {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        justify-content: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        align-items: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        background: #000;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        height: 100vh;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin: 0;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } */
-    </style>
     <!-- ============================================================== -->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
@@ -237,18 +226,11 @@
                     appendToSelect(response.data, "#of_id");
                 });
             });
-            // $("#caliber_id").change();
-            // $("#section_id").change();
-            //form.submit();
-
-
         });
         form.on('submit', function(e) {
             e.preventDefault();
-            //var splitDates = dateRange();
+
             let splitDates = $("#datetimes").val().split(' - ');
-            // alert(splitDates[0]);
-            // return false;
 
             formData = {
                 "section_id": $("#section_id").val(),
