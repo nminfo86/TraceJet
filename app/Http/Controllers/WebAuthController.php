@@ -27,7 +27,7 @@ class WebAuthController extends AccessTokensController
 
             if ($response["status"] === false) {
                 // If login fails, redirect back with error message
-                return redirect("/")->with('error', $response["message"]);
+                return redirect("/login")->with('error', $response["message"]);
             }
 
             // Determine the client IP address
@@ -43,7 +43,7 @@ class WebAuthController extends AccessTokensController
             }
             // Default redirection to /dashboard for other IP addresses
             return redirect()->intended('/dashboard');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Handle exception and redirect back with error message
             return redirect("/")->with('error', "Etat 2002 du serveur");
         }
@@ -56,6 +56,6 @@ class WebAuthController extends AccessTokensController
             ->delete();
         Auth::guard('web')->logout();
         Auth::guard('sanctum')->guest();
-        return redirect('/');
+        return redirect('/login');
     }
 }
