@@ -14,6 +14,13 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
 
+        $ofs = Of::inSection($request->section_id)->with(['caliber:id,caliber_name'])
+
+            ->when($request->start_date  && $request->end_date, function ($query) use ($request) {
+                return $query->whereBetween('ofs.created_at', [$request->start_date, $request->end_date]);
+            })
+            ->get(['of_number', 'of_code', 'status', 'id', 'caliber_id']);
+
         // Fetch posts based on section ID
         $posts = Post::whereSectionId($request->section_id)
             ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
@@ -81,16 +88,21 @@ class DashboardController extends Controller
         if ($fpy) {
             // Calculate total FPY for the chain
             $total_fpy = collect($fpy)->reduce(fn ($carry, $item) => $carry * ($item->FPY / 100), 1) * 100;
-            return $this->sendResponse(data: compact("fpy", "total_fpy"));
+            return $this->sendResponse(data: compact("fpy", "total_fpy", 'ofs'));
         }
         // return $this->sendResponse("Empty FPY", status: false);
     }
 
 
 
-    public function ofsListBySection($sectionId)
-    {
-        $ofs = Of::inSection($sectionId)->get(['of_number', 'of_code', 'status', 'id']);
-        return $this->sendResponse(data: $ofs);
-    }
+    // public function ofsListBySection(Request $request)
+    // {
+    //     // $ofs = Of::inSection($request->section_id)->with(['caliber:id,caliber_name'])
+
+    //     //     ->when($request->start_date  && $request->end_date, function ($query) use ($request) {
+    //     //         return $query->whereBetween('movements.created_at', [$request->start_date, $request->end_date]);
+    //     //     })
+    //     //     ->get(['of_number', 'of_code', 'status', 'id', 'caliber_id']);
+    //     // return $this->sendResponse(data: $ofs);
+    // }
 }

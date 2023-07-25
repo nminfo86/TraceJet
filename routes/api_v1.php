@@ -99,7 +99,7 @@ Route::group(
 
 
         route::get('dashboard', [DashboardController::class, 'index']);
-        route::get('ofsBySection/{id}', [DashboardController::class, 'ofsListBySection']);
+        // route::get('ofsBySection/{id}', [DashboardController::class, 'ofsListBySection']);
 
 
 
