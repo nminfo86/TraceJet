@@ -14,14 +14,22 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
 
+        /* -------------------------------------------------------------------------- */
+        /*               Fetch ofs list based on section ID and datetime              */
+        /* -------------------------------------------------------------------------- */
         $ofs = Of::inSection($request->section_id)->with(['caliber:id,caliber_name'])
 
             ->when($request->start_date  && $request->end_date, function ($query) use ($request) {
                 return $query->whereBetween('ofs.created_at', [$request->start_date, $request->end_date]);
             })
+            ->when($request->caliber_id, function ($query) use ($request) {
+                return $query->whereCaliberId($request->caliber_id);
+            })
             ->get(['of_number', 'of_code', 'status', 'id', 'caliber_id']);
 
-        // Fetch posts based on section ID
+        /* -------------------------------------------------------------------------- */
+        /*                       Fetch posts based on section ID                      */
+        /* -------------------------------------------------------------------------- */
         $posts = Post::whereSectionId($request->section_id)
             ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
             ->get(["posts.id", "post_name", "icon", "color"]);
@@ -31,7 +39,9 @@ class DashboardController extends Controller
             return $this->sendResponse("This section does not have any posts", status: false);
         }
 
-        // Fetch FPY (First Pass Yield) data for movements
+        /* -------------------------------------------------------------------------- */
+        /*               Fetch FPY (First Pass Yield) data for movements              */
+        /* -------------------------------------------------------------------------- */
         $fpy = Movement::withWhereHas('Posts', fn ($q) => $q->whereSectionId($request->section_id))
             ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
             ->when($request->start_date  && $request->end_date, function ($query) use ($request) {

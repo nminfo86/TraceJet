@@ -43,7 +43,6 @@ class PackagingController extends Controller
 
     public function store(Request $request, ProductService $productService)
     {
-
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr', $request->qr)
             ->latest('movements.created_at')
@@ -125,15 +124,17 @@ class PackagingController extends Controller
      */
     public function boxed($of, $product)
     {
+        $box_ticket = [];
         // Get the OF id and serial number id and box_quantity
         $of_id = $of->id;
         $of_quantity = $of->new_quantity;
         $sn_id = $product->serial_number_id;
         $box_quantity = $of->caliber->box_quantity;
         $host_id = $product->current_post_id;
+        // dd($product);
 
         // Perform the packaging operation for a given OF  and Serial Number and box_quantity
-        $this->boxedOperation($of, $box_quantity, $sn_id);
+        $box_ticket = $this->boxedOperation($of, $box_quantity, $sn_id);
 
         // Get the count of serial numbers that have a box assigned
         $snCount = $of->serialNumbers()->whereNotNull('box_id')->count();
@@ -152,7 +153,7 @@ class PackagingController extends Controller
         }
 
         // Get and prepare product information and  list of boxed product
-        $response = $this->prepareResponse($of_id, $host_id);
+        $response = $this->prepareResponse($of_id, $host_id, $box_ticket);
 
         // Return the response
         $msg = $this->getResponseMessage("success");
@@ -168,7 +169,10 @@ class PackagingController extends Controller
      */
     private function boxedOperation($of, int $box_quantity, int $sn_id)
     {
+        // dd($of);
         $of_id = $of->id;
+        $product_id = $of->caliber->product_id;
+        // dd($product_id);
         // Check if there is an open box for the given OF, create one if there is none
         $last_open_box = Box::whereOfId($of_id)->whereStatus('open')->latest()->first();
         if (!$last_open_box) {
@@ -189,6 +193,12 @@ class PackagingController extends Controller
         // Update the status of the last open box to 'filled' if it's full
         if ($boxed_products == $box_quantity) {
             Box::find($last_open_box->id)->update(['status' => "filled"]);
+
+            $product_name = Caliber::whereProductId($product_id)->join('products', 'calibers.product_id', 'products.id')->select(DB::raw("CONCAT(product_name, ' ', caliber_name) as product"))->first()->product;
+
+            $box_ticket['serial_numbers'] = SerialNumber::whereBoxId($last_open_box->id)->pluck("serial_number");
+            $box_ticket['info'] = ["box_qr" => $last_open_box->box_qr, "boxed_date" => $last_open_box->created_at, "box_quantity" => $box_quantity, "product" => $product_name];
+            return $box_ticket;
         }
     }
 
@@ -214,7 +224,7 @@ class PackagingController extends Controller
      *
      * @return Object
      */
-    public function prepareResponse(int $of_id, int $host_id)
+    public function prepareResponse(int $of_id, int $host_id, $box_ticket)
     {
         $list = $this->getMovementDetail($of_id, $host_id);
 
@@ -250,6 +260,11 @@ class PackagingController extends Controller
         // if ($product_info) {
         //     $product_info->of_boxes = floor($product_info->of_boxes);
         // }
+
+        if ($box_ticket) {
+            // return   $this->sendResponse(data: $box_ticket);
+            return compact("info", "list", "box_ticket");
+        }
         return compact("info", "list");
     }
 
