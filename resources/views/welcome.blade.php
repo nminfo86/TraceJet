@@ -19,39 +19,54 @@
             </div>
             {{-- custom style carousel in dashboard --}}
             <style>
-                @media (max-width: 767px) {
-                    .carousel-inner .carousel-item>div {
-                        display: none;
-                    }
+                .carousel-inner {
+                    padding: 1em;
+                }
 
-                    .carousel-inner .carousel-item>div:first-child {
+                .card {
+                    margin: 0 0.5em;
+                    box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+                    border: none;
+                }
+
+                .carousel-control-prev,
+                .carousel-control-next {
+                    background-color: #e1e1e1;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                @media (min-width: 768px) {
+                    .carousel-item {
+                        margin-right: 0;
+                        flex: 0 0 33.333333%;
                         display: block;
                     }
+
+                    .carousel-inner {
+                        display: flex;
+                    }
                 }
 
-                .carousel-inner .carousel-item.active,
-                .carousel-inner .carousel-item-next,
-                .carousel-inner .carousel-item-prev {
+                .card .img-wrapper {
+                    max-width: 100%;
+                    height: 13em;
                     display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
 
-                /* medium and up screens */
-                @media (min-width: 768px) {
-
-                    .carousel-inner .carousel-item-end.active,
-                    .carousel-inner .carousel-item-next {
-                        transform: translateX(25%);
-                    }
-
-                    .carousel-inner .carousel-item-start.active,
-                    .carousel-inner .carousel-item-prev {
-                        transform: translateX(-25%);
-                    }
+                .card img {
+                    max-height: 100%;
                 }
 
-                .carousel-inner .carousel-item-end,
-                .carousel-inner .carousel-item-start {
-                    transform: translateX(0);
+                @media (max-width: 767px) {
+                    .card .img-wrapper {
+                        height: 17em;
+                    }
                 }
             </style>
             <div class="row">
@@ -107,19 +122,43 @@
                         </form>
                     </div>
                 </div>
-                <div id="recipeCarousel" class="col-lg-8 carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner" role="listbox">
-                        {{-- carousel goes her --}}
+                <div id="carouselExampleControls" class="carousel col-lg-8 d-none after-filter" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {{-- <div class="carousel-item active">
+                            <div class="card">
+                                <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title 1</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the
+                                        bulk of the
+                                        card's content.</p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="card">
+                                <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title 2</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the
+                                        bulk of the
+                                        card's content.</p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div> --}}
                     </div>
-                    {{-- carousel btns next and previous --}}
-                    <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button"
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    </a>
-                    <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button"
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    </a>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
                 <div class="col-lg-4">
                     <div class="row d-flex align-items-center " style="height: 180px">
@@ -226,18 +265,11 @@
                     appendToSelect(response.data, "#of_id");
                 });
             });
-            // $("#caliber_id").change();
-            // $("#section_id").change();
-            //form.submit();
-
-
         });
         form.on('submit', function(e) {
             e.preventDefault();
-            //var splitDates = dateRange();
+
             let splitDates = $("#datetimes").val().split(' - ');
-            // alert(splitDates[0]);
-            // return false;
 
             formData = {
                 "section_id": $("#section_id").val(),
@@ -289,7 +321,6 @@
                                 </div>
                                 `;
                     i = "";
-
                 });
                 $(".carousel-inner").empty().append(items_t);
                 $(".fpyTotal-inner").empty().append(`
@@ -301,21 +332,54 @@
                     </div>
                     <h3 class="text-center"> ${response.data.total_fpy} % </h3>
              `);
-                let items = document.querySelectorAll('.carousel .carousel-item')
-
-                items.forEach((el) => {
-                    const minPerSlide = 4
-                    let next = el.nextElementSibling
-                    for (var i = 1; i < minPerSlide; i++) {
-                        if (!next) {
-                            // wrap carousel by using first child
-                            next = items[0]
+                var multipleCardCarousel = document.querySelector(
+                    "#carouselExampleControls"
+                );
+                if (window.matchMedia("(min-width: 768px)").matches) {
+                    var carousel = new bootstrap.Carousel(multipleCardCarousel, {
+                        interval: false,
+                    });
+                    var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+                    var cardWidth = $(".carousel-item").width();
+                    var scrollPosition = 0;
+                    $("#carouselExampleControls .carousel-control-next").on("click", function() {
+                        if (scrollPosition < carouselWidth - cardWidth * 4) {
+                            scrollPosition += cardWidth;
+                            $("#carouselExampleControls .carousel-inner").animate({
+                                    scrollLeft: scrollPosition
+                                },
+                                600
+                            );
                         }
-                        let cloneChild = next.cloneNode(true)
-                        el.appendChild(cloneChild.children[0])
-                        next = next.nextElementSibling
-                    }
-                })
+                    });
+                    $("#carouselExampleControls .carousel-control-prev").on("click", function() {
+                        if (scrollPosition > 0) {
+                            scrollPosition -= cardWidth;
+                            $("#carouselExampleControls .carousel-inner").animate({
+                                    scrollLeft: scrollPosition
+                                },
+                                600
+                            );
+                        }
+                    });
+                } else {
+                    $(multipleCardCarousel).addClass("slide");
+                }
+                //let items = document.querySelectorAll('.carousel .carousel-item')
+
+                // items.forEach((el) => {
+                //     const minPerSlide = 4
+                //     let next = el.nextElementSibling
+                //     for (var i = 1; i < minPerSlide; i++) {
+                //         if (!next) {
+                //             // wrap carousel by using first child
+                //             next = items[0]
+                //         }
+                //         let cloneChild = next.cloneNode(true)
+                //         el.appendChild(cloneChild.children[0])
+                //         next = next.nextElementSibling
+                //     }
+                // })
 
                 /*--------------------------- barchar -----------------------------------------*/
                 const ctx = document.getElementById('chartJSContainer');
