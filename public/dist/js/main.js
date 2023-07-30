@@ -41,20 +41,42 @@
 
 // })(jQuery);
 $(function () {
+    // $('input[name="datetimes"]').daterangepicker({
+    //     timePicker: true,
+    //     startDate: moment().subtract(1, 'month').startOf('month'),
+    //     endDate: moment().subtract(1, 'month').endOf('month'),
+    //     locale: {
+    //         format: 'YYYY-MM-DD hh:mm:ss'
+    //     },
+    //     ranges: {
+    //         'Se jours': [moment(), moment()],
+    //         'hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    //         'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+    //         'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+    //         'This Month': [moment().startOf('month'), moment().endOf('month')],
+    //         'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    //     }
+    // });
     $('input[name="datetimes"]').daterangepicker({
+        autoUpdateInput: false,
         timePicker: true,
-        startDate: moment().subtract(1, 'month').startOf('month'),
-        endDate: moment().subtract(1, 'month').endOf('month'),
         locale: {
-            format: 'YYYY-MM-DD hh:mm:ss'
+            cancelLabel: 'Clear',
         },
         ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            'Ce jour': [moment(), moment()],
+            'hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'les 7 derniers jours ': [moment().subtract(6, 'days'), moment()],
+            'Ce mois': [moment().startOf('month'), moment().endOf('month')],
+            'le dernièr mois': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         }
+    });
+
+    $('input[name="datetimes"]').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY hh:mm:ss') + ' - ' + picker.endDate.format('MM/DD/YYYY hh:mm:ss'));
+    });
+
+    $('input[name="datetimes"]').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
     });
 });

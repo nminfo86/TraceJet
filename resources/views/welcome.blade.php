@@ -70,6 +70,7 @@
                 }
             </style>
             <div class="row">
+
                 <div class="col-lg-12">
                     <div class="card">
                         <form id="main_form">
@@ -98,11 +99,27 @@
                                     <div class="col-auto">
                                         <label for="inputField" class="col-form-label">{{ __('Calibre') }}</label>
                                     </div>
-                                    <div class="col">
-                                        <select class="form-select theme-select border-0" id="caliber_id" name="caliber_id"
-                                            aria-label="">
-                                            <option selected disabled>{{ __('choisir un calibre') }}</option>
-                                        </select>
+                                    <div class="col d-flex">
+                                        <div class="w-75">
+                                            <select class="form-select theme-select border-0" id="caliber_id"
+                                                name="caliber_id" aria-label="">
+                                                <option value="0" selected disabled>{{ __('choisir un calibre') }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-secondary ms-1"
+                                                id="deselect_caliber_id">tous</button>
+                                        </div>
+                                        {{-- <div class="input-group mb-3">
+                                            <select class="form-select" id="inputGroupSelect02">
+                                                <option selected>Choose...</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                            <label class="input-group-text" for="inputGroupSelect02">Options</label>
+                                        </div> --}}
 
                                     </div>
                                     <div class="col-auto">
@@ -234,13 +251,9 @@
             callAjax('GET', base_url + '/pluck/sections').done(function(response) {
                 appendToSelect(response.data, "#section_id");
             });
-
             $("#section_id").on("change", function(e) {
                 e.preventDefault();
                 let id = $(this).val();
-
-
-
                 $("#of_id").empty().append("<option selected disabled>{{ __('choisir un OF') }}</option>");
                 callAjax('GET', base_url + '/pluck/calibers', {
                     "section_id": id,
@@ -251,7 +264,6 @@
                     appendToSelect(response.data, "#caliber_id");
                 });
             });
-
 
             $("#caliber_id").on("change", function(e) {
                 e.preventDefault();
@@ -265,6 +277,35 @@
                     appendToSelect(response.data, "#of_id");
                 });
             });
+            //var unselectValue = 0
+            // $('#caliber_id').on('select2:opening', function(e) {
+            //     var $select = $(this);
+            //     var $target = $(e.target);
+
+            //     if ($target.val() !== null) {
+            //         e.preventDefault();
+            //         unselectValue = $target.val();
+            //         alert(unselectValue);
+            //         $select.val(null).trigger('change');
+            //         $select.find('option[value="' + unselectValue + '"]').prop('selected', false);
+            //         $select.trigger({
+            //             type: 'select2:unselect',
+            //             params: {
+            //                 data: null
+            //             }
+            //         });
+            //         $(this).click();
+            //     }
+            // });
+            $('#deselect_caliber_id').click(function(e) {
+                e.preventDefault();
+                //let first_option = $('#caliber_id option:first');
+                $("#caliber_id option:nth-child(1)").prop("disabled", false);
+
+                //first_option.prop('disabled', false);
+                $("#caliber_id").val($("#caliber_id option:nth-child(1)").val()).trigger("change");
+                $("#caliber_id option:nth-child(1)").prop('disabled', true);
+            })
         });
         form.on('submit', function(e) {
             e.preventDefault();
@@ -444,10 +485,18 @@
                         cutoutPercentage: 85
                     }
                 }
-
+                var jsonData = [{
+                        "of_number": "John Doe",
+                        "of_code": 30,
+                        "status": "USA",
+                        "id": 1
+                    }
+                    // Add more objects here
+                ];
                 /*---------------------------- datatables ----------------------------*/
                 table.DataTable({
-                    "ajax": ajaxCallDatatables(url + '/' + $('#section_id').val()),
+                    // "ajax": ajaxCallDatatables(url + '/' + $('#section_id').val()),
+                    "data": jsonData,
                     columns: [{
                             data: 'of_number'
                         },
