@@ -235,20 +235,6 @@ function deleteObject(url, success_message, error_message) {
 /*                                  DataTable                                 */
 /* -------------------------------------------------------------------------- */
 
-// window.datatableSettings = {
-//     ajax: {
-//         error: function (jqXHR, exception) {
-//             showAjaxAndValidationErrors(jqXHR, exception)
-//         }
-//     },
-//     aLengthMenu: [
-//         [55, 10, 15, 25, 50, -1],
-//         [55, 10, 15, 25, 50, "All"]
-//     ],
-//     iDisplayLength: 1,
-//     // order: [0, 'desc'],
-// };
-
 function ajaxCallDatatables(url, data = {}) {
     // Define desired object
     var obj = {
@@ -278,29 +264,6 @@ function customSelect2(lang) {
     });
 }
 
-// function appendToSelect(method, url, select_id, data = {}, by_val = false) {
-
-//     callAjax(method, url, data).done(function (response) {
-
-//         if (!by_val)
-//             $.each(response.data, function (key, val) {
-//                 $(select_id).append(
-//                     '<option value=' + key + '>' + val +
-//                     '</option>'
-//                 )
-
-//                 console.log(val);
-//             })
-
-//         else
-//             $.each(response.data, function (key, val) {
-//                 $(select_id).append(
-//                     '<option value=' + val + '>' + val +
-//                     '</option>'
-//                 )
-//             })
-//     })
-// }
 
 function appendToSelect(data, select_id, by_val = false) {
     if (!by_val)
