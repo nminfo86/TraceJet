@@ -78,7 +78,10 @@ class Movement extends Model
         parent::boot();
 
         self::creating(function ($model) {
-            $model->updated_at = NULL;
+
+            $author = Auth::user()->name ??  'BlmDev';
+            $model->created_by = $author;
+            // $model->updated_by = NULL;
         });
     }
 }

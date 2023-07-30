@@ -273,7 +273,7 @@ Route::group(
                 ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok')
                 ->selectRaw('CAST((COUNT(CASE WHEN movements.result = "OK" THEN 1 END) / COUNT(*)) * 100 AS UNSIGNED) AS FPY')
 
-                ->groupBy('movements.movement_post_id','posts.post_name')
+                ->groupBy('movements.movement_post_id', 'posts.post_name')
                 ->get();
 
             // Calculate total FPY for the chain
@@ -482,7 +482,7 @@ Route::group(
 
 
         route::get("p", function () {
-
+            return Caliber::whereProductId(2)->join('products', 'calibers.product_id', 'products.id')->select(DB::raw("CONCAT(product_name, ' ', caliber_code) as product"))->first();
             // Créez une instance du contrôleur
             $controller = new \App\Http\Controllers\Controller;
 

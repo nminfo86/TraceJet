@@ -204,12 +204,13 @@
             //     "result": "OK",
             //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
             // },
+            // TODO::possibilite check previous post id in backend
             formData = {
                 // "qr": scanned_qr,
                 // "of_id": of_id,
                 // "lang": "fr",
                 // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-                "previous_post_id": 2,
+                "previous_post_id": 1,
                 //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
                 // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
                 "host_id": 3,

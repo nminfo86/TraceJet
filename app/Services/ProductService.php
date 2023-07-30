@@ -37,6 +37,7 @@ class ProductService
 
         // Check if the product has moved from the correct previous post
         if ($last_movement->movement_post_id != $request->previous_post_id) {
+            // dd($request);
             $msg = $this->getResponseMessage('product_place', ['attribute' => 'product', 'host' => $post_name]);
             return $this->sendResponse($msg, status: false);
         }
