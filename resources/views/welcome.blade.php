@@ -31,9 +31,10 @@
 
                 .carousel-control-prev,
                 .carousel-control-next {
-                    background-color: #e1e1e1;
+                    /* background-color: transparent; */
                     width: 40px;
                     height: 40px;
+                    border: none;
                     border-radius: 50%;
                     top: 50%;
                     transform: translateY(-50%);
@@ -221,7 +222,7 @@
                                     <thead>
                                         <tr class="text-capitalize">
                                             <th class="border-top-0">{{ __('OF Numéro') }}</th>
-                                            <th class="border-top-0">{{ __('nom') }}</th>
+                                            <th class="border-top-0">{{ __('calibre') }}</th>
                                             <th class="border-top-0">{{ __('statut') }}</th>
                                             <th class="border-top-0">{{ __('action') }}</th>
                                         </tr>
@@ -277,26 +278,7 @@
                     appendToSelect(response.data, "#of_id");
                 });
             });
-            //var unselectValue = 0
-            // $('#caliber_id').on('select2:opening', function(e) {
-            //     var $select = $(this);
-            //     var $target = $(e.target);
 
-            //     if ($target.val() !== null) {
-            //         e.preventDefault();
-            //         unselectValue = $target.val();
-            //         alert(unselectValue);
-            //         $select.val(null).trigger('change');
-            //         $select.find('option[value="' + unselectValue + '"]').prop('selected', false);
-            //         $select.trigger({
-            //             type: 'select2:unselect',
-            //             params: {
-            //                 data: null
-            //             }
-            //         });
-            //         $(this).click();
-            //     }
-            // });
             $('#deselect_caliber_id').click(function(e) {
                 e.preventDefault();
                 //let first_option = $('#caliber_id option:first');
@@ -406,21 +388,6 @@
                 } else {
                     $(multipleCardCarousel).addClass("slide");
                 }
-                //let items = document.querySelectorAll('.carousel .carousel-item')
-
-                // items.forEach((el) => {
-                //     const minPerSlide = 4
-                //     let next = el.nextElementSibling
-                //     for (var i = 1; i < minPerSlide; i++) {
-                //         if (!next) {
-                //             // wrap carousel by using first child
-                //             next = items[0]
-                //         }
-                //         let cloneChild = next.cloneNode(true)
-                //         el.appendChild(cloneChild.children[0])
-                //         next = next.nextElementSibling
-                //     }
-                // })
 
                 /*--------------------------- barchar -----------------------------------------*/
                 const ctx = document.getElementById('chartJSContainer');
@@ -485,23 +452,16 @@
                         cutoutPercentage: 85
                     }
                 }
-                var jsonData = [{
-                        "of_number": "John Doe",
-                        "of_code": 30,
-                        "status": "USA",
-                        "id": 1
-                    }
-                    // Add more objects here
-                ];
+
                 /*---------------------------- datatables ----------------------------*/
                 table.DataTable({
                     // "ajax": ajaxCallDatatables(url + '/' + $('#section_id').val()),
-                    "data": jsonData,
+                    "data": response.data.ofs,
                     columns: [{
                             data: 'of_number'
                         },
                         {
-                            data: 'of_code'
+                            data: 'caliber.caliber_name'
                         }, {
                             data: 'status'
                         },
