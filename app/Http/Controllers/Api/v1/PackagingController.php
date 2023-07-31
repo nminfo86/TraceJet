@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\CheckIpClient;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Response;
 
 class PackagingController extends Controller
@@ -196,8 +197,16 @@ class PackagingController extends Controller
 
             $product_name = Caliber::whereProductId($product_id)->join('products', 'calibers.product_id', 'products.id')->select(DB::raw("CONCAT(product_name, ' ', caliber_name) as product"))->first()->product;
 
+            $info = Setting::first();
+            $info->box_qr = $last_open_box->box_qr;
+            $info->boxed_date = $last_open_box->created_at;
+            $info->box_quantity = $box_quantity;
+            $info->product = $product_name;
+
+
             $box_ticket['serial_numbers'] = SerialNumber::whereBoxId($last_open_box->id)->pluck("serial_number");
-            $box_ticket['info'] = ["box_qr" => $last_open_box->box_qr, "boxed_date" => $last_open_box->created_at, "box_quantity" => $box_quantity, "product" => $product_name];
+            $box_ticket['info'] = $info;
+            // $box_ticket['info'] = ["box_qr" => $last_open_box->box_qr, "boxed_date" => $last_open_box->created_at, "box_quantity" => $box_quantity, "product" => $product_name];
             return $box_ticket;
         }
     }

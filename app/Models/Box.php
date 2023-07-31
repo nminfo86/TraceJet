@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Models\Of;
+use Carbon\Carbon;
 use App\Enums\BoxStatusEnum;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Box extends Model
@@ -39,6 +41,20 @@ class Box extends Model
     }
 
 
+
+    /**
+     * Get the created_at
+     *
+     * @param  string  $value
+     * @return string
+     */
+    protected function releaseDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:i:s'),
+
+        );
+    }
 
 
 
