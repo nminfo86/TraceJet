@@ -244,6 +244,7 @@
             display: flex;
             justify-content: space-between;
             padding-inline: 10px;
+            flex-wrap: wrap;
         }
         .bordred-t {
             border: 1px solid black;
@@ -285,7 +286,7 @@
             var $flexContainer = $('<div class="flex-container"></div>');
             var $companyLogo = $('<img src="company-logo.png" alt="Company Logo">');
             var $companyInfo = $(
-                '<div style="margin-inline: auto"><h3>Company Name</h3><p style="text-align:center">EN. AMC</p></div>'
+                `<div style="margin-inline: auto"><h3>${box_ticket.info.name}</h3><p style="text-align:center">${box_ticket.info.name}</p></div>`
             );
 
             $flexContainer.append($companyLogo);
@@ -298,7 +299,7 @@
             var $tableHeaderCell1 = $('<th class="bordred-t"  style="width:85%"></th>');
             var $tableHeaderCell2 = $(`<th class="bordred-t" style="width:15%">${box_ticket.info.box_qr}</th>`);
             var $tableHeaderContent = $(
-                `<div class="flex-between"><p>Nom de produit</p>${box_ticket.info.product}<p></p><p>اسم المنتج</p></div>`
+                `<div class="flex-between"><p>Nom de produit</p><p>${box_ticket.info.product}</p><p>اسم المنتج</p></div>`
             );
 
             $tableHeaderCell1.append($tableHeaderContent);
