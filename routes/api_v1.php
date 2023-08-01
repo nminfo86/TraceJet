@@ -6,11 +6,12 @@ use App\Enums\ColorEnum;
 use App\Models\Movement;
 use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\v1\SettingController;
 use App\Http\Controllers\api\v1\OperatorController;
 use App\Http\Controllers\api\v1\PackagingController;
 use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberController, ProductController, SectionController, AccessTokensController, PluckController, OfController, SerialNumberController, PostsTypeController, PostController, MovementController, BoxController, SerialNumbersPartController, DashboardController};
-use Illuminate\Http\Client\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,7 @@ Route::group(
             'movements' => MovementController::class,
             'packaging' => PackagingController::class,
             'boxes' => BoxController::class,
+            'settings' => SettingController::class,
             // 'parts' => PartController::class,
             // 'sn_parts' => SerialNumbersPartController::class,
             // 'repairs' => RepairController::class,
