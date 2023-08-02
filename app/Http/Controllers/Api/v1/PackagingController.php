@@ -29,7 +29,7 @@ class PackagingController extends Controller
     // }
     public function __construct()
     {
-        $this->middleware(CheckIpClient::class . ":3"); # 2 is operator post_type id
+        $this->middleware(CheckIpClient::class . ":3"); # 3 is operator post_type id
         // Add more middleware and specify the desired methods if needed
     }
 
@@ -250,7 +250,7 @@ class PackagingController extends Controller
                 'caliber_name',
                 'serial_number',
                 'product_name',
-                'ofs.quantity as quantity',
+                'ofs.new_quantity as quantity',
                 DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
                 DB::raw("(select FLOOR(quantity/box_quantity)) as of_boxes")
                 // DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),

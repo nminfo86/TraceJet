@@ -143,51 +143,5 @@ Route::group(
                 // return SerialNumber::with("parts")->get();
             });
         });
-
-        route::get("test", function () {
-            $of = Of::findOrFail(1)->first();
-            return $sn = SerialNumber::whereOfId(1)->whereNotNull("box_id")->count();
-            if ($of->quantity === $sn) {
-                $of->update(["status" => "closed"]);
-                // return $of;
-                //Send response with msg
-                return $this->sendResponse("Congratulation, OF clotured");
-            }
-            return;
-        });
-
-
-
-        // Route::controller(RegimentController::class)->group(function () {
-        //     Route::post('add_students_to_regiment', 'addStudents');
-        //     Route::delete('del_students_from_regiment', 'deleteStudents');
-        // });
-
-        route::get("t", function (Request $request) {
-            // dd(Session::get('user_data')['post_information']['post_name']);
-            // Retrieve OFs
-            $ofs = Of::inSection(2)->where("id", 1)->get(['id', 'of_name']);
-
-            // Calculate FPY for each post
-            $fpy = Movement::where(function ($query) {
-                // Filter out duplicate rows based on the minimum id
-                $query->whereRaw('movements.id = (SELECT MIN(id) FROM movements AS m WHERE m.movement_post_id = movements.movement_post_id AND m.serial_number_id = movements.serial_number_id)');
-            })
-                ->join('posts', 'movements.movement_post_id', '=', 'posts.id')
-                ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
-                ->select('posts.post_name')
-                ->selectRaw('COUNT(IF(movements.result = "OK", 1, NULL)) AS count_ok')
-                ->selectRaw('COUNT(IF(movements.result = "NOK", 1, NULL)) AS count_nok')
-                ->selectRaw('CAST((COUNT(CASE WHEN movements.result = "OK" THEN 1 END) / COUNT(*)) * 100 AS UNSIGNED) AS FPY')
-
-                ->groupBy('movements.movement_post_id')
-                ->get();
-
-            // Calculate total FPY for the chain
-            $total_fpy = $fpy->reduce(fn ($carry, $item) => $carry * ($item->FPY / 100), 1) * 100;
-
-            // Return the results
-            return compact("ofs", "fpy", "total_fpy");
-        });
     }
 );
