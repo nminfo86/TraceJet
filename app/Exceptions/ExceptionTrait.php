@@ -76,6 +76,10 @@ trait ExceptionTrait
     {
         return $e instanceof BadMethodCallException;
     }
+    protected function isAuthenticationException($e)
+    {
+        return $e  instanceof AuthenticationException;
+    }
 
 
 
