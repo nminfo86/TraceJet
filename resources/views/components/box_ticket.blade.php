@@ -3,14 +3,6 @@
 
 <head>
     <style>
-        /* .a6-size-div {
-            width: 105mm;
-            /* You can use "px", "in", or other relevant units
-            height: 148mm;
-            border: 1px solid black;
-
-            padding-inline: 10px;
-        } */
         @page {
             size: "a6";
             margin: 0;
@@ -19,8 +11,7 @@
         .flex-container {
             display: flex;
 
-            /* flex-wrap: nowrap; */
-            /* background-color: DodgerBlue; */
+
         }
 
         .flex-between {
@@ -49,10 +40,7 @@
             margin-inline-end: 0px;
         }
 
-        /* .sn div:not(:first-child) {
-    padding-inline-start: 7px;
-    border-inline-start: 1px solid;
-    } */
+
 
         .sn div p {
             padding: 3px;
@@ -66,9 +54,9 @@
     <div class="a6-size-div d-none" id="a6-">
         <div class="company-header">
             <div class="flex-container">
-                {{-- <div style="background-color: darkcyan"> --}}
+
                 <img src="company-logo.png" alt="Company Logo">
-                {{-- </div> --}}
+
                 <div style="margin-inline: auto">
                     <h3>Company Name</h3>
                     <p style="text-align:center"> EN. AMC </p>
@@ -90,7 +78,7 @@
                         <p>رقم التعليب</p>
                     </div>
                 </th>
-                <th style="width:15%">
+                <th style="width:15%" id="qr_code">
                     QR</th>
             </tr>
             <tr>
@@ -252,7 +240,6 @@
                 </td>
             </tr>
         </table>
-        <!-- Your content goes here -->
     </div>
 </body>
 
