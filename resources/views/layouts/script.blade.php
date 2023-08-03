@@ -22,8 +22,13 @@
  <script src="{{ asset('/dist/js/moment-with-locales.min.js') }}"></script>
  <script src="{{ asset('/dist/js/bootstrap-datetimepicker.min.js') }}"></script>
  <script src="{{ asset('/dist/js/daterangepicker.min.js') }}"></script>
+ <script src="{{ asset('/dist/js/daterangepicker.min.js') }}"></script>
+ <script src="{{ asset('/dist/js/pdfmake_0.2.7_vfs_fonts.js') }}"></script>
+ <script src="{{ asset('/dist/js/pdfmake.min.js') }}"></script>
+
  <script src="{{ asset('/dist/js/main.js') }}"></script>
- <script src="{{ asset('/dist/js/qrcode.js') }}"></script>
+
+ {{-- <script src="{{ asset('/dist/js/qrcode.min.js') }}"></script> --}}
  {{-- <script src=" https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> --}}
  <script>
      $.ajaxSetup({

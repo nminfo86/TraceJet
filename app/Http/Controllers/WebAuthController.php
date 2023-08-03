@@ -56,6 +56,6 @@ class WebAuthController extends AccessTokensController
             ->delete();
         Auth::guard('web')->logout();
         Auth::guard('sanctum')->guest();
-        return redirect('/login');
+        return redirect('/');
     }
 }
