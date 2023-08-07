@@ -26,29 +26,28 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+
+        $inputs = $request->all();
 
         // Handle the image upload
         if ($request->hasFile('logo')) {
-            $uploadedFile = $request->file('logo');
 
+            $file = $request->logo;
+            $path = 'images/company/';
             // Generate a unique filename for the uploaded image
-            $filename = time() . '_' . $uploadedFile->getClientOriginalName();
-
+            $image_name = $path . time() . '_' . $file->getClientOriginalName();
             // Move the uploaded file to the public disk storage
-            $imagePath = $uploadedFile->storeAs('images', $filename, 'public');
-            // dd($imagePath);
+            $file->move(public_path($path), $image_name);
+
             // Save the image path in the database
-            $data['logo'] = $imagePath;
+            $inputs['logo'] = $image_name;
         }
         // dd($request->logo);
 
-        Setting::create($data);
+        $setting = Setting::create($inputs);
+
+        //Send response with success
+        return $this->sendResponse($this->create_success_msg, $setting);
     }
 
     /**
@@ -57,9 +56,10 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Setting $setting)
     {
-        //
+        //Send response with success
+        return $this->sendResponse(data: $setting);
     }
 
     /**
@@ -80,8 +80,11 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Setting $setting)
     {
-        //
+        $setting->delete();
+
+        //Send response with success
+        return $this->sendResponse($this->delete_success_msg);
     }
 }
