@@ -208,7 +208,6 @@
                 e.preventDefault()
                 of_id = $(this).val();
                 getSnTable(of_id);
-                // getOfDetails(of_id);
             })
             /* -------------------------------------------------------------------------- */
             /*                                Print QR code                               */
@@ -248,7 +247,7 @@
         /*                                 Fetch data                                 */
         /* -------------------------------------------------------------------------- */
         function getSnTable(of_id) {
-
+            getOfDetails(of_id);
             return table.DataTable({
                 ajax: {
                     type: 'GET',
@@ -261,13 +260,13 @@
                         if (!response.status) {
                             ajaxError(response.message);
                         } else {
-                            getOfDetails(of_id);
-
                             $("#valid").text(response.data.list.length);
                             $("#status").text(response.data.status);
                             $("#quantity_of_day").text(response.data.quantity_of_day);
+                            //alert(total_quantity_of);
                             let x = (parseInt(response.data.list.length) / parseInt(
                                 total_quantity_of));
+
                             percent = Math.floor(x * 100);
 
                             $("#percent").text(percent + ' %');

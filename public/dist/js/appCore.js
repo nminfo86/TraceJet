@@ -250,6 +250,9 @@ function ajaxCallDatatables(url, data = {}) {
             if (json.status == true) return json.data;
             else ajaxError(json.message);
         },
+        error: function (jqXHR, textStatus, errorThrown) {
+            window.location.href = "/logout";
+        }
     };
     // Return it
     return obj;

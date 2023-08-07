@@ -157,7 +157,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        {{-- <button id="print">print</button> --}}
                                     </div>
                                 </div>
                             </div>
@@ -183,42 +183,147 @@
             </div>
         </div>
     </div>
+    <div class="d-none" id="qr_code"></div>
 
     <!--==============================================================-->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
 @endsection
+
+<!--==============================================================-->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+
 @push('custom_js')
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
-            // formData = {
-            //     // "qr": scanned_qr,
-            //     // "of_id": of_id,
-            //     // "lang": "fr",
-            //     // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-            //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
-            //     //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
-            //     // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
-            //     "host_id": "{{ Session::get('user_data')['post_information']['id'] }}",
-            //     "result": "OK",
-            //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
-            // },
-            // TODO::possibilite check previous post id in backend
             formData = {
-                // "qr": scanned_qr,
-                // "of_id": of_id,
-                // "lang": "fr",
-                // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-                "previous_post_id": 1,
-                //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
-                // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
+                "previous_post_id": 2,
                 "host_id": 3,
                 "result": "OK",
-                // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
             },
             url = base_url + '/packaging';
 
+        function printBoxTicket(box_ticket) {
+            //serial_numbers = box_ticket.serial_numbers
+            var sn = '';
+            box_ticket.serial_numbers.forEach(element => {
+                sn += `<p>${element}</p>`
+            })
+            $('#qr_code').html('');
+            const pElement = document.getElementById("qr_code");
+            var qr = new QRCode(pElement, {
+                text: box_ticket.info.box_qr,
+                width: 50,
+                height: 50,
+            });
+            var canvas = $('#qr_code canvas');
+            console.log(canvas);
+            var img = canvas.get(0).toDataURL("image/png");
+            var newWin = window.open('', 'PRINT', 'height=700,width=1200');
+            newWin.document.write(`<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: "a6";
+            margin: 0px;
+        }
+        .flex-container {
+            display: flex;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            padding-inline: 10px;
+        }
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        tr {
+            padding-top: 1px;
+            padding-bottom: 1px;
+        }
+        p {
+            display: block;
+            margin-block-start: 0.2em;
+            margin-block-end: 0.2em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
+        .sn  p {
+            padding: 3px;
+            border: 1px solid grey;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body >
+        <div class="company-header">
+            <div class="flex-container">
+                <img src="${box_ticket.info.logo}" alt="Company Logo">
+                <div style="margin-inline: auto">
+                    <h3>${box_ticket.info.name}</h3>
+                    <p style="text-align:center"> ${box_ticket.info.name} </p>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="flex-between">
+            <p>Nom de produit</p>
+            <h3>${box_ticket.info.product}</h3>
+            <p>اسم المنتج</p>
+        </div>
+        <table width="100%">
+            <tr>
+                <th style="width:90%;">
+                        <span style="font-size:12px">CARTON N°</span>
+                        <span style="font-size:12px">${box_ticket.info.box_qr}</span>
+                        <span style="font-size:12px">رقم التعليب</span>
+                </th>
+                <th style="width:15%">
+                    <img src="${img}" style="padding:10px"/>
+                    </th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="flex-between">
+                        <p>N° DE SERIE</p>
+                        <p>الارقام التسلسلية</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="flex-between sn">
+                        ${sn}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="flex-between" style="margin: 0px">
+                        <p>${box_ticket.info.boxed_date}</p>
+                        <p style="border-inline-start:1px solid; padding-inline-start: 5px"> Qté ${box_ticket.info.box_quantity} الكمية</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+</body>
+</html>
+`);
+            newWin.document.close();
+            // Wait for the new window to load the content
+            newWin.onload = function() {
+                newWin.print();
+                newWin.close();
+            };
+
+        };
         /* -------------------------------------------------------------------------- */
         /*                                Valid Product                               */
         /* -------------------------------------------------------------------------- */
@@ -231,6 +336,26 @@
 
             getSnTable(formData);
             $("#qr").val('');
+        }).on('click', '#print', function(e) {
+            e.preventDefault();
+            var box_ticket = {
+                "serial_numbers": [
+                    "001"
+                ],
+                "info": {
+                    "id": 1,
+                    "name": "UFMEEG",
+                    "address": "Route Batna",
+                    "email": "ufmeeg@enamc.dz",
+                    "phone": "0773142654",
+                    "fax": "036480012",
+                    "logo": null,
+                    "box_qr": "932810149003-35",
+                    "boxed_date": "2023-08-03T13:07:01.000000Z",
+                    "box_quantity": 1,
+                    "product": "Gia Sporer In."
+                }
+            }
         });
         /* -------------------------------------------------------------------------- */
         /*                               Get OF information                           */
@@ -296,7 +421,10 @@
                             }
                             var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
                             var chart1 = new Chart(ctx1, options1);
+                            if (response.data.box_ticket != undefined)
+                                printBoxTicket(response.data.box_ticket)
                             return response.data.list;
+
                         }
                         return SessionErrors(response.message);
                     }

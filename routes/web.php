@@ -30,10 +30,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /***************default route *************************/
 Route::prefix(LaravelLocalization::setLocale())->get('/', function () {
-    if (Auth::check())
-        return view('welcome');
-
-    else
         return view('pages.login');
 })->name('login');
 /****************************** ***********************/
@@ -56,7 +52,7 @@ Route::group(
         Route::get('/dashboard', function () {
             return view('welcome');
         });
-        Route::get('/logout', [WebAuthController::class, 'webLogout']);
+        Route::get('/logout', [WebAuthController::class, 'webLogout'])->name('logout');
 
         Route::get('/users', function () {
             return view('pages.users');
