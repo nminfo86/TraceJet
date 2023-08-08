@@ -141,6 +141,7 @@
                     </div>
                 </div>
                 <div id="carouselExampleControls" class="carousel col-lg-8 d-none after-filter" data-bs-ride="carousel">
+                    <h3 class="pt-4 ps-4">First past yield pour chaque poste </h3>
                     <div class="carousel-inner">
                         {{-- <div class="carousel-item active">
                             <div class="card">
@@ -319,13 +320,12 @@
                                         <div class="card me-lg-3">
                                             <div class="card-img ">
                                                 <div class="card-body">
-
                                                     <h5 class="card-title  ">
                                                     <i class="${element.icon} text-${element.color} fs-3 me-2"></i> ${element.post_name}</h5>
                                                     <div class="progress" style="height: 20px;">
                                                         <div class="progress-bar bg-info" role="progressbar"
                                                     style="width:${element.FPY}%;" aria-valuenow="${element.FPY}"
-                                                     aria-valuemin="0" aria-valuemax="100">${element.FPY}%</div>
+                                                     aria-valuemin="0" aria-valuemax="100"> FPY ${element.FPY}%</div>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer bg-white fs-3">
@@ -422,8 +422,8 @@
                                     var datasetLabel = data.datasets[tooltipItem.datasetIndex]
                                         .label || '';
                                     var value = tooltipItem.yLabel || 0;
-                                    return datasetLabel + ': ' + value +
-                                    ' %'; // Add the percentage symbol
+                                    return datasetLabel + ': ' +
+                                        value; // Add the percentage symbol
                                 }
                             }
                         },
@@ -446,7 +446,7 @@
                                         var xPos = bar._model.x;
                                         var yPos = bar._model.y -
                                             15; // Adjust Y position for label above the bar
-                                        ctx.fillText(data + ' %', xPos, yPos);
+                                        ctx.fillText(data, xPos, yPos);
                                     });
                                 });
                             }
