@@ -228,7 +228,9 @@
             .on('submit', 'form', function(e) {
                 e.preventDefault();
                 cleanValidationAlert();
+
                 var formData = $(this).serialize() + '&of_id=' + of_id;
+                $('form')[0].reset();
                 callAjax("POST", base_url + '/serial_numbers', formData).done(function(response) {
                     if (response.status == false) {
                         return SessionErrors(response.message);

@@ -335,7 +335,7 @@
             formData.qr = qr;
 
             getSnTable(formData);
-            $("#qr").val('');
+            $('form')[0].reset();
         }).on('click', '#print', function(e) {
             e.preventDefault();
             var box_ticket = {

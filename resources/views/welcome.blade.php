@@ -416,6 +416,41 @@
                                 beginAtZero: true
                             }
                         },
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    var datasetLabel = data.datasets[tooltipItem.datasetIndex]
+                                        .label || '';
+                                    var value = tooltipItem.yLabel || 0;
+                                    return datasetLabel + ': ' + value +
+                                    ' %'; // Add the percentage symbol
+                                }
+                            }
+                        },
+                        // tooltips: {
+                        //     enabled: false // Disable tooltips for better label visibility
+                        // },
+                        animation: {
+                            onComplete: function() {
+                                var chartInstance = this.chart;
+                                var ctx = chartInstance.ctx;
+                                ctx.textAlign = 'center';
+                                ctx.fillStyle = "#6610f2"; // Color of the label text
+                                ctx.font = "bold 12px Arial"; // Customize font and size
+
+                                this.data.datasets.forEach(function(dataset, i) {
+                                    var meta = chartInstance.controller.getDatasetMeta(
+                                        i);
+                                    meta.data.forEach(function(bar, index) {
+                                        var data = dataset.data[index];
+                                        var xPos = bar._model.x;
+                                        var yPos = bar._model.y -
+                                            15; // Adjust Y position for label above the bar
+                                        ctx.fillText(data + ' %', xPos, yPos);
+                                    });
+                                });
+                            }
+                        }
                         //legend: false,
                     }
                 });
