@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use PDOException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
+
 use App\Http\Requests\AccessTokensRequest;
 use App\Http\Controllers\Api\v1\AccessTokensController;
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Request;
 
 class WebAuthController extends AccessTokensController
 {
@@ -34,12 +35,15 @@ class WebAuthController extends AccessTokensController
             $clientIp = Request::ip();
 
             // Handle redirection based on the client IP address
-            if ($clientIp === "10.0.1.201") {
+            if ($clientIp === "192.168.1.37") {
                 // Redirect to /serial_numbers if IP is 10.0.0.201
                 return redirect("/serial_numbers");
-            } elseif ($clientIp === "192.168.100.3") {
+            } elseif ($clientIp === "192.168.1.35") {
                 // Redirect to /users if IP is 192.168.100.3
-                return redirect()->intended("/users");
+                return redirect()->intended("/operators");
+            } elseif ($clientIp === "192.168.1.34") {
+                // Redirect to /users if IP is 192.168.100.3
+                return redirect()->intended("/packaging");
             }
             // Default redirection to /dashboard for other IP addresses
             return redirect()->intended('/dashboard');

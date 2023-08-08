@@ -105,7 +105,7 @@
                 <!--                          Clock + post name                                 -->
                 <!-- -------------------------------------------------------------------------- -->
                 <div class="row ">
-                    <div class="d-flex justify-content-between fixed-bottom bg-cyan  text-white pb-1 z-index-100 fs-3 ">
+                    <div class="d-flex justify-content-between fixed-bottom bg-cyan  text-white pb-1 z-index-100 fs-4 ">
                         <div style="/*position:fixed;bottom:2%;left:1%;z-index:1000*/">
 
                             {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
@@ -125,7 +125,9 @@
                         <div style="/*position:fixed;bottom:2%;right:2%;z-index:1000*/">
 
                             {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
-                            <span class="  ">{{ Session::get('user_data')['post_information']['post_name'] }}</span>
+                            {{-- <span class="  ">{{ Session::get('user_data')['post_information']['post_name'] }}</span> --}}
+                            <span class="">{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}
+                            </span>
                         </div>
 
                     </div>

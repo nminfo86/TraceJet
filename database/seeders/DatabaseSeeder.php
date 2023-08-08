@@ -26,16 +26,16 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
+            SettingSeeder::class,
             SectionSeeder::class,
-            PostsTypeSeeder::class,
-            PostSeeder::class,
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
-            SettingSeeder::class,
+            PostsTypeSeeder::class,
+            // PostSeeder::class,
         ]);
 
-        Product::factory()->count(50)->create();
-        Caliber::factory()->count(50)->create();
-        $this->call(OfSeeder::class);
+        // Product::factory()->count(50)->create();
+        // Caliber::factory()->count(50)->create();
+        // $this->call(OfSeeder::class);
     }
 }

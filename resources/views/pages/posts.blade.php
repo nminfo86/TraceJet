@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-center toggle-show d-none">
-        <div class="w-50">
+        <div class="w-70">
             <div class="card">
                 <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">

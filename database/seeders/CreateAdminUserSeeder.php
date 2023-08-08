@@ -24,12 +24,12 @@ class CreateAdminUserSeeder extends Seeder
 
         $super_admin = User::create([
             // 'company_id' => 1,
-            'section_id' => 1,
-            'name' => 'super_admin',
+            // 'section_id' => 1,
+            'name' => 'Super admin',
             'username' => 'super_admin',
             'email' => 'admin@local.com',
             'status' => 1,
-            'roles_name' => [$super_admin_role->name],
+            'roles_name' => $super_admin_role->name,
             'password' => Hash::make('123123'),
         ]);
 

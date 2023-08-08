@@ -15,7 +15,7 @@ class SettingSeeder extends Seeder
      */
     public function run()
     {
-        $company = ['name' => 'UFMEEG', 'address' => 'Route Batna', 'email' => 'ufmeeg@enamc.dz', 'phone' => '0773142654', 'fax' => '036480012'];
+        $company = ['name' => 'Unité Fabrication Material Électricité et Gazière', 'abbreviation' => "UFMEEG", 'address' => 'Route Batna', 'email' => 'ufmeeg@enamc.dz', 'phone' => '0773142654', 'fax' => '036480012'];
         Setting::create($company);
     }
 }
