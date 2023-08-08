@@ -10,6 +10,7 @@ use App\Exceptions\ExceptionTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\QueryException;
+use Illuminate\Auth\AuthenticationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -60,7 +61,7 @@ class Handler extends ExceptionHandler
         });
         $this->renderable(function (Exception $exception, $request) {
 
-            //     // if ($request->expectsJson()) {
+            // if ($request->expectsJson()) {
             // if (
             //     $request->expectsJson() &&
             //     $exception instanceof ModelNotFoundException ||
@@ -69,7 +70,8 @@ class Handler extends ExceptionHandler
             //     $exception instanceof QueryException ||
             //     $exception instanceof UnauthorizedException ||
             //     $exception instanceof ErrorException ||
-            //     $exception instanceof BadMethodCallException
+            //     $exception instanceof BadMethodCallException ||
+            //     $exception instanceof AuthenticationException
             // ) {
             //     return $this->apiException($request, $exception);
             // }

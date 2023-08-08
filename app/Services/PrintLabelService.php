@@ -51,6 +51,7 @@ class PrintLabelService
      */
     public function printProductLabel(string $qrcode, string $of_num, string $product_name, string $sn)
     {
+        // dd($qrCode);
         $label = '';
         switch ($this->languageCode) {
 

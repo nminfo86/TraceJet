@@ -9,6 +9,7 @@ use BadMethodCallException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\QueryException;
+use Illuminate\Auth\AuthenticationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -40,6 +41,9 @@ trait ExceptionTrait
         }
         if ($this->isBadMethodCall($e)) {
             return $this->BadMethodCallResponse($e);
+        }
+        if ($this->isAuthenticationException($e)) {
+            return $this->AuthenticationExceptionResponse($e);
         }
 
         return parent::render($request, $e);
@@ -76,7 +80,23 @@ trait ExceptionTrait
     {
         return $e instanceof BadMethodCallException;
     }
+    protected function isAuthenticationException($e)
+    {
+        return $e  instanceof AuthenticationException;
+    }
 
+    protected function AuthenticationExceptionResponse($e)
+    {
+        Log::channel('applicationLog')->error($e->getMessage()  . ' Action : ' .  Route::currentRouteAction());
+
+        return response()->json(
+            [
+                'status' => false,
+                'message' =>  $e->getMessage()
+            ]
+            // , Response::HTTP_NOT_FOUND
+        );
+    }
 
 
     protected function ModelResponse($e)

@@ -168,7 +168,6 @@
         const lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1); // get the last segment of the URL
         var table4 = $("#sn_table");
 
-        // TODO::realtime refresh
         callAjax("GET", base_url + "/of_statistics/" + lastSegment).done(function(response) {
 
             // Initialize variables

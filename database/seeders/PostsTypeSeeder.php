@@ -16,12 +16,11 @@ class PostsTypeSeeder extends Seeder
      */
     public function run()
     {
-        $posts = ['generator', 'operator', 'packaging', 'reparation'];
         $posts = [
-            ["posts_type" => "generator", "icon" => 'fas fa-barcode'],
-            ["posts_type" => "operator", "icon" => 'fas fa-magic'],
-            ["posts_type" => "packaging", "icon" => 'fas fa-box-open'],
-            ["posts_type" => "reparation", "icon" => 'SNS'],
+            ["posts_type" => "Génération étiquette", "icon" => 'fas fa-barcode'],
+            ["posts_type" => "Test", "icon" => 'fas fa-magic'],
+            ["posts_type" => "Emballage", "icon" => 'fas fa-box-open'],
+            // ["posts_type" => "reparation", "icon" => 'SNS'],
 
         ];
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use Exception;
-use App\Exceptions\ExceptionTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Requests\RoleRequest;
@@ -12,8 +11,6 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
-use App\Http\Resources\UserResource;
-use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -21,7 +18,7 @@ class RoleController extends Controller
 
     function __construct()
     {
-        // $this->middleware('permission:role-list', ['only' => ['index']]);
+        $this->middleware('permission:role-list', ['only' => ['index']]);
         $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:role-edit', ['only' => ['show', 'update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);

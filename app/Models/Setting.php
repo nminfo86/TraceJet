@@ -21,5 +21,5 @@ class Setting extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'address', 'phone', 'fax', 'email', 'logo', 'email'];
+    protected $fillable = ['name', 'abbreviation', 'address', 'phone', 'fax', 'email', 'logo'];
 }
