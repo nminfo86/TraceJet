@@ -27,19 +27,20 @@ class WebAuthController extends AccessTokensController
 
             if ($response["status"] === false) {
                 // If login fails, redirect back with error message
-                return redirect("/login")->with('error', $response["message"]);
+                return redirect("/")->with('error', $response["message"]);
             }
-
-            // Determine the client IP address
-            $clientIp = Request::ip();
-
-            // Handle redirection based on the client IP address
-            if ($clientIp === "10.0.1.201") {
-                // Redirect to /serial_numbers if IP is 10.0.0.201
+            $post_type = $response['data']["post_information"]['posts_type_id'];
+            if($post_type==1)
+            {
                 return redirect("/serial_numbers");
-            } elseif ($clientIp === "192.168.100.3") {
-                // Redirect to /users if IP is 192.168.100.3
-                return redirect()->intended("/users");
+            }
+            elseif($post_type==2)
+            {
+                return redirect("/operators");
+            }
+            elseif($post_type ==3)
+            {
+                return redirect("/packaging");
             }
             // Default redirection to /dashboard for other IP addresses
             return redirect()->intended('/dashboard');
