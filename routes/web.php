@@ -91,13 +91,13 @@ Route::group(
             //     return redirect("logout");
             // }
             return view('pages.serial_numbers');
-        });
+        })->middleware('permission:serial_number-list');
         Route::get('packaging', function () {
             return view('pages.packaging');
-        });
+        })->middleware('permission:packaging-list');
         Route::get('operators', function () {
             return view('pages.operators');
-        });
+        })->middleware('permission:movement-list');
 
         route::get("test2/['param1' => 'value1', 'param2' => 'value2']", function ($req) {
             dd($req->all());

@@ -40,10 +40,23 @@ class AccessTokensController extends Controller
             $msg = $this->getResponseMessage("invalid_host");
             return $this->sendResponse($msg, status: false);
         }
-
+        // if (!empty($post_information) && !$permissions->contains("serial_number-list") && $post_information->posts_type_id!=1) {
+        //     $msg = $this->getResponseMessage("invalid_host");
+        //     return $this->sendResponse($msg, status: false);
+        // }
+        // if (!empty($post_information) && !$permissions->contains("movement-list") && $post_information->posts_type_id!=2) {
+        //     // $msg = $this->getResponseMessage("invalid_host");
+        //     return $this->sendResponse("ghghg", status: false);
+        // }
+        if($permissions->contains("access-all-posts"))
+        {
+            $user->post_information=null;
+        }
+        else
+        {
+            $user->post_information = $post_information;
+        }
         $user->permissions = $permissions;
-        $user->post_information = $post_information;
-
         // Get device name or user agent from request
         $device_name = $request->post('device_name', $request->userAgent());
         // Create token for user and return response with token and user data

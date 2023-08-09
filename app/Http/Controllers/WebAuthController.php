@@ -29,7 +29,14 @@ class WebAuthController extends AccessTokensController
                 // If login fails, redirect back with error message
                 return redirect("/")->with('error', $response["message"]);
             }
-            $post_type = $response['data']["post_information"]['posts_type_id'];
+
+            if(empty($response['data']["post_information"]))
+            {
+                return redirect()->intended('/dashboard');
+            }
+            else
+            {
+                $post_type = $response['data']["post_information"]['posts_type_id'];
             if($post_type==1)
             {
                 return redirect("/serial_numbers");
@@ -42,8 +49,10 @@ class WebAuthController extends AccessTokensController
             {
                 return redirect("/packaging");
             }
+            }
+
             // Default redirection to /dashboard for other IP addresses
-            return redirect()->intended('/dashboard');
+
         } catch (Exception $e) {
             // Handle exception and redirect back with error message
             return redirect("/")->with('error', "Etat 2002 du serveur");

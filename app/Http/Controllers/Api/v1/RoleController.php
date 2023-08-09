@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use Exception;
-use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
-use App\Http\Requests\RoleRequest;
+
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
+use App\Http\Requests\StoreRequests\StoreRoleRequest;
+use App\Http\Requests\UpdateRequests\UpdateRoleRequest;
 
 class RoleController extends Controller
 {
@@ -44,7 +45,7 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RoleRequest $request)
+    public function store(StoreRoleRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -83,7 +84,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Role $role, Request $request)
+    public function update(Role $role, UpdateRoleRequest $request)
     {
         try {
             DB::beginTransaction();
