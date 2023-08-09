@@ -11,11 +11,12 @@ use App\Models\Movement;
 use App\Models\SerialNumber;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckIpClient;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\WebAuthController;
 use App\Http\Controllers\Api\v1\SerialNumberController;
-use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
@@ -91,13 +92,13 @@ Route::group(
             //     return redirect("logout");
             // }
             return view('pages.serial_numbers');
-        })->middleware('permission:serial_number-list');
+        })->middleware(['permission:serial_number-list',CheckIpClient::class . ":1"]);//->middleware(CheckIpClient::class . ":1");
         Route::get('packaging', function () {
             return view('pages.packaging');
-        })->middleware('permission:packaging-list');
+        })->middleware(['permission:packaging-list',CheckIpClient::class . ":3"]);
         Route::get('operators', function () {
             return view('pages.operators');
-        })->middleware('permission:movement-list');
+        })->middleware(['permission:movement-list',CheckIpClient::class . ":2"]);
 
         route::get("test2/['param1' => 'value1', 'param2' => 'value2']", function ($req) {
             dd($req->all());
