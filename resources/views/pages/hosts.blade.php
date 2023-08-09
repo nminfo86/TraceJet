@@ -110,6 +110,7 @@
         $(document).ready(function() {
             /*--------------------- get role list ------------------------*/
             // appendToSelect('GET', base_url + '/pluck/roles', "#roles_name", {}, true);
+
             callAjax('GET', base_url + '/pluck/posts').done(function(response) {
                 appendToSelect(response.data, "#post_name");
             });

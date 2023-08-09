@@ -74,19 +74,43 @@ function Dialog($title, yes, no) {
 /*                            Global ajax messages                            */
 /* -------------------------------------------------------------------------- */
 
+// function callAjax(method, url, data = {}, is_async = true) {
+//     return $.ajax({
+//         url: url,
+//         type: method,
+//         data: data,
+//         dataType: ajaxDataType,
+//         async: is_async,
+//     }).fail(function (jqXHR, exception) {
+//         // Triggered if response status code is NOT 200 (OK)
+//         showAjaxAndValidationErrors(jqXHR, exception);
+//         //window.location.href="/";
+//     });
+// }
+
 function callAjax(method, url, data = {}, is_async = true) {
-    return $.ajax({
+    var deferred = $.Deferred();
+    $.ajax({
         url: url,
         type: method,
         data: data,
         dataType: ajaxDataType,
         async: is_async,
-    }).fail(function (jqXHR, exception) {
-        // Triggered if response status code is NOT 200 (OK)
-        showAjaxAndValidationErrors(jqXHR, exception);
-        //window.location.href="/";
+        success: function (response) {
+            if (response.status != false)
+                deferred.resolve(response); // Resolve the deferred with the response data
+            else
+                ajaxError(response.message);
+        },
+        error: function (jqXHR, exception) {
+            showAjaxAndValidationErrors(jqXHR, exception);
+            return false;
+        }
     });
+
+    return deferred.promise(); // Return the promise from the deferred
 }
+
 
 // This function is used to process ajax and validation errors
 // Must be used in all ajax error:() requests
@@ -251,7 +275,8 @@ function ajaxCallDatatables(url, data = {}) {
             else ajaxError(json.message);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            window.location.href = "/logout";
+            if (jqXHR.status == false)
+                window.location.href = "/logout";
         }
     };
     // Return it

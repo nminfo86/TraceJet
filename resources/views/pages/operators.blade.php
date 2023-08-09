@@ -202,23 +202,21 @@
         //     // "qr": scanned_qr,
         //     // "of_id": of_id,
         //     // "lang": "fr",
-        //     // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-        //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] }}",
-        //     //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
-        //     // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
-        //     "host_id": "{{ Session::get('user_data')['post_information']['id'] }}",
-        //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+        //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] ?? '' }}",
+        //     //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
+        //     // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
+        //     "host_id": "{{ Session::get('user_data')['post_information']['id'] ?? '' }}",
+        //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
         // };
         var formData = {
             // "qr": scanned_qr,
             // "of_id": of_id,
             // "lang": "fr",
-            // "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
             "previous_post_id": 1,
-            //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] }}",
-            // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] }}",
+            //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
+            // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
             "host_id": 2,
-            // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+            // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
         };
         formToggle(form_title);
 
@@ -300,8 +298,8 @@
                     data: formData,
                     // data: {
                     //     "of_id": of_id,
-                    //     "mac": "{{ Session::get('user_data')['post_information']['mac'] }}",
-                    //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] }}",
+                    //     "mac": "{{ Session::get('user_data')['post_information']['mac'] ?? '' }}",
+                    //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
                     // },
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);

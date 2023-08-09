@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use PDOException;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
-
 use App\Http\Requests\AccessTokensRequest;
 use App\Http\Controllers\Api\v1\AccessTokensController;
+use Illuminate\Support\Facades\DB;
+
+use Illuminate\Support\Facades\Request;
 
 class WebAuthController extends AccessTokensController
 {
@@ -28,25 +27,32 @@ class WebAuthController extends AccessTokensController
 
             if ($response["status"] === false) {
                 // If login fails, redirect back with error message
-                return redirect("/login")->with('error', $response["message"]);
+                return redirect("/")->with('error', $response["message"]);
             }
 
-            // Determine the client IP address
-            $clientIp = Request::ip();
-
-            // Handle redirection based on the client IP address
-            if ($clientIp === "192.168.1.37") {
-                // Redirect to /serial_numbers if IP is 10.0.0.201
+            if(empty($response['data']["post_information"]))
+            {
+                return redirect()->intended('/dashboard');
+            }
+            else
+            {
+                $post_type = $response['data']["post_information"]['posts_type_id'];
+            if($post_type==1)
+            {
                 return redirect("/serial_numbers");
-            } elseif ($clientIp === "192.168.1.35") {
-                // Redirect to /users if IP is 192.168.100.3
-                return redirect()->intended("/operators");
-            } elseif ($clientIp === "192.168.1.34") {
-                // Redirect to /users if IP is 192.168.100.3
-                return redirect()->intended("/packaging");
             }
+            elseif($post_type==2)
+            {
+                return redirect("/operators");
+            }
+            elseif($post_type ==3)
+            {
+                return redirect("/packaging");
+            }
+            }
+
             // Default redirection to /dashboard for other IP addresses
-            return redirect()->intended('/dashboard');
+
         } catch (Exception $e) {
             // Handle exception and redirect back with error message
             return redirect("/")->with('error', "Etat 2002 du serveur");
