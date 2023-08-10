@@ -18,18 +18,20 @@
                     <div class="card  w-100">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table mb-0 table-hover align-middle text-nowrap">
+                                <table
+                                    class="table mb-0 table-hover align-middle text-nowrap table-light  dt-responsive nowrap "
+                                    width="100%" id="ofInfoTable">
                                     <thead>
                                         <tr class="text-capitalize">
+                                            <th class="border-top-0">{{ __('OF Numéro') }}</th>
                                             <th class="border-top-0">{{ __('produit') }}</th>
                                             <th class="border-top-0">{{ __('calibre') }}</th>
                                             <th class="border-top-0">{{ __('section') }}</th>
                                             <th class="border-top-0">{{ __('qantity lancé') }}</th>
                                             <th class="border-top-0">{{ __('date de lancement') }}</th>
-                                            <th class="border-top-0">{{ __('OF Numéro') }}</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    {{-- <tbody>
                                         <tr>
                                             <td id="product">
                                             </td>
@@ -43,10 +45,10 @@
                                                 <label class="badge bg-primary" id="of_number"></label>
                                             </td>
                                         </tr>
-                                    </tbody>
+                                    </tbody> --}}
                                 </table>
                             </div>
-                            <h6 class="card-subtitle pt-4 text-capitalize">
+                            <h6 class="card-subtitle pt-4 text-capitalize text-dark fs-4  ">
                                 {{ __('statistique de production par chaque post') }}</h6>
                             <div class="amp-pxl mt-4">
                                 <div class="">
@@ -187,7 +189,7 @@
                 // Build HTML for post card
                 html +=
                     `<div class="mt-3 pb-3 d-flex align-items-center text-capitalize">
-                        <span class="btn btn-${post.color} btn-circle d-flex align-items-center text-white">
+                        <span class="btn  btn-circle d-flex align-items-center text-white" style="background-color:${post.color}">
                             <i class="mdi mdi-barcode-scan fs-4"></i>
                         </span>
                         <div class="ms-3">
@@ -196,7 +198,7 @@
                             </span>
                         </div>
                         <div class="ms-auto">
-                            <span class="badge bg-light text-dark" id="movement_percentage">${post.movements_count} {{ __('pcs') }}
+                            <span class="badge bg-light text-dark fs-4" id="movement_percentage">${post.movements_count} {{ __('pcs') }}
                             </span>
                         </div>
                     </div>`;
@@ -220,13 +222,32 @@
                 ).draw();
             });
 
-            $("#of_number").text(response.of.of_number)
-            $("#new_quantity").text(response.of.new_quantity)
-            $("#launch_date").text('response.launch_date')
-            $("#section").text(response.of.caliber.product.section.section_name)
-            $("#product").text(response.of.caliber.product.product_name)
-            $("#calibre").text(response.of.caliber.caliber_name)
-            $("#release_date").text(response.of.release_date)
+            ofInfoTable = $('#ofInfoTable').DataTable({
+                searching: false,
+                paging: false,
+                info: false,
+                ordering: false,
+            });
+            ofInfoTable.rows.add(
+                [
+                    [
+                        `<span class="badge bg-primary">${response.of.of_number}</span>`,
+                        response.of.caliber.product.product_name,
+                        response.of.caliber.caliber_name,
+                        response.of.caliber.product.section.section_name,
+                        // response.of.new_quantity,
+                        `<span class="badge bg-danger">${response.of.new_quantity}</span>`,
+                        response.of.release_date
+                    ]
+                ]
+            ).draw();
+            // $("#product").text(response.of.caliber.product.product_name)
+            // $("#calibre").text(response.of.caliber.caliber_name)
+            // $("#section").text(response.of.caliber.product.section.section_name)
+            // $("#new_quantity").text(response.of.new_quantity)
+            // $("#of_number").text(response.of.of_number)
+            // $("#release_date").text(response.of.release_date)
+            // $("#launch_date").text('response.launch_date')
             $('#progress_rate').css('width', response.of.taux);
             //$('#progress_rate').parent().next("span").text(response.of.taux);
             $('#progress_rate').parent().next().find('span:first').text(response.of.taux)
