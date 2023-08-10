@@ -304,8 +304,11 @@
         })
 
         function handleClickSN(event) {
+
+        }
+        table4.on('click', 'tr', function(event) {
             event.preventDefault();
-            table4.off('click', 'tr', handleClickSN); // remove the event listener
+            //table4.off('click', 'tr', handleClickSN); // remove the event listener
             let html = "";
             var data = sn_datatables.row(this).data();
             $("#qr_life").html("");
@@ -330,9 +333,7 @@
                 });
                 $("#qr_life").append(html);
                 $("#product_history").removeClass("d-none");
-                table4.on('click', 'tr', handleClickSN); // remove the event listener
             })
-        }
-        table4.on('click', 'tr', handleClickSN);
+        });
     </script>
 @endpush

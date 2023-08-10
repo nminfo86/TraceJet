@@ -35,7 +35,7 @@ class CheckIpClient
         $post = Post::where("section_id", Auth::user()->section_id)->where("ip_address",$request->ip())->where('posts_type_id',$post_type)->first();
         //$containsTypeId = $posts_list->contains('posts_type_id', $post_type); //1 is label generator
         if ($request->ajax()) {
-            if (!$post) {
+            if (!$post && Auth::user()->roles_name!="super_admin") {
                 // Code to execute if the collection contains an item with posts_type_id = 1
                 $result =  ['message' => 'Invalid host section, you have not a permission', "status" => false];
                 return response()->json($result);
@@ -43,6 +43,7 @@ class CheckIpClient
         }
         else
         {
+            if(!$post)
             return redirect("/")->with('error', "Invalid host section, you have not a permission");
         }
 

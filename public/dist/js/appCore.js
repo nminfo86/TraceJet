@@ -272,7 +272,10 @@ function ajaxCallDatatables(url, data = {}) {
         },
         dataSrc: function (json) {
             if (json.status == true) return json.data;
-            else ajaxError(json.message);
+            else {
+                ajaxError(json.message);
+                window.location.href = "/logout";
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == false)

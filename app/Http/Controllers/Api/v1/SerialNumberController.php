@@ -22,6 +22,11 @@ class SerialNumberController extends Controller
     {
         $this->middleware(CheckIpClient::class . ":1"); # 1 is label_generator post_type id
         // Add more middleware and specify the desired methods if needed
+        $this->middleware('permission:serial_number-list', ['only' => ['index']]);
+        $this->middleware('permission:serial_number-create', ['only' => ['store']]);
+        $this->middleware('permission:serial_number-edit', ['only' => ['show', 'update']]);
+        $this->middleware('permission:serial_number-delete', ['only' => ['destroy']]);
+        //$this->middleware('permission:dashboard-all', ['only' => ['productLife']]);
     }
 
     /**
