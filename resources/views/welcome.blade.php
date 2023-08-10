@@ -78,7 +78,7 @@
                             <div class="card-header bg-info text-white">
                                 {{ __('filtrage') }}
                             </div>
-                            <div class="card-body">
+                            <div class="card-body bg-light">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <label for="inputField" class="col-form-label">{{ __('Section') }}</label>

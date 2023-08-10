@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
+                        <table id="main_table" class="table table-hover dt-responsive nowrap table-light" width="100%">
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
