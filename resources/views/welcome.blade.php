@@ -78,7 +78,7 @@
                             <div class="card-header bg-info text-white">
                                 {{ __('filtrage') }}
                             </div>
-                            <div class="card-body">
+                            <div class="card-body bg-light">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
                                         <label for="inputField" class="col-form-label">{{ __('Section') }}</label>
@@ -140,7 +140,7 @@
                         </form>
                     </div>
                 </div>
-                <div id="carouselExampleControls" class="carousel col-lg-8 d-none after-filter" data-bs-ride="carousel">
+                <div id="carouselExampleControls" class="carousel col-lg-9 d-none after-filter" data-bs-ride="carousel">
                     <h3 class="pt-4 ps-4">First past yield pour chaque poste </h3>
                     <div class="carousel-inner">
                         {{-- <div class="carousel-item active">
@@ -179,7 +179,7 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="row d-flex align-items-center " style="height: 180px">
                         <div class="col-xs-6 fpyTotal-inner">
 
@@ -192,7 +192,7 @@
             <!-- ============================================================== -->
             <h1 class="text-center before-filter">{{ __('Filtrer pour voir les résulats') }}</h1>
             <div class="row pt-3 d-none after-filter">
-                <div class="col-lg-6 d-flex align-items-stretch">
+                <div class="col-lg-6 ">
                     <div class="card  w-100">
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
@@ -209,8 +209,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="card  w-100 mt-5">
+                <div class="col-6 ">
+                    <div class="card  w-100 ">
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
                                 <div>
@@ -321,21 +321,21 @@
                                             <div class="card-img ">
                                                 <div class="card-body">
                                                     <h5 class="card-title  ">
-                                                    <i class="${element.icon} text-${element.color} fs-3 me-2"></i> ${element.post_name}</h5>
+                                                    <i class="${element.icon} fs-3 me-2" style="color:${element.color}"></i> ${element.post_name}</h5>
                                                     <div class="progress" style="height: 20px;">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                    style="width:${element.FPY}%;" aria-valuenow="${element.FPY}"
-                                                     aria-valuemin="0" aria-valuemax="100"> FPY ${element.FPY}%</div>
+                                                            style="width:${element.FPY}%;" aria-valuenow="${element.FPY}" aria-valuemin="0" aria-valuemax="100"> FPY ${element.FPY}%
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer bg-white fs-3">
-                                                    <div class="row">
-                                                    <div class="col border-end text-success">
-                                                        <div class="">OK</div> <span class="badge bg-success ">${element.count_ok}</span>
-                                                    </div>
-                                                    <div class="col text-danger">
-                                                        <div class="">NOK</div> <span class="badge bg-danger ">${element.count_nok}</span>
-                                                    </div>
+                                                    <div class="row text-center">
+                                                        <div class="col border-end text-success">
+                                                            <div class="">OK</div> <span class="badge bg-success fs-4">${element.count_ok}</span>
+                                                        </div>
+                                                        <div class="col text-danger">
+                                                            <div class="">NOK</div> <span class="badge bg-danger fs-4 ">${element.count_nok}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

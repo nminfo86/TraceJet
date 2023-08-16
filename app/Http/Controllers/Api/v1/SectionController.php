@@ -16,9 +16,9 @@ class SectionController extends Controller
     function __construct()
     {
         $this->middleware('permission:section-list', ['only' => ['index']]);
-        $this->middleware('permission:section-create', ['only' => ['store']]);
+        $this->middleware(['permission:section-create', 'permission:section-list'], ['only' => ['store']]);
         $this->middleware('permission:section-edit', ['only' => ['show', 'update']]);
-        $this->middleware('permission:section-delete', ['only' => ['destroy']]);
+        $this->middleware(['permission:section-delete', 'permission:section-list'], ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -44,7 +44,8 @@ class SectionController extends Controller
         $section = Section::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->create_success_msg, $section);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg, $section);
     }
 
     /**
@@ -71,7 +72,8 @@ class SectionController extends Controller
         $section->update($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->update_success_msg, $section);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg, $section);
     }
 
     /**
@@ -85,6 +87,7 @@ class SectionController extends Controller
         $section->delete();
 
         //Send response with success
-        return $this->sendResponse($this->delete_success_msg);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg);
     }
 }

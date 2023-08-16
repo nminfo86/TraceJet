@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
+                        <table id="main_table" class="table table-hover dt-responsive nowrap table-light" width="100%">
                             <thead>
                                 <tr class="">
                                     {{-- <th>#</th> --}}
@@ -94,9 +94,10 @@
                             </div>
                             <div class="col-lg-2">
                                 <label>{{ __('color') }}:*</label>
-                                <select id="color" name="color" data-placeholder="{{ __('Selectionner coleur') }}">
+                                {{-- <select id="color" name="color" data-placeholder="{{ __('Selectionner coleur') }}">
                                     <option></option>
-                                </select>
+                                </select> --}}
+                                <input type="color" name="color" id="color" class="form-control">
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="color-error"></strong>
                                 </span>
@@ -162,13 +163,13 @@
             })
 
             /*----------------- Get of status list (Enum) --------------------*/
-            callAjax('GET', base_url + '/colors').done(function(response) {
-                let opt = ``;
-                $.each(response, function(key, val) {
-                    opt += ` <option value=${key}>${val} </option>`;
-                });
-                $('#color').append(opt);
-            });
+            // callAjax('GET', base_url + '/colors').done(function(response) {
+            //     let opt = ``;
+            //     $.each(response, function(key, val) {
+            //         opt += ` <option value=${key}>${val} </option>`;
+            //     });
+            //     $('#color').append(opt);
+            // });
         });
 
         $(document).on('click', '#is_first', function(e) {
@@ -210,7 +211,8 @@
                 $(".toggle-show").toggleClass('d-none');
                 $("#section_id").val(response.data.section_id).trigger('change');
                 $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
-                $("#color").val(response.data.color).trigger('change');
+                // $("#color").val(response.data.color).trigger('change');
+                $("#color").val(response.data.color);
                 $('#post_name').val(response.data.post_name);
                 $('#code').val(response.data.code);
                 $('#ip_address').val(response.data.ip_address);

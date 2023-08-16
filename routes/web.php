@@ -31,7 +31,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /***************default route *************************/
 Route::prefix(LaravelLocalization::setLocale())->get('/', function () {
-        return view('pages.login');
+    return view('pages.login');
 })->name('login');
 /****************************** ***********************/
 
@@ -70,7 +70,7 @@ Route::group(
         })->middleware('permission:section-list');
         Route::get('posts', function () {
             return view('pages.posts');
-        })->middleware('permission:post-list');
+        })->middleware(['permission:post-list']);
         Route::get('ofs', function () {
             return view('pages.ofs');
         })->middleware('permission:of-list');

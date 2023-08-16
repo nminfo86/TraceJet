@@ -26,9 +26,9 @@ class Post extends Model
     protected $fillable = ['posts_type_id', 'post_name', 'previous_post_id', "ip_address", "section_id", "code", "color"];
 
 
-    protected $casts = [
-        'color' => ColorEnum::class,
-    ];
+    // protected $casts = [
+    //     'color' => ColorEnum::class,
+    // ];
 
 
     /* -------------------------------------------------------------------------- */

@@ -58,7 +58,7 @@
                 @endcan
 
                 {{-- Production --}}
-                @canany(['of-list', 'section-list', 'post-list'])
+                @canany(['of-list', 'movement-list', 'serial_number-list'])
                     <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('production') }}
                     </h6>
                 @endcanany
