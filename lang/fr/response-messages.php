@@ -22,6 +22,7 @@ return [
     'operator' => "opérateur",
     'operator 1' => "opérateur 1",
     'product' => "produit",
+    'modal' => "Boualemmmmmm",
 
 
     /* -------------------------------------------------------------------------- */
