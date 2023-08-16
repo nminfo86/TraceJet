@@ -19,9 +19,9 @@ class OfController extends Controller
     function __construct()
     {
         $this->middleware('permission:of-list', ['only' => ['index']]);
-        $this->middleware(['permission:of-create', 'permission:of-list'], ['only' => ['store']]);
+        $this->middleware('permission:of-create', ['only' => ['store']]);
         $this->middleware('permission:of-edit', ['only' => ['show', 'update']]);
-        $this->middleware(['permission:of-delete', 'permission:of-list'], ['only' => ['destroy']]);
+        $this->middleware('permission:of-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -32,7 +32,7 @@ class OfController extends Controller
     {
         // $ofs = Of::with('caliber')->get();
         $ofs = Of::filterBySection()->join('calibers', function ($join) {
-            $join->on('calibers.id', '=', 'ofs.caliber_id');
+            $join->on('calibers.id', '=', 'ofs.caliber_id'); 
         })->orderBy("ofs.id", "desc")->get(["ofs.id", "of_number", "of_code", "status", "new_quantity", "caliber_name", "updated_at"]);
 
         //Send response with success
@@ -106,8 +106,7 @@ class OfController extends Controller
         }
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg);
+        return $this->sendResponse($this->update_success_msg, $of);
     }
 
     /**
@@ -146,6 +145,114 @@ class OfController extends Controller
      */
     public function ofStatistics($id)
     {
+
+        // // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
+        // $of = Of::with([
+        //     'caliber.product.section.posts' => fn ($query) =>
+        //     $query->orderByDesc("post_name")
+        //         ->select('id', 'post_name', 'code', 'section_id')
+        //         ->withCount('movements')
+        // ])->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')->find($id);
+
+        // $of_quantity = $of->new_quantity;
+        // $posts = $of->caliber->product->section->posts;
+
+        // // Calculer les pourcentages de mouvements et de stockage pour chaque post
+        // $posts->each(function ($post) use ($of_quantity) {
+        //     $post->movement_percentage = $post->movements_count / $of_quantity * 100;
+        //     $post->stayed = 100 - $post->movement_percentage;
+        // });
+
+        // /* -------------------------------------------------------------------------- */
+        // /*                                SerialNumbers                               */
+        // /* -------------------------------------------------------------------------- */
+
+        // // Retrieve all serial numbers with their latest movements and associated posts with OF ID
+        // $serialNumbers = SerialNumber::with(['movements' => function ($query) {
+        //     $query->latest('created_at')
+        //         ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
+        //         ->with('posts:id,post_name');
+        // }])->where('of_id', $of->id)->where("valid", 1)->get()
+        //     // Group serial numbers by their serial number
+        //     ->groupBy('serial_number')
+        //     // Map the grouped serial numbers to a new format with the latest movement and associated post
+        //     ->map(function ($group) {
+        //         $lastMovement = $group->flatMap(function ($serialNumber) {
+        //             return $serialNumber['movements'];
+        //         })
+        //             ->sortByDesc('created_at')
+        //             ->first();
+
+        //         return [
+        //             'id' => $group->first()['id'],
+        //             'serial_number' => $group->first()['serial_number'],
+        //             'qr' => $group->first()['qr'],
+        //             'result' => $lastMovement['result'] ?? null,
+        //             'posts' => $lastMovement['posts']['post_name'] ?? null,
+        //         ];
+        //     })
+        //     ->values()->all();
+        // return compact("of", "serialNumbers");
+
+        // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
+        // $of = Of::with([
+        //     // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+        //     'caliber.product.section.posts' => fn ($q) =>
+        //     // Limiter les résultats aux posts de la section 1
+        //     // $query->where('section_id', 1)
+        //     $q->orderByDesc("post_name")
+        //         ->select('id', 'post_name', 'code', 'section_id')
+        //         ->withCount('movements')
+        // ])
+        //     ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id')
+        //     ->find(1);
+
+        // $posts = $of->caliber->product->section->posts;
+        // $quantity = $of->new_quantity;
+        // $of->caliber->product->section->posts->map(function ($post) use ($quantity) {
+        //     $post->movement_percentage = $post->movements_count / $quantity * 100;
+        //     $post->stayed = 100 - $post->movement_percentage;
+        //     return $post;
+        // });
+
+
+        // // Retrieve all serial numbers with their latest movements and associated posts
+        // $serialNumbers = serialNumber::with(['movements' => function ($query) {
+        //     $query->latest('created_at')
+        //         ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
+        //         ->with('posts:id,post_name');
+        // }])->where([['of_id', $of->id], ["valid", 1]])->get()
+        //     // Group serial numbers by their serial number
+        //     ->groupBy('serial_number')
+        //     // Map the grouped serial numbers to a new format with the latest movement and associated post
+        //     ->map(function ($group) {
+        //         $lastMovement = $group->flatMap(function ($serialNumber) {
+        //             return $serialNumber['movements'];
+        //         })
+        //             ->sortByDesc('created_at')
+        //             ->first();
+
+        //         return [
+        //             'id' => $group->first()['id'],
+        //             'serial_number' => $group->first()['serial_number'],
+        //             'qr' => $group->first()['qr'],
+        //             'result' => $lastMovement['result'] ?? null,
+        //             'posts' => $lastMovement['posts']['post_name'] ?? null,
+        //         ];
+        //     })->values()->all();
+
+        // /* -------------------------------------------------------------------------- */
+        // /*                               Taux avancement                              */
+        // /* -------------------------------------------------------------------------- */
+        // $section_id = $of->caliber->product->section_id;
+        // $count = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+        //     ->where('posts.section_id', '=', $section_id)
+        //     ->where('posts.posts_type_id', '=', 3)
+        //     ->count('movements.serial_number_id');
+        // $of->taux =  $count / $quantity * 100 . "%";
+        // // return $serialNumbers;
+        // return   compact("of", "serialNumbers");
+
         // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
         $of = Of::with([
             // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),

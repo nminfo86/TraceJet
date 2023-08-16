@@ -64,12 +64,8 @@ Route::group(
             Route::delete('auth/logout', 'logout');
         });
 
-        // Route::controller(PluckController::class)->group(function () {
-        //     Route::get('pluck/{model_name}', 'pluckData');
-        // });
-
-        Route::group(['prefix' => 'pluck'], function () {
-            Route::get('{model_name}', [PluckController::class, 'pluckData']); // Use the middleware alias you registered
+        Route::controller(PluckController::class)->group(function () {
+            Route::get('pluck/{model_name}', 'pluckData');
         });
 
 
