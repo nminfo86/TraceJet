@@ -116,7 +116,7 @@ trait ExceptionTrait
         Log::channel('applicationLog')->error($e->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName());
 
         //Send response with success
-        $msg = $this->getResponseMessage("not_found", ['attribute' => 'resource']);
+        $msg = $this->getResponseMessage("not_found", ['attribute' => 'modal']);
         // return $this->sendResponse($msg, $caliber);
         return response()->json(
             [

@@ -45,6 +45,7 @@ trait ResponseTrait
             'test 1' => __('response-messages.operator 1'),
             'test 2' => __('response-messages.operator 2'),
             'test 4' => __('response-messages.operator 4'),
+            'modal' => __('response-messages.modal'),
             // Add more custom attributes here
         ];
 
