@@ -40,6 +40,10 @@ return [
     "of_closed" => "Félicitations ! OF cloturé",
 
 
+    //permission
+    "permission" => "L'utilisateur ne dispose pas des autorisations appropriées."
+
+
 
 
 

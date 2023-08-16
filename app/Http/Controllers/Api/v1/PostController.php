@@ -14,9 +14,9 @@ class PostController extends Controller
     function __construct()
     {
         $this->middleware('permission:post-list', ['only' => ['index']]);
-        $this->middleware('permission:post-create', ['only' => ['store']]);
+        $this->middleware(['permission:post-create', 'permission:post-list'], ['only' => ['store']]);
         $this->middleware('permission:post-edit', ['only' => ['show', 'update']]);
-        $this->middleware('permission:post-delete', ['only' => ['destroy']]);
+        $this->middleware(['permission:post-delete', 'permission:post-list'], ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -45,7 +45,8 @@ class PostController extends Controller
         $post = Post::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->create_success_msg, $post);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg, $post);
     }
 
     /**
@@ -72,7 +73,8 @@ class PostController extends Controller
         $post->update($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->update_success_msg, $post);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg);
     }
 
     /**
@@ -86,7 +88,8 @@ class PostController extends Controller
         $post->delete();
 
         //Send response with success
-        return $this->sendResponse($this->delete_success_msg);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg);
     }
 
     public function getCurrentPost($ip)

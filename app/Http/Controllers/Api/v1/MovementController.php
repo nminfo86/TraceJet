@@ -14,9 +14,9 @@ class MovementController extends Controller
     {
         $this->movementService = $movementService;
         $this->middleware('permission:movement-list', ['only' => ['index']]);
-        $this->middleware('permission:movement-create', ['only' => ['store']]);
+        $this->middleware(['permission:movement-create', 'permission:movement-list'], ['only' => ['store']]);
         $this->middleware('permission:movement-edit', ['only' => ['show', 'update']]);
-        $this->middleware('permission:movement-delete', ['only' => ['destroy']]);
+        $this->middleware(['permission:movement-delete', 'permission:movement-list'], ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -82,6 +82,7 @@ class MovementController extends Controller
         $movement->delete();
 
         //Send response with success
-        return $this->sendResponse($this->delete_success_msg);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg);
     }
 }
