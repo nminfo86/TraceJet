@@ -42,9 +42,9 @@ trait ResponseTrait
         $attributes = [
             'label_generator' => __('response-messages.label_generator'),
             'product' => __('response-messages.product'),
-            'operator 1' => __('response-messages.operator 1'),
-            'operator 2' => __('response-messages.operator 2'),
-            'operator 4' => __('response-messages.operator 4'),
+            'test 1' => __('response-messages.operator 1'),
+            'test 2' => __('response-messages.operator 2'),
+            'test 4' => __('response-messages.operator 4'),
             // Add more custom attributes here
         ];
 
