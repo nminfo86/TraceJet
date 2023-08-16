@@ -5,13 +5,14 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 use ErrorException;
-use BadMethodCallException;
 use App\Exceptions\ExceptionTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\QueryException;
 use Illuminate\Auth\AuthenticationException;
+use Mockery\Exception\BadMethodCallException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -60,21 +61,22 @@ class Handler extends ExceptionHandler
             //
         });
         $this->renderable(function (Exception $exception, $request) {
+            // dd($exception);
+            if ($request->expectsJson()) {
+                if (
 
-            // if ($request->expectsJson()) {
-            // if (
-            //     $request->expectsJson() &&
-            //     $exception instanceof ModelNotFoundException ||
-            //     $exception instanceof NotFoundHttpException ||
-            //     $exception instanceof MethodNotAllowedHttpException ||
-            //     $exception instanceof QueryException ||
-            //     $exception instanceof UnauthorizedException ||
-            //     $exception instanceof ErrorException ||
-            //     $exception instanceof BadMethodCallException ||
-            //     $exception instanceof AuthenticationException
-            // ) {
-            //     return $this->apiException($request, $exception);
-            // }
+                    $exception instanceof ModelNotFoundException ||
+                    $exception instanceof NotFoundHttpException ||
+                    $exception instanceof MethodNotAllowedHttpException ||
+                    $exception instanceof QueryException ||
+                    $exception instanceof UnauthorizedException ||
+                    $exception instanceof ErrorException ||
+                    $exception instanceof BadMethodCallException ||
+                    $exception instanceof AuthenticationException
+                ) {
+                    return $this->apiException($request, $exception);
+                }
+            }
         });
     }
 }
