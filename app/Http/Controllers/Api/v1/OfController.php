@@ -32,7 +32,7 @@ class OfController extends Controller
     {
         // $ofs = Of::with('caliber')->get();
         $ofs = Of::filterBySection()->join('calibers', function ($join) {
-            $join->on('calibers.id', '=', 'ofs.caliber_id'); 
+            $join->on('calibers.id', '=', 'ofs.caliber_id');
         })->orderBy("ofs.id", "desc")->get(["ofs.id", "of_number", "of_code", "status", "new_quantity", "caliber_name", "updated_at"]);
 
         //Send response with success
@@ -106,7 +106,9 @@ class OfController extends Controller
         }
 
         //Send response with success
-        return $this->sendResponse($this->update_success_msg, $of);
+        // return $this->sendResponse($this->update_success_msg, $of);
+        $msg = $this->getResponseMessage("success");
+        return $this->sendResponse($msg, $of);
     }
 
     /**
@@ -118,13 +120,9 @@ class OfController extends Controller
     public function destroy(Of $of)
     {
         $of->delete();
-
         //Send response with success
         return $this->sendResponse($this->delete_success_msg);
     }
-
-
-
     // This function used in serial_numbers blade
     public function getOfDetails($id)
     {
@@ -135,8 +133,6 @@ class OfController extends Controller
 
         return $of_info;
     }
-
-
     /**
      * ofStatistic this method used called on dashboard
      *

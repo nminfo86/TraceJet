@@ -24,7 +24,7 @@ use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberControll
 |
 */
 
-Route::post('auth/access_token', [AccessTokensController::class, 'login'])->middleware('guest:sanctum');
+Route::post('auth/access_token', [AccessTokensController::class, 'login'])->middleware('guest:sanctum',);
 Route::post('register', [AccessTokensController::class, 'register']);
 
 
