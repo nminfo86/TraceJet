@@ -6,6 +6,7 @@ use Error;
 use ErrorException;
 use BadMethodCallException;
 // use App\Traits\ResponseTrait;
+use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\QueryException;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 trait ExceptionTrait
 {
-    // use ResponseTrait;
+    use ResponseTrait;
     public function apiException($request, $e)
     {
         if ($this->isModel($e)) {
@@ -113,10 +114,14 @@ trait ExceptionTrait
     protected function HttpResponse($e)
     {
         Log::channel('applicationLog')->error($e->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName());
+
+        //Send response with success
+        $msg = $this->getResponseMessage("not_found", ['attribute' => 'resource']);
+        // return $this->sendResponse($msg, $caliber);
         return response()->json(
             [
                 'status' => false,
-                'message' => 'Not found'
+                'message' => $msg
             ]
             // , Response::HTTP_NOT_FOUND
         );

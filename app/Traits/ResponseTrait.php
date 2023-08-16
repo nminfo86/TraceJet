@@ -77,16 +77,4 @@ trait ResponseTrait
         $response['status'] = $status;
         return response()->json($response);
     }
-    // protected function CatchExeption($e)
-    // {
-    //     Log::channel('applicationLog')->error($e->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName());
-    //     // // return $e->getMessage();
-    //     // //Prepare message for translation
-    //     // $message = ['stackTrace' => Route::currentRouteName()];
-    //     // return $this->returnResponse($message, status: false);
-    //     // // return response()->json(['status' => 'failed', 'message' => $e->getMessage()]);
-    //     // return response()->json(['status' => 'failed', 'message' => $message]);
-
-    //     die($e->getMessage());
-    // }
 }

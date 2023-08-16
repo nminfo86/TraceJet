@@ -19,6 +19,8 @@ class DashboardController extends Controller
         /* -------------------------------------------------------------------------- */
         $ofs = Of::inSection($request->section_id)->with(['caliber:id,caliber_name'])
 
+
+
             ->when($request->start_date  && $request->end_date, function ($query) use ($request) {
                 return $query->whereBetween('ofs.created_at', [$request->start_date, $request->end_date]);
             })
