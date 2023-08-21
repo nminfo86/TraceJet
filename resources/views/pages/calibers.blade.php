@@ -13,7 +13,9 @@
                     <div class="d-flex justify-content-between mb-3">
                         <h4 class="card-title">{{ __('List des calibres') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
-                            @include('components.add_btn', ['label' => 'Nouveau'])
+                            @can('caliber-create')
+                                @include('components.add_btn', ['label' => 'Nouveau'])
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -168,8 +170,8 @@
                 {
                     data: 'id',
                     render: function(data, type, row) {
-                        return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
+                        return `@can('caliber-edit') <div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div> @endcan
+                        @can('caliber-delete') <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div> @endcan`;
                     }
                 },
             ]

@@ -12,8 +12,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
                         <h4 class="card-title text-capitalize">{{ __('liste des Ofs') }}</h4>
-                        <div class="text-end upgrade-btn toggle-show">
-                            @include('components.add_btn', ['label' => 'Nouveau'])
+                        <div class="text-end  toggle-show">
+                            @can('ofs-create')
+                                @include('components.add_btn', ['label' => 'Nouveau'])
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -240,9 +242,9 @@
                 {
                     data: 'id',
                     render: function(data, type, row) {
-                        return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>
-                <a type="button" href="{{ asset('of_statistics/${data}') }}" class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </div>`;
+                        return `@can('of-edit') <div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div> @endcan
+                        @can('of-delete') <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div> @endcan
+                        @can('of-list') <a type="button" href="{{ asset('of_statistics/${data}') }}" class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </div> @endcan`;
                     }
                 },
             ],

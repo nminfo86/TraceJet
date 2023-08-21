@@ -503,7 +503,7 @@
                         {
                             data: 'id',
                             render: function(data, type, row) {
-                                return `  <a type="button" href="http://127.0.0.1:8000/of_statistics/${data}" class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </a>`;
+                                return `  <a type="button" href="/of_statistics/${data}" class="d-inline pl-3 text-white historic"><i class="fa fa-eye text-info"></i> </a>`;
                             }
                         },
                     ],

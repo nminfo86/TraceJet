@@ -16,9 +16,9 @@ class ProductController extends Controller
     function __construct()
     {
         $this->middleware('permission:product-list', ['only' => ['index']]);
-        $this->middleware(['permission:product-create', 'permission:product-list'], ['only' => ['store']]);
+        $this->middleware('permission:product-create', ['only' => ['store']]);
         $this->middleware('permission:product-edit', ['only' => ['show', 'update']]);
-        $this->middleware(['permission:product-delete', 'permission:product-list'], ['only' => ['destroy']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -28,6 +28,11 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::filterBySection()->get();
+        // $products = Product::with('section')->get();
+        // $products = Product::join('sections', function ($join) {
+        //     $join->on('products.section_id', '=', 'sections.id');
+        // })->get(["products.id", "section_name", "product_code", "product_name"]);
+
         //Send response with data
         return $this->sendResponse(data: $products);
     }
@@ -40,11 +45,10 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $product = Product::create($request->all());
+        $section = Product::create($request->all());
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg, $product);
+        return $this->sendResponse($this->create_success_msg, $section);
     }
 
     /**
@@ -70,8 +74,7 @@ class ProductController extends Controller
         $product->update($request->all());
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg, $product);
+        return $this->sendResponse($this->update_success_msg, $product);
     }
 
     /**
@@ -85,7 +88,6 @@ class ProductController extends Controller
         $product->delete();
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg);
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

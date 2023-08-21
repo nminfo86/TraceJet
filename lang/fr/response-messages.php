@@ -34,15 +34,11 @@ return [
     'exists' => ":attribute a déjà été pris",
     'product_place' => "Vérifier le :attribute sur le post (:host)",
     'invalid_host' => "hôte invalide, veuillez contacter l'administrateur",
-    'nok' => ":attribute NOK",
+    'nok' => ":attribut NOK",
 
     // OF
     "print_qr-success" => "Le QR code est imprimé",
     "of_closed" => "Félicitations ! OF cloturé",
-
-
-    //permission
-    "permission" => "L'utilisateur ne dispose pas des autorisations appropriées."
 
 
 

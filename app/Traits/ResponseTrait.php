@@ -34,9 +34,7 @@ trait ResponseTrait
             // SerialNumber
             'of_closed' => __('response-messages.of_closed'),
             "print_qr-success" => __('response-messages.print_qr-success'),
-
             // Add more custom messages here
-            "permission" => __('response-messages.permission'),
         ];
 
         $attributes = [

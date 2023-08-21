@@ -15,7 +15,9 @@
                         <div class="text-end upgrade-btn toggle-show">
                             {{-- <a href="https://www.wrappixel.com/templates/flexy-bootstrap-admin-template/" class="btn btn-primary text-white"
                                 target="_blank">Upgrade to Pro</a> --}}
-                            @include('components.add_btn', ['label' => 'Nouveau'])
+                            @can('product-create')
+                                @include('components.add_btn', ['label' => 'Nouveau'])
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -155,8 +157,8 @@
                 {
                     data: 'id',
                     render: function(data, type, row) {
-                        return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
+                        return `@can('product-edit') <div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div> @endcan
+                        @can('product-delete') <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div> @endcan`;
                     }
                 },
             ],

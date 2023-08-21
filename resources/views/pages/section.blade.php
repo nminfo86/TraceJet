@@ -13,7 +13,9 @@
                     <div class="d-flex justify-content-between mb-3">
                         <h4 class="card-title text-capitalize">{{ __('liste des sections') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
-                            @include('components.add_btn', ['label' => 'Nouveau'])
+                            @can('section-create')
+                                @include('components.add_btn', ['label' => 'Nouveau'])
+                            @endcan
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -134,8 +136,8 @@
                 {
                     data: 'id',
                     render: function(data, type, row) {
-                        return `<div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div>
-                    <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div>`;
+                        return `@can('section-edit') <div type="button" id="${data}" class="d-inline text-white edit"> <i class="fas fa-edit text-warning"></i></div> @endcan
+                        @can('section-delete') <div type="button" id = ${data} class="d-inline pl-3 text-white delete"><i class="fas fa-trash text-danger"></i> </div> @endcan`;
                     }
                 },
             ],

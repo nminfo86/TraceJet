@@ -215,7 +215,7 @@
             "previous_post_id": 1,
             //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
             // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
-            "host_id": 2,
+            "host_id": 3,
             // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
         };
         formToggle(form_title);

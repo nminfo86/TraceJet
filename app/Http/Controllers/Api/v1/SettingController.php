@@ -47,8 +47,7 @@ class SettingController extends Controller
         $setting = Setting::create($inputs);
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg, $setting);
+        return $this->sendResponse($this->create_success_msg, $setting);
     }
 
     /**
@@ -86,7 +85,6 @@ class SettingController extends Controller
         $setting->delete();
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg);
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

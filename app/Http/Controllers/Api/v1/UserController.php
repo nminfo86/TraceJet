@@ -70,9 +70,7 @@ class UserController extends Controller
 
             // send response
             // return new UserResource($user);
-            //Send response with success
-            $msg = $this->getResponseMessage("success");
-            return $this->sendResponse($msg, $user);
+            return $this->sendResponse($this->create_success_msg, $user);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->apiException($request, $e);
@@ -114,12 +112,11 @@ class UserController extends Controller
             DB::commit();
 
             //Send response with success
-            $msg = $this->getResponseMessage("success");
-            return $this->sendResponse($msg, $user);
+            return $this->sendResponse($this->update_success_msg, $user);
         } catch (Exception $e) {
             DB::rollBack();
             // return $e->getMessage();
-            return $this->apiException($request, $e);
+            // return $this->apiException($request, $e);
         }
     }
 
@@ -134,7 +131,6 @@ class UserController extends Controller
         $user->delete();
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg);
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

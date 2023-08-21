@@ -20,9 +20,9 @@ class RoleController extends Controller
     function __construct()
     {
         $this->middleware('permission:role-list', ['only' => ['index']]);
-        $this->middleware(['permission:role-create', 'permission:role-list'], ['only' => ['store']]);
+        $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:role-edit', ['only' => ['show', 'update']]);
-        $this->middleware(['permission:role-delete', 'permission:role-list'], ['only' => ['destroy']]);
+        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -58,9 +58,7 @@ class RoleController extends Controller
             DB::commit();
 
             //Send response with data
-            //Send response with success
-            $msg = $this->getResponseMessage("success");
-            return $this->sendResponse($msg, data: new RoleResource($role));
+            return $this->sendResponse($this->create_success_msg, data: new RoleResource($role));
         } catch (Exception $e) {
             DB::rollBack();
             return $this->apiException($request, $e);
@@ -98,9 +96,8 @@ class RoleController extends Controller
 
             DB::commit();
 
-            //Send response with success
-            $msg = $this->getResponseMessage("success");
-            return $this->sendResponse($msg, data: new RoleResource($role));
+            //Send response with data
+            return $this->sendResponse($this->update_success_msg, data: new RoleResource($role));
         } catch (Exception $e) {
             DB::rollBack();
             return $this->apiException($request, $e);
@@ -117,7 +114,6 @@ class RoleController extends Controller
     {
         $role->delete();
         //Send response with success
-        $msg = $this->getResponseMessage("success");
-        return $this->sendResponse($msg);
+        return $this->sendResponse($this->delete_success_msg);
     }
 }

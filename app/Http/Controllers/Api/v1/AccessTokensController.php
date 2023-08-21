@@ -16,6 +16,7 @@ class AccessTokensController extends Controller
 {
     use ResponseTrait;
 
+    
     public function login(AccessTokensRequest $request)
     {
 
