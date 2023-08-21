@@ -51,7 +51,7 @@ class PrintLabelService
      */
     public function printProductLabel(string $qrcode, string $of_num, string $product_name, string $sn)
     {
-        // dd($qrCode);
+        // dd($qrcode);
         $label = '';
         switch ($this->languageCode) {
 
@@ -97,6 +97,7 @@ class PrintLabelService
      */
     public function print($label)
     {
+
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
         socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 1, 'usec' => 0));
@@ -117,7 +118,7 @@ class PrintLabelService
             // addTrace("socket_write() failed. Reason: " . socket_strerror(socket_last_error($socket)));
         } else {
             socket_close($socket);
-            echo json_encode(array("state" => "s"));
+            //echo json_encode(array("state" => "s"));
         }
     }
 }

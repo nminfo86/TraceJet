@@ -208,14 +208,15 @@
         //     "host_id": "{{ Session::get('user_data')['post_information']['id'] ?? '' }}",
         //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
         // };
+        console.log($.parseJSON(`{{ Session::get('post_information') }}`));
         var formData = {
             // "qr": scanned_qr,
             // "of_id": of_id,
             // "lang": "fr",
-            "previous_post_id": 1,
-            //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
+            "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] ?? '' }}",
+            //"post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
             // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
-            "host_id": 3,
+            "host_id": `{{ Session::get('user_data')['post_information']['id'] ?? '' }}`,
             // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
         };
         formToggle(form_title);
@@ -269,7 +270,7 @@
                 e.preventDefault();
                 cleanValidationAlert();
                 let qr = $("#qr").val();
-
+                $('form')[0].reset();
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
                         formData.result = "OK";
@@ -397,6 +398,7 @@
 
         function storeQr(formData) {
             callAjax("POST", url, formData).done(function(response) {
+
                 if (response.status == false) {
                     return SessionErrors(response.message);
                 }

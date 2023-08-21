@@ -134,14 +134,16 @@ class SerialNumberController extends Controller
         ]);
 
 
-        // $printLabel = new PrintLabelService("192.168.1.100", "TSPL", "40_20");
-        // $qrCode = $new_sn->qr;
-        // // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
-        // $qr = explode("#", $qrCode);
-        // $sn = $qr[3];
-        // $of_num = $qr[1];
-        // $product_name = $qr[2];
-        //$printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
+        $printLabel = new PrintLabelService("192.168.1.100", "TSPL", "40_20");
+        $qrCode = $new_sn->qr;
+
+        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+        $qr = explode("#", $qrCode);
+        $sn = $qr[3];
+        $of_num = $qr[1];
+        $product_name = $qr[2];
+        // dd($qrCode. $of_num. $product_name. $sn);
+        $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
         // Return a success message with the QR code for the new product
         $msg = $this->getResponseMessage('print_qr-success');
         return $this->sendResponse($msg, $new_sn->only('qr'));
