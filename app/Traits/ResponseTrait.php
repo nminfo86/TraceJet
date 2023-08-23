@@ -9,6 +9,26 @@ use Illuminate\Support\Facades\Route;
 trait ResponseTrait
 {
 
+
+
+    // Exception Log details and create a JSON response (Used on exception/handler)
+    protected function createLog($e, $msgKey)
+    {
+        // Log exception details and create a JSON response
+        Log::channel('applicationLog')->error(
+            'Exception : ' . get_class($e) . PHP_EOL .
+
+                $e->getMessage() . PHP_EOL .
+                ' at : ' . Route::currentRouteName() . ' Action : ' . Route::currentRouteAction() .
+                ' File : ' . $e->getFile() . ' at Line N° ' . $e->getLine()
+        );
+
+        return response()->json([
+            'status' => false,
+            'message' => trans('exception-errors.' . $msgKey)
+        ]);
+    }
+
     /**
      * getResponseMessage
      *

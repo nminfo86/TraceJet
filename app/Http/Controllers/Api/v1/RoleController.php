@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 use App\Http\Requests\StoreRequests\StoreRoleRequest;
 use App\Http\Requests\UpdateRequests\UpdateRoleRequest;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 
 class RoleController extends Controller
 {
@@ -63,7 +64,9 @@ class RoleController extends Controller
             return $this->sendResponse($msg, data: new RoleResource($role));
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->apiException($request, $e);
+            // Call the custom exception handling logic from the handler
+            return  app(ExceptionHandler::class)->render($request, $e);
+            // return $this->apiException($request, $e);
         }
     }
 
@@ -103,7 +106,9 @@ class RoleController extends Controller
             return $this->sendResponse($msg, data: new RoleResource($role));
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->apiException($request, $e);
+            // return $this->apiException($request, $e);
+            // Call the custom exception handling logic from the handler
+            return  app(ExceptionHandler::class)->render($request, $e);
         }
     }
 
