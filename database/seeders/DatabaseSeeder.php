@@ -31,11 +31,11 @@ class DatabaseSeeder extends Seeder
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
             PostsTypeSeeder::class,
-            // PostSeeder::class,
+            PostSeeder::class,
         ]);
 
-        // Product::factory()->count(50)->create();
-        // Caliber::factory()->count(50)->create();
-        // $this->call(OfSeeder::class);
+        Product::factory()->count(2)->create();
+        Caliber::factory()->count(5)->create();
+        $this->call(OfSeeder::class);
     }
 }
