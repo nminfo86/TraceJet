@@ -14,15 +14,15 @@
                 <!-- ============================================================== -->
                 <!-- Production chart -->
                 <!-- ============================================================== -->
-                <div class="col-lg-8 d-flex align-items-stretch">
+                <div class="col-lg-8 ">
                     <div class="card  w-100">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table
-                                    class="table mb-0 table-hover align-middle text-nowrap table-light  dt-responsive nowrap "
+                                    class="table mb-0  table-hover align-middle text-nowrap table-light  dt-responsive nowrap "
                                     width="100%" id="ofInfoTable">
-                                    <thead class="bg-light">
-                                        <tr>
+                                    <thead>
+                                        <tr class="text-capitalize">
                                             <th class="border-top-0">{{ __('OF Numéro') }}</th>
                                             <th class="border-top-0">{{ __('produit') }}</th>
                                             <th class="border-top-0">{{ __('calibre') }}</th>
@@ -31,23 +31,40 @@
                                             <th class="border-top-0">{{ __('date de lancement') }}</th>
                                         </tr>
                                     </thead>
-                                    {{-- <tbody>
-                                        <tr>
-                                            <td id="product">
-                                            </td>
-                                            <td id="calibre"></td>
-                                            <td id="section"></td>
-                                            <td>
-                                                <label class="badge bg-danger" id="new_quantity"></label>
-                                            </td>
-                                            <td id="release_date"></td>
-                                            <td>
-                                                <label class="badge bg-primary" id="of_number"></label>
-                                            </td>
-                                        </tr>
-                                    </tbody> --}}
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="col-12 card w-100" style="height: 100px;">
+                        <div class="">
+                            <div class="card-boy p-3">
+                                <h5 class="card-title text-capitalize">{{ __("taux d'avancement") }}</h5>
+                                {{-- <h6 class="card-subtitle">Poste 1</h6> --}}
+                                <div class="progress mt-2" style="height: 12px;">
+                                    <div class="progress-bar bg-info" id="progress_rate" role="progressbar"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <h6 class="text-muted text-center fw-normal mt-2">
+                                    <span></span> <span class="text-capitalize"> {{ __('de production') }} </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End roduction chart -->
+            <!-- ============================================================== -->
+
+            <!-- ============================================================== -->
+            <!-- progress bar rate -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-lg-8 ">
+                    <div class="col-12 card w-100" style="min-height:auto;">
+                        <div class="card-body">
                             <h6 class="card-subtitle pt-4 text-capitalize text-dark fs-4  ">
                                 {{ __('statistique de production par chaque post') }}</h6>
                             <div class="amp-pxl mt-4">
@@ -57,48 +74,28 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- ============================================================== -->
+                    <!-- End progress bar rate -->
+                    <!-- ============================================================== -->
                 </div>
                 <!-- ============================================================== -->
-                <!-- End roduction chart -->
+                <!-- progress in each post -->
                 <!-- ============================================================== -->
-                <div class="col-lg-4 d-flex align-items-stretch" id="posts_avancement">
-                    <div class="row">
-                        <!-- ============================================================== -->
-                        <!-- progress bar rate -->
-                        <!-- ============================================================== -->
-                        <div class="col-12 card w-100" style="height: 100px;">
-                            <div class="">
-                                <div class="card-boy p-3">
-                                    <h5 class="card-title text-capitalize">{{ __("taux d'avancement") }}</h5>
-                                    {{-- <h6 class="card-subtitle">Poste 1</h6> --}}
-                                    <div class="progress mt-2" style="height: 12px;">
-                                        <div class="progress-bar bg-info" id="progress_rate" role="progressbar"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h6 class="text-muted text-center fw-normal mt-2">
-                                        <span></span> <span class="text-capitalize"> {{ __('de production') }} </span>
-                                    </h6>
-                                </div>
-                            </div>
+                <div class="col-lg-4" id="posts_avancement">
+                    <div class="col-12 card w-100" style="min-height:auto;">
+
+                        <div class="card-body">
+                            <h4 class="card-title text-capitalize">{{ __('avancement par post') }}</h4>
+                            <h6 class="card-subtitle mb-5 text-capitalize">
+                                {{ __('avancement de production par post') }}</h6>
                         </div>
-                        <!-- ============================================================== -->
-                        <!-- End progress bar rate -->
-                        <!-- ============================================================== -->
-                        <!-- ============================================================== -->
-                        <!-- progress in each post -->
-                        <!-- ============================================================== -->
-                        <div class="col-12 card w-100" style="min-height:auto;">
-                            <div class="">
-                                <div class="card-body">
-                                    <h4 class="card-title text-capitalize">{{ __('avancement par post') }}</h4>
-                                    <h6 class="card-subtitle mb-5 text-capitalize">
-                                        {{ __('avancement de production par post') }}</h6>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
+
             <!-- ============================================================== -->
             <!-- Productions chart end -->
             <!-- ============================================================== -->
@@ -118,8 +115,8 @@
                             <div class="table-responsive">
                                 <table class="table mb-0 table-hover align-middle text-nowrap table-sm" id="sn_table"
                                     width="100%">
-                                    <thead>
-                                        <tr class="text-capitalize">
+                                    <thead class="bg-light">
+                                        <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">{{ __('numéro de Serie') }}</th>
                                             <th class="border-top-0">{{ __('poste actuel') }}</th>
@@ -216,7 +213,7 @@
                 sn_datatables.rows.add(
                     [
                         [product.id, product.qr,
-                            `<span class="badge bg-${product.color}">${product.post}</span>`
+                            `<span class="badge" style="background-color:${product.color}">${product.post}</span>`
                         ]
                     ]
                 ).draw();
@@ -314,7 +311,7 @@
                                     var data = dataset.data[index];
                                     var xPos = bar._model.x;
                                     var yPos = bar._model.y -
-                                        15; // Adjust Y position for label above the bar
+                                        20; // Adjust Y position for label above the bar
                                     ctx.fillText(data + ' %', xPos, yPos);
                                 });
                             });
@@ -339,7 +336,7 @@
                         `<div class="vertical-timeline-item vertical-timeline-element text-capitalize">
                     <div>
                         <span class="vertical-timeline-element-icon bounce-in">
-                            <i class="mdi mdi-nut text-${movement.color} fs-2 bg-white"></i>
+                            <i class="mdi mdi-nut  fs-2 bg-white" style="color:${movement.color}"></i>
                         </span>
                         <div class="vertical-timeline-element-content bounce-in">
                             <h4 class="timeline-title">${movement.post_name}</h4>

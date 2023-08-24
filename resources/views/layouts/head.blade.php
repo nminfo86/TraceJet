@@ -29,3 +29,9 @@
     <link rel="stylesheet" href="{{ asset('/dist/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/dist/css/daterangepicker.css') }}">
     {{-- <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'> --}}
+    <style>
+        .table>tbody {
+            cursor: pointer
+        }
+    </style>
+    @stack('css')

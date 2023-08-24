@@ -19,6 +19,7 @@ return [
     'file_not_found' => "Le fichier demandé n'a pas été trouvé.",
     'rate_limit_exceeded' => "Vous avez dépassé la limite de fréquence pour cette demande.",
     'service_unavailable' => "Le service est actuellement indisponible. Veuillez réessayer plus tard.",
+    "relation_not_found" => "La relation n'a pas été trouvée.",
 
     // Spatie exception
     'role_does_not_exist' => "Le rôle sélectionné n\'existe pas.",

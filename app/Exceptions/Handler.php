@@ -17,6 +17,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -120,7 +121,7 @@ class Handler extends ExceptionHandler
                     FileNotFoundException::class => "file_not_found",
                     TooManyRequestsHttpException::class => "rate_limit_exceeded",
                     ServiceUnavailableHttpException::class => "service_unavailable",
-
+                    RelationNotFoundException::class => "relation_not_found",
                     // Spatie exceptions
                     RoleDoesNotExist::class => "role_does_not_exist",
                 ];

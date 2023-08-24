@@ -33,7 +33,7 @@ class DashboardController extends Controller
         /*                       Fetch posts based on section ID                      */
         /* -------------------------------------------------------------------------- */
         $posts = Post::whereSectionId($request->section_id)
-            ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')
+            ->join('posts_types', 'posts.posts_type_id', '=', 'posts_types.id')->orderBy("posts_type_id")
             ->get(["posts.id", "post_name", "icon", "color"]);
 
         // Check if no posts found

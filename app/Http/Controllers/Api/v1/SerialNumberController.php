@@ -20,7 +20,7 @@ class SerialNumberController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(CheckIpClient::class . ":1"); # 1 is label_generator post_type id
+        // $this->middleware(CheckIpClient::class . ":1"); # 1 is label_generator post_type id
         // Add more middleware and specify the desired methods if needed
     }
 
