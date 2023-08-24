@@ -18,7 +18,7 @@
                     </div>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
-                            <thead>
+                            <thead class="bg-light">
                                 <tr class="">
                                     {{-- <th>#</th> --}}
                                     <th>{{ __('code') }}</th>

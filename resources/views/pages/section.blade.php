@@ -18,8 +18,8 @@
                     </div>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
-                            <thead>
-                                <tr class="">
+                            <thead class="bg-light">
+                                <tr>
                                     {{-- <th>#</th> --}}
                                     <th>{{ __('code') }}</th>
                                     <th>{{ __('nom de section') }}</th>

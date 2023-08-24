@@ -21,8 +21,8 @@
                                 <table
                                     class="table mb-0 table-hover align-middle text-nowrap table-light  dt-responsive nowrap "
                                     width="100%" id="ofInfoTable">
-                                    <thead>
-                                        <tr class="text-capitalize">
+                                    <thead class="bg-light">
+                                        <tr>
                                             <th class="border-top-0">{{ __('OF Numéro') }}</th>
                                             <th class="border-top-0">{{ __('produit') }}</th>
                                             <th class="border-top-0">{{ __('calibre') }}</th>

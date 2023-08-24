@@ -171,7 +171,7 @@
                 <div class="card-body text-white">
                     <div class="table-responsive">
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
-                            <thead>
+                            <thead class="bg-light">
                                 <tr class="">
                                     <th>{{ __('SN') }}</th>
                                     <th>{{ __('Date embalage') }}</th>

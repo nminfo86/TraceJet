@@ -146,8 +146,8 @@
                         {{ __('Générer QR') }}</button>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
-                            <thead>
-                                <tr class="">
+                            <thead class="bg-light">
+                                <tr>
                                     {{-- <th>{{ __('#') }}</th> --}}
                                     <th>{{ __('SN') }}</th>
                                     <th>{{ __('Créé le') }}</th>

@@ -20,8 +20,8 @@
                     </div>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
-                            <thead>
-                                <tr class="text-capitalize">
+                            <thead class="bg-light">
+                                <tr>
                                     {{-- <th>#</th> --}}
                                     <th width="90%">{{ __('rôle') }}</th>
                                     <th>{{ __('options') }}</th>

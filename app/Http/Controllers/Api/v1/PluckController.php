@@ -177,12 +177,12 @@ class PluckController extends Controller
     private function checkPermission($permission)
     {
         // dd($permission[0]);
-        if (!auth()->user()->can($permission[0]) && !auth()->user()->can($permission[1])) {
-            // return response('User does not have the right permissions.');
-            //Send response with success
-            $msg = $this->getResponseMessage("permission");
-            return $this->sendResponse($msg, status: false);
-        } else
+        // if (!auth()->user()->can($permission[0]) && !auth()->user()->can($permission[1])) {
+        //     // return response('User does not have the right permissions.');
+        //     //Send response with success
+        //     $msg = $this->getResponseMessage("permission");
+        //     return $this->sendResponse($msg, status: false);
+        // } else
             return true;
     }
 }
