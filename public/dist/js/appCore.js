@@ -9,11 +9,13 @@ function ajaxSuccess($title) {
         title: $title,
         icon: "success",
         toast: true,
-        position: "top-end",
+        position: "top",
         showConfirmButton: false,
         timer: 3000,
         // timerProgressBar: true,
-        // background: '#4caf50',
+        background: "#39cb7f",
+        width: "auto",
+        color: "white",
     });
 }
 
@@ -22,12 +24,13 @@ function ajaxError($title) {
         title: $title,
         toast: true,
         icon: "error",
-        position: "top-end",
+        position: "top",
         showConfirmButton: false,
         showCloseButton: true,
         background: /*'#22c44687',// '#cf5858'*/ "#fbdddd",
         timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
-        timerProgressBar: true,
+        // timerProgressBar: true,
+        width: "auto",
     });
 }
 
@@ -35,14 +38,14 @@ function SessionErrors($title) {
     return Swal.fire({
         title: $title,
         toast: true,
-        width: 1000,
+        width: "auto",
         icon: "error",
         position: "top",
         showConfirmButton: false,
         showCloseButton: true,
         background: /*'#22c44687',// '#cf5858'*/ "#fbdddd",
         timer: 5000, // 4500 is bigger than success and info (3000) because errors must be read slowly
-        timerProgressBar: true,
+        // timerProgressBar: true,
     });
 }
 
@@ -97,20 +100,18 @@ function callAjax(method, url, data = {}, is_async = true) {
         dataType: ajaxDataType,
         async: is_async,
         success: function (response) {
-            if (response.status != false)
-                deferred.resolve(response); // Resolve the deferred with the response data
-            else
-                ajaxError(response.message);
+            if (response.status != false) deferred.resolve(response);
+            // Resolve the deferred with the response data
+            else ajaxError(response.message);
         },
         error: function (jqXHR, exception) {
             showAjaxAndValidationErrors(jqXHR, exception);
             return false;
-        }
+        },
     });
 
     return deferred.promise(); // Return the promise from the deferred
 }
-
 
 // This function is used to process ajax and validation errors
 // Must be used in all ajax error:() requests
@@ -275,9 +276,8 @@ function ajaxCallDatatables(url, data = {}) {
             else ajaxError(json.message);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            if (jqXHR.status == false)
-                window.location.href = "/logout";
-        }
+            if (jqXHR.status == false) window.location.href = "/logout";
+        },
     };
     // Return it
     return obj;
@@ -291,7 +291,6 @@ function customSelect2(lang) {
         language: lang,
     });
 }
-
 
 function appendToSelect(data, select_id, by_val = false) {
     if (!by_val)
