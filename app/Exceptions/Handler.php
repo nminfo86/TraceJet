@@ -15,7 +15,9 @@ use Mockery\Exception\BadMethodCallException;
 use Illuminate\Auth\Access\AuthorizationException;
 
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -122,8 +124,10 @@ class Handler extends ExceptionHandler
                     TooManyRequestsHttpException::class => "rate_limit_exceeded",
                     ServiceUnavailableHttpException::class => "service_unavailable",
                     RelationNotFoundException::class => "relation_not_found",
+                    ThrottleRequestsException::class => "throttle",
                     // Spatie exceptions
                     RoleDoesNotExist::class => "role_does_not_exist",
+                    UnauthorizedException::class => "unauthorized_access",
                 ];
 
                 $exceptionType = get_class($exception);

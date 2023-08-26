@@ -20,6 +20,7 @@ return [
     'rate_limit_exceeded' => "Vous avez dépassé la limite de fréquence pour cette demande.",
     'service_unavailable' => "Le service est actuellement indisponible. Veuillez réessayer plus tard.",
     "relation_not_found" => "La relation n'a pas été trouvée.",
+    "throttle" => "Trop de tentatives de connexion. Veuillez réessayer dans quelques secondes.",
 
     // Spatie exception
     'role_does_not_exist' => "Le rôle sélectionné n\'existe pas.",

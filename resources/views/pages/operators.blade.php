@@ -32,7 +32,7 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword"
+                                <label
                                     class="col-sm-3 col-form-label text-dark fs-5 fw-normal">{{ __('Selectionner un OF') }} :
                                 </label>
                                 <div class="col-sm-9">
@@ -75,8 +75,7 @@
                             <div class="table-responsive">
                                 <form id="main_form">
                                     <div class="row mx-0">
-                                        <label for="inputPassword" class="col-md-1 "><i
-                                                class="mdi mdi-24px mdi-barcode-scan"></i></label>
+                                        <label class="col-md-1 "><i class="mdi mdi-24px mdi-barcode-scan"></i></label>
                                         <div class="col-md-11">
                                             <input type="text" class="form-control bg-light" id="qr"
                                                 name="qr" onblur="this.focus()" autofocus>

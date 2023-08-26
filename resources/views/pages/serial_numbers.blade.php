@@ -1,10 +1,5 @@
 @extends('layouts.posts_layout')
-@php
-    // dd(Session::get('user_data')['post_information']);
-@endphp
-<style>
 
-</style>
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -17,7 +12,7 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword"
+                                <label
                                     class="col-sm-3 col-form-label text-dark fs-5 fw-normal">{{ __('Selectionner un OF') }} :
                                 </label>
                                 <div class="col-sm-9">
@@ -53,8 +48,7 @@
                             <div class="table-responsive">
                                 <form id="main_form">
                                     <div class="row mx-0">
-                                        <label for="inputPassword" class="col-md-1 "><i
-                                                class="mdi mdi-24px mdi-barcode-scan"></i></label>
+                                        <label class="col-md-1 "><i class="mdi mdi-24px mdi-barcode-scan"></i></label>
                                         <div class="col-md-11">
                                             <input type="text" class="form-control bg-light" id="qr"
                                                 name="qr" onblur="this.focus()" autofocus>
@@ -143,7 +137,7 @@
             <div class="card shadow border-primary" style="min-height: 90vh">
                 <div class="card-body text-white">
                     <button class="btn btn-info text-white" id="print_qr"><i class="mdi mdi-printer"></i>
-                        {{ __('Générer QR') }}</button>
+                        {{-- {{ __('Générer QR') }}  --}} F1</button>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
                             <thead class="bg-light">
@@ -170,6 +164,12 @@
             url = base_url + '/serial_numbers',
             of_id,
             last_qr = "";
+        // $(document).keydown(function(event) {
+        //     if (event.which === 112) { // 112 is the keycode for F1 key
+        //         event.preventDefault(); // Prevent the default browser refresh behavior
+        //         alert("F1 Pressed");
+        //     }
+        // });
         $(document).ready(function() {
             /* -------------------------------------------------------------------------- */
             /*                                get ofs list                                */
@@ -204,6 +204,16 @@
 
             });
         }
+
+        function performAction() {
+            callAjax('POST', base_url + '/serial_numbers/qr_print', {
+                of_id: of_id
+            }).done(function(response) {
+                // TODO::check status of response
+                ajaxSuccess(response.message);
+                // alert(response.data.qr);
+            });
+        }
         $(document).on("change", "#of_id", function(e) {
                 e.preventDefault()
                 of_id = $(this).val();
@@ -212,15 +222,37 @@
             /* -------------------------------------------------------------------------- */
             /*                                Print QR code                               */
             /* -------------------------------------------------------------------------- */
+            // .on("click", "#print_qr", function(e) {
+            // .on("click keydown", "#print_qr", function(e) {
+            //     e.preventDefault();
+            //     alert(e.type);
+            //     alert(e.which);
+            //     // if (e.type === "click" || (e.type === "keydown" && e.which === 112)) {
+            //     //     callAjax('POST', base_url + '/serial_numbers/qr_print', {
+            //     //         of_id: of_id
+            //     //     }).done(function(response) {
+            //     //         // TODO::check status of response
+            //     //         ajaxSuccess(response.message)
+            //     //         // alert(response.data.qr)
+            //     //     });
+            //     // }
+            // })
+
+
+
+            // Event handler for button click and F1 key press
+            // Event handler for button click
             .on("click", "#print_qr", function(e) {
                 e.preventDefault();
-                callAjax('POST', base_url + '/serial_numbers/qr_print', {
-                    of_id: of_id
-                }).done(function(response) {
-                    // TODO::check status of response
-                    ajaxSuccess(response.message)
-                    alert(response.data.qr)
-                });
+                performAction();
+            })
+
+            // Event handler for F1 key press
+            .on("keydown", function(e) {
+                if (e.which === 112) { // 112 is the keycode for F1 key
+                    e.preventDefault();
+                    performAction();
+                }
             })
             /* -------------------------------------------------------------------------- */
             /*                                Valid Product                               */

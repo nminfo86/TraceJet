@@ -31,6 +31,10 @@ class PackagingController extends Controller
     {
         $this->middleware(CheckIpClient::class . ":3"); # 3 is operator post_type id
         // Add more middleware and specify the desired methods if needed
+        $this->middleware('permission:packaging-list', ['only' => ['index']]);
+        $this->middleware(['permission:packaging-create', 'permission:packaging-list'], ['only' => ['store']]);
+        $this->middleware('permission:packaging-edit', ['only' => ['show', 'update']]);
+        $this->middleware(['permission:packaging-delete', 'permission:packaging-list'], ['only' => ['destroy']]);
     }
 
 
