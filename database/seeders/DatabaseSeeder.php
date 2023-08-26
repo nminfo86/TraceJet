@@ -10,6 +10,7 @@ use Database\Seeders\OfSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\PostSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\PrinterSeeder;
 use Database\Seeders\SectionSeeder;
 use Database\Seeders\PostsTypeSeeder;
 use Database\Seeders\CreateAdminUserSeeder;
@@ -26,12 +27,14 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
+            PrinterSeeder::class,
             SettingSeeder::class,
             SectionSeeder::class,
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
             PostsTypeSeeder::class,
             PostSeeder::class,
+
         ]);
 
         Product::factory()->count(2)->create();

@@ -19,7 +19,7 @@ class PostSeeder extends Seeder
 
 
         $posts = [
-            ['post_name' => 'label_generator', 'posts_type_id' => 1, 'previous_post_id' => NULL,  'code' => "P-001", "ip_address" => "127.0.0.1", "section_id" => 1, "color" => "primary"],
+            ['post_name' => 'label_generator', 'posts_type_id' => 1, 'previous_post_id' => NULL,  'code' => "P-001", "ip_address" => "127.0.0.1", "section_id" => 1, "color" => "primary", 'printer_id' => 1],
 
 
 

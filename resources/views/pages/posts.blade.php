@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table id="main_table" class="table table-hover dt-responsive nowrap table-light" width="100%">
+                        <table id="main_table" class="table table-hover dt-responsive nowrap" width="100%">
                             <thead class="bg-light">
                                 <tr class="">
                                     {{-- <th>#</th> --}}
@@ -27,6 +27,7 @@
                                     <th>{{ __('section') }}</th>
                                     <th>{{ __('adrèsse IP') }}</th>
                                     <th>{{ __('poste précédent') }}</th>
+                                    <th>{{ __('nom de l\'imprimante') }}</th>
                                     <th>{{ __('options') }}</th>
                                 </tr>
                             </thead>
@@ -253,11 +254,23 @@
 
         table = table.DataTable({
             "ajax": ajaxCallDatatables(url),
+            rowGroup: {
+                // Uses the 'row group' plugin
+                dataSrc: 'section_name'
+            },
+
+            columnDefs: [{
+                visible: false,
+                target: [3]
+            }],
             columns: [{
                     data: 'code'
                 },
                 {
-                    data: 'post_name'
+                    data: 'post_name',
+                    render: function(data, type, row) {
+                        return `<label class="badge" style="background-color:${row.color}">${data}</label>`;
+                    }
                 },
                 {
                     data: 'posts_type'
@@ -268,7 +281,10 @@
                     data: 'ip_address'
                 },
                 {
-                    data: 'previous_post'
+                    data: 'previous_post',
+                    defaultContent: "/"
+                }, {
+                    data: 'printer_name'
                 },
                 {
                     data: 'id',
@@ -278,6 +294,7 @@
                     }
                 },
             ],
+
         });
     </script>
 @endpush

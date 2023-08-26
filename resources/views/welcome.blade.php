@@ -11,10 +11,10 @@
         <!-- Container fluid  -->
         <!-- ============================================================== -->
         <div class="container-fluid">
-            <div class="row pb-4">
+            <div class="row pb-2">
                 <div class="col-lg-8 col-md-6 col-12 align-self-center">
-                    <h4 class="text-muted mb-0 fw-normal"> {{ __('Bienvenu') }} </h4>
-                    <h1 class="mb-0 fw-bold">{{ __('Tableau de bord de production') }}</h1>
+                    {{-- <h4 class="text-muted mb-0 fw-normal"> {{ __('Bienvenu') }} </h4> --}}
+                    <h3 class="mb-0 fw-bold">{{ __('Tableau de bord de production') }}</h3>
                 </div>
             </div>
             {{-- custom style carousel in dashboard --}}
