@@ -70,6 +70,9 @@ Route::group(
         Route::get('posts', function () {
             return view('pages.posts');
         })->middleware(['permission:post-list']);
+        Route::get('printers', function () {
+            return view('pages.printers');
+        }); //->middleware(['permission:printer-list']);
         Route::get('ofs', function () {
             return view('pages.ofs');
         })->middleware('permission:of-list');

@@ -66,7 +66,7 @@ class SerialNumberController extends Controller
     //valid product
     public function store(StoreSerialNumberRequest $request)
     {
-        $current_post = $this->postsListFromCache(1);
+        // $current_post = $this->postsListFromCache(1);
 
         if (isset($current_post['status'])) {
             // Handle the case where the post does not exist in the user's section

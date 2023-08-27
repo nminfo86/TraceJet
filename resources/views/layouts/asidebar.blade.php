@@ -14,7 +14,7 @@
                             class="hide-menu">{{ __('Dashboard') }}</span></a></li>
 
                 {{-- administrator --}}
-                @canany(['user-list', 'role-list', 'section-list', 'post-list'])
+                @canany(['user-list', 'role-list', 'section-list', 'post-list', 'printer-list'])
                     <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('administration') }}</h6>
                 @endcanany
 
@@ -36,6 +36,11 @@
                             href="{{ url('sections') }}" aria-expanded="false"><i class="mdi mdi-factory"></i><span
                                 class="hide-menu">{{ __('sections') }}</span></a></li>
                 @endcan
+                {{-- @can('printer-list') --}}
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
+                        href="{{ url('printers') }}" aria-expanded="false"><i class="mdi mdi-printer-settings"></i><span
+                            class="hide-menu">{{ __('imprimantes') }}</span></a></li>
+                {{-- @endcan --}}
                 @can('post-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('posts') }}" aria-expanded="false"><i class="mdi mdi-lan-connect"></i><span
@@ -60,7 +65,7 @@
                 @endcan
 
                 {{-- Production --}}
-                @canany(['of-list', 'section-list', 'post-list'])
+                @canany(['of-list', 'serial_number-list', 'operator-list', 'movement-list'])
                     <h6 class="text-uppercase text-muted pb-1 pt-2 text-truncate">{{ __('production') }}
                     </h6>
                 @endcanany
@@ -77,12 +82,12 @@
                     </li>
                 @endcan
 
-                {{-- @can('operator-list') --}}
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
-                        href="{{ url('operators') }}" aria-expanded="false"><i class="mdi mdi-creation"></i><span
-                            class="hide-menu">{{ __('test') }}</span></a>
-                </li>
-                {{-- @endcan --}}
+                @can('operator-list')
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
+                            href="{{ url('operators') }}" aria-expanded="false"><i class="mdi mdi-creation"></i><span
+                                class="hide-menu">{{ __('test') }}</span></a>
+                    </li>
+                @endcan
 
                 @can('movement-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"

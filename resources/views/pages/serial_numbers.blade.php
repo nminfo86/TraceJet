@@ -136,8 +136,9 @@
         <div class="col-lg-6 d-none of_info">
             <div class="card shadow border-primary" style="min-height: 90vh">
                 <div class="card-body text-white">
-                    <button class="btn btn-info text-white" id="print_qr"><i class="mdi mdi-printer"></i>
-                        {{-- {{ __('Générer QR') }}  --}} F1</button>
+                    <button class="btn btn-info text-white" id="print_qr"><i class="mdi mdi-printer mdi-24px"></i> <span
+                            style="font-size: 18px">F1</span>
+                        {{-- {{ __('Générer QR') }}  --}} </button>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
                             <thead class="bg-light">

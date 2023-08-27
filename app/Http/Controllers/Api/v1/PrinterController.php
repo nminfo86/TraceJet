@@ -19,7 +19,7 @@ class PrinterController extends Controller
     {
         $printers = Printer::get();
 
-        $this->sendResponse(data: $printers);
+        return  $this->sendResponse(data: $printers);
     }
 
     /**
@@ -30,10 +30,11 @@ class PrinterController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        Printer::create(["name" => "label generator", "port" => 9100, "protocol" => "ESC", "io_address" => "192.168.100.2"]);
+        $post = Printer::create($request->all());
 
-        $this->sendResponse($this->create_success_msg);
+        //Send response with success
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg, $post);
     }
 
     /**
@@ -44,7 +45,8 @@ class PrinterController extends Controller
      */
     public function show(Printer $printer)
     {
-        //
+        //Send response with success
+        return $this->sendResponse(data: $printer);
     }
 
     /**
@@ -56,7 +58,11 @@ class PrinterController extends Controller
      */
     public function update(Request $request, Printer $printer)
     {
-        //
+        $printer->update($request->all());
+
+        //Send response with success
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg);
     }
 
     /**
@@ -67,6 +73,10 @@ class PrinterController extends Controller
      */
     public function destroy(Printer $printer)
     {
-        //
+        $printer->delete();
+
+        //Send response with success
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg);
     }
 }

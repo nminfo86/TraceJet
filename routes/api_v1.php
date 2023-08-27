@@ -8,6 +8,7 @@ use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\v1\PrinterController;
 use App\Http\Controllers\Api\v1\SettingController;
 use App\Http\Controllers\api\v1\OperatorController;
 use App\Http\Controllers\api\v1\PackagingController;
@@ -51,6 +52,7 @@ Route::group(
             'packaging' => PackagingController::class,
             'boxes' => BoxController::class,
             'settings' => SettingController::class,
+            'printers' => PrinterController::class,
             // 'parts' => PartController::class,
             // 'sn_parts' => SerialNumbersPartController::class,
             // 'repairs' => RepairController::class,
