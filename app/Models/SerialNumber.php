@@ -30,7 +30,7 @@ class SerialNumber extends Model
      *
      * @var array
      */
-    protected $fillable = ['of_id', 'box_id', 'valid', 'serial_number', 'qr'];
+    protected $fillable = ['of_id', 'box_id', 'valid', 'serial_number', 'qr', 'updated_by'];
 
 
     // /**
@@ -126,8 +126,12 @@ class SerialNumber extends Model
                 ->where('serial_numbers.of_id', $model->of_id)
                 ->select(DB::raw("CONCAT_WS('#',ofs.of_code,ofs.of_number,calibers.caliber_name,serial_number, NOW()) as qr"))->orderBy('serial_numbers.id', 'desc')->first();
             $model->qr = $generate_qr->qr;
-            $model->created_by = Auth::user()->name;
+            $model->created_by = Auth::user()->username;
+            // $model->updated_by = NULL;
             $model->save();
+        });
+        self::updating(function ($model) {
+            $model->updated_by = Auth::user()->username;
         });
     }
 }

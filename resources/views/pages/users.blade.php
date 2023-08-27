@@ -189,6 +189,11 @@
 
         table = table.DataTable({
             "ajax": ajaxCallDatatables(url),
+            rowGroup: {
+                // Uses the 'row group' plugin
+                dataSrc: 'section_name'
+            },
+
             columns: [{
                     data: 'username'
                 },

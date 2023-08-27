@@ -150,7 +150,7 @@ class OfController extends Controller
         $of = Of::with([
 
             'caliber.product.section.posts' => fn ($q) =>
-            $q->orderBy("code")
+            $q->orderBy("posts_type_id")
                 ->with('posts_type')
                 ->select('id', 'post_name', 'code', 'section_id', 'color', 'posts_type_id')
                 ->withCount('movements')

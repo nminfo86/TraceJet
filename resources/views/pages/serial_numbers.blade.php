@@ -132,6 +132,9 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <h1>You made <span class="bg-success" id="user_of_day"></span></h1>
+            </div>
         </div>
         <div class="col-lg-6 d-none of_info">
             <div class="card shadow border-primary" style="min-height: 90vh">
@@ -154,6 +157,7 @@
             </div>
         </div>
     </div>
+
     <!--==============================================================-->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
@@ -165,12 +169,7 @@
             url = base_url + '/serial_numbers',
             of_id,
             last_qr = "";
-        // $(document).keydown(function(event) {
-        //     if (event.which === 112) { // 112 is the keycode for F1 key
-        //         event.preventDefault(); // Prevent the default browser refresh behavior
-        //         alert("F1 Pressed");
-        //     }
-        // });
+
         $(document).ready(function() {
             /* -------------------------------------------------------------------------- */
             /*                                get ofs list                                */
@@ -223,25 +222,6 @@
             /* -------------------------------------------------------------------------- */
             /*                                Print QR code                               */
             /* -------------------------------------------------------------------------- */
-            // .on("click", "#print_qr", function(e) {
-            // .on("click keydown", "#print_qr", function(e) {
-            //     e.preventDefault();
-            //     alert(e.type);
-            //     alert(e.which);
-            //     // if (e.type === "click" || (e.type === "keydown" && e.which === 112)) {
-            //     //     callAjax('POST', base_url + '/serial_numbers/qr_print', {
-            //     //         of_id: of_id
-            //     //     }).done(function(response) {
-            //     //         // TODO::check status of response
-            //     //         ajaxSuccess(response.message)
-            //     //         // alert(response.data.qr)
-            //     //     });
-            //     // }
-            // })
-
-
-
-            // Event handler for button click and F1 key press
             // Event handler for button click
             .on("click", "#print_qr", function(e) {
                 e.preventDefault();
@@ -298,6 +278,7 @@
                             $("#valid").text(response.data.list.length);
                             $("#status").text(response.data.status);
                             $("#quantity_of_day").text(response.data.quantity_of_day);
+                            $("#user_of_day").text(response.data.user_of_day);
                             //alert(total_quantity_of);
                             let x = (parseInt(response.data.list.length) / parseInt(
                                 total_quantity_of));

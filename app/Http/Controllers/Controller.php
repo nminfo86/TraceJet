@@ -38,24 +38,24 @@ class Controller extends BaseController
 
 
 
-    /**
-     * postsListFromCache
-     *
-     * @param  int $type
-     * @return Objet
-     */
-    public function postsListFromCache(Int $type)
-    {
+    // /**
+    //  * postsListFromCache
+    //  *
+    //  * @param  int $type
+    //  * @return Objet
+    //  */
+    // public function postsListFromCache(Int $type)
+    // {
 
-        $posts_list = Post::where("section_id", Auth::user()->section_id)->get();
+    //     $posts_list = Post::where("section_id", Auth::user()->section_id)->get();
 
-        $containsTypeId = $posts_list->contains('posts_type_id', $type); //1 is label generator
+    //     $containsTypeId = $posts_list->contains('posts_type_id', $type); //1 is label generator
 
-        if (!$containsTypeId) {
-            // Code to execute if the collection contains an item with posts_type_id = 1
-            $result =  ["message" => "Post not exist in your section", "status" => false];
-            return $result;
-        }
-        return true;
-    }
+    //     if (!$containsTypeId) {
+    //         // Code to execute if the collection contains an item with posts_type_id = 1
+    //         $result =  ["message" => "Post not exist in your section", "status" => false];
+    //         return $result;
+    //     }
+    //     return true;
+    // }
 }

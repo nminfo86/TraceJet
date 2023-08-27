@@ -20,7 +20,7 @@ class SerialNumberController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware(CheckIpClient::class . ":1"); # 1 is label_generator post_type id
+        $this->middleware(CheckIpClient::class . ":1"); # 1 is label_generator post_type id
         // Add more middleware and specify the desired methods if needed
         $this->middleware('permission:serial_number-list', ['only' => ['index']]);
         $this->middleware(['permission:serial_number-create', 'permission:serial_number-list'], ['only' => ['store']]);
@@ -38,17 +38,36 @@ class SerialNumberController extends Controller
     {
         // Continue with the rest of your code
         $valid_products = SerialNumber::whereOfId($request->of_id)->whereValid(1)
-            ->get(["serial_number", "updated_at"]);
-
+            ->get(["serial_number", "updated_at", "updated_by"]);
+        // dd($valid_products);
         // Get the quantity of valid serial numbers for today
         $quantity_valid_for_today = $valid_products->filter(function ($item) {
-            return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
+
+            $item_valid_at = Carbon::parse($item['updated_at'])->toDateString();
+            $today = Carbon::today()->toDateString();
+
+            return $item_valid_at == $today;
+            // return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
         })->count();
+
+        $user_valid_for_today = $valid_products->filter(function ($item) {
+
+            $item_valid_at = Carbon::parse($item['updated_at'])->toDateString();
+            $item_valid_by = $item['updated_by'];
+
+            $today = Carbon::today()->toDateString();
+
+
+            return $item_valid_at == $today && $item_valid_by == Auth::user()->username;
+            // return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
+        })->count();
+
 
         // Prepare the response data
         $data = [
             'list' => $valid_products,
-            'quantity_of_day' => "0" . $quantity_valid_for_today
+            'quantity_of_day' => "0" . $quantity_valid_for_today,
+            'user_of_day' => "0" . $user_valid_for_today,
         ];
 
         // Return the response
@@ -66,12 +85,15 @@ class SerialNumberController extends Controller
     //valid product
     public function store(StoreSerialNumberRequest $request)
     {
-        // $current_post = $this->postsListFromCache(1);
+        // // dd($request->all());
+        // // $current_post = $this->postsListFromCache(1);
 
-        if (isset($current_post['status'])) {
-            // Handle the case where the post does not exist in the user's section
-            return $this->sendResponse($current_post["message"], status: false);
-        }
+        # Replaced with middelware
+
+        // if (isset($current_post['status'])) {
+        //     // Handle the case where the post does not exist in the user's section
+        //     return $this->sendResponse($current_post["message"], status: false);
+        // }
 
 
         // Check if the Order Form (OF) with the given ID is closed
