@@ -175,8 +175,6 @@
                 stayed = [];
             let html = "",
                 posts = response.of.caliber.product.section.posts;
-            // Loop through each post in the response
-            // var color_array = ["primary", "warning", "danger", "success", "info"]
             let i = 0;
             posts.forEach(post => {
                 // Push post data to respective arrays
@@ -187,11 +185,11 @@
                 html +=
                     `<div class="mt-3 pb-3 d-flex align-items-center text-capitalize">
                         <span class="btn  btn-circle d-flex align-items-center text-white" style="background-color:${post.color}">
-                            <i class="mdi mdi-barcode-scan fs-4"></i>
+                            <i class="${post.posts_type.icon} fs-4 "></i>
                         </span>
                         <div class="ms-3">
                             <h5 class="mb-0 fw-bold" id="post_name">${post.post_name}</h5>
-                            <span class="text-muted fs-6 "> {{ __('code de post') }}: <span id="code">${post.code}</span>
+                            <span class="text-muted fs-4 "> {{ __('code de post') }}: <span id="code">${post.code}</span>
                             </span>
                         </div>
                         <div class="ms-auto">

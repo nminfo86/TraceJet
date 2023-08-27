@@ -282,9 +282,10 @@
                 },
                 {
                     data: 'previous_post',
-                    defaultContent: "/"
+                    defaultContent: "/",
                 }, {
-                    data: 'printer_name'
+                    data: 'printer_name',
+                    defaultContent: "/"
                 },
                 {
                     data: 'id',

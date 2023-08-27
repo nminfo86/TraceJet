@@ -141,7 +141,7 @@ class SerialNumberController extends Controller
         // $of_num = $qr[1];
         // $product_name = $qr[2];
         // $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
-        // Return a success message with the QR code for the new product
+        // // Return a success message with the QR code for the new product
         // $this->sendToPrinter("192.168.1.100", "TSPL", "40_20", $new_sn->qr);
         $msg = $this->getResponseMessage('print_qr-success');
         return $this->sendResponse($msg, $new_sn->only('qr'));
@@ -193,20 +193,20 @@ class SerialNumberController extends Controller
     }
 
 
-    public function sendToPrinter($ip_address, $type, $label, $qr_code)
-    {
-        // $printLabel = new PrintLabelService("192.168.98.121", "TSPL", "40_20");
-        // $qrCode = $new_sn->qr;
-        $printLabel = new PrintLabelService($ip_address, $type, $label);
-        // $qrCode = $new_sn->qr;
+    // public function sendToPrinter($ip_address, $type, $label, $qr_code)
+    // {
+    //     // $printLabel = new PrintLabelService("192.168.98.121", "TSPL", "40_20");
+    //     // $qrCode = $new_sn->qr;
+    //     $printLabel = new PrintLabelService($ip_address, $type, $label);
+    //     // $qrCode = $new_sn->qr;
 
-        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
-        $qr = explode("#", $qr_code);
-        $sn = $qr[3];
-        $of_num = $qr[1];
-        $product_name = $qr[2];
-        $printLabel->printProductLabel($qr_code, $of_num, $product_name, $sn);
-    }
+    //     // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+    //     $qr = explode("#", $qr_code);
+    //     $sn = $qr[3];
+    //     $of_num = $qr[1];
+    //     $product_name = $qr[2];
+    //     $printLabel->printProductLabel($qr_code, $of_num, $product_name, $sn);
+    // }
 
     // public function FunctionName(Type $var = null)
     // {

@@ -148,20 +148,18 @@ class OfController extends Controller
     {
         // Récupérer l'OF avec ses numéros de série et les informations de son calibre et du produit associé
         $of = Of::with([
-            // 'serialNumbers' => fn ($q) => $q->select("id", "of_id", "qr")->where("valid", 1),
+
             'caliber.product.section.posts' => fn ($q) =>
-            // Limiter les résultats aux posts de la section 1
-            // $query->where('section_id', 1)
             $q->orderBy("code")
-                ->select('id', 'post_name', 'code', 'section_id', 'color')
+                ->with('posts_type')
+                ->select('id', 'post_name', 'code', 'section_id', 'color', 'posts_type_id')
                 ->withCount('movements')
         ])
             ->select('id', 'of_number', 'of_name', 'status', 'new_quantity', 'caliber_id', 'release_date')
-            ->find($id);
-
+            ->find($id);;
         $posts = $of->caliber->product->section->posts;
         $quantity = $of->new_quantity;
-        $of->caliber->product->section->posts->map(function ($post) use ($quantity) {
+        $posts->map(function ($post) use ($quantity) {
             $post->movement_percentage = $post->movements_count / $quantity * 100;
             $post->stayed = 100 - $post->movement_percentage;
             return $post;
