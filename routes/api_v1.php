@@ -48,7 +48,7 @@ Route::group(
             'posts_types' => PostsTypeController::class,
             'posts' => PostController::class,
             'operators' => OperatorController::class,
-            'movements' => MovementController::class,
+            // 'movements' => MovementController::class,
             'packaging' => PackagingController::class,
             'boxes' => BoxController::class,
             'settings' => SettingController::class,

@@ -67,6 +67,31 @@ class SerialNumberController extends Controller
     }
 
 
+    public function checkOfStatus(Object $of)
+    {
+        // Check if the Order Form (OF) with the given ID is closed
+        // $of = OF::findOrFail($request->of_id);
+        $error = false;
+        $message = "";
+        if ($of->status->value == "closed") {
+            // Return a success response indicating that the OF is already closed
+            // $msg = __('response-messages.of_closed');
+            // return $this->sendResponse($msg, true);
+            $message = "of_closed";
+            $error = true;
+        }
+
+        // Check with OF quantity
+        if ($of->new_quantity === $this->countValidProducts($of->id)) {
+            // $msg = __('response-messages.of_valid');
+            // //Send response with Error
+            // return $this->sendResponse($msg);
+            $message = "of_valid";
+            $error = true;
+        }
+        return ["error" => $error, "message" => $message];
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -80,12 +105,25 @@ class SerialNumberController extends Controller
         // Check if the Order Form (OF) with the given ID is closed
         $of = OF::findOrFail($request->of_id);
 
-        if ($of->status->value == "closed") {
-            // Return a success response indicating that the OF is already closed
-            // $msg = $this->getResponseMessage('of_closed');
-            $msg = __('response-messages.of_closed');
+
+        $ofStatus = $this->checkOfStatus($of);
+        if ($ofStatus['error'] == true) {
+            $msg = __('response-messages.' . $ofStatus['message']);
             return $this->sendResponse($msg, true);
         }
+
+        // if ($of->status->value == "closed") {
+        //     // Return a success response indicating that the OF is already closed
+        //     $msg = __('response-messages.of_closed');
+        //     return $this->sendResponse($msg, true);
+        // }
+
+        // // Check with OF quantity
+        // if ($of->new_quantity === $this->countValidProducts($of->id)) {
+        //     $msg = __('response-messages.of_valid');
+        //     //Send response with Error
+        //     return $this->sendResponse($msg);
+        // }
         //TODO::add alert about all sn is valid and of not closed
 
         // Retrieve the SerialNumber with the provided QR code and that has not been validated yet
@@ -113,7 +151,7 @@ class SerialNumberController extends Controller
         }
 
         // Generate a new SerialNumber
-        return $this->generateNewSN($request->of_id, $of->new_quantity);
+        return $this->generateNewSN($of);
     }
 
 
@@ -123,20 +161,26 @@ class SerialNumberController extends Controller
      * @param  mixed $of_id
      * @return \Illuminate\Http\Response
      */
-    public function generateNewSN($of_id, $of_quantity)
+    public function generateNewSN(Object $of)
     {
         // dd($of_quantity . "/" . $this->countValidProducts($of_id));
-        // Check with OF quantity
-        if ($of_quantity === $this->countValidProducts($of_id)) {
-            $msg = __('response-messages.of_closed');
-            //Send response with Error
-            return $this->sendResponse("OF Valid");
+        // // Check with OF quantity
+        // if ($of_quantity === $this->countValidProducts($of_id)) {
+        //     $msg = __('response-messages.of_closed');
+        //     //Send response with Error
+        //     return $this->sendResponse("OF Valid");
+        // }
+        $ofStatus = $this->checkOfStatus($of);
+        if ($ofStatus['error'] == true) {
+            $msg = __('response-messages.' . $ofStatus['message']);
+            return $this->sendResponse($msg, true);
         }
+
         /* -------------------------------------------------------------------------- */
         /*                                    TEST                                    */
         /* -------------------------------------------------------------------------- */
         // Generate the serial number for the new product
-        $last_sn = SerialNumber::whereOfId($of_id)->orderBy('id', 'desc')->first();
+        $last_sn = SerialNumber::whereOfId($of->id)->orderBy('id', 'desc')->first();
         $serial_number = str_pad($last_sn->serial_number + 1, 3, '0', STR_PAD_LEFT);
 
         // Create the new SerialNumber record
@@ -145,6 +189,9 @@ class SerialNumberController extends Controller
             'serial_number' => $serial_number,
         ]);
 
+        /* -------------------------------------------------------------------------- */
+        /*                                  Printing                                  */
+        /* -------------------------------------------------------------------------- */
 
         // $printLabel = new PrintLabelService("192.168.1.100", "TSPL", "40_20");
         // $qrCode = $new_sn->qr;
@@ -164,7 +211,13 @@ class SerialNumberController extends Controller
     // This method prints the QR code for a product based on the given request
     public function PrintQrCode(Request $request)
     {
-
+        // Check if the Order Form (OF) with the given ID is closed
+        $of = OF::findOrFail($request->of_id);
+        $ofStatus = $this->checkOfStatus($of);
+        if ($ofStatus['error'] == true) {
+            $msg = __('response-messages.' . $ofStatus['message']);
+            return $this->sendResponse($msg, true);
+        }
         // Check if any product exists for the given OF ID
         $productExists = SerialNumber::whereOfId($request->of_id)->exists();
 
