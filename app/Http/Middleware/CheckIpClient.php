@@ -50,7 +50,10 @@ class CheckIpClient
                 return redirect("/")->with('error', __("response-messages.invalid_host"));
         }
 
-        // }
+        $request->merge(['host_id' => $post->id, 'previous_post_id' => $post->previous_post_id]);
+
+
+        // dd($request->host_id);
         return $next($request);
     }
 }

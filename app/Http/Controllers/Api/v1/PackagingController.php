@@ -263,7 +263,7 @@ class PackagingController extends Controller
             ->orderBy("serial_numbers.updated_at", "DESC")
             ->first();
 
-        $info->quantity_of_day = "0" . $list
+        $info->quantity_of_day =  $list
             ->filter(function ($item) {
                 return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
             })
@@ -294,6 +294,6 @@ class PackagingController extends Controller
     {
         return Movement::join("serial_numbers", "movements.serial_number_id", "serial_numbers.id")
             ->whereMovementPostId($host_id)
-            ->whereOfId($of_id)->get(["serial_numbers.serial_number", "result", "movements.created_at"]);
+            ->whereOfId($of_id)->get(["serial_numbers.serial_number", "result", "movements.created_at", "movements.updated_at", "movements.updated_by"]);
     }
 }

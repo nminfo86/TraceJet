@@ -197,25 +197,16 @@
             url = base_url + '/operators',
             of_id,
             last_qr = "";
-        // var formData = {
-        //     // "qr": scanned_qr,
-        //     // "of_id": of_id,
-        //     // "lang": "fr",
-        //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] ?? '' }}",
-        //     //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
-        //     // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
-        //     "host_id": "{{ Session::get('user_data')['post_information']['id'] ?? '' }}",
-        //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
-        // };
+
         var formData = {
             // "qr": scanned_qr,
             // "of_id": of_id,
             // "lang": "fr",
-            "previous_post_id": 1,
-            //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
-            // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
-            "host_id": 2,
-            // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
+            // "previous_post_id": 1,
+            // "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
+            // "previous_post_id": "{{ Session::get('post_information')['previous_post_id'] ?? '' }}",
+            // "host_id": 2,
+            // "host_id": "{{ Session::get('post_information')['id'] ?? '' }}",
         };
         formToggle(form_title);
 
@@ -355,7 +346,7 @@
                         data: 'serial_number'
                     },
                     {
-                        data: 'created_at'
+                        data: 'updated_at'
                     },
                     {
                         data: 'result',

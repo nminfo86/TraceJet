@@ -36,38 +36,31 @@ class SerialNumberController extends Controller
 
     public function index(Request $request)
     {
-        // Continue with the rest of your code
-        $valid_products = SerialNumber::whereOfId($request->of_id)->whereValid(1)
+        // Fetch the list of valid products
+        $validProductsList = SerialNumber::whereOfId($request->of_id)->whereValid(1)
             ->get(["serial_number", "updated_at", "updated_by"]);
-        // dd($valid_products);
-        // Get the quantity of valid serial numbers for today
-        $quantity_valid_for_today = $valid_products->filter(function ($item) {
 
-            $item_valid_at = Carbon::parse($item['updated_at'])->toDateString();
-            $today = Carbon::today()->toDateString();
+        // Map the results based on conditions
+        $results = $validProductsList->map(function ($item) {
+            $today = now()->toDateString();
+            $validAt = Carbon::parse($item['updated_at'])->toDateString();
+            $validBy = $item['updated_by'];
+            $userUsername = Auth::user()->username;
 
-            return $item_valid_at == $today;
-            // return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
-        })->count();
+            return [
+                "user_valid_today" => $validAt === $today && $validBy === $userUsername,
+                "user_valid_of" => $validBy === $userUsername,
+                "quantity_valid_today" => $validAt === $today,
+            ];
+        });
 
-        $user_valid_for_today = $valid_products->filter(function ($item) {
-
-            $item_valid_at = Carbon::parse($item['updated_at'])->toDateString();
-            $item_valid_by = $item['updated_by'];
-
-            $today = Carbon::today()->toDateString();
-
-
-            return $item_valid_at == $today && $item_valid_by == Auth::user()->username;
-            // return date('Y-m-d', strtotime($item['updated_at'])) == Carbon::today()->toDateString();
-        })->count();
-
-
-        // Prepare the response data
+        // Count occurrences of each key
         $data = [
-            'list' => $valid_products,
-            'quantity_of_day' => "0" . $quantity_valid_for_today,
-            'user_of_day' => "0" . $user_valid_for_today,
+            "list" => $validProductsList, // Original list of valid products
+            "count_list" => $validProductsList->count(),
+            "quantity_valid_today" => $results->filter(fn ($item) => $item['quantity_valid_today'])->count(),
+            "user_valid_today" => $results->filter(fn ($item) => $item['user_valid_today'])->count(),
+            "user_valid_of" => $results->filter(fn ($item) => $item['user_valid_of'])->count(),
         ];
 
         // Return the response

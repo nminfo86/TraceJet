@@ -48,17 +48,14 @@ class AccessTokensController extends Controller
         //     // $msg = $this->getResponseMessage("invalid_host");
         //     return $this->sendResponse("ghghg", status: false);
         // }
-        if($permissions->contains("access-all-posts"))
-        {
-            $user->post_information=null;
-        }
-        else
-        {
+        if ($permissions->contains("access-all-posts")) {
+            $user->post_information = null;
+        } else {
             $user->post_information = $post_information;
         }
         $user->permissions = $permissions;
         // Get device name or user agent from request
-        $device_name = $request->post('device_name', $request->userAgent());
+        $device_name = $request->post('device_name', $request->userAgent() . " with Ip address : " . $request->ip());
         // Create token for user and return response with token and user data
         $token = $user->createToken($device_name)->plainTextToken;
 
