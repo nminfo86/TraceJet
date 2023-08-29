@@ -25,4 +25,10 @@ return [
     // Spatie exception
     'role_does_not_exist' => "Le rôle sélectionné n\'existe pas.",
 
+
+    // ProductService
+    // 'post_exists' => 'Le produit a déjà passé par le poste actuel.',
+    // 'incorrect_previous_post' => "Le dernier mouvement du produit n'est pas conforme au poste attendu (:expected_host).",
+    // 'last_movement_nok' => "Le dernier mouvement du produit a eu un résultat 'NOK' au niveau du poste (:post_name).",
+
 ];

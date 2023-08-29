@@ -201,7 +201,6 @@
                 $(".of_number").removeClass('d-none')
                 $(".of_info").removeClass("d-none");
                 $("#qr").focus();
-
             });
         }
 
@@ -250,7 +249,7 @@
                     }
                     getSnTable(of_id);
                     // TODO::Change later with samir
-                    getOfDetails(of_id);
+                    // getOfDetails(of_id);
                     ajaxSuccess(response.message);
                     $('#qr').val('');
                 });
@@ -263,6 +262,7 @@
         /* -------------------------------------------------------------------------- */
         function getSnTable(of_id) {
             getOfDetails(of_id);
+
             return table.DataTable({
                 ajax: {
                     type: 'GET',

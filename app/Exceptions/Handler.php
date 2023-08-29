@@ -31,7 +31,7 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class Handler extends ExceptionHandler
 {
-    use ResponseTrait;
+    // use ResponseTrait;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -134,8 +134,17 @@ class Handler extends ExceptionHandler
 
                 if (in_array($exceptionType, array_keys($exceptionHandlers))) {
                     $messageKey = $exceptionHandlers[$exceptionType];
-                    return $this->createLog($exception, $messageKey);
-                    // return $this->apiException($request, $exception, $messageKey);
+                    // return $this->createLog($exception, $messageKey);
+
+
+                    Log::channel('applicationLog')->error(
+                        'Exception : ' . get_class($exception) . PHP_EOL . $exception->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName() . ' Action : ' . Route::currentRouteAction() . ' File : ' . $exception->getFile() . ' at Line N° ' . $exception->getLine()
+                    );
+
+                    return response()->json([
+                        'status' => false,
+                        'message' => trans('exception-errors.' . $messageKey)
+                    ]);
                 }
             }
         });

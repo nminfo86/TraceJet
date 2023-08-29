@@ -43,7 +43,7 @@ class ProductController extends Controller
         $product = Product::create($request->all());
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __('response-messages.success');
         return $this->sendResponse($msg, $product);
     }
 
@@ -70,7 +70,7 @@ class ProductController extends Controller
         $product->update($request->all());
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __('response-messages.success');
         return $this->sendResponse($msg, $product);
     }
 
@@ -85,7 +85,7 @@ class ProductController extends Controller
         $product->delete();
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __('response-messages.success');
         return $this->sendResponse($msg);
     }
 }

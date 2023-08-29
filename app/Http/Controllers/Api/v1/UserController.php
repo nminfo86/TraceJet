@@ -72,7 +72,7 @@ class UserController extends Controller
         // send response
         // return new UserResource($user);
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __('response-messages.success');
         return $this->sendResponse($msg, $user);
         // } catch (Exception $e) {
         //     DB::rollBack();
@@ -107,20 +107,20 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         // try {
-            // update user
-            $request['password'] = hash::make($request->password);
-            $user->update($request->all());
+        // update user
+        $request['password'] = hash::make($request->password);
+        $user->update($request->all());
 
-            // delete role from this user
-            DB::table('model_has_roles')->where('model_id', $user->id)->delete();
+        // delete role from this user
+        DB::table('model_has_roles')->where('model_id', $user->id)->delete();
 
-            // assign new role
-            $user->assignRole($request->input('roles_name'));
-            DB::commit();
+        // assign new role
+        $user->assignRole($request->input('roles_name'));
+        DB::commit();
 
-            //Send response with success
-            $msg = $this->getResponseMessage("success");
-            return $this->sendResponse($msg, $user);
+        //Send response with success
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg, $user);
         // } catch (Exception $e) {
         //     DB::rollBack();
         //     // return $e->getMessage();
@@ -141,7 +141,7 @@ class UserController extends Controller
         $user->delete();
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __('response-messages.success');
         return $this->sendResponse($msg);
     }
 }

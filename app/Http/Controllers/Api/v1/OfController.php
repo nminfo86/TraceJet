@@ -30,7 +30,6 @@ class OfController extends Controller
      */
     public function index()
     {
-        // $ofs = Of::with('caliber')->get();
         $ofs = Of::filterBySection()->join('calibers', function ($join) {
             $join->on('calibers.id', '=', 'ofs.caliber_id');
         })->orderBy("ofs.id", "desc")->get(["ofs.id", "of_number", "of_code", "status", "new_quantity", "caliber_name", "updated_at"]);
@@ -48,15 +47,15 @@ class OfController extends Controller
     {
         // Get last OF
         $last_of = Of::filterBySection()->orderBy("id", "desc")->first();
-        // dd($last_of);
-        if ($last_of) {
 
+        if ($last_of) {
             // Check if any of in production
             if ($last_of->status == "inProd" && $last_of->caliber_id == $request->caliber_id) {
 
                 // TODO::Trans msg
                 //Send response with message
-                return $this->sendResponse("Can't created, OF with same caliber in production", status: false);
+                $msg = __("response-messages.of_duplicate_caliber");
+                return $this->sendResponse($msg, status: false);
             }
             $request["of_number"] =    str_pad($last_of->of_number + 1, 3, 0, STR_PAD_LEFT);
         } else {
@@ -70,7 +69,7 @@ class OfController extends Controller
         event(new CreateOFEvent($of));
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __("response-messages.success");
         return $this->sendResponse($msg, $of);
     }
 
@@ -82,7 +81,6 @@ class OfController extends Controller
      */
     public function show($id)
     {
-        // $of = Of::findOrFail($id, ["caliber_id", "status", "quantity"]);
         $of = Of::with("caliber:id,product_id")->findOrFail($id, ["of_name", "caliber_id", "status", "quantity", "new_quantity"]);
         //Send response with data
         return $this->sendResponse(data: $of);
@@ -97,7 +95,7 @@ class OfController extends Controller
      */
     public function update(UpdateOfRequest $request, Of $of)
     {
-        // dd($request->except("product_id"));
+
         $of->update($request->all());
 
         // update of_code using procedure in db
@@ -106,7 +104,7 @@ class OfController extends Controller
         }
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __("response-messages.success");
         return $this->sendResponse($msg);
     }
 

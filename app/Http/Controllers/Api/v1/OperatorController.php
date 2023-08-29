@@ -101,7 +101,8 @@ class OperatorController extends Controller
         $movement = Movement::create($payload);
 
         // Send success response
-        return $this->sendResponse($this->create_success_msg);
+        $msg = __("response-messages.success");
+        return $this->sendResponse($msg);
     }
 
     /**

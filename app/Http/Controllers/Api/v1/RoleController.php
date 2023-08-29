@@ -60,7 +60,7 @@ class RoleController extends Controller
 
             //Send response with data
             //Send response with success
-            $msg = $this->getResponseMessage("success");
+            $msg = __('response-messages.success');
             return $this->sendResponse($msg, data: new RoleResource($role));
         } catch (Exception $e) {
             DB::rollBack();
@@ -102,7 +102,7 @@ class RoleController extends Controller
             DB::commit();
 
             //Send response with success
-            $msg = $this->getResponseMessage("success");
+            $msg = __('response-messages.success');
             return $this->sendResponse($msg, data: new RoleResource($role));
         } catch (Exception $e) {
             DB::rollBack();
@@ -122,7 +122,7 @@ class RoleController extends Controller
     {
         $role->delete();
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __('response-messages.success');
         return $this->sendResponse($msg);
     }
 }

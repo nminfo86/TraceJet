@@ -74,6 +74,19 @@ class SerialNumber extends Model
         return $this->belongsToMany(Part::class)->withPivot(['quantity'])->select(["part_id", "quantity"]);
     }
 
+
+
+    // public function createMovementWithPost($serialNumberId, $movementPostId)
+    // {
+    //     $movement = new Movement([
+    //         "serial_number_id" => $serialNumberId,
+    //         "movement_post_id" => $movementPostId,
+    //         "result" => "OK"
+    //     ]);
+
+    //     $movement->save();
+    // }
+
     /* -------------------------------------------------------------------------- */
     /*                                   Scoops                                   */
     /* -------------------------------------------------------------------------- */
@@ -124,12 +137,15 @@ class SerialNumber extends Model
                 ->join('products', 'calibers.product_id', '=', 'products.id')
                 ->join('sections', 'products.section_id', '=', 'sections.id')
                 ->where('serial_numbers.of_id', $model->of_id)
-                ->select(DB::raw("CONCAT_WS('#',ofs.of_code,ofs.of_number,calibers.caliber_name,serial_number, NOW()) as qr"))->orderBy('serial_numbers.id', 'desc')->first();
+                ->select(DB::raw("CONCAT_WS('#',ofs.of_code,ofs.of_number,calibers.caliber_name,serial_number, serial_numbers.updated_at) as qr"))->orderBy('serial_numbers.id', 'desc')->first();
             $model->qr = $generate_qr->qr;
             $model->created_by = Auth::user()->username;
+            $model->valid = 0;
             // $model->updated_by = NULL;
+            // dd($model->valid);
             $model->save();
         });
+
         self::updating(function ($model) {
             $model->updated_by = Auth::user()->username;
         });

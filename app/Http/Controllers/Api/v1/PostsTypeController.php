@@ -44,7 +44,8 @@ class PostsTypeController extends Controller
         $posts_type = PostsType::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->create_success_msg, $posts_type);
+        $msg = __("response-messages.success");
+        return $this->sendResponse($msg, $posts_type);
     }
 
     /**
@@ -71,7 +72,8 @@ class PostsTypeController extends Controller
         $posts_type->update($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->update_success_msg, $posts_type);
+        $msg = __("response-messages.success");
+        return $this->sendResponse($msg, $posts_type);
     }
 
     /**
@@ -85,6 +87,7 @@ class PostsTypeController extends Controller
         $posts_type->delete();
 
         //Send response with success
-        return $this->sendResponse($this->delete_success_msg);
+        $msg = __("response-messages.success");
+        return $this->sendResponse($msg);
     }
 }

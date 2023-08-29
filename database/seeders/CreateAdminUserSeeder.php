@@ -19,6 +19,8 @@ class CreateAdminUserSeeder extends Seeder
     {
         //    Super admin
         $super_admin_role = Role::create(['name' => 'super_admin', 'guard_name' => 'sanctum']);
+        $other_roles = Role::create(['name' => 'lancement', 'guard_name' => 'sanctum']);
+
         $permissions = Permission::pluck('id', 'id');
         $super_admin_role->syncPermissions($permissions);
 

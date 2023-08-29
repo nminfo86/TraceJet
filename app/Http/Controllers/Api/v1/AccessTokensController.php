@@ -23,7 +23,8 @@ class AccessTokensController extends Controller
         if (!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
             // $this->logout();
             // Return error response if authentication fails
-            return $this->sendResponse('Username & Password does not match with our record.', status: false);
+            $msg = __("response-messages.credentials_incorrect");
+            return $this->sendResponse($msg, status: false);
         }
 
         $user = Auth::user();
@@ -33,27 +34,19 @@ class AccessTokensController extends Controller
         $permissions =  $user->getPermissionsViaRoles()->pluck('name');
 
         // Retrieve post information for user's IP address
-        $post_information = Post::whereIpAddress($request->ip())->first();
+        $post_information = Post::whereIpAddress($request->ip())->whereSectionId($user->section_id)->first();
 
         // Return error response if post information is not found
         if (empty($post_information) && !$permissions->contains("access-all-posts")) {
-            $msg = $this->getResponseMessage("invalid_host");
+            $msg = __("response.messages-invalid_host");
             return $this->sendResponse($msg, status: false);
         }
-        // if (!empty($post_information) && !$permissions->contains("serial_number-list") && $post_information->posts_type_id!=1) {
-        //     $msg = $this->getResponseMessage("invalid_host");
-        //     return $this->sendResponse($msg, status: false);
-        // }
-        // if (!empty($post_information) && !$permissions->contains("movement-list") && $post_information->posts_type_id!=2) {
-        //     // $msg = $this->getResponseMessage("invalid_host");
-        //     return $this->sendResponse("ghghg", status: false);
-        // }
+
         if ($permissions->contains("access-all-posts")) {
             $user->post_information = null;
         } else {
             $user->post_information = $post_information;
         }
-        $user->permissions = $permissions;
         // Get device name or user agent from request
         $device_name = $request->post('device_name', $request->userAgent() . " with Ip address : " . $request->ip());
         // Create token for user and return response with token and user data

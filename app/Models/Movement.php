@@ -71,7 +71,6 @@ class Movement extends Model
     }
 
 
-
     // [x]::change later
     public static function boot()
     {

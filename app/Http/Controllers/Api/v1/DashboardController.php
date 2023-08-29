@@ -38,7 +38,8 @@ class DashboardController extends Controller
 
         // Check if no posts found
         if ($posts->isEmpty()) {
-            return $this->sendResponse("This section does not have any posts", status: false);
+            $msg = __('exception-errors.resource_not_found');
+            return $this->sendResponse($msg, status: false);
         }
 
         /* -------------------------------------------------------------------------- */

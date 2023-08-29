@@ -32,7 +32,7 @@ class CaliberController extends Controller
      */
     public function index()
     {
-        // $calibers = Caliber::with('product')->get();
+
         $calibers = Caliber::join('products', function ($join) {
             $join->on('calibers.product_id', '=', 'products.id');
         })->get(["calibers.id", "caliber_code", "caliber_name", "box_quantity", "product_name"]);
@@ -51,7 +51,7 @@ class CaliberController extends Controller
         $caliber = Caliber::create($request->all());
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __("response-messages-success");
         return $this->sendResponse($msg, $caliber);
     }
 
@@ -78,7 +78,7 @@ class CaliberController extends Controller
         $caliber->update($request->all());
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __("response-messages-success");
         return $this->sendResponse($msg, $caliber);
     }
 
@@ -93,7 +93,7 @@ class CaliberController extends Controller
         $caliber->delete();
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __("response-messages-success");
         return $this->sendResponse($msg);
     }
 }

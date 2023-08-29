@@ -198,16 +198,7 @@
             of_id,
             last_qr = "";
 
-        var formData = {
-            // "qr": scanned_qr,
-            // "of_id": of_id,
-            // "lang": "fr",
-            // "previous_post_id": 1,
-            // "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
-            // "previous_post_id": "{{ Session::get('post_information')['previous_post_id'] ?? '' }}",
-            // "host_id": 2,
-            // "host_id": "{{ Session::get('post_information')['id'] ?? '' }}",
-        };
+        var formData = {};
         formToggle(form_title);
 
         $(document).ready(function() {
@@ -286,11 +277,6 @@
                     type: 'GET',
                     url: url,
                     data: formData,
-                    // data: {
-                    //     "of_id": of_id,
-                    //     "mac": "{{ Session::get('user_data')['post_information']['mac'] ?? '' }}",
-                    //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
-                    // },
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);
                         $("#status").text(response.data.status);
@@ -378,7 +364,8 @@
                 // if (response.data.result == "ok" || response.data.result == "OK") {
                 $("#scanned_qr").html(
                     `<div class="alert alert-success">
-                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span> </div>`
+                        <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span>
+                    </div>`
                 );
                 scanned_qr = qr;
                 // }

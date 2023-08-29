@@ -39,9 +39,12 @@ class MovementService //extends Controller
         // Not exist
         if (!$last_movement) {
             //Send response with error
-            return $this->sendResponse('Product does not belong to the current OF', status: false);
+            $msg = __("exception-errors.resource_not_found");
+            return $this->sendResponse($msg, status: false);
         } elseif ($last_movement->status == "closed") {
-            return $this->sendResponse('OF Closed', status: false);
+
+            $msg = __("response-messages.of_closed");
+            return $this->sendResponse($msg, status: false);
         }
         return $this->productStepsControl($request, $last_movement);
     }
