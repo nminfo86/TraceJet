@@ -60,7 +60,6 @@
                                     <input type="submit" class="d-none">
                                 </form>
                                 <hr>
-
                                 <div class="row border-bottom mt-4 gx-0 mx-0">
                                     <div class="col-4 pb-3 border-end">
                                         <h6 class="fw-normal fs-5 mb-0">{{ __('Date lancement') }}</h6>
@@ -79,61 +78,57 @@
 
                                 </div> --}}
                                 <div class="row mt-4 mx-0">
-                                    <div class="col outer">
-                                        <canvas id="chartJSContainer" width="auto" height="auto"></canvas>
-                                        <p class="percent" id="percent">
-                                        </p>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="d-flex flex-row align-items-center">
-                                                            <div
-                                                                class=" round rounded-circle text-white d-inline-block text-center bg-success">
-                                                                <i class="mdi mdi-check mdi-36px"></i>
-                                                            </div>
-                                                            <div class="ms-3 align-self-center">
-                                                                <span class="text-dark">{{ __('OK / OF') }}</span>
-                                                                <h3 class="mb-0 text-primary">
-                                                                    <span id="valid"></span> /
-                                                                    <span id="new_quantity"></span>
-                                                                </h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="d-flex flex-row align-items-center">
-                                                            <div
-                                                                class=" round rounded-circle text-white d-inline-block text-center bg-danger">
-                                                                <i class="mdi mdi-36px mdi-calendar-clock"></i>
-                                                            </div>
-                                                            <div class="ms-3 align-self-center">
-                                                                <span class="text-dark">{{ __('OK / Jour') }}</span>
-
-                                                                <h3 class="mb-0 text-primary">
-                                                                    <span id="quantity_of_day"></span>
-                                                                </h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="col-lg-7">
+                                        <div class="outer">
+                                            <canvas id="chartJSContainer" width="auto" height="auto"></canvas>
+                                            <p class="percent" id="percent">
+                                            </p>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">Ok par jour /
+                                                        {{ Session::get('user_data')['username'] }}
+                                                    </div>
+                                                </div>
+                                                <span class="badge bg-success rounded-pill" id="validOperator">0</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">NOk par jour /
+                                                        {{ Session::get('user_data')['username'] }}
+                                                    </div>
+                                                </div>
+                                                <span class="badge bg-danger rounded-pill" id="NotvalidOperator">0</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">Ok de ce jour / OF</div>
+                                                </div>
+                                                <span class="badge bg-success rounded-pill" id="dayValidOF">0</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">Ok total / OF</div>
+                                                </div>
+                                                <span class="badge bg-success rounded-pill" id="validOF">0</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                <div class="ms-2 me-auto">
+                                                    <div class="fw-bold">NOk total / OF</div>
+                                                </div>
+                                                <span class="badge bg-danger rounded-pill" id="NotvalidOF">0</span>
+                                            </li>
+
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <h1>You made <span class="bg-success" id="user_of_day"></span></h1>
             </div>
         </div>
         <div class="col-lg-6 d-none of_info">
@@ -261,81 +256,74 @@
         /* -------------------------------------------------------------------------- */
         function getSnTable(of_id) {
             getOfDetails(of_id);
+            postesDatatables(url, {
+                "of_id": of_id
+            }).done(function(data) {
+                // Do something with the fetched data
+                //console.log(data.data.list);
+                $("#validOF").text(data.data.count_list);
+                $("#NotvalidOF").text(data.data.count_list);
+                $("#validOperator").text(data.data.count_list);
+                $("#NotvalidOperator").text(data.data.count_list);
+                $("#status").text(data.data.status);
+                $("#quantity_of_day").text(data.data.quantity_of_day);
+                $("#user_of_day").text(data.data.user_of_day);
+                //alert(total_quantity_of);
+                let x = (parseInt(data.data.list.length) / parseInt(
+                    total_quantity_of));
 
-            return table.DataTable({
-                ajax: {
-                    type: 'GET',
-                    url: url,
+                percent = Math.floor(x * 100);
+
+                $("#percent").text(percent + ' %');
+                let rest = 0;
+                if (percent < 100) {
+                    rest = 100 - percent;
+                }
+                newPercent = [percent, rest];
+                var options1 = {
+                    type: 'doughnut',
                     data: {
-                        "of_id": of_id
+                        labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [percent, rest],
+                            backgroundColor: [
+                                'rgba(46, 204, 113, 1)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 255, 255 ,1)'
+                            ],
+                            borderWidth: 5
+                        }]
                     },
-                    // TODO::samir
-                    dataSrc: function(response) {
-                        if (!response.status) {
-                            ajaxError(response.message);
-                        } else {
-                            $("#valid").text(response.data.list.length);
-                            $("#status").text(response.data.status);
-                            $("#quantity_of_day").text(response.data.quantity_of_day);
-                            $("#user_of_day").text(response.data.user_of_day);
-                            //alert(total_quantity_of);
-                            let x = (parseInt(response.data.list.length) / parseInt(
-                                total_quantity_of));
-
-                            percent = Math.floor(x * 100);
-
-                            $("#percent").text(percent + ' %');
-                            let rest = 0;
-                            if (percent < 100) {
-                                rest = 100 - percent;
-                            }
-                            newPercent = [percent, rest];
-                            var options1 = {
-                                type: 'doughnut',
-                                data: {
-                                    labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-                                    datasets: [{
-                                        label: '# of Votes',
-                                        data: [percent, rest],
-                                        backgroundColor: [
-                                            'rgba(46, 204, 113, 1)'
-                                        ],
-                                        borderColor: [
-                                            'rgba(255, 255, 255 ,1)'
-                                        ],
-                                        borderWidth: 5
-                                    }]
-                                },
-                                options: {
-                                    rotation: 1 * Math.PI,
-                                    circumference: 1 * Math.PI,
-                                    legend: {
-                                        display: false
-                                    },
-                                    tooltip: {
-                                        enabled: false
-                                    },
-                                    cutoutPercentage: 85
-                                }
-                            }
-                            var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
-                            var chart1 = new Chart(ctx1, options1);
-                            return response.data.list;
-                        }
-
+                    options: {
+                        rotation: 1 * Math.PI,
+                        circumference: 1 * Math.PI,
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        },
+                        cutoutPercentage: 85
                     }
-                },
-                columns: [{
-                        data: 'serial_number'
-                    },
-                    {
-                        data: 'updated_at'
-                    },
-                ],
-                searching: false,
-                bLengthChange: false,
-                destroy: true,
-                order: [1, "desc"]
+                }
+                var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
+                var chart1 = new Chart(ctx1, options1);
+                table.DataTable({
+                    "data": data.data.list,
+                    columns: [{
+                            data: 'serial_number'
+                        },
+                        {
+                            data: 'updated_at'
+                        },
+                    ],
+                    searching: false,
+                    bLengthChange: false,
+                    destroy: true,
+                    order: [1, "desc"]
+                });
             });
         }
     </script>
