@@ -59,6 +59,10 @@ class PermissionTableSeeder extends Seeder
             'section-create',
             'section-edit',
             'section-delete',
+            'printer-list',
+            'printer-create',
+            'printer-edit',
+            'printer-delete',
             'access-all-posts'
         ];
         foreach ($permissions as $permission) {
