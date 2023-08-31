@@ -20,7 +20,7 @@
                     </div>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-hover dt-responsive nowrap " width="100%">
-                            <thead>
+                            <thead class="bg-light">
                                 <tr class="">
                                     {{-- <th>#</th> --}}
                                     <th>{{ __('code') }}</th>
@@ -206,6 +206,11 @@
 
         table = table.DataTable({
             "ajax": ajaxCallDatatables(url),
+            rowGroup: {
+                // Uses the 'row group' plugin
+                dataSrc: 'status'
+            },
+
             columns: [{
                     data: 'of_code'
                 },

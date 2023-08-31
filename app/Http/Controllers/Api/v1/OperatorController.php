@@ -8,20 +8,17 @@ use App\Models\Movement;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckIpClient;
 
 class OperatorController extends Controller
 {
-    protected $productService;
-
-    // public function __construct(ProductService $productService)
-    // {
-    //     $this->productService = $productService;
-    // }
     public function __construct()
     {
         $this->middleware(CheckIpClient::class . ":2"); # 2 is operator post_type id
         // Add more middleware and specify the desired methods if needed
+        $this->middleware('permission:movement-list', ['only' => ['index']]);
+        $this->middleware(['permission:movement-create', 'permission:movement-list'], ['only' => ['store']]);
     }
     /**
      * Display a listing of the resource.
@@ -30,26 +27,45 @@ class OperatorController extends Controller
      */
     public function index(Request $request)
     {
+
         // Retrieve the movement list for the given Order Form and host ID
-        $products = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+        $productsList = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.of_id', $request->of_id)
             ->where('movements.movement_post_id', $request->host_id)
-            ->get(["serial_number", "movements.created_at", "movements.result"]);
+            ->get(["serial_number", "movements.updated_at", "movements.result", "movements.updated_by"]);
 
-        // Filter the movements list to get the count of movements made today
-        $quantity_of_day = $products->filter(function ($item) {
-            return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
-        })
-            ->count();
+        // Map the results based on conditions
+        $results = $productsList->map(function ($item) {
+            $today = now()->toDateString();
+            $validAt = Carbon::parse($item['updated_at'])->toDateString();
+            $validBy = $item['updated_by'];
+            $userUsername = Auth::user()->username;
 
-        // Construct the response array
-        $response = [
-            'list' => $products,
-            'quantity_of_day' => "0" . $quantity_of_day
+            return [
+                "user_valid_today" => $validAt === $today && $validBy === $userUsername,
+                "user_valid_of" => $validBy === $userUsername,
+                "quantity_valid_today" => $validAt === $today,
+
+                //result NOK
+                "user_nok_today" => $validAt === $today && $validBy === $userUsername && $item['result'] == "NOK",
+                "user_nok_of" =>  $validBy === $userUsername && $item['result'] == "NOK",
+
+            ];
+        });
+
+        // Count occurrences of each key
+        $data = [
+            "list" => $productsList, // Original list of valid products
+            "count_list" => $productsList->count(),
+            "quantity_valid_today" => $results->filter(fn ($item) => $item['quantity_valid_today'])->count(),
+            "user_valid_today" => $results->filter(fn ($item) => $item['user_valid_today'])->count(),
+            "user_valid_of" => $results->filter(fn ($item) => $item['user_valid_of'])->count(),
+            "user_nok_today" => $results->filter(fn ($item) => $item['user_nok_today'])->count(),
+            "user_nok_of" => $results->filter(fn ($item) => $item['user_nok_of'])->count(),
         ];
 
         // Return the response
-        return $this->sendResponse(data: $response);
+        return $this->sendResponse(data: $data);
     }
 
     // /**
@@ -88,7 +104,8 @@ class OperatorController extends Controller
         $movement = Movement::create($payload);
 
         // Send success response
-        return $this->sendResponse($this->create_success_msg, $movement);
+        $msg = __("response-messages.success");
+        return $this->sendResponse($msg);
     }
 
     /**

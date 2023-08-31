@@ -10,6 +10,7 @@ use App\Exceptions\ExceptionTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use App\Http\Requests\StoreRequests\StoreUserRequest;
 use App\Http\Requests\UpdateRequests\UpdateUserRequest;
 
@@ -51,30 +52,36 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
 
-        try {
-            DB::beginTransaction();
-            // register user
-            $user = User::create([
-                'section_id'          => $request->section_id,
-                'username'          => $request->username,
-                'name'          => $request->name,
-                'email'         => $request->email,
-                'password'      => Hash::make($request->password),
-                'roles_name' =>  $request->roles_name,
-                'status' =>  $request->status,
-            ]);
+        // try {
+        DB::beginTransaction();
+        // register user
+        $user = User::create([
+            'section_id'          => $request->section_id,
+            'username'          => $request->username,
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
+            'roles_name' =>  $request->roles_name,
+            'status' =>  $request->status,
+        ]);
 
-            // assign role
-            $user->assignRole($request->input('roles_name'));
-            DB::commit();
+        // assign role
+        $user->assignRole($request->input('roles_name'));
+        DB::commit();
 
-            // send response
-            // return new UserResource($user);
-            return $this->sendResponse($this->create_success_msg, $user);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->apiException($request, $e);
-        }
+        // send response
+        // return new UserResource($user);
+        //Send response with success
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg, $user);
+        // } catch (Exception $e) {
+        //     DB::rollBack();
+
+        //     // dd(get_class($e));
+        //     // return $this->apiException($request, $e);
+        //     // Call the custom exception handling logic from the handler
+        //     return  app(ExceptionHandler::class)->render($request, $e);
+        // }
     }
 
     /**
@@ -99,25 +106,28 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         DB::beginTransaction();
-        try {
-            // update user
-            $request['password'] = hash::make($request->password);
-            $user->update($request->all());
+        // try {
+        // update user
+        $request['password'] = hash::make($request->password);
+        $user->update($request->all());
 
-            // delete role from this user
-            DB::table('model_has_roles')->where('model_id', $user->id)->delete();
+        // delete role from this user
+        DB::table('model_has_roles')->where('model_id', $user->id)->delete();
 
-            // assign new role
-            $user->assignRole($request->input('roles_name'));
-            DB::commit();
+        // assign new role
+        $user->assignRole($request->input('roles_name'));
+        DB::commit();
 
-            //Send response with success
-            return $this->sendResponse($this->update_success_msg, $user);
-        } catch (Exception $e) {
-            DB::rollBack();
-            // return $e->getMessage();
-            // return $this->apiException($request, $e);
-        }
+        //Send response with success
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg, $user);
+        // } catch (Exception $e) {
+        //     DB::rollBack();
+        //     // return $e->getMessage();
+        //     // return $this->apiException($request, $e);
+        //     // Call the custom exception handling logic from the handler
+        //     app(ExceptionHandler::class)->render($request, $e);
+        // }
     }
 
     /**
@@ -131,6 +141,7 @@ class UserController extends Controller
         $user->delete();
 
         //Send response with success
-        return $this->sendResponse($this->delete_success_msg);
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg);
     }
 }

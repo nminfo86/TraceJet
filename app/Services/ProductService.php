@@ -22,13 +22,15 @@ class ProductService
     {
         // Check if the product exists in the current OF
         if (!$last_movement) {
-            $msg = $this->getResponseMessage('not_found', ['attribute' => 'product']);
+            // $msg = $this->getResponseMessage('not_found', ['attribute' => 'product']);
+            $msg = __("exception-errors.resource_not_found");
             return $this->sendResponse($msg, status: false);
         }
 
         // Verify that the product has not already passed through the current post
         if ($last_movement->movement_post_id == $request->host_id) {
-            $msg = $this->getResponseMessage('exists', ['attribute' => 'product']);
+            // $msg = $this->getResponseMessage('exists', ['attribute' => 'product']);
+            $msg = __("exception-errors.post_exists");
             return $this->sendResponse($msg, status: false);
         }
 
@@ -38,13 +40,14 @@ class ProductService
         // Check if the product has moved from the correct previous post
         if ($last_movement->movement_post_id != $request->previous_post_id) {
             // dd($request);
-            $msg = $this->getResponseMessage('product_place', ['attribute' => 'product', 'host' => $post_name]);
+            // $msg = $this->getResponseMessage('incorrect_previous_post', ['expected_host' => $post_name]);
+            $msg = __("exception-errors.incorrect_previous_post", ['expected_host' => $post_name]);
             return $this->sendResponse($msg, status: false);
         }
 
         // Check if the result of the last movement is NOK
         if ($last_movement->result == 'NOK') {
-            $msg = "NOK , $post_name";
+            $msg = __("exception-errors.last_movement_nok", ['post_name' => $post_name]);
             return $this->sendResponse($msg, status: false);
         }
 

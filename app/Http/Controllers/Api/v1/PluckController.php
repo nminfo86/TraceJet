@@ -28,44 +28,33 @@ class PluckController extends Controller
         // Use a switch statement for better readability
         switch ($model_name) {
             case "sections":
-
-                if ($this->checkPermission($permission) !== true) {
-                    // dd($this->checkPermission('section-list'));
-                    return $this->checkPermission($permission);
-                }
-
-                // Retrieve sections filtered by section
-                $data = Section::filterBySection()->pluck('section_name', 'id');
+                // if ($this->checkPermission($permission) !== true) {
+                //     // dd($this->checkPermission('section-list'));
+                //     return $this->checkPermission($permission);
+                // }
+                if ($request->has('has')) {
+                    // dd($request->has);
+                    // Retrieve products with calibers
+                    $data = Section::filterBySection()->has($request->has)->pluck('section_name', 'id');
+                } else
+                    // Retrieve sections filtered by section
+                    $data = Section::filterBySection()->pluck('section_name', 'id');
                 break;
             case "permissions":
-                // $this->checkPermission($permission);
                 // Retrieve all permissions and format the data
                 $permissions = Permission::pluck('name', 'id');
                 $data = $this->formatPermissions($permissions);
                 break;
             case "roles":
-                if ($this->checkPermission($permission) !== true) {
-                    // dd($this->checkPermission('section-list'));
-                    return $this->checkPermission($permission);
-                }
+
                 // Retrieve roles
                 $data = Role::pluck('name', 'id');
                 break;
             case "posts_types":
-                // dd($permission);
-                // $this->checkPermission($permission);
-                if ($this->checkPermission($permission) !== true) {
-                    // dd($this->checkPermission('section-list'));
-                    return $this->checkPermission($permission);
-                }
                 // Retrieve post types
                 $data = PostsType::pluck('posts_type', 'id');
                 break;
             case "products":
-                if ($this->checkPermission($permission) !== true) {
-                    // dd($this->checkPermission('section-list'));
-                    return $this->checkPermission($permission);
-                }
                 if ($request->filter == "hasCal") {
                     // Retrieve products with calibers
                     $data = Product::filterBySection()->has("calibers")->pluck('product_name', 'id');
@@ -75,20 +64,13 @@ class PluckController extends Controller
                 }
                 break;
             case "posts":
-                if ($this->checkPermission($permission) !== true) {
-                    // dd($this->checkPermission('section-list'));
-                    return $this->checkPermission($permission);
-                }
                 if ($request->has("section_id")) {
                     // Retrieve posts based on section_id
                     $data = Post::whereSectionId($request->section_id)->pluck('post_name', 'id');
                 }
                 break;
             case "ofs":
-                if ($this->checkPermission($permission) !== true) {
-                    // dd($this->checkPermission('section-list'));
-                    return $this->checkPermission($permission);
-                }
+
                 if ($request->filter == "status") {
                     // Retrieve ofs with specific status and filtered by section
                     $data = Of::filterBySection()->whereIn("status", ["new", "inProd"])->pluck('of_name', 'id');
@@ -177,12 +159,12 @@ class PluckController extends Controller
     private function checkPermission($permission)
     {
         // dd($permission[0]);
-        if (!auth()->user()->can($permission[0]) && !auth()->user()->can($permission[1])) {
-            // return response('User does not have the right permissions.');
-            //Send response with success
-            $msg = $this->getResponseMessage("permission");
-            return $this->sendResponse($msg, status: false);
-        } else
-            return true;
+        // if (!auth()->user()->can($permission[0]) && !auth()->user()->can($permission[1])) {
+        //     // return response('User does not have the right permissions.');
+        //     //Send response with success
+        //     $msg = $this->getResponseMessage("permission");
+        //     return $this->sendResponse($msg, status: false);
+        // } else
+        return true;
     }
 }

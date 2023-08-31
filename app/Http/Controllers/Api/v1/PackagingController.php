@@ -31,6 +31,10 @@ class PackagingController extends Controller
     {
         $this->middleware(CheckIpClient::class . ":3"); # 3 is operator post_type id
         // Add more middleware and specify the desired methods if needed
+        $this->middleware('permission:packaging-list', ['only' => ['index']]);
+        $this->middleware(['permission:packaging-create', 'permission:packaging-list'], ['only' => ['store']]);
+        // $this->middleware('permission:packaging-edit', ['only' => ['show', 'update']]);
+        // $this->middleware(['permission:packaging-delete', 'permission:packaging-list'], ['only' => ['destroy']]);
     }
 
 
@@ -55,7 +59,8 @@ class PackagingController extends Controller
         $of = Of::findOrFail($product->of_id);
 
         if ($of->status->value == 'closed') {
-            return  $this->sendResponse('OF Closed');
+            $msg = __("response-messages.of_closed");
+            return  $this->sendResponse($msg);
         }
 
         // Check if there were any errors in the product steps
@@ -150,14 +155,15 @@ class PackagingController extends Controller
             }
             // Get and prepare product information
             // $info = $this->getOfInformation($of_id);
-            $msg = $this->getResponseMessage("of_closed");
+
+            $msg = __("response-messages.of_closed");
         }
 
         // Get and prepare product information and  list of boxed product
         $response = $this->prepareResponse($of_id, $host_id, $box_ticket);
 
         // Return the response
-        $msg = $this->getResponseMessage("success");
+        $msg = __("response-messages.success");
         return $this->sendResponse($msg, $response);
     }
 
@@ -182,7 +188,6 @@ class PackagingController extends Controller
 
         // Count the number of products in the last open box before updating the serial number
         $boxed_products = $this->countProductsInOpenedBox($of, $last_open_box->id);
-        // dd($box_quantity);
 
         // Update the box ID for the current serial number if the current box is not filled yet
         if ($boxed_products < $box_quantity) {
@@ -259,7 +264,7 @@ class PackagingController extends Controller
             ->orderBy("serial_numbers.updated_at", "DESC")
             ->first();
 
-        $info->quantity_of_day = "0" . $list
+        $info->quantity_of_day =  $list
             ->filter(function ($item) {
                 return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
             })
@@ -290,6 +295,6 @@ class PackagingController extends Controller
     {
         return Movement::join("serial_numbers", "movements.serial_number_id", "serial_numbers.id")
             ->whereMovementPostId($host_id)
-            ->whereOfId($of_id)->get(["serial_numbers.serial_number", "result", "movements.created_at"]);
+            ->whereOfId($of_id)->get(["serial_numbers.serial_number", "result", "movements.created_at", "movements.updated_at", "movements.updated_by"]);
     }
 }

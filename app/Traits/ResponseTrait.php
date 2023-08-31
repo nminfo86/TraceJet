@@ -9,6 +9,26 @@ use Illuminate\Support\Facades\Route;
 trait ResponseTrait
 {
 
+
+
+    // // Exception Log details and create a JSON response (Used on exception/handler)
+    // protected function createLog($e, $msgKey)
+    // {
+    //     // Log exception details and create a JSON response
+    //     Log::channel('applicationLog')->error(
+    //         'Exception : ' . get_class($e) . PHP_EOL .
+
+    //             $e->getMessage() . PHP_EOL .
+    //             ' at : ' . Route::currentRouteName() . ' Action : ' . Route::currentRouteAction() .
+    //             ' File : ' . $e->getFile() . ' at Line N° ' . $e->getLine()
+    //     );
+
+    //     return response()->json([
+    //         'status' => false,
+    //         'message' => trans('exception-errors.' . $msgKey)
+    //     ]);
+    // }
+
     /**
      * getResponseMessage
      *
@@ -16,50 +36,52 @@ trait ResponseTrait
      * @param  array $replacements list des attributes
      * @return void
      */
-    protected function getResponseMessage($key, $replacements = [])
-    {
-        $messages = [
-            //login
-            "invalid_host" => __('response-messages.invalid_host'),
+    // protected function getResponseMessage($key, $replacements = [])
+    // {
+    //     $messages = [
+    //         //login
+    //         // "invalid_host" => __('response-messages.invalid_host'),
 
-            //Ajax
-            "success" => __('response-messages.success'),
+    //         // //Ajax
+    //         // "success" => __('response-messages.success'),
 
-            //productService
-            'not_found' => __('response-messages.not_found'),
-            'exists' => __('response-messages.exists'),
-            'product_place' => __('response-messages.product_place'),
-            'of_closed' => __('response-messages.of_closed'),
+    //         // //productService
+    //         // // 'not_found' => __('response-messages.not_found'),
+    //         // 'exists' => __('response-messages.exists'),
+    //         // 'product_place' => __('response-messages.product_place'),
+    //         // 'of_closed' => __('response-messages.of_closed'),
 
-            // SerialNumber
-            'of_closed' => __('response-messages.of_closed'),
-            "print_qr-success" => __('response-messages.print_qr-success'),
-            // Add more custom messages here
-        ];
+    //         // SerialNumber
+    //         // 'of_closed' => __('response-messages.of_closed'),
+    //         // "print_qr-success" => __('response-messages.print_qr-success'),
 
-        $attributes = [
-            'label_generator' => __('response-messages.label_generator'),
-            'product' => __('response-messages.product'),
-            'test 1' => __('response-messages.operator 1'),
-            'test 2' => __('response-messages.operator 2'),
-            'test 4' => __('response-messages.operator 4'),
-            'modal' => __('response-messages.modal'),
-            // Add more custom attributes here
-        ];
+    //         // Add more custom messages here
+    //         "permission" => __('response-messages.permission'),
+    //     ];
 
-        // Replace placeholders with actual values
-        $message = $messages[$key];
+    //     $attributes = [
+    //         'label_generator' => __('response-messages.label_generator'),
+    //         'product' => __('response-messages.product'),
+    //         'test 1' => __('response-messages.operator 1'),
+    //         'test 2' => __('response-messages.operator 2'),
+    //         'test 4' => __('response-messages.operator 4'),
+    //         'modal' => __('response-messages.modal'),
+    //         // Add more custom attributes here
+    //     ];
 
-        foreach ($replacements as $key => $value) {
+    //     // Replace placeholders with actual values
+    //     $message = $messages[$key];
 
-            // Translate if the value exists as a key in the array
-            if (array_key_exists($value, $attributes)) {
-                $message = str_replace(':' . $key, $attributes[$value], $message);
-            }
-        }
+    //     foreach ($replacements as $key => $value) {
 
-        return ucfirst($message);
-    }
+    //         // Translate if the value exists as a key in the array
+    //         if (array_key_exists($value, $attributes)) {
+    //             $message = str_replace(':' . $key, $attributes[$value], $message);
+    //         }
+    //     }
+
+    //     return ucfirst($message);
+    // }
 
     function sendResponse($message = null, $data = [], $status = true)
     {

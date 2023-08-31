@@ -18,7 +18,7 @@ class CaliberFactory extends Factory
     public function definition()
     {
         return [
-            'caliber_code' => 'Clb' . $this->faker->unique()->numberBetween(1, 150000),
+            'caliber_code' => 'Clb0-' . $this->faker->unique()->numberBetween(1, 10),
             'caliber_name' => $this->faker->unique()->text(5),
             'product_id'   => Product::inRandomOrder()->first()->id,
             "box_quantity" => $this->faker->numberBetween(2, 5),

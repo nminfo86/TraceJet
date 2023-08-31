@@ -1,10 +1,5 @@
 @extends('layouts.posts_layout')
-@php
-    // dd(Session::get('user_data')['post_information']);
-@endphp
-<style>
 
-</style>
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -17,7 +12,7 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword"
+                                <label
                                     class="col-sm-3 col-form-label text-dark fs-5 fw-normal">{{ __('Selectionner un OF') }} :
                                 </label>
                                 <div class="col-sm-9">
@@ -53,8 +48,7 @@
                             <div class="table-responsive">
                                 <form id="main_form">
                                     <div class="row mx-0">
-                                        <label for="inputPassword" class="col-md-1 "><i
-                                                class="mdi mdi-24px mdi-barcode-scan"></i></label>
+                                        <label class="col-md-1 "><i class="mdi mdi-24px mdi-barcode-scan"></i></label>
                                         <div class="col-md-11">
                                             <input type="text" class="form-control bg-light" id="qr"
                                                 name="qr" onblur="this.focus()" autofocus>
@@ -138,16 +132,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <h1>You made <span class="bg-success" id="user_of_day"></span></h1>
+            </div>
         </div>
         <div class="col-lg-6 d-none of_info">
             <div class="card shadow border-primary" style="min-height: 90vh">
                 <div class="card-body text-white">
-                    <button class="btn btn-info text-white" id="print_qr"><i class="mdi mdi-printer"></i>
-                        {{ __('Générer QR') }}</button>
+                    <button class="btn btn-info text-white" id="print_qr"><i class="mdi mdi-printer mdi-24px"></i> <span
+                            style="font-size: 18px">F1</span>
+                        {{-- {{ __('Générer QR') }}  --}} </button>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
-                            <thead>
-                                <tr class="">
+                            <thead class="bg-light">
+                                <tr>
                                     {{-- <th>{{ __('#') }}</th> --}}
                                     <th>{{ __('SN') }}</th>
                                     <th>{{ __('Créé le') }}</th>
@@ -159,6 +157,7 @@
             </div>
         </div>
     </div>
+
     <!--==============================================================-->
     <!-- End PAge Content -->
     <!-- ============================================================== -->
@@ -170,6 +169,7 @@
             url = base_url + '/serial_numbers',
             of_id,
             last_qr = "";
+
         $(document).ready(function() {
             /* -------------------------------------------------------------------------- */
             /*                                get ofs list                                */
@@ -201,7 +201,16 @@
                 $(".of_number").removeClass('d-none')
                 $(".of_info").removeClass("d-none");
                 $("#qr").focus();
+            });
+        }
 
+        function performAction() {
+            callAjax('POST', base_url + '/serial_numbers/qr_print', {
+                of_id: of_id
+            }).done(function(response) {
+                // TODO::check status of response
+                ajaxSuccess(response.message);
+                // alert(response.data.qr);
             });
         }
         $(document).on("change", "#of_id", function(e) {
@@ -212,15 +221,18 @@
             /* -------------------------------------------------------------------------- */
             /*                                Print QR code                               */
             /* -------------------------------------------------------------------------- */
+            // Event handler for button click
             .on("click", "#print_qr", function(e) {
                 e.preventDefault();
-                callAjax('POST', base_url + '/serial_numbers/qr_print', {
-                    of_id: of_id
-                }).done(function(response) {
-                    // TODO::check status of response
-                    ajaxSuccess(response.message)
-                    alert(response.data.qr)
-                });
+                performAction();
+            })
+
+            // Event handler for F1 key press
+            .on("keydown", function(e) {
+                if (e.which === 112) { // 112 is the keycode for F1 key
+                    e.preventDefault();
+                    performAction();
+                }
             })
             /* -------------------------------------------------------------------------- */
             /*                                Valid Product                               */
@@ -236,7 +248,7 @@
                     }
                     getSnTable(of_id);
                     // TODO::Change later with samir
-                    getOfDetails(of_id);
+                    // getOfDetails(of_id);
                     ajaxSuccess(response.message);
                     $('#qr').val('');
                 });
@@ -249,6 +261,7 @@
         /* -------------------------------------------------------------------------- */
         function getSnTable(of_id) {
             getOfDetails(of_id);
+
             return table.DataTable({
                 ajax: {
                     type: 'GET',
@@ -264,6 +277,7 @@
                             $("#valid").text(response.data.list.length);
                             $("#status").text(response.data.status);
                             $("#quantity_of_day").text(response.data.quantity_of_day);
+                            $("#user_of_day").text(response.data.user_of_day);
                             //alert(total_quantity_of);
                             let x = (parseInt(response.data.list.length) / parseInt(
                                 total_quantity_of));

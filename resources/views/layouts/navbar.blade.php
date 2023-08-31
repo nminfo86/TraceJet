@@ -68,8 +68,8 @@
         </div>
     </nav>
 </header> --}}
-<header class="topbar" data-navbarbg="skin6">
-    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+<header class="topbar " data-navbarbg="skin6">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light bg-light">
         <div class="navbar-header" data-logobg="skin6">
             <!-- ============================================================== -->
             <!-- Logo -->

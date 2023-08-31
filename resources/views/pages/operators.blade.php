@@ -32,7 +32,7 @@
                         <div class="card-body">
                             {{-- <div class="col-lg-12"> --}}
                             <div class=" row">
-                                <label for="inputPassword"
+                                <label
                                     class="col-sm-3 col-form-label text-dark fs-5 fw-normal">{{ __('Selectionner un OF') }} :
                                 </label>
                                 <div class="col-sm-9">
@@ -75,8 +75,7 @@
                             <div class="table-responsive">
                                 <form id="main_form">
                                     <div class="row mx-0">
-                                        <label for="inputPassword" class="col-md-1 "><i
-                                                class="mdi mdi-24px mdi-barcode-scan"></i></label>
+                                        <label class="col-md-1 "><i class="mdi mdi-24px mdi-barcode-scan"></i></label>
                                         <div class="col-md-11">
                                             <input type="text" class="form-control bg-light" id="qr"
                                                 name="qr" onblur="this.focus()" autofocus>
@@ -171,7 +170,7 @@
                 <div class="card-body text-white">
                     <div class="table-responsive">
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
-                            <thead>
+                            <thead class="bg-light">
                                 <tr class="">
                                     {{-- <th>{{ __('#') }}</th> --}}
                                     <th>{{ __('SN') }}</th>
@@ -198,27 +197,8 @@
             url = base_url + '/operators',
             of_id,
             last_qr = "";
-        // var formData = {
-        //     // "qr": scanned_qr,
-        //     // "of_id": of_id,
-        //     // "lang": "fr",
-        //     "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] ?? '' }}",
-        //     //  "post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
-        //     // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
-        //     "host_id": "{{ Session::get('user_data')['post_information']['id'] ?? '' }}",
-        //     // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
-        // };
-        console.log($.parseJSON(`{{ Session::get('post_information') }}`));
-        var formData = {
-            // "qr": scanned_qr,
-            // "of_id": of_id,
-            // "lang": "fr",
-            "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] ?? '' }}",
-            //"post_name": "{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}",
-            // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
-            "host_id": `{{ Session::get('user_data')['post_information']['id'] ?? '' }}`,
-            // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
-        };
+
+        var formData = {};
         formToggle(form_title);
 
         $(document).ready(function() {
@@ -270,7 +250,7 @@
                 e.preventDefault();
                 cleanValidationAlert();
                 let qr = $("#qr").val();
-                $('form')[0].reset();
+
                 if (scanned_qr != 0) {
                     if (scanned_qr == qr) {
                         formData.result = "OK";
@@ -297,11 +277,6 @@
                     type: 'GET',
                     url: url,
                     data: formData,
-                    // data: {
-                    //     "of_id": of_id,
-                    //     "mac": "{{ Session::get('user_data')['post_information']['mac'] ?? '' }}",
-                    //     "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
-                    // },
                     dataSrc: function(response) {
                         $("#valid").text(response.data.list.length);
                         $("#status").text(response.data.status);
@@ -357,7 +332,7 @@
                         data: 'serial_number'
                     },
                     {
-                        data: 'created_at'
+                        data: 'updated_at'
                     },
                     {
                         data: 'result',
@@ -389,7 +364,8 @@
                 // if (response.data.result == "ok" || response.data.result == "OK") {
                 $("#scanned_qr").html(
                     `<div class="alert alert-success">
-                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span> </div>`
+                        <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span>
+                    </div>`
                 );
                 scanned_qr = qr;
                 // }
@@ -398,7 +374,6 @@
 
         function storeQr(formData) {
             callAjax("POST", url, formData).done(function(response) {
-
                 if (response.status == false) {
                     return SessionErrors(response.message);
                 }

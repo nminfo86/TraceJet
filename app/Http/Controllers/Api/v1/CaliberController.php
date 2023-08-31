@@ -21,9 +21,9 @@ class CaliberController extends Controller
     function __construct()
     {
         $this->middleware('permission:caliber-list', ['only' => ['index']]);
-        $this->middleware('permission:caliber-create', ['only' => ['store']]);
+        $this->middleware(['permission:caliber-create', 'permission:caliber-list'], ['only' => ['store']]);
         $this->middleware('permission:caliber-edit', ['only' => ['show', 'update']]);
-        $this->middleware('permission:caliber-delete', ['only' => ['destroy']]);
+        $this->middleware(['permission:caliber-delete', 'permission:caliber-list'], ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -32,7 +32,7 @@ class CaliberController extends Controller
      */
     public function index()
     {
-        // $calibers = Caliber::with('product')->get();
+
         $calibers = Caliber::join('products', function ($join) {
             $join->on('calibers.product_id', '=', 'products.id');
         })->get(["calibers.id", "caliber_code", "caliber_name", "box_quantity", "product_name"]);
@@ -48,32 +48,11 @@ class CaliberController extends Controller
      */
     public function store(StoreCaliberRequest $request)
     {
-        // dd($request->only("post_id"));
-        // $section = Caliber::create($request->all());
+        $caliber = Caliber::create($request->all());
 
-        // //Send response with success
-        // $msg = $this->getResponseMessage("success");
-        // return $this->sendResponse($msg, $section);
-
-        /* -------------------------------------------------------------------------- */
-        /*                                   Update                                   */
-        /* -------------------------------------------------------------------------- */
-        // DB::beginTransaction();
-        // dd($request->all());
-        try {
-            # code...
-            // $section = Caliber::create($request->except("post_id"));
-            $caliber = Caliber::create($request->all());
-            // $posts = $caliber->posts()->attach($request->only("post_id")["post_id"]);
-            // DB::commit();
-            //Send response with success
-            $msg = $this->getResponseMessage("success");
-            return $this->sendResponse($msg, $caliber);
-        } catch (\Throwable $e) {
-            # code...
-        }
-        // $p = [1, 2, 3];
-
+        //Send response with success
+        $msg = __("response-messages-success");
+        return $this->sendResponse($msg, $caliber);
     }
 
     /**
@@ -99,7 +78,7 @@ class CaliberController extends Controller
         $caliber->update($request->all());
 
         //Send response with success
-        $msg = $this->getResponseMessage("success");
+        $msg = __("response-messages-success");
         return $this->sendResponse($msg, $caliber);
     }
 
@@ -114,6 +93,7 @@ class CaliberController extends Controller
         $caliber->delete();
 
         //Send response with success
-        return $this->sendResponse($this->delete_success_msg);
+        $msg = __("response-messages-success");
+        return $this->sendResponse($msg);
     }
 }

@@ -22,7 +22,7 @@ class Movement extends Model
      *
      * @var array
      */
-    protected $fillable = ['serial_number_id', 'movement_post_id', 'result', 'observation'];
+    protected $fillable = ['serial_number_id', 'movement_post_id', 'result', 'observation', 'updated_by'];
 
     /**
      * Get the created_at
@@ -71,7 +71,6 @@ class Movement extends Model
     }
 
 
-
     // [x]::change later
     public static function boot()
     {
@@ -79,9 +78,9 @@ class Movement extends Model
 
         self::creating(function ($model) {
 
-            $author = Auth::user()->name ??  'BlmDev';
+            $author = Auth::user()->username ??  'BlmDev';
             $model->created_by = $author;
-            // $model->updated_by = NULL;
+            $model->updated_by = $author;
         });
     }
 }

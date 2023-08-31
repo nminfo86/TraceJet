@@ -8,6 +8,7 @@ use App\Enums\OfStatusEnum;
 use App\Models\SerialNumber;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\v1\PrinterController;
 use App\Http\Controllers\Api\v1\SettingController;
 use App\Http\Controllers\api\v1\OperatorController;
 use App\Http\Controllers\api\v1\PackagingController;
@@ -47,10 +48,11 @@ Route::group(
             'posts_types' => PostsTypeController::class,
             'posts' => PostController::class,
             'operators' => OperatorController::class,
-            'movements' => MovementController::class,
+            // 'movements' => MovementController::class,
             'packaging' => PackagingController::class,
             'boxes' => BoxController::class,
             'settings' => SettingController::class,
+            'printers' => PrinterController::class,
             // 'parts' => PartController::class,
             // 'sn_parts' => SerialNumbersPartController::class,
             // 'repairs' => RepairController::class,
@@ -88,7 +90,7 @@ Route::group(
 
         // route::get('check_qr', [SerialNumberController::class, 'validProduct']);
         route::post('serial_numbers/qr_print', [SerialNumberController::class, 'printQrCode']);
-        route::get('serial_numbers/qr_life/{id}', [SerialNumberController::class, 'productLife']);
+        route::get('product_life/{id}', [ProductController::class, 'productLife']);
         // Route::controller(RegimentController::class)->group(function () {
         //     Route::post('add_students_to_regiment', 'addStudents');
         //     Route::delete('del_students_from_regiment', 'deleteStudents');

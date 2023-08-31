@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Product;
+use App\Models\Movement;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
@@ -16,9 +17,9 @@ class ProductController extends Controller
     function __construct()
     {
         $this->middleware('permission:product-list', ['only' => ['index']]);
-        $this->middleware('permission:product-create', ['only' => ['store']]);
+        $this->middleware(['permission:product-create', 'permission:product-list'], ['only' => ['store']]);
         $this->middleware('permission:product-edit', ['only' => ['show', 'update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware(['permission:product-delete', 'permission:product-list'], ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -28,11 +29,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::filterBySection()->get();
-        // $products = Product::with('section')->get();
-        // $products = Product::join('sections', function ($join) {
-        //     $join->on('products.section_id', '=', 'sections.id');
-        // })->get(["products.id", "section_name", "product_code", "product_name"]);
-
         //Send response with data
         return $this->sendResponse(data: $products);
     }
@@ -45,10 +41,11 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $section = Product::create($request->all());
+        $product = Product::create($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->create_success_msg, $section);
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg, $product);
     }
 
     /**
@@ -74,7 +71,8 @@ class ProductController extends Controller
         $product->update($request->all());
 
         //Send response with success
-        return $this->sendResponse($this->update_success_msg, $product);
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg, $product);
     }
 
     /**
@@ -88,6 +86,15 @@ class ProductController extends Controller
         $product->delete();
 
         //Send response with success
-        return $this->sendResponse($this->delete_success_msg);
+        $msg = __('response-messages.success');
+        return $this->sendResponse($msg);
+    }
+
+
+    public function productLife($id)
+    {
+        return Movement::whereSerialNumberId($id)
+            ->join("posts", "movement_post_id", "posts.id")
+            ->get(["post_name", "color", "result", "movements.created_at", "movements.created_by"]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Printer;
 use App\Enums\ColorEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,7 +24,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['posts_type_id', 'post_name', 'previous_post_id', "ip_address", "section_id", "code", "color"];
+    protected $fillable = ['posts_type_id', 'printer_id', 'post_name', 'previous_post_id', "ip_address", "section_id", "code", "color"];
 
 
     // protected $casts = [
@@ -38,6 +39,11 @@ class Post extends Model
     public function posts_type()
     {
         return $this->belongsTo(PostsType::class);
+    }
+
+    public function printer()
+    {
+        return $this->belongsTo(Printer::class);
     }
 
     /**
