@@ -16,7 +16,7 @@ class AccessTokensController extends Controller
 {
     use ResponseTrait;
 
-    
+
     public function login(AccessTokensRequest $request)
     {
 
@@ -35,7 +35,7 @@ class AccessTokensController extends Controller
 
         // Retrieve post information for user's IP address
         $post_information = Post::whereIpAddress($request->ip())->first();
-
+        // dd($post_information);
         // Return error response if post information is not found
         if (empty($post_information) && !$permissions->contains("access-all-posts")) {
             $msg = $this->getResponseMessage("invalid_host");
@@ -62,7 +62,6 @@ class AccessTokensController extends Controller
         $device_name = $request->post('device_name', $request->userAgent());
         // Create token for user and return response with token and user data
         $token = $user->createToken($device_name)->plainTextToken;
-
         // Storing an array in the session
         Session::put('post_information',  $post_information);
         Session::put('token', $token);

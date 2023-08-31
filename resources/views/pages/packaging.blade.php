@@ -198,12 +198,22 @@
     <script type="text/javascript">
         var form = $('#main_form'),
             table = $('#main_table'),
+            // formData = {
+            //     "previous_post_id": 2,
+            //     "host_id": 3,
+            //     "result": "OK",
+            // },
             formData = {
-                "previous_post_id": 2,
-                "host_id": 3,
+                // "qr": scanned_qr,
+                // "of_id": of_id,
+                // "lang": "fr",
+                "previous_post_id": "{{ Session::get('user_data')['post_information']['previous_post_id'] ?? '' }}",
+                // "posts_type_id": "{{ Session::get('user_data')['post_information']['posts_type_id'] ?? '' }}",
+                "host_id": `{{ Session::get('user_data')['post_information']['id'] ?? '' }}`,
                 "result": "OK",
-            },
-            url = base_url + '/packaging';
+                // "ip_address": "{{ Session::get('user_data')['post_information']['ip_address'] ?? '' }}",
+            };
+        url = base_url + '/packaging';
 
         function printBoxTicket(box_ticket) {
             //serial_numbers = box_ticket.serial_numbers
@@ -335,7 +345,7 @@
             formData.qr = qr;
 
             getSnTable(formData);
-            $('form')[0].reset();   
+            $('form')[0].reset();
         }).on('click', '#print', function(e) {
             e.preventDefault();
             var box_ticket = {

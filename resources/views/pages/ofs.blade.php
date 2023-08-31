@@ -13,7 +13,7 @@
                     <div class="d-flex justify-content-between mb-3">
                         <h4 class="card-title text-capitalize">{{ __('liste des Ofs') }}</h4>
                         <div class="text-end  toggle-show">
-                            @can('ofs-create')
+                            @can('of-create')
                                 @include('components.add_btn', ['label' => 'Nouveau'])
                             @endcan
                         </div>
