@@ -166,8 +166,8 @@ class OfController extends Controller
 
         // Retrieve all serial numbers with their latest movements and associated posts
         $serialNumbers = serialNumber::with(['movements' => function ($query) {
-            $query->latest('created_at')
-                ->select('id', 'serial_number_id', 'result', 'created_at', 'movement_post_id')
+            $query->latest('updated_at')
+                ->select('id', 'serial_number_id', 'result', 'updated_at', 'movement_post_id')
                 ->with('posts:id,post_name,color');
         }])->where([['of_id', $of->id], ["valid", 1]])->get()
             // Group serial numbers by their serial number
@@ -177,7 +177,7 @@ class OfController extends Controller
                 $lastMovement = $group->flatMap(function ($serialNumber) {
                     return $serialNumber['movements'];
                 })
-                    ->sortByDesc('created_at')
+                    ->sortByDesc('updated_at')
                     ->first();
 
                 return [

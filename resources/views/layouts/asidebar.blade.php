@@ -36,11 +36,11 @@
                             href="{{ url('sections') }}" aria-expanded="false"><i class="mdi mdi-factory"></i><span
                                 class="hide-menu">{{ __('sections') }}</span></a></li>
                 @endcan
-                {{-- @can('printer-list') --}}
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
-                        href="{{ url('printers') }}" aria-expanded="false"><i class="mdi mdi-printer-settings"></i><span
-                            class="hide-menu">{{ __('imprimantes') }}</span></a></li>
-                {{-- @endcan --}}
+                @can('printer-list')
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
+                            href="{{ url('printers') }}" aria-expanded="false"><i class="mdi mdi-printer-settings"></i><span
+                                class="hide-menu">{{ __('imprimantes') }}</span></a></li>
+                @endcan
                 @can('post-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('posts') }}" aria-expanded="false"><i class="mdi mdi-lan-connect"></i><span
@@ -89,7 +89,7 @@
                 </li>
                 {{-- @endcan --}}
 
-                @can('movement-list')
+                @can('packaging-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
                             href="{{ url('packaging') }}" aria-expanded="false"><i class="mdi mdi-basket-fill"></i><span
                                 class="hide-menu">{{ __('emballage') }}</span></a>

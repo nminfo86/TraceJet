@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Product;
+use App\Models\Movement;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
@@ -87,5 +88,13 @@ class ProductController extends Controller
         //Send response with success
         $msg = __('response-messages.success');
         return $this->sendResponse($msg);
+    }
+
+
+    public function productLife($id)
+    {
+        return Movement::whereSerialNumberId($id)
+            ->join("posts", "movement_post_id", "posts.id")
+            ->get(["post_name", "color", "result", "movements.created_at", "movements.created_by"]);
     }
 }

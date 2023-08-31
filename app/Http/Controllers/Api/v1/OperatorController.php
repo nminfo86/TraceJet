@@ -48,6 +48,8 @@ class OperatorController extends Controller
 
                 //result NOK
                 "user_nok_today" => $validAt === $today && $validBy === $userUsername && $item['result'] == "NOK",
+                "user_nok_of" =>  $validBy === $userUsername && $item['result'] == "NOK",
+
             ];
         });
 
@@ -59,6 +61,7 @@ class OperatorController extends Controller
             "user_valid_today" => $results->filter(fn ($item) => $item['user_valid_today'])->count(),
             "user_valid_of" => $results->filter(fn ($item) => $item['user_valid_of'])->count(),
             "user_nok_today" => $results->filter(fn ($item) => $item['user_nok_today'])->count(),
+            "user_nok_of" => $results->filter(fn ($item) => $item['user_nok_of'])->count(),
         ];
 
         // Return the response

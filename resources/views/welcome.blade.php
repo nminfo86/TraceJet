@@ -140,8 +140,11 @@
                         </form>
                     </div>
                 </div>
-                <div id="carouselExampleControls" class="carousel col-lg-9 d-none after-filter" data-bs-ride="carousel">
+                <div class="form-row d-none after-filter">
                     <h3 class="pt-4 ps-4">First past yield pour chaque poste </h3>
+                </div>
+                <div id="carouselExampleControls" class="carousel col-lg-9 d-none after-filter" data-bs-ride="carousel">
+
                     <div class="carousel-inner">
                         {{-- <div class="carousel-item active">
                             <div class="card">
@@ -250,7 +253,9 @@
         url = 'api/v1/ofsBySection';
         $(document).ready(function() {
 
-            callAjax('GET', base_url + '/pluck/sections').done(function(response) {
+            callAjax('GET', base_url + '/pluck/sections', {
+                has: "posts"
+            }).done(function(response) {
                 appendToSelect(response.data, "#section_id");
             });
             $("#section_id").on("change", function(e) {

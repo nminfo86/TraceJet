@@ -187,7 +187,7 @@
                 html +=
                     `<div class="mt-3 pb-3 d-flex align-items-center text-capitalize">
                         <span class="btn  btn-circle d-flex align-items-center text-white" style="background-color:${post.color}">
-                            <i class="mdi mdi-18px ${post.posts_type.icon} "></i>
+                            <i class="${post.posts_type.icon}"></i>
                         </span>
                         <div class="ms-3">
                             <h5 class="mb-0 fw-bold" id="post_name">${post.post_name}</h5>
@@ -328,7 +328,7 @@
             var data = sn_datatables.row(this).data();
             $("#qr_life").html("");
             // send the request to the server
-            callAjax("GET", base_url + "/serial_numbers/qr_life/" + data[0], false).done(function(response) {
+            callAjax("GET", base_url + "/product_life/" + data[0], false).done(function(response) {
                 html = "";
                 response.forEach(movement => {
                     // Build HTML for post card
@@ -340,7 +340,7 @@
                         </span>
                         <div class="vertical-timeline-element-content bounce-in">
                             <h4 class="timeline-title">${movement.post_name}</h4>
-                            <p>{{ _('opéré par') }} ${movement.created_by} {{ __('le') }} <a href="javascript:void(0);" data-abc="true">${movement.created_at.split(' ')[0]}</a></p>
+                            <p>{{ _('par') }} ${movement.created_by} {{ __('le') }} <a href="javascript:void(0);" data-abc="true">${movement.created_at.split(' ')[0]}</a></p>
                             <span class="vertical-timeline-element-date">${movement.created_at.split(' ')[1]}</span>
                         </div>
                     </div>

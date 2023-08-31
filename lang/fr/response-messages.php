@@ -18,6 +18,7 @@ return [
     "of_duplicate_caliber" => "Impossible de créer l'OF avec le même calibre en production.",
 
 
+
     /* -------------------------------------------------------------------------- */
     /*                            Ajax-actions-messages                           */
     /* -------------------------------------------------------------------------- */

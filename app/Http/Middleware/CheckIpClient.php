@@ -21,36 +21,26 @@ class CheckIpClient
     public function handle(Request $request, Closure $next, Int $post_type)
     {
 
-        // FIXME::with samir later
-        // $post = Post::where("section_id", Auth::user()->section_id)->where("ip_address", $request->ip())->where('posts_type_id', $post_type)->first();
-        $post = Post::where([
-            ["section_id", Auth::user()->section_id],
-            ["ip_address", $request->ip()],
+        $post = Post::when(!Auth::user()->hasPermissionTo('access-all-posts'), function ($query) {
+            // If the user doesn't have permission to access all posts,
+            // apply a constraint based on the user's section_id
+            return $query->where('section_id', Auth::user()->section_id);
+        })->where([
+            ['ip_address', request()->ip()],
             ['posts_type_id', $post_type]
         ])->first();
 
-
-        if ($request->ajax()) {
-            // if (!$post && Auth::user()->roles_name != "super_admin") {
-            if (!$post && !Auth::user()->hasPermissionTo('access-all-posts')) {
-                // Code to execute if the collection contains an item with posts_type_id = 1
-                // $result =  ['message' => 'No matching host found. Please contact the administrator.', "status" => false];
-                // return response()->json($result);
-                $msg = __("response-messages.invalid_host");
-
-                return $this->sendResponse($msg, status: false);
-            }
-            //  elseif (Auth::user()->hasPermissionTo('access-all-posts')) {
-            //     $msg = "Admin can not be ion Production chaine";
-
-            //     return $this->sendResponse($msg, status: false);
-            // }
-        } else {
-            if (!$post)
-                return redirect("/")->with('error', __("response-messages.invalid_host"));
+        if (!$post) {
+            $msg = __("response-messages.invalid_host");
+            return $this->sendResponse($msg, status: false);
         }
-
         $request->merge(['host_id' => $post->id, 'previous_post_id' => $post->previous_post_id]);
+        // } else {
+        //     if (!$post)
+        //         return redirect("/logout")->with('error', __("response-messages.invalid_host"));
+        // }
+
+        // $request->merge(['host_id' => $post->id, 'previous_post_id' => $post->previous_post_id]);
 
 
         // dd($request->host_id);
