@@ -61,9 +61,12 @@ class SerialNumberController extends Controller
             "user_valid_today" => $results->filter(fn ($item) => $item['user_valid_today'])->count(),
             "user_valid_of" => $results->filter(fn ($item) => $item['user_valid_of'])->count(),
         ];
-
+        $msg = "";
+        if ($request->printer == NULL) {
+            $msg = "vérifier la connexion à l'imprimante.";
+        }
         // Return the response
-        return $this->sendResponse(data: $data);
+        return $this->sendResponse($msg, data: $data);
     }
 
 
@@ -151,7 +154,7 @@ class SerialNumberController extends Controller
         }
 
         // Generate a new SerialNumber
-        return $this->generateNewSN($of);
+        return $this->generateNewSN($of, $request->printer);
     }
 
 
@@ -161,15 +164,8 @@ class SerialNumberController extends Controller
      * @param  mixed $of_id
      * @return \Illuminate\Http\Response
      */
-    public function generateNewSN(Object $of)
+    public function generateNewSN(Object $of, $printer)
     {
-        // dd($of_quantity . "/" . $this->countValidProducts($of_id));
-        // // Check with OF quantity
-        // if ($of_quantity === $this->countValidProducts($of_id)) {
-        //     $msg = __('response-messages.of_closed');
-        //     //Send response with Error
-        //     return $this->sendResponse("OF Valid");
-        // }
         $ofStatus = $this->checkOfStatus($of);
         if ($ofStatus['error'] == true) {
             $msg = __('response-messages.' . $ofStatus['message']);
@@ -192,25 +188,31 @@ class SerialNumberController extends Controller
         /* -------------------------------------------------------------------------- */
         /*                                  Printing                                  */
         /* -------------------------------------------------------------------------- */
+        // return $this->toPrinter($printer,   $new_sn->qr);
 
-        // $printLabel = new PrintLabelService("192.168.1.100", "TSPL", "40_20");
-        // $qrCode = $new_sn->qr;
-        // // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+        $qrCode = $new_sn->qr;
+        return $this->sendToPrinter($printer, $qrCode);
+        // $printLabel = new PrintLabelService($printer);
+        // $printLabel->printProductLabel($qrCode);
+
+
+        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
         // $qr = explode("#", $qrCode);
         // $sn = $qr[3];
         // $of_num = $qr[1];
         // $product_name = $qr[2];
         // $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
-        // // Return a success message with the QR code for the new product
-        // $this->sendToPrinter("192.168.1.100", "TSPL", "40_20", $new_sn->qr);
-        $msg = __('response-messages.printing');
-        return $this->sendResponse($msg, $new_sn->only('qr'));
+        // Return a success message with the QR code for the new product
+        // $this->sendToPrinter($printer, $new_sn->qr);
+        // $msg = __('response-messages.printing');
+        // return $this->sendResponse($msg, $new_sn->only('qr'));
     }
 
 
     // This method prints the QR code for a product based on the given request
     public function PrintQrCode(Request $request)
     {
+        // dd($request->all());
         // Check if the Order Form (OF) with the given ID is closed
         $of = OF::findOrFail($request->of_id);
         $ofStatus = $this->checkOfStatus($of);
@@ -226,16 +228,13 @@ class SerialNumberController extends Controller
             $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
             $newProduct = SerialNumber::create($request->all());
 
-            //Print QR
-            // $this->sendToPrinter("192.168.1.100", "TSPL", "40_20", $newProduct->qr);
-            // Send success response with the QR code of the newly created product
-            $msg = __("response-messages.printing");
-            return $this->sendResponse($msg, $newProduct->only("qr"));
+            // return $this->toPrinter("192.168.1.100", "TSPL", "40_20",  $newProduct->qr);
+            return $this->sendToPrinter($request->printer,  $newProduct->qr);
         }
-
+        // dd($request->printer);
         // If a product already exists, generate a new serial number and create the record
-        $of_quantity = Of::findOrFail($request->of_id, ["new_quantity"])->new_quantity;
-        return $this->generateNewSN($request->of_id, $of_quantity);
+        // $of_quantity = Of::findOrFail($request->of_id, ["new_quantity"])->new_quantity;
+        return $this->generateNewSN($of, $request->printer);
     }
 
     /**
@@ -247,5 +246,36 @@ class SerialNumberController extends Controller
     public function countValidProducts($of_id)
     {
         return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
+    }
+
+
+
+    public function sendToPrinter($printer = null, String $productQr)
+    {
+        // dd($printer);
+        // $printLabel = new PrintLabelService($printer);
+        // $printLabel->printProductLabel($productQr);
+
+        // dd($printLabel->printProductLabel($productQr));
+        // dd($productQr);
+        // $qrCode = $->qr;        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
+
+        // Prepare label information
+        // dd($productQr);
+        if (!$printer) {
+            // dd();
+            $msg = __('response-messages.success');
+            return $this->sendResponse($msg, $productQr);
+        }
+        // // dd($printer);
+        $printLabel = new PrintLabelService($printer);
+
+        if ($printLabel->printProductLabel($productQr)) {
+            # code...
+            $msg = __('response-messages.printing');
+        } else {
+            $msg = __('response-messages.success');
+        }
+        return $this->sendResponse($msg, $productQr);
     }
 }

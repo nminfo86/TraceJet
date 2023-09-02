@@ -21,6 +21,8 @@ return [
     'service_unavailable' => "Le service est actuellement indisponible. Veuillez réessayer plus tard.",
     "relation_not_found" => "La relation n'a pas été trouvée.",
     "throttle" => "Trop de tentatives de connexion. Veuillez réessayer dans quelques secondes.",
+    'an_error_occurred' => "Une erreur s'est produite. Veuillez réessayer ultérieurement.",
+    'socket_error' =>  "Une erreur de connexion s'est produite. Veuillez vérifier la connexion à l'imprimante.",
 
     // Spatie exception
     'role_does_not_exist' => "Le rôle sélectionné n\'existe pas.",

@@ -273,6 +273,9 @@
                     // TODO::samir
                     dataSrc: function(response) {
                         if (!response.status) {
+                            // var errorMessage = encodeURIComponent(response.message);
+                            // var redirectURL = "/?error=" + errorMessage;
+                            // window.location.href = redirectURL;
                             ajaxError(response.message);
                         } else {
                             $("#valid").text(response.data.list.length);
