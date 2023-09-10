@@ -100,7 +100,7 @@
         <!-- ============================================================== -->
         <!-- End Logo -->
         <!-- ============================================================== -->
-        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin6">
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->

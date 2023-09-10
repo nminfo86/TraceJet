@@ -4,7 +4,14 @@ $(function () {
     $(".preloader").fadeOut();
     // this is for close icon when navigation open in mobile view
     $(".nav-toggler").on("click", function () {
-        $("#main-wrapper").toggleClass("show-sidebar");
+        if ($("#main-wrapper").attr('data-sidebartype') == 'full') {
+            //$("#main-wrapper").removeClass("show-sidebar");
+            $("#main-wrapper").attr('data-sidebartype', 'mini-sidebar');
+            $("#main-wrapper.show-sidebar .left-sidebar").css("left", '-260px');
+            localStorage.setItem("data_sidebartype", "mini-sidebar")
+        }
+        else
+            $("#main-wrapper").toggleClass("show-sidebar");
     });
     $(".search-box a, .search-box .app-search .srh-btn").on("click", function () {
         $(".app-search").toggle(200);

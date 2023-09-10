@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\v1\{RoleController, UserController, CaliberControll
 |
 */
 
-Route::post('auth/access_token', [AccessTokensController::class, 'login'])->middleware('guest:sanctum');
+Route::post('auth/access_token', [AccessTokensController::class, 'login'])->middleware('guest:sanctum',);
 Route::post('register', [AccessTokensController::class, 'register']);
 
 
@@ -66,12 +66,8 @@ Route::group(
             Route::delete('auth/logout', 'logout');
         });
 
-        // Route::controller(PluckController::class)->group(function () {
-        //     Route::get('pluck/{model_name}', 'pluckData');
-        // });
-
-        Route::group(['prefix' => 'pluck'], function () {
-            Route::get('{model_name}', [PluckController::class, 'pluckData']); // Use the middleware alias you registered
+        Route::controller(PluckController::class)->group(function () {
+            Route::get('pluck/{model_name}', 'pluckData');
         });
 
 

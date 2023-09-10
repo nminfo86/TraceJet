@@ -273,7 +273,10 @@ function ajaxCallDatatables(url, data = {}) {
         },
         dataSrc: function (json) {
             if (json.status == true) return json.data;
-            else ajaxError(json.message);
+            else {
+                ajaxError(json.message);
+                window.location.href = "/logout";
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             if (jqXHR.status == false) window.location.href = "/logout";
@@ -282,6 +285,33 @@ function ajaxCallDatatables(url, data = {}) {
     // Return it
     return obj;
 }
+
+function postesDatatables(url, data = {}) {
+    // Define desired object
+    var deferred = $.Deferred();
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        data: data,
+        success: function (json) {
+            if (json.status == true)
+                deferred.resolve(json);
+            else {
+                ajaxError(json.message);
+                window.location.href = "/logout";
+            }
+        },
+        // error: function () {
+        //     deferred.reject("Error fetching data.");
+        // }
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status == false) window.location.href = "/logout";
+        },
+    });
+    return deferred.promise();
+}
+
 customSelect2("fr");
 function customSelect2(lang) {
     $("select").select2({

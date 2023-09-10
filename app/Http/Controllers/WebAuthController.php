@@ -50,7 +50,6 @@ class WebAuthController extends AccessTokensController
                 return redirect("/packaging");
             }
             }
-
             // Default redirection to /dashboard for other IP addresses
 
         } catch (Exception $e) {
