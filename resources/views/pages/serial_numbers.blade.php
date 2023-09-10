@@ -77,15 +77,58 @@
                                 {{-- <div class="">
 
                                 </div> --}}
-                                <div class="row mt-4 mx-0">
-                                    <div class="col-lg-7">
-                                        <div class="outer">
+                                <div class="col-12 mt-4 mx-0">
+                                    <div class="row col-12 text-center">
+                                        <div class="outer mx-auto">
                                             <canvas id="chartJSContainer" width="auto" height="auto"></canvas>
-                                            <p class="percent" id="percent">
-                                            </p>
+                                            <p class="percent" id="percent"></p>
                                         </div>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="row border-top pb-3  mt-3 gx-0 mx-0">
+                                        <div class="col-6 pt-3 border-end">
+                                            <h6 class="fw-normal fs-5 mb-0">{{ __('OF') }}</h6>
+                                            {{-- <span class="fs-3 font-weight-medium text-primary" id="release_date"></span> --}}
+                                            <ul class="list-group list-group-flush">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-start">
+                                                    <div class="ms-2 me-auto">
+                                                        <div class="fw-bold">OK </div>
+                                                    </div>
+                                                    <span class="badge bg-success rounded-pill fs-4" id="count_list"></span>
+                                                </li>
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-start">
+                                                    <div class="ms-2 me-auto">
+                                                        <div class="fw-bold">OK / jour </div>
+                                                    </div>
+                                                    <span class="badge bg-danger rounded-pill fs-4"
+                                                        id="quantity_valid_today"></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-6 pt-3 border-end ps-3">
+                                            <h6 class="fw-normal fs-5 mb-0">{{ __('Opérateur') }}</h6>
+                                            <ul class="list-group list-group-flush">
+                                                <li
+                                                    class="list-group-item d-flex justify-content-between align-items-start">
+                                                    <div class="ms-2 me-auto">
+                                                        <div class="fw-bold">OK / jour </div>
+                                                    </div>
+                                                    <span class="badge bg-success rounded-pill fs-4"
+                                                        id="user_valid_today"></span>
+                                                </li>
+                                                {{-- <li
+                                                    class="list-group-item d-flex justify-content-between align-items-start">
+                                                    <div class="ms-2 me-auto">
+                                                        <div class="fw-bold">NOK / jour </div>
+                                                    </div>
+                                                    <span class="badge bg-danger rounded-pill"
+                                                        id="NotvalidOperator">0</span>
+                                                </li> --}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-lg-5">
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                                 <div class="ms-2 me-auto">
@@ -123,7 +166,7 @@
                                             </li>
 
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -134,9 +177,11 @@
         <div class="col-lg-6 d-none of_info">
             <div class="card shadow border-primary" style="min-height: 90vh">
                 <div class="card-body text-white">
-                    <button class="btn btn-info text-white" id="print_qr"><i class="mdi mdi-printer mdi-24px"></i> <span
-                            style="font-size: 18px">F1</span>
-                        {{-- {{ __('Générer QR') }}  --}} </button>
+                    <button class="btn btn-info text-white form-inline" id="print_qr" style="display: inline-block;">
+                        <i class="mdi mdi-printer mdi-24px"></i>
+                        <span style="font-size: 18px">F1</span>
+                    </button>
+                    <span class="bg-danger" id="printer_alert"></span>
                     <div class="table-responsive">
                         <table id="main_table" class="table table-sm table-hover  " width="100%">
                             <thead class="bg-light">
@@ -258,21 +303,32 @@
             getOfDetails(of_id);
             postesDatatables(url, {
                 "of_id": of_id
-            }).done(function(data) {
+            }).done(function(response) {
+                if (response.message !== "") {
+                    $("#printer_alert").text(response.message);
+                }
+                $.each(response.data, function(key, value) {
+                    if (key == "count_list") {
+                        // alert(key);
+                        $("#" + key).text(value + ' /' + total_quantity_of);
+                    } else
+                        // alert(value)
+                        $("#" + key).text(value);
+                });
                 // Do something with the fetched data
                 //console.log(data.data.list);
-                $("#validOF").text(data.data.count_list);
-                // var errorMessage = encodeURIComponent(response.message);
-                // var redirectURL = "/?error=" + errorMessage;
-                // window.location.href = redirectURL;
-                $("#NotvalidOF").text(data.data.count_list);
-                $("#validOperator").text(data.data.count_list);
-                $("#NotvalidOperator").text(data.data.count_list);
-                $("#status").text(data.data.status);
-                $("#quantity_of_day").text(data.data.quantity_of_day);
-                $("#user_of_day").text(data.data.user_of_day);
+                // $("#validOF").text(response.data.count_list);
+                // // var errorMessage = encodeURIComponent(response.message);
+                // // var redirectURL = "/?error=" + errorMessage;
+                // // window.location.href = redirectURL;
+                // $("#NotvalidOF").text(response.data.count_list);
+                // $("#validOperator").text(response.data.count_list);
+                // $("#NotvalidOperator").text(response.data.count_list);
+                // $("#status").text(response.response.status);
+                // $("#quantity_of_day").text(response.data.quantity_of_day);
+                // $("#user_of_day").text(response.data.user_of_day);
                 //alert(total_quantity_of);
-                let x = (parseInt(data.data.list.length) / parseInt(
+                let x = (parseInt(response.data.list.length) / parseInt(
                     total_quantity_of));
 
                 percent = Math.floor(x * 100);
@@ -314,7 +370,7 @@
                 var ctx1 = document.getElementById('chartJSContainer').getContext('2d');
                 var chart1 = new Chart(ctx1, options1);
                 table.DataTable({
-                    "data": data.data.list,
+                    "data": response.data.list,
                     columns: [{
                             data: 'serial_number'
                         },

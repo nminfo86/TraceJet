@@ -28,7 +28,6 @@ class DashboardController extends Controller
                 return $query->whereCaliberId($request->caliber_id);
             })
             ->get(['of_number', 'of_code', 'status', 'id', 'caliber_id']);
-
         /* -------------------------------------------------------------------------- */
         /*                       Fetch posts based on section ID                      */
         /* -------------------------------------------------------------------------- */
