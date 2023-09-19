@@ -36,30 +36,32 @@ class SerialNumberController extends Controller
     public function index(Request $request)
     {
         // Fetch the list of valid products
-        $validProductsList = SerialNumber::whereOfId($request->of_id)->whereValid(1)
-            ->get(["serial_number", "updated_at", "updated_by"]);
+        $productsList = SerialNumber::whereOfId($request->of_id)->whereValid(1)
+            ->get(["serial_number", "valid as result", "updated_at", "updated_by"]);
 
         // Map the results based on conditions
-        $results = $validProductsList->map(function ($item) {
+        $results = $productsList->map(function ($item) {
             $today = now()->toDateString();
-            $validAt = Carbon::parse($item['updated_at'])->toDateString();
-            $validBy = $item['updated_by'];
+            $okAt = Carbon::parse($item['updated_at'])->toDateString();
+            $okBy = $item['updated_by'];
             $userUsername = Auth::user()->username;
 
             return [
-                "user_valid_today" => $validAt === $today && $validBy === $userUsername,
-                "user_valid_of" => $validBy === $userUsername,
-                "quantity_valid_today" => $validAt === $today,
+                "of_ok" =>  $item['result'] == "OK",
+                "of_ok_today" => $okAt === $today && $item['result'] == "OK",
+                "user_ok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "OK",
+                "user_nok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "NOK",
             ];
         });
 
         // Count occurrences of each key
         $data = [
-            "list" => $validProductsList, // Original list of valid products
-            "count_list" => $validProductsList->count(),
-            "quantity_valid_today" => $results->filter(fn ($item) => $item['quantity_valid_today'])->count(),
-            "user_valid_today" => $results->filter(fn ($item) => $item['user_valid_today'])->count(),
-            "user_valid_of" => $results->filter(fn ($item) => $item['user_valid_of'])->count(),
+            "list" => $productsList, // Original list of ok products
+            "of_ok" => $productsList->count(),
+            "of_ok_today" => $results->filter(fn ($item) => $item['of_ok_today'])->count(),
+            "user_ok_today" => $results->filter(fn ($item) => $item['user_ok_today'])->count(),
+            "user_nok_today" => $results->filter(fn ($item) => $item['user_nok_today'])->count(),
+
         ];
         $msg = "";
         if ($request->printer == NULL) {
@@ -72,23 +74,15 @@ class SerialNumberController extends Controller
 
     public function checkOfStatus(Object $of)
     {
-        // Check if the Order Form (OF) with the given ID is closed
-        // $of = OF::findOrFail($request->of_id);
         $error = false;
         $message = "";
         if ($of->status->value == "closed") {
-            // Return a success response indicating that the OF is already closed
-            // $msg = __('response-messages.of_closed');
-            // return $this->sendResponse($msg, true);
             $message = "of_closed";
             $error = true;
         }
 
         // Check with OF quantity
         if ($of->new_quantity === $this->countValidProducts($of->id)) {
-            // $msg = __('response-messages.of_valid');
-            // //Send response with Error
-            // return $this->sendResponse($msg);
             $message = "of_valid";
             $error = true;
         }
@@ -112,7 +106,7 @@ class SerialNumberController extends Controller
         $ofStatus = $this->checkOfStatus($of);
         if ($ofStatus['error'] == true) {
             $msg = __('response-messages.' . $ofStatus['message']);
-            return $this->sendResponse($msg, true);
+            return $this->sendResponse($msg);
         }
 
         // if ($of->status->value == "closed") {

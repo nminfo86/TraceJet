@@ -291,15 +291,14 @@ function postesDatatables(url, data = {}) {
     var deferred = $.Deferred();
     $.ajax({
         url: url,
-        type: "GET",
+        type: "POST",
         dataType: "json",
         data: data,
         success: function (json) {
-            if (json.status == true)
-                deferred.resolve(json);
+            if (json.status == true) deferred.resolve(json);
             else {
                 ajaxError(json.message);
-                window.location.href = "/logout";
+                // window.location.href = "/logout";
             }
         },
         // error: function () {
