@@ -286,12 +286,12 @@ function ajaxCallDatatables(url, data = {}) {
     return obj;
 }
 
-function postesDatatables(url, data = {}) {
+function postesDatatables(url, data = {}, type = "GET") {
     // Define desired object
     var deferred = $.Deferred();
     $.ajax({
         url: url,
-        type: "POST",
+        type: type,
         dataType: "json",
         data: data,
         success: function (json) {

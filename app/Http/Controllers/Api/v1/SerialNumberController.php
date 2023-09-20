@@ -109,20 +109,6 @@ class SerialNumberController extends Controller
             return $this->sendResponse($msg);
         }
 
-        // if ($of->status->value == "closed") {
-        //     // Return a success response indicating that the OF is already closed
-        //     $msg = __('response-messages.of_closed');
-        //     return $this->sendResponse($msg, true);
-        // }
-
-        // // Check with OF quantity
-        // if ($of->new_quantity === $this->countValidProducts($of->id)) {
-        //     $msg = __('response-messages.of_valid');
-        //     //Send response with Error
-        //     return $this->sendResponse($msg);
-        // }
-        //TODO::add alert about all sn is valid and of not closed
-
         // Retrieve the SerialNumber with the provided QR code and that has not been validated yet
         $product = SerialNumber::where('qr', $request->qr)
             ->where('valid', 0)

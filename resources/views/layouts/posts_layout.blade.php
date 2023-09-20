@@ -101,20 +101,6 @@
 
 
 
-                <!-- -------------------------------------------------------------------------- -->
-                <!--                          Clock + post name                                 -->
-                <!-- -------------------------------------------------------------------------- -->
-
-
-                {{-- <div id="navbar" class="navbar navbar-fixed-top navbar-right">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="">Contact Us</a></li>
-                        <li><a href="">NL</a></li>
-                        <li><a href="">ENG</a></li>
-                    </ul>
-                </div> --}}
-                {{-- @yield('content') --}}
-
                 <div class="row d-flex align-items-stretch">
                     <div class="col-lg-6 flex-fill">
                         <div class="row">
@@ -157,6 +143,7 @@
                                     </div>
                                 </div>
                             @else
+                                {{-- Packaging --}}
                                 <div class="col-12">
                                     <div class="card shadow border-primary">
                                         <div class="card-body">
@@ -225,6 +212,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            {{-- </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -234,23 +222,25 @@
                                 <div class="card shadow border-primary">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            {{-- <form id="main_form">
-                                                <div class="row mx-0">
-                                                    <label class="col-md-1 "><i
-                                                            class="mdi mdi-24px mdi-barcode-scan"></i></label>
-                                                    <div class="col-md-11">
-                                                        <input type="text" class="form-control bg-light"
-                                                            id="qr" name="qr" onblur="this.focus()"
-                                                            autofocus>
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong id="qr-error"></strong>
-                                                        </span>
+                                            @if (request()->segment(2) !== 'packaging')
+                                                <form id="main_form">
+                                                    <div class="row mx-0">
+                                                        <label class="col-md-1 "><i
+                                                                class="mdi mdi-24px mdi-barcode-scan"></i></label>
+                                                        <div class="col-md-11">
+                                                            <input type="text" class="form-control bg-light"
+                                                                id="qr" name="qr" onblur="this.focus()"
+                                                                autofocus>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong id="qr-error"></strong>
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <input type="submit" class="d-none">
-                                            </form>
-                                            <div class="text-center h4" id="scanned_qr"> Scanner un produit </div>
-                                            <hr> --}}
+                                                    <input type="submit" class="d-none">
+                                                </form>
+                                                <div class="text-center h4" id="scanned_qr"> Scanner un produit </div>
+                                                <hr>
+                                            @endif
                                             <div class="row border-bottom mt-2 gx-0 mx-0">
                                                 <div class="col-4 pb-3 border-end">
                                                     <h6 class="fw-normal fs-5 mb-0">{{ __('Date lancement') }}</h6>
@@ -279,7 +269,10 @@
                                                 </div>
                                                 <div class="row border-top pb-3  mt-2 gx-0 mx-0">
                                                     <div class="col-6 pt-2 ">
-                                                        <h6 class="fw-normal fs-5 mb-0">{{ __('OF') }}</h6>
+                                                        <h6 class="fw-normal fs-5 mb-0"><strong>
+                                                                <ins>{{ __('OF') }}</ins>
+                                                            </strong>
+                                                        </h6>
 
                                                         <ul class="list-group list-group-flush">
                                                             <li
@@ -302,7 +295,11 @@
                                                     </div>
 
                                                     <div class="col-6 pt-2 ">
-                                                        <h6 class="fw-normal fs-5 mb-0">{{ __('Opérateur') }}</h6>
+                                                        <h6 class="fw-normal fs-5 mb-0">
+                                                            <strong>
+                                                                <ins>{{ __('Opérateur') }}</ins>
+                                                            </strong>
+                                                        </h6>
                                                         <ul class="list-group list-group-flush">
                                                             <li
                                                                 class="list-group-item d-flex justify-content-between align-items-start">
@@ -353,16 +350,21 @@
                         <div class="card shadow border-primary" style="min-height: 90vh">
                             <div class="card-body text-white">
                                 @if (request()->segment(2) == 'serial_numbers')
-                                    <button class="btn btn-info text-white form-inline" id="print_qr"
-                                        style="display: inline-block;">
+                                    <button class="btn btn-info text-white " id="print_qr">
                                         <i class="mdi mdi-printer mdi-24px"></i>
-                                        <span style="font-size: 18px">F1</span>
+                                        <span class="fs-3">F1</span>
                                     </button>
-                                    <span class="bg-danger" id="printer_alert"></span>
+
+                                    <span class="alert alert-danger" role="alert" id="printer_alert"> </span>
                                 @endif
                                 <div class="table-responsive">
                                     <table id="main_table" class="table table-sm table-hover  " width="100%">
                                         <thead class="bg-light">
+                                            <tr>
+                                                <td>SN</td>
+                                                <td>Etat</td>
+                                                <td>Created At</td>
+                                            </tr>
                                         </thead>
                                     </table>
                                 </div>
@@ -417,6 +419,7 @@
             <!-- End Page wrapper  -->
             <!-- ============================================================== -->
         </div>
+        <div id="qr_code"></div>
 
         <!-- ============================================================== -->
         <!-- End Wrapper -->
