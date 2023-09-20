@@ -11219,14 +11219,14 @@ html[dir="ltr"] body .p-l-0 {
 
 #main-wrapper[data-layout="horizontal"] .topbar .top-navbar .navbar-header[data-logobg="skin6"],
 #main-wrapper[data-layout="vertical"] .topbar .top-navbar .navbar-header[data-logobg="skin6"] {
-    background: #fff;
+    background: #f6f8fb;
 }
 
 #main-wrapper[data-layout="horizontal"] .topbar .navbar-collapse[data-navbarbg="skin6"],
 #main-wrapper[data-layout="horizontal"] .topbar[data-navbarbg="skin6"],
 #main-wrapper[data-layout="vertical"] .topbar .navbar-collapse[data-navbarbg="skin6"],
 #main-wrapper[data-layout="vertical"] .topbar[data-navbarbg="skin6"] {
-    background: #fff;
+    background: #f6f8fb;
 }
 
 #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"],

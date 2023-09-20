@@ -1,7 +1,7 @@
 <!-- footer -->
 <!-- ============================================================== -->
-<footer class="footer text-center">
-    All Rights Reserved by Flexy Admin. Designed and Developed by <a href="https://www.wrappixel.com">WrapPixel</a>.
+<footer class="footer fixed-bottom text-center">
+    All Rights Reserved by <a href="{{ url('http://bns.com') }}">BNS</a> Company.
 </footer>
 <!-- ============================================================== -->
 <!-- End footer -->
