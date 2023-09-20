@@ -37,31 +37,25 @@ class OperatorController extends Controller
         // Map the results based on conditions
         $results = $productsList->map(function ($item) {
             $today = now()->toDateString();
-            $validAt = Carbon::parse($item['updated_at'])->toDateString();
-            $validBy = $item['updated_by'];
+            $okAt = Carbon::parse($item['updated_at'])->toDateString();
+            $okBy = $item['updated_by'];
             $userUsername = Auth::user()->username;
 
             return [
-                "user_valid_today" => $validAt === $today && $validBy === $userUsername,
-                "user_valid_of" => $validBy === $userUsername,
-                "quantity_valid_today" => $validAt === $today,
-
-                //result NOK
-                "user_nok_today" => $validAt === $today && $validBy === $userUsername && $item['result'] == "NOK",
-                "user_nok_of" =>  $validBy === $userUsername && $item['result'] == "NOK",
-
+                "of_ok" =>  $item['result'] == "OK",
+                "of_ok_today" => $okAt === $today && $item['result'] == "OK",
+                "user_ok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "OK",
+                "user_nok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "NOK",
             ];
         });
 
         // Count occurrences of each key
         $data = [
-            "list" => $productsList, // Original list of valid products
-            "count_list" => $productsList->count(),
-            "quantity_valid_today" => $results->filter(fn ($item) => $item['quantity_valid_today'])->count(),
-            "user_valid_today" => $results->filter(fn ($item) => $item['user_valid_today'])->count(),
-            "user_valid_of" => $results->filter(fn ($item) => $item['user_valid_of'])->count(),
+            "list" => $productsList, // Original list of ok products
+            "of_ok" => $results->filter(fn ($item) => $item['of_ok'])->count(),
+            "of_ok_today" => $results->filter(fn ($item) => $item['of_ok_today'])->count(),
+            "user_ok_today" => $results->filter(fn ($item) => $item['user_ok_today'])->count(),
             "user_nok_today" => $results->filter(fn ($item) => $item['user_nok_today'])->count(),
-            "user_nok_of" => $results->filter(fn ($item) => $item['user_nok_of'])->count(),
         ];
 
         // Return the response

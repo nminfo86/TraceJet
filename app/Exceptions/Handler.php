@@ -125,6 +125,7 @@ class Handler extends ExceptionHandler
                     ServiceUnavailableHttpException::class => "service_unavailable",
                     RelationNotFoundException::class => "relation_not_found",
                     ThrottleRequestsException::class => "throttle",
+                    ErrorException::class => "an_error_occurred",
                     // Spatie exceptions
                     RoleDoesNotExist::class => "role_does_not_exist",
                     UnauthorizedException::class => "unauthorized_access",
@@ -140,6 +141,14 @@ class Handler extends ExceptionHandler
                     Log::channel('applicationLog')->error(
                         'Exception : ' . get_class($exception) . PHP_EOL . $exception->getMessage() . PHP_EOL . ' at : ' . Route::currentRouteName() . ' Action : ' . Route::currentRouteAction() . ' File : ' . $exception->getFile() . ' at Line N° ' . $exception->getLine()
                     );
+
+
+
+                    if (strpos($exception->getMessage(), 'socket') !== false && $exception instanceof ErrorException) {
+                        $messageKey = "socket_error";
+                    }
+
+
 
                     return response()->json([
                         'status' => false,

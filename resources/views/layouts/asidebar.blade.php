@@ -82,12 +82,12 @@
                     </li>
                 @endcan
 
-                {{-- @can('operator-list') --}}
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
-                        href="{{ url('operators') }}" aria-expanded="false"><i class="mdi mdi-creation"></i><span
-                            class="hide-menu">{{ __('test') }}</span></a>
-                </li>
-                {{-- @endcan --}}
+                @can('movement-list')
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
+                            href="{{ url('operators') }}" aria-expanded="false"><i class="mdi mdi-creation"></i><span
+                                class="hide-menu">{{ __('test') }}</span></a>
+                    </li>
+                @endcan
 
                 @can('packaging-list')
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"

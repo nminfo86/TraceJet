@@ -286,20 +286,19 @@ function ajaxCallDatatables(url, data = {}) {
     return obj;
 }
 
-function postesDatatables(url, data = {}) {
+function postesDatatables(url, data = {}, type = "GET") {
     // Define desired object
     var deferred = $.Deferred();
     $.ajax({
         url: url,
-        type: "GET",
+        type: type,
         dataType: "json",
         data: data,
         success: function (json) {
-            if (json.status == true)
-                deferred.resolve(json);
+            if (json.status == true) deferred.resolve(json);
             else {
                 ajaxError(json.message);
-                window.location.href = "/logout";
+                // window.location.href = "/logout";
             }
         },
         // error: function () {

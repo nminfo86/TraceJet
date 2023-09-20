@@ -6,6 +6,7 @@ use App\Models\Of;
 use Carbon\Carbon;
 use App\Models\Box;
 use App\Models\Caliber;
+use App\Models\Setting;
 use App\Models\Movement;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
@@ -15,8 +16,8 @@ use App\Services\MovementService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckIpClient;
-use App\Models\Setting;
 use Illuminate\Support\Facades\Response;
 
 class PackagingController extends Controller
@@ -48,6 +49,7 @@ class PackagingController extends Controller
 
     public function store(Request $request, ProductService $productService)
     {
+
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr', $request->qr)
             ->latest('movements.created_at')
@@ -202,15 +204,15 @@ class PackagingController extends Controller
 
             $product_name = Caliber::whereProductId($product_id)->join('products', 'calibers.product_id', 'products.id')->select(DB::raw("CONCAT(product_name, ' ', caliber_name) as product"))->first()->product;
 
-            $info = Setting::first();
-            $info->box_qr = $last_open_box->box_qr;
-            $info->boxed_date = $last_open_box->created_at;
-            $info->box_quantity = $box_quantity;
-            $info->product = $product_name;
+            $company = Setting::first();
+            $company->box_qr = $last_open_box->box_qr;
+            $company->boxed_date = $last_open_box->created_at;
+            $company->box_quantity = $box_quantity;
+            $company->product = $product_name;
 
 
             $box_ticket['serial_numbers'] = SerialNumber::whereBoxId($last_open_box->id)->pluck("serial_number");
-            $box_ticket['info'] = $info;
+            $box_ticket['company'] = $company;
             // $box_ticket['info'] = ["box_qr" => $last_open_box->box_qr, "boxed_date" => $last_open_box->created_at, "box_quantity" => $box_quantity, "product" => $product_name];
             return $box_ticket;
         }
@@ -240,7 +242,7 @@ class PackagingController extends Controller
      */
     public function prepareResponse(int $of_id, int $host_id, $box_ticket)
     {
-        $list = $this->getMovementDetail($of_id, $host_id);
+
 
         $info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
             ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
@@ -249,7 +251,7 @@ class PackagingController extends Controller
             ->select(
                 'of_number',
                 'ofs.status',
-                'ofs.created_at',
+                'ofs.release_date',
                 'boxes.status as box_status',
                 'calibers.box_quantity',
                 'caliber_name',
@@ -257,18 +259,34 @@ class PackagingController extends Controller
                 'product_name',
                 'ofs.new_quantity as quantity',
                 DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
-                DB::raw("(select FLOOR(quantity/box_quantity)) as of_boxes")
-                // DB::raw("COUNT(DISTINCT  box_id) as boxes_packaged"),
-                // DB::raw("COUNT(serial_numbers.id) as products_packaged"),
+                DB::raw("(select FLOOR(new_quantity/box_quantity)-(select count(id) from boxes where status='filled')) as box_rest")
             )->where('serial_numbers.of_id', '=', $of_id)
             ->orderBy("serial_numbers.updated_at", "DESC")
             ->first();
 
-        $info->quantity_of_day =  $list
-            ->filter(function ($item) {
-                return date('Y-m-d', strtotime($item['created_at'])) == Carbon::today()->toDateString();
-            })
-            ->count();
+        $list = $this->getProductsList($of_id, $host_id);
+        $results = $list->map(function ($item) {
+            $today = now()->toDateString();
+            $okAt = Carbon::parse($item['updated_at'])->toDateString();
+            $okBy = $item['updated_by'];
+            $userUsername = Auth()->user()->username;
+
+            return [
+                "of_ok" =>  $item['result'] == "OK",
+                "of_ok_today" => $okAt === $today && $item['result'] == "OK",
+                "user_ok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "OK",
+                "user_nok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "NOK",
+            ];
+        });
+
+        // Count occurrences of each key
+        // $data = [
+        // $info->list = $list->pluck("serial_number"); // Original list of ok products
+        $info->of_ok = $results->filter(fn ($item) => $item['of_ok'])->count();
+        $info->of_ok_today = $results->filter(fn ($item) => $item['of_ok_today'])->count();
+        $info->user_ok_today = $results->filter(fn ($item) => $item['user_ok_today'])->count();
+        $info->user_nok_today = $results->filter(fn ($item) => $item['user_nok_today'])->count();
+        // ];
 
         // If the product information was found, calculate the number of OF boxes
         // if ($product_info) {
@@ -285,16 +303,16 @@ class PackagingController extends Controller
 
 
     /**
-     * getMovementDetail
+     * getProductsList
      *
      * @param  Int $of_id
      * @param  Int $host_id
      * @return Object
      */
-    public function getMovementDetail(Int $of_id, Int $host_id)
+    public function getProductsList(Int $of_id, Int $host_id)
     {
         return Movement::join("serial_numbers", "movements.serial_number_id", "serial_numbers.id")
             ->whereMovementPostId($host_id)
-            ->whereOfId($of_id)->get(["serial_numbers.serial_number", "result", "movements.created_at", "movements.updated_at", "movements.updated_by"]);
+            ->whereOfId($of_id)->get(["serial_numbers.serial_number", "result", "movements.updated_at", "movements.updated_by"]);
     }
 }

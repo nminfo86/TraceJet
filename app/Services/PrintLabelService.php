@@ -2,6 +2,8 @@
 
 
 namespace App\Services;
+
+use Exception;
 /* require "PrintLabel.php";
 $printLabel = new PrintLabel("192.168.1.100", "TSPL", "40_20");
 $qrCode = "932113607001#CompteurX03#3500#2430#19/01/2023 09:29";
@@ -34,11 +36,11 @@ class PrintLabelService
      * @param string $labelSize The size of the label that the printer use, must be like "Width_Hight" Ex:"40_20"
      *
      */
-    public function __construct(string $iP, string $languageCode, string  $labelSize)
+    public function __construct($printer)
     {
-        $this->languageCode = $languageCode;
-        $this->labelSize = $labelSize;
-        $this->iP = $iP;
+        $this->languageCode = $printer->protocol;
+        $this->labelSize = $printer->label_size;
+        $this->iP = $printer->ip_address;
     }
 
     /**
@@ -49,10 +51,16 @@ class PrintLabelService
      * @param string $product_name The Name of the product
      * @param string $sn The serial number of the product
      */
-    public function printProductLabel(string $qrcode, string $of_num, string $product_name, string $sn)
+    public function printProductLabel(string $qrCode)
     {
-        // dd($qrcode);
+        // dd($this->iP);
+        // $qrCode = $new_sn->qr;
+        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
         $label = '';
+        $qr = explode("#", $qrCode);
+        $of_num = $qr[1];
+        $product_name = $qr[2];
+        $sn = $qr[3];
         switch ($this->languageCode) {
 
                 //If label printer support TSPL (Taiwan Semiconductor Printing/Programming Language)
@@ -66,7 +74,7 @@ class PrintLabelService
                             "DIRECTION 1\n" .       //Specify the printing direction (up to down or down to up)
                             "REFERENCE 0,0\n" .      // specify the initial label starting coordinates
                             "CLS\n" .                 // clears the image buffer
-                            "QRCODE 15,20,M,4,A,0,\"$qrcode\"" .
+                            "QRCODE 15,20,M,4,A,0,\"$qrCode\"" .
                             "TEXT 5,10,\"2\",0,1,1," . "\"Test1\"" . "\n" .
                             "TEXT 140,20,\"2\",0,1,1," . "\"$sn\"" . "\n" .
                             "TEXT 140,50,\"2\",0,1,1," . "\"$of_num\"" . "\n" .
@@ -88,37 +96,54 @@ class PrintLabelService
 
                 break;
         }
-        $this->print($label);
+        return $this->print($label);
     }
 
     /**
      * Print label to printer using the generateProductLabel() public methode
      *
      */
+
     public function print($label)
     {
-
+        // Create a socket
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
+        // Set socket options for receive timeout
         socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 1, 'usec' => 0));
+
+        // Set socket options for send timeout
         socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, array('sec' => 1, 'usec' => 0));
 
-        if ($socket === FALSE) {
-            echo json_encode(array("state" => "f", "message" => "socket_create() failed" . " " . __FUNCTION__));
-            // addTrace("socket_create() failed: reason: " . socket_strerror(socket_last_error()));
-        }
+        // Check if socket creation was successful
+        // if ($socket === FALSE) {
+        //     // Return an error response
+        //     return ["status" => "error", "message" => "Socket creation failed"];
+        // }
 
-        $result = socket_connect($socket, $this->iP, "9100");
-        if ($result === FALSE) {
-            echo json_encode(array("state" => "f", "message" => "Printer_connect() failed" . " " . __FUNCTION__));
-            // addTrace("socket_connect() failed. Reason: ($result) " . socket_strerror(socket_last_error($socket)));
-        }
-        $sWrite = socket_write($socket, $label, strlen($label));
-        if ($sWrite === FALSE) {
-            // addTrace("socket_write() failed. Reason: " . socket_strerror(socket_last_error($socket)));
-        } else {
-            socket_close($socket);
-            //echo json_encode(array("state" => "s"));
-        }
+        // Connect to the printer using IP and port 9100
+        $result = socket_connect($socket, $this->iP, "9100"); // Use @ to suppress exceptions
+
+        // Check if the connection was successful
+        // if ($result === FALSE) {
+        //     // Return an error response
+        //     // return ["status" => "error", "message" => "Socket connection failed"];
+        //     throw new Exception("Custom error: Socket connection failed");
+        // }
+
+        // Write the label data to the socket
+        $bytesWritten = socket_write($socket, $label, strlen($label)); // Use @ to suppress exceptions
+
+        // Check if writing to the socket was successful
+        // if ($bytesWritten === FALSE) {
+        //     // Return an error response
+        //     return ["status" => "error", "message" => "Socket write failed"];
+        // } else {
+
+        // Close the socket and return a success response
+        socket_close($socket);
+        return true;
+        // return ["status" => "success", "message" => "Label sent successfully"];
+        // }
     }
 }
