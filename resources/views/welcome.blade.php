@@ -127,9 +127,9 @@
                                         <label for="inputField" class="col-form-label">{{ __('OF') }}</label>
                                     </div>
                                     <div class="col">
-                                        <select class="form-select theme-select border-0" id="of_id" name="of_id"
-                                            aria-label="">
-                                            <option selected disabled>{{ __('choisir un OF') }}</option>
+                                        <select class="form-select theme-select border-0" data-maximum-selection-length="1"
+                                            id="of_id" name="of_id" aria-label="" multiple>
+                                            {{-- <option selected disabled>{{ __('choisir un OF') }}</option> --}}
                                         </select>
                                     </div>
                                     <div class="col-auto">

@@ -94,6 +94,35 @@
             <!-- End Logo -->
             <!-- ============================================================== -->
             <!-- This is for the sidebar toggle which is visible on mobile only -->
+            <ul class="navbar-nav d-md-none">
+                <!-- ============================================================== -->
+                <!-- User profile and search -->
+                <!-- ============================================================== -->
+                <li class="dropdown me-4">
+                    <button class="btn btn-info btn-circle text-white pt-1" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ __(LaravelLocalization::getCurrentLocale()) }}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <li>
+                                <a class="ms-2" rel="alternate" hreflang="{{ $localeCode }}"
+                                    href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                    {{ $properties['native'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+                <li class="nav-item navbar-collapse">
+                    <a class="btn btn-danger btn-circle text-white pt-1" href="{{ url('logout') }}"><i
+                            class="mdi mdi-logout mt-2 fs-4"></i>
+                    </a>
+                </li>
+                <!-- ============================================================== -->
+                <!-- User profile and search -->
+                <!-- ============================================================== -->
+            </ul>
             <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
                     class="mdi mdi-menu"></i></a>
         </div>
@@ -132,10 +161,8 @@
                 </li>
 
             </ul>
-            <!-- ============================================================== -->
-            <!-- Right side toggle and nav items -->
-            <!-- ============================================================== -->
-            <ul class="navbar-nav float-end">
+
+            <ul class="navbar-nav">
                 <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
@@ -156,15 +183,17 @@
                     </ul>
                 </li>
                 <li class="nav-item navbar-collapse">
-                    <a class="link" href="{{ url('logout') }}"><i class="ti-lock m-r-5 m-l-5"></i>
-                        {{ __('Se déconnecter') }}</a>
+                    <a class="btn btn-danger btn-circle text-white pt-1" href="{{ url('logout') }}"><i
+                            class="mdi mdi-logout mt-2 fs-4"></i>
+                    </a>
                 </li>
-
-
                 <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
             </ul>
+            <!-- ============================================================== -->
+            <!-- Right side toggle and nav items -->
+            <!-- ============================================================== -->
         </div>
     </nav>
 </header>
