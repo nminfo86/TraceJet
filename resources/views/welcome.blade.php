@@ -247,10 +247,11 @@
     <!-- ============================================================== -->
 @endsection
 @push('custom_js')
+    <script src="{{ asset('/dist/js/chart/chart.min.js') }}"></script>
     <script type="text/javascript">
         var form = $('#main_form');
         var table = $('#main_table');
-        url = 'api/v1/ofsBySection';
+        url = base_url + "/ofsBySection";
         $(document).ready(function() {
 
             callAjax('GET', base_url + '/pluck/sections', {

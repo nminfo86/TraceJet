@@ -104,7 +104,7 @@
         var form = $('#main_form'),
             table = $('#main_table'),
             form_title = " {{ __('Nouveau Post') }}",
-            url = 'api/v1/posts';
+            url = base_url + '/posts';
         formToggle(form_title);
 
         $(document).ready(function() {

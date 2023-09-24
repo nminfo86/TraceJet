@@ -71,20 +71,18 @@ class PluckController extends Controller
                 break;
             case "ofs":
 
-                if ($request->filter == "status") {
-                    // Retrieve ofs with specific status and filtered by section
-                    $data = Of::filterBySection()->whereIn("status", ["new", "inProd"])->pluck('of_name', 'id');
-                }
-                //  else if ($request->has("section_id")) {
-                //     $data = Of::InSection($request->section_id)->pluck('of_name', 'id');
-                // }
-                else if ($request->has("caliber_id") && $request->has('has')) {
+
+                if ($request->has("filter")) {
+
+                    $data = $request->filter == "prod" ? Of::filterBySection()->where("status", "inProd")->pluck('of_name', 'id') : Of::filterBySection()->whereIn("status", ["new", "inProd"])->pluck('of_name', 'id');
+                } elseif ($request->has("caliber_id") && $request->has('has')) {
                     $data = Of::has($request->has)->whereCaliberId($request->caliber_id)->pluck('of_name', 'id');
                 } else {
                     // Retrieve all ofs filtered by section
                     $data = Of::pluck('of_name', 'id');
                 }
                 break;
+
             case "calibers":
                 if ($this->checkPermission($permission) !== true) {
                     // dd($this->checkPermission('section-list'));

@@ -159,6 +159,7 @@
     <!-- ============================================================== -->
 @endsection
 @push('custom_js')
+    <script src="{{ asset('/dist/js/chart/chart.min.js') }}"></script>
     <script type="text/javascript">
         /* -------------------------------------------------------------------------- */
         /*                                   js traitement                            */

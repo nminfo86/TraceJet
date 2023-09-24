@@ -23,7 +23,7 @@ function buildTable(list) {
         searching: false,
         bLengthChange: false,
         destroy: true,
-        order: [1, "desc"],
+        order: [0, "desc"],
     });
 }
 

@@ -45,7 +45,7 @@ class CheckIpClient
 
 
 
-        $request->merge(['host_id' => $post->id, 'previous_post_id' => $post->previous_post_id, "printer" => $printer]);
+        $request->merge(['host_id' => $post->id, 'previous_post_id' => $post->previous_post_id, 'posts_type' => $post->posts_type_id, "printer" => $printer]);
         // } else {
         //     if (!$post)
         //         return redirect("/logout")->with('error', __("response-messages.invalid_host"));

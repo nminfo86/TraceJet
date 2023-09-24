@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Models\Of;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\Movement;
@@ -25,8 +26,22 @@ class OperatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, ProductService $productService)
     {
+        $ofStatus = $productService->checkOfStatus($request->of_id, true);
+        // dd($ofStatus);
+
+        if ($ofStatus['error'] !== false) {
+            $msg = __('response-messages.' . $ofStatus['message']);
+            return $this->sendResponse($msg);
+        }
+        // Check status OF
+        // $of = Of::findOrFail($request->of_id);
+        // $ofStatus = $productService->checkOfStatus($of);
+        // if ($ofStatus != NULL) {
+        //     $msg = __('response-messages.' . $ofStatus['message']);
+        //     return $this->sendResponse($msg);
+        // }
 
         // Retrieve the movement list for the given Order Form and host ID
         $productsList = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
@@ -72,6 +87,13 @@ class OperatorController extends Controller
     /* @var checkProductSteps void */
     public function store(Request $request, ProductService $productService)
     {
+        $ofStatus = $productService->checkOfStatus($request->of_id);
+        // dd($ofStatus);
+
+        if ($ofStatus['error'] !== false) {
+            $msg = __('response-messages.' . $ofStatus['message']);
+            return $this->sendResponse($msg);
+        }
         // Retrieve the latest movement record associated with the given serial number and order form ID
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr', $request->qr)
@@ -111,12 +133,20 @@ class OperatorController extends Controller
      */
     public function show(Request $request, ProductService $productService)
     {
+        $ofStatus = $productService->checkOfStatus($request->of_id);
+        // dd($ofStatus);
+
+        if ($ofStatus['error'] !== false) {
+            $msg = __('response-messages.' . $ofStatus['message']);
+            return $this->sendResponse($msg);
+        }
+
         // Get the last movement of a product with the specified QR and OF id
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
             ->where('serial_numbers.of_id', $request->of_id)
             ->latest("movements.created_at")
-            ->first(['movement_post_id', 'result', 'serial_number', "of_id"]);
+            ->firstOrFail(['movement_post_id', 'result', 'serial_number', "of_id"]);
 
         // Check if there are any errors with the product steps
         // If the current_post_id does not exist, there is an error

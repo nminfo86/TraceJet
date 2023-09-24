@@ -9,15 +9,14 @@
         var form = $('#main_form'),
             table = $('#main_table'),
             url = base_url + '/serial_numbers',
-            of_id,
-            last_qr = "";
+            of_id;
 
         $(document).ready(function() {
             /* -------------------------------------------------------------------------- */
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
             callAjax('GET', base_url + '/pluck/ofs', {
-                filter: "status",
+                filter: "gen",
             }).done(function(response) {
                 if (response.status == false) {
                     return ajaxError(response.message);
@@ -50,7 +49,6 @@
             callAjax('POST', url + '/qr_print', {
                 of_id: of_id
             }).done(function(response) {
-                // TODO::check status of response
                 ajaxSuccess(response.message);
                 // alert(response.data.qr);
             });
@@ -88,11 +86,9 @@
                     // if (response.status == false) {
                     //     return SessionErrors(response.message);
                     // }
-                    getSnTable(of_id);
-                    // TODO::Change later with samir
-                    // getOfDetails(of_id);
-                    ajaxSuccess(response.message);
                     $('#qr').val('');
+                    getSnTable(of_id);
+                    ajaxSuccess(response.message);
                 });
 
             });
@@ -109,6 +105,7 @@
                 if (response.message !== "") {
                     $("#printer_alert").text(response.message);
                 }
+
                 $.each(response.data, function(key, value) {
                     key == "of_ok" ? $("#" + key).text(value + ' /' + total_quantity_of) : $("#" + key)
                         .text(value);
@@ -117,7 +114,6 @@
                 buildChart(response.data.of_ok, total_quantity_of, ["{{ __('  réalisé') }}",
                     "{{ __('  à réaliser') }}"
                 ]);
-
 
                 buildTable(response.data.list);
             });

@@ -1,5 +1,5 @@
 @extends('layouts.posts_layout')
-<style>
+{{-- <style>
     .outer {
         position: relative;
         width: auto;
@@ -18,7 +18,7 @@
         font-size: 40px;
         bottom: 0;
     }
-</style>
+</style> --}}
 
 @push('custom_js')
     <script src="{{ asset('dist/js/pages/posts.js') }}"></script>
@@ -28,9 +28,7 @@
             form_title = " {{ __('Nouveau Produit') }}",
             url = base_url + '/operators',
             of_id,
-            last_qr = "";
-
-        var formData = {};
+            formData = {};
         formToggle(form_title);
 
         $(document).ready(function() {
@@ -39,7 +37,7 @@
             /*                                get ofs list                                */
             /* -------------------------------------------------------------------------- */
             callAjax('GET', base_url + '/pluck/ofs', {
-                filter: "status"
+                filter: "prod"
             }).done(function(response) {
                 appendToSelect(response.data, "#of_id");
             });
@@ -190,7 +188,7 @@
                 "of_id": of_id
             }).done(function(response) {
                 // if (response.message !== "") {
-                ajaxSuccess(response.message);
+                // ajaxSuccess(response.message);
                 // }
                 $.each(response.data, function(key, value) {
                     if (key == "of_ok") {
@@ -217,14 +215,10 @@
 
             callAjax("GET", url + '/' + qr, formData).done(function(response) {
                 $("#qr").val("");
-                if (response.status == false) {
-                    return SessionErrors(response.message);
-                }
-                // if (response.data.result == "ok" || response.data.result == "OK") {
+
+                ajaxSuccess(response.message);
                 $("#scanned_qr").html(
-                    `<div class="alert alert-success">
-                                                    <span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span>
-                                                </div>`
+                    `<div class="alert alert-success"><span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span></div>`
                 );
                 scanned_qr = qr;
                 // }
