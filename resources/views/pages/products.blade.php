@@ -177,7 +177,9 @@
 
                     // Add category name to the <tr>. NOTE: Hardcoded colspan
                     return $('<tr/>')
-                        .append('<td colspan="3"> Section: ' + group + ' (' + rows.count() + ')</td>')
+                        .append('<td colspan="3" style="background-color:#4599fa2e;color:#000"> Section: ' +
+                            group + ' (' +
+                            rows.count() + ')</td>')
                         .attr('data-name', group)
                         .toggleClass('collapsed', collapsed);
                 }

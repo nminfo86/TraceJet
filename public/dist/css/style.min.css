@@ -11241,7 +11241,8 @@ html[dir="ltr"] body .p-l-0 {
 
 #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] .sidebar-nav ul .sidebar-item .sidebar-link,
 #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"] .sidebar-nav ul .sidebar-item .sidebar-link {
-    color: #647279;
+    /* color: #647279; */
+    color: #000;
 }
 
 #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] .sidebar-nav ul .sidebar-item .sidebar-link i,
@@ -11791,7 +11792,8 @@ label {
 }
 
 .table thead th {
-    color: #777e89;
+    /* color: #777e89; */
+    color: #000;
     font-weight: 500;
 }
 

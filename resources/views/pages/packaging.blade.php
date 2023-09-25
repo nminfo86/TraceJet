@@ -18,6 +18,8 @@
         font-size: 40px;
         bottom: 0;
     }
+
+    /* table.dataTable tr.dtrg-group th  is modified in datatable.min.css*/
 </style>
 
 <!--==============================================================-->
