@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Parts', function (Blueprint $table) {
-            $table->id();
-            $table->string('part')->unique();
-            $table->text('observation')->nullable();
-        });
+        // Schema::create('Parts', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('part')->unique();
+        //     $table->text('observation')->nullable();
+        // });
     }
 
     /**
