@@ -207,7 +207,7 @@
                                                     <div class="col-12 border-start border-secondary float-start ">
                                                         <h6 class="fw-normal text-muted mb-0 ms-2">
                                                             {{ __('Etat carton') }}</h6>
-                                                        <span class="fs-3 font-weight-medium text-info ms-2"
+                                                        <span class="fs-1 font-weight-medium text-info ms-2"
                                                             id="box_status"></span>
                                                     </div>
                                                 </div>
@@ -380,7 +380,7 @@
                     <div
                         class="d-flex justify-content-between fixed-bottom bg-cyan  text-white pb-1 z-index-100 fs-4 ">
                         <div style="/*position:fixed;bottom:2%;left:1%;z-index:1000*/">
-                            <span class="">{{ Auth::user()->username }}</span>
+                            <span class="">{{ Auth::user()->username }} </span>
                         </div>
                         <div style="/*position:fixed;bottom:2%;right:2%;z-index:1000*/">
                             {{-- <span class="  ">{{ Session::get('user_data')['post_information']['post_name'] }}</span> --}}

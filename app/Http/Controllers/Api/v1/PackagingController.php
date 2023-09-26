@@ -255,6 +255,26 @@ class PackagingController extends Controller
     {
 
 
+        // $info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+        //     ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+        //     ->join('products', 'calibers.product_id', '=', 'products.id')
+        //     ->join('boxes', 'serial_numbers.box_id', '=', 'boxes.id')
+        //     ->select(
+        //         'of_number',
+        //         'ofs.status',
+        //         'ofs.release_date',
+        //         'boxes.status as box_status',
+        //         'calibers.box_quantity',
+        //         'caliber_name',
+        //         'serial_number',
+        //         'product_name',
+        //         'ofs.new_quantity as quantity',
+        //         DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
+        //         // DB::raw("(select FLOOR(new_quantity/box_quantity)-(select count(id) from boxes where status='filled')) as box_rest")
+        //         DB::raw("ROUND(new_quantity/box_quantity) - (SELECT COUNT(id) FROM boxes WHERE status = 'filled')) AS box_rest")
+        //     )->where('serial_numbers.of_id', '=', $of_id)
+        //     ->orderBy("serial_numbers.updated_at", "DESC")
+        //     ->first();
         $info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
             ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
             ->join('products', 'calibers.product_id', '=', 'products.id')
@@ -270,7 +290,7 @@ class PackagingController extends Controller
                 'product_name',
                 'ofs.new_quantity as quantity',
                 DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
-                DB::raw("(select FLOOR(new_quantity/box_quantity)-(select count(id) from boxes where status='filled')) as box_rest")
+                DB::raw("ROUND(ofs.new_quantity / calibers.box_quantity) - (SELECT COUNT(id) FROM boxes WHERE status = 'filled') AS box_rest")
             )->where('serial_numbers.of_id', '=', $of_id)
             ->orderBy("serial_numbers.updated_at", "DESC")
             ->first();

@@ -65,10 +65,26 @@
                     // return;
                 }
                 total_quantity_of = response.data.info.quantity ?? 0;
+                // Iterate through each key-value pair in 'response.data.info'
                 $.each(response.data.info, function(key, value) {
-                    key == "of_ok" ? $("#" + key).text(value + ' /' + total_quantity_of) : $("#" + key)
-                        .text(value);
+                    // Select the element with the corresponding 'id'
+                    const $element = $("#" + key);
+
+                    // Update the element based on the key
+                    switch (key) {
+                        case "of_ok":
+                            $element.text(value + ' / ' + total_quantity_of);
+                            break;
+                        case "box_status":
+                            $element.html(value === "open" ?
+                                '<i class="fas fa-box-open text-warning"></i>' :
+                                '<i class="fas fa-box text-success"></i>');
+                            break;
+                        default:
+                            $element.text(value);
+                    }
                 });
+
 
                 buildChart(response.data.info.of_ok, total_quantity_of, ["{{ __('  réalisé') }}",
                     "{{ __('  à réaliser') }}"

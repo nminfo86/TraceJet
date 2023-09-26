@@ -107,7 +107,7 @@ class SerialNumberController extends Controller
         }
 
         // Generate a new SerialNumber
-        return $this->generateNewSN($request);
+        return $this->createNewProduct($request);
     }
 
     // This method prints the QR code for a product based on the given request
@@ -134,16 +134,16 @@ class SerialNumberController extends Controller
             // Printing
             return $this->sendToPrinter($request->printer,  $qrCode);
         }
-        return $this->generateNewSN($request);
+        return $this->createNewProduct($request);
     }
 
     /**
-     * generateNewSN
+     * createNewProduct
      *
      * @param  mixed $of_id
      * @return \Illuminate\Http\Response
      */
-    public function generateNewSN($request)
+    public function createNewProduct($request)
     {
         // Generate the serial number for the new product
         $last_sn = SerialNumber::whereOfId($request->of_id)->orderBy('id', 'desc')->first();

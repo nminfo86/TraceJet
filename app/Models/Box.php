@@ -48,7 +48,7 @@ class Box extends Model
      * @param  string  $value
      * @return string
      */
-    protected function releaseDate(): Attribute
+    protected function createdAt(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => Carbon::parse($value)->format('d-m-Y H:i:s'),

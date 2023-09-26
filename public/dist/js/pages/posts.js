@@ -70,7 +70,7 @@ function buildChart(of_ok, of_quantity, labels) {
 
 function printBoxTicket(box_ticket) {
     console.log(box_ticket);
-    alert(box_ticket.company.box_qr);
+    // alert(box_ticket.company.box_qr);
     //serial_numbers = box_ticket.serial_numbers
     var sn = "";
     box_ticket.serial_numbers.forEach((element) => {
