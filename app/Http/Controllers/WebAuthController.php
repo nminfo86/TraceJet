@@ -30,25 +30,17 @@ class WebAuthController extends AccessTokensController
                 return redirect("/")->with('error', $response["message"]);
             }
 
-            if(empty($response['data']["post_information"]))
-            {
+            if (empty($response['data']["post_information"])) {
                 return redirect()->intended('/dashboard');
-            }
-            else
-            {
+            } else {
                 $post_type = $response['data']["post_information"]['posts_type_id'];
-            if($post_type==1)
-            {
-                return redirect("/serial_numbers");
-            }
-            elseif($post_type==2)
-            {
-                return redirect("/operators");
-            }
-            elseif($post_type ==3)
-            {
-                return redirect("/packaging");
-            }
+                if ($post_type == 1) {
+                    return redirect("/serial_numbers");
+                } elseif ($post_type == 2) {
+                    return redirect("/operators");
+                } elseif ($post_type == 3) {
+                    return redirect("/packaging");
+                }
             }
             // Default redirection to /dashboard for other IP addresses
 

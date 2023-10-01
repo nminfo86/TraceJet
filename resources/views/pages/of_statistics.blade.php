@@ -68,7 +68,7 @@
                             <h6 class="card-subtitle pt-4 text-capitalize text-dark fs-4  ">
                                 {{ __('statistique de production par chaque post') }}</h6>
                             <div class="amp-pxl mt-4">
-                                <div class="">
+                                <div>
                                     <canvas id="chartJSContainer" max-height="350px"></canvas>
                                 </div>
                             </div>
@@ -239,13 +239,6 @@
                     ]
                 ]
             ).draw();
-            // $("#product").text(response.of.caliber.product.product_name)
-            // $("#calibre").text(response.of.caliber.caliber_name)
-            // $("#section").text(response.of.caliber.product.section.section_name)
-            // $("#new_quantity").text(response.of.new_quantity)
-            // $("#of_number").text(response.of.of_number)
-            // $("#release_date").text(response.of.release_date)
-            // $("#launch_date").text('response.launch_date')
             $('#progress_rate').css('width', response.of.taux);
             //$('#progress_rate').parent().next("span").text(response.of.taux);
             $('#progress_rate').parent().next().find('span:first').text(response.of.taux)
@@ -322,9 +315,7 @@
             });
         })
 
-        function handleClickSN(event) {
 
-        }
         table4.on('click', 'tr', function(event) {
             event.preventDefault();
             //table4.off('click', 'tr', handleClickSN); // remove the event listener

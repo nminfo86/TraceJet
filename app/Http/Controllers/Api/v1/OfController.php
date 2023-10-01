@@ -8,6 +8,7 @@ use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use App\Events\CreateOFEvent;
 use App\Traits\ResponseTrait;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequests\StoreOfRequest;
 use App\Http\Requests\UpdateRequests\UpdateOfRequest;
@@ -52,7 +53,6 @@ class OfController extends Controller
             // Check if any of in production
             if ($last_of->status == "inProd" && $last_of->caliber_id == $request->caliber_id) {
 
-                // TODO::Trans msg
                 //Send response with message
                 $msg = __("response-messages.of_duplicate_caliber");
                 return $this->sendResponse($msg, status: false);
@@ -66,11 +66,10 @@ class OfController extends Controller
         $of = Of::create($request->all());
 
         // This event generated of_code
-        event(new CreateOFEvent($of));
+        // event(new CreateOFEvent($of));
 
-        //Send response with success
-        $msg = __("response-messages.success");
-        return $this->sendResponse($msg, $of);
+        //Generate Of code and name after stored
+        return   $this->generateOfCode($of);
     }
 
     /**
@@ -99,13 +98,12 @@ class OfController extends Controller
         $of->update($request->all());
 
         // update of_code using procedure in db
-        if ($of) {
-            event(new CreateOFEvent($of));
-        }
+        // if ($of) {
+        //     event(new CreateOFEvent($of));
+        // }
 
-        //Send response with success
-        $msg = __("response-messages.success");
-        return $this->sendResponse($msg);
+        //Generate Of code and name after updated
+        return $this->generateOfCode($of);
     }
 
     /**
@@ -201,5 +199,26 @@ class OfController extends Controller
         $of->taux =  $count / $quantity * 100 . "%";
         // return $serialNumbers;
         return   compact("of", "serialNumbers");
+    }
+
+
+
+    public function generateOfCode(Object $of)
+    {
+        $generate_of_code = Of::join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+            ->join('products', 'calibers.product_id', '=', 'products.id')
+            ->join('sections', 'products.section_id', '=', 'sections.id')
+            ->where('ofs.id', $of->id)
+            // ->get(['ofs.of_number', 'calibers.caliber_code', 'products.product_code', 'sections.section_name']);
+            ->select(
+                DB::raw("CONCAT(sections.section_code,products.product_code, calibers.caliber_code, ofs.of_number, year(now())) AS of_code"),
+                DB::raw("CONCAT_WS('_',products.product_name,calibers.caliber_name,ofs.of_number) AS of_name")
+            )->firstOrFail();
+
+        $of->update(['of_code' => $generate_of_code->of_code, 'of_name' => $generate_of_code->of_name]);
+
+        //Send response with success
+        $msg = __("response-messages.success");
+        return $this->sendResponse($msg, $of);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Printer extends Model
 {
@@ -12,5 +13,20 @@ class Printer extends Model
 
     public $timestamps = false;
 
-    public $fillable = ["name", "port", "protocol", "label_size", "ip_address"];
+    public $fillable = ["section_id", "name", "port", "protocol", "label_size", "ip_address"];
+
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                                RelationShip                                */
+    /* -------------------------------------------------------------------------- */
+    /**
+     * Get the section that owns the Printer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class);
+    }
 }

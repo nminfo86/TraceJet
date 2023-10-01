@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-            PrinterSeeder::class,
             SettingSeeder::class,
             SectionSeeder::class,
+            PrinterSeeder::class,
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
             PostsTypeSeeder::class,
