@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('printers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('section_id');
             $table->string("name", 50)->unique();
             $table->ipAddress("ip_address")->unique();
             $table->integer("port")->default(9100);
             $table->string("protocol", 6)->default("ESC");
             $table->string("label_size", 10);
+
+
+            $table->foreign('section_id')->references('id')->on('sections')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 

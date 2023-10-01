@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('caliber_post', function (Blueprint $table) {
-            // $table->id();
-            // $table->timestamps();
-            $table->integer("id", true)->unique();
-            $table->unsignedBigInteger('caliber_id');
-            $table->unsignedBigInteger('post_id');
+        // Schema::create('caliber_post', function (Blueprint $table) {
+        //     // $table->id();
+        //     // $table->timestamps();
+        //     $table->integer("id", true)->unique();
+        //     $table->unsignedBigInteger('caliber_id');
+        //     $table->unsignedBigInteger('post_id');
 
-            $table->foreign('caliber_id')->references('id')->on('calibers')->restrictOnDelete()->cascadeOnUpdate();
-            $table->foreign('post_id')->references('id')->on('posts')->restrictOnDelete()->cascadeOnUpdate();
-        });
+        //     $table->foreign('caliber_id')->references('id')->on('calibers')->restrictOnDelete()->cascadeOnUpdate();
+        //     $table->foreign('post_id')->references('id')->on('posts')->restrictOnDelete()->cascadeOnUpdate();
+        // });
     }
 
     /**

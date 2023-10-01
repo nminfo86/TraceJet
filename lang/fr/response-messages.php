@@ -7,7 +7,9 @@ return [
     "success" => "Opération terminée avec succès.",
     "of_closed" => "OF est déjà clos.",
     "of_valid" => "L'OF est valide.",
+    "of_posed" => "L'OF a été temporairement interrompue.",
     "printing" => "Impression en cours.",
+    // "posed" => "Order manufacturing has been temporarily halted.",
 
 
     // LoginApi

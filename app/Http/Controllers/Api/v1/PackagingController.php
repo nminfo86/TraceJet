@@ -50,20 +50,29 @@ class PackagingController extends Controller
     public function store(Request $request, ProductService $productService)
     {
 
+
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr', $request->qr)
             ->latest('movements.created_at')
-            ->first(['serial_numbers.id AS serial_number_id', 'movement_post_id', 'result', 'of_id']);
+            ->firstOrFail(['serial_numbers.id AS serial_number_id', 'movement_post_id', 'result', 'of_id']);
 
         /* -------------------------------------------------------------------------- */
         /*                                  CLose OF                                  */
         /* -------------------------------------------------------------------------- */
-        $of = Of::findOrFail($product->of_id);
-
-        if ($of->status->value == 'closed') {
-            $msg = __("response-messages.of_closed");
-            return  $this->sendResponse($msg);
+        $ofStatus = $productService->checkOfStatus($product->of_id);
+        // dd($off->id);
+        if ($ofStatus['error'] !== false) {
+            $msg = __('response-messages.' . $ofStatus['message']);
+            return $this->sendResponse($msg);
         }
+        $of = $ofStatus['of'];
+
+        // $of = Of::findOrFail($product->of_id);
+
+        // if ($of->status->value == 'closed') {
+        //     $msg = __("response-messages.of_closed");
+        //     return  $this->sendResponse($msg);
+        // }
 
         // Check if there were any errors in the product steps
         $checkProductSteps = $productService->checkProductSteps($request, $product)->getData();
@@ -92,6 +101,7 @@ class PackagingController extends Controller
      */
     public function newPackaging(mixed $result, $of, mixed $product)
     {
+        // dd($of);
         try {
             DB::beginTransaction();
 
@@ -132,6 +142,7 @@ class PackagingController extends Controller
      */
     public function boxed($of, $product)
     {
+        // dd($of->id);
         $box_ticket = [];
         // Get the OF id and serial number id and box_quantity
         $of_id = $of->id;
@@ -244,6 +255,26 @@ class PackagingController extends Controller
     {
 
 
+        // $info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+        //     ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+        //     ->join('products', 'calibers.product_id', '=', 'products.id')
+        //     ->join('boxes', 'serial_numbers.box_id', '=', 'boxes.id')
+        //     ->select(
+        //         'of_number',
+        //         'ofs.status',
+        //         'ofs.release_date',
+        //         'boxes.status as box_status',
+        //         'calibers.box_quantity',
+        //         'caliber_name',
+        //         'serial_number',
+        //         'product_name',
+        //         'ofs.new_quantity as quantity',
+        //         DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
+        //         // DB::raw("(select FLOOR(new_quantity/box_quantity)-(select count(id) from boxes where status='filled')) as box_rest")
+        //         DB::raw("ROUND(new_quantity/box_quantity) - (SELECT COUNT(id) FROM boxes WHERE status = 'filled')) AS box_rest")
+        //     )->where('serial_numbers.of_id', '=', $of_id)
+        //     ->orderBy("serial_numbers.updated_at", "DESC")
+        //     ->first();
         $info = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
             ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
             ->join('products', 'calibers.product_id', '=', 'products.id')
@@ -259,7 +290,7 @@ class PackagingController extends Controller
                 'product_name',
                 'ofs.new_quantity as quantity',
                 DB::raw("SUBSTRING_INDEX(boxes.box_qr, '-', -1) as box_number"),
-                DB::raw("(select FLOOR(new_quantity/box_quantity)-(select count(id) from boxes where status='filled')) as box_rest")
+                DB::raw("ROUND(ofs.new_quantity / calibers.box_quantity) - (SELECT COUNT(id) FROM boxes WHERE status = 'filled') AS box_rest")
             )->where('serial_numbers.of_id', '=', $of_id)
             ->orderBy("serial_numbers.updated_at", "DESC")
             ->first();
@@ -280,18 +311,10 @@ class PackagingController extends Controller
         });
 
         // Count occurrences of each key
-        // $data = [
-        // $info->list = $list->pluck("serial_number"); // Original list of ok products
         $info->of_ok = $results->filter(fn ($item) => $item['of_ok'])->count();
         $info->of_ok_today = $results->filter(fn ($item) => $item['of_ok_today'])->count();
         $info->user_ok_today = $results->filter(fn ($item) => $item['user_ok_today'])->count();
         $info->user_nok_today = $results->filter(fn ($item) => $item['user_nok_today'])->count();
-        // ];
-
-        // If the product information was found, calculate the number of OF boxes
-        // if ($product_info) {
-        //     $product_info->of_boxes = floor($product_info->of_boxes);
-        // }
 
         if ($box_ticket) {
             // return   $this->sendResponse(data: $box_ticket);

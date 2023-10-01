@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-body text-capitalize">
                     <div class="d-flex justify-content-between mb-3">
-                        <h4 class="card-title">{{ __('liste des postes') }}</h4>
+                        <h4 class="card-title">{{ __('liste des imprimantes') }}</h4>
                         <div class="text-end upgrade-btn toggle-show">
                             @include('components.add_btn', ['label' => 'Nouveau'])
                         </div>
@@ -21,6 +21,7 @@
                             <thead class="bg-light">
                                 <tr class="">
                                     {{-- <th>#</th> --}}
+                                    <th>{{ __('Section') }}</th>
                                     <th>{{ __('Nom') }}</th>
                                     <th>{{ __('IP') }}</th>
                                     <th>{{ __('Port') }}</th>
@@ -52,7 +53,19 @@
                 <form id="main_form">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-4">
+                                <label>{{ __('Section') }}:*</label>
+                                <div class="input-group mb-3">
+                                    <select id="section_id" class="" name="section_id"
+                                        data-placeholder="{{ __('selectionner une section') }}">
+                                        <option></option>
+                                    </select>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong id="section_id-error"></strong>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
                                 <label>{{ __('Nom d\'imprimanre') }}:*</label>
                                 <div class="input-group mb-3">
                                     <input type="text" name="name" id="name" class="form-control"
@@ -118,6 +131,11 @@
             form_title = " {{ __('Nouveau Imprimante') }}",
             url = base_url + '/printers';
 
+        // /*----------------------get sections list ---------------------------*/
+        callAjax("GET", base_url + '/pluck/sections').done(function(response) {
+            appendToSelect(response.data, "#section_id")
+        })
+
         formToggle(form_title);
 
         form.on('submit', function(e) {
@@ -149,6 +167,8 @@
             "ajax": ajaxCallDatatables(url),
 
             columns: [{
+                    data: 'section.section_name'
+                }, {
                     data: 'name'
                 },
                 {

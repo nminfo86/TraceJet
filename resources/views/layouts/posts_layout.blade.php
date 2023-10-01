@@ -207,7 +207,7 @@
                                                     <div class="col-12 border-start border-secondary float-start ">
                                                         <h6 class="fw-normal text-muted mb-0 ms-2">
                                                             {{ __('Etat carton') }}</h6>
-                                                        <span class="fs-3 font-weight-medium text-info ms-2"
+                                                        <span class="fs-1 font-weight-medium text-info ms-2"
                                                             id="box_status"></span>
                                                     </div>
                                                 </div>
@@ -341,10 +341,6 @@
                         </div>
                     </div>
 
-
-
-
-                    {{-- {{ request()->segment(2) == 'packaging' ? '' : 'd-none' }} --}}
                     <div
                         class="col-lg-6 flex-fill {{ request()->segment(2) == 'packaging' ? '' : 'd-none' }} --}} of_info">
                         <div class="card shadow border-primary" style="min-height: 90vh">
@@ -355,7 +351,7 @@
                                         <span class="fs-3">F1</span>
                                     </button>
 
-                                    <span class="alert alert-danger" role="alert" id="printer_alert"> </span>
+                                    <span class="bg-danger" role="alert" id="printer_alert"> </span>
                                 @endif
                                 <div class="table-responsive">
                                     <table id="main_table" class="table table-sm table-hover  " width="100%">
@@ -384,27 +380,11 @@
                     <div
                         class="d-flex justify-content-between fixed-bottom bg-cyan  text-white pb-1 z-index-100 fs-4 ">
                         <div style="/*position:fixed;bottom:2%;left:1%;z-index:1000*/">
-
-                            {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
-                            <span class="">{{ Auth::user()->username }}</span>
-
-
-
-                        </div>
-                        <div style="/*position:fixed;bottom:2%;left:45%;z-index:1000*/">
-
-                            {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
-                            <span id="clock" class=" "></span>
-
-
-
+                            <span class="">{{ Auth::user()->username }} </span>
                         </div>
                         <div style="/*position:fixed;bottom:2%;right:2%;z-index:1000*/">
-
-                            {{-- <i class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i> --}}
                             {{-- <span class="  ">{{ Session::get('user_data')['post_information']['post_name'] }}</span> --}}
-                            <span
-                                class="">{{ Session::get('user_data')['post_information']['post_name'] ?? '' }}
+                            <span class="">{{ Session::get('post_information')['post_name'] ?? '' }}
                             </span>
                         </div>
 
@@ -427,6 +407,8 @@
         <!-- ============================================================== -->
         <!-- All Jquery -->
         <!-- ============================================================== -->
+        <script src="{{ asset('/dist/js/chart/chart.min.js') }}"></script>
+
         @include('layouts.script')
 </body>
 

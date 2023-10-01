@@ -16,6 +16,6 @@ class PrinterSeeder extends Seeder
     public function run()
     {
         //
-        Printer::create(["name" => "label generator", "port" => 9100, "protocol" => "ESC", "ip_address" => "192.168.100.2", "label_size" => "20x80"]);
+        Printer::create(["section_id" => 1, "name" => "label generator", "port" => 9100, "protocol" => "ESC", "ip_address" => "192.168.100.2", "label_size" => "20x80"]);
     }
 }

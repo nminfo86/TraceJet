@@ -8,6 +8,8 @@ use App\Models\Post;
 use App\Models\Movement;
 use App\Models\SerialNumber;
 use Illuminate\Http\Request;
+use App\Services\ProductService;
+use Illuminate\Support\Facades\DB;
 use App\Services\PrintLabelService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -47,10 +49,10 @@ class SerialNumberController extends Controller
             $userUsername = Auth::user()->username;
 
             return [
-                "of_ok" =>  $item['result'] == "OK",
-                "of_ok_today" => $okAt === $today && $item['result'] == "OK",
-                "user_ok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "OK",
-                "user_nok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] == "NOK",
+                "of_ok" =>  $item['result'] == 1,
+                "of_ok_today" => $okAt === $today && $item['result'] == 1,
+                "user_ok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] === 1,
+                "user_nok_today" => $okAt === $today && $okBy === $userUsername && $item['result'] !== 1,
             ];
         });
 
@@ -71,24 +73,6 @@ class SerialNumberController extends Controller
         return $this->sendResponse($msg, data: $data);
     }
 
-
-    public function checkOfStatus(Object $of)
-    {
-        $error = false;
-        $message = "";
-        if ($of->status->value == "closed") {
-            $message = "of_closed";
-            $error = true;
-        }
-
-        // Check with OF quantity
-        if ($of->new_quantity === $this->countValidProducts($of->id)) {
-            $message = "of_valid";
-            $error = true;
-        }
-        return ["error" => $error, "message" => $message];
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -97,30 +81,19 @@ class SerialNumberController extends Controller
      */
 
     //valid product
-    public function store(StoreSerialNumberRequest $request)
+    public function store(StoreSerialNumberRequest $request, ProductService $productService)
     {
-        // Check if the Order Form (OF) with the given ID is closed
-        $of = OF::findOrFail($request->of_id);
-
-
-        $ofStatus = $this->checkOfStatus($of);
-        if ($ofStatus['error'] == true) {
+        $ofStatus = $productService->checkOfStatus($request->of_id);
+        if ($ofStatus['error'] === true) {
+            // dd($ofStatus['error']);
             $msg = __('response-messages.' . $ofStatus['message']);
             return $this->sendResponse($msg);
         }
 
+        // $of = $ofStatus['of'];
         // Retrieve the SerialNumber with the provided QR code and that has not been validated yet
-        $product = SerialNumber::where('qr', $request->qr)
-            ->where('valid', 0)
-            ->first();
-
-
-        // If the SerialNumber is not found
-        if (!$product) {
-            // Return an error response indicating that the product is not found
-            $msg = __("exception-errors.resource_not_found");
-            return $this->sendResponse($msg, status: false);
-        }
+        $product = SerialNumber::where('qr', $request->qr)->where('valid', 0)->where('of_id', $ofStatus['of']->id)
+            ->firstOrFail();
 
         // Mark the product as validated and create new movement
         $validProduct = $product->update(['valid' => 1]);
@@ -134,114 +107,65 @@ class SerialNumberController extends Controller
         }
 
         // Generate a new SerialNumber
-        return $this->generateNewSN($of, $request->printer);
+        return $this->createNewProduct($request);
     }
-
-
-    /**
-     * generateNewSN
-     *
-     * @param  mixed $of_id
-     * @return \Illuminate\Http\Response
-     */
-    public function generateNewSN(Object $of, $printer)
-    {
-        $ofStatus = $this->checkOfStatus($of);
-        if ($ofStatus['error'] == true) {
-            $msg = __('response-messages.' . $ofStatus['message']);
-            return $this->sendResponse($msg, true);
-        }
-
-        /* -------------------------------------------------------------------------- */
-        /*                                    TEST                                    */
-        /* -------------------------------------------------------------------------- */
-        // Generate the serial number for the new product
-        $last_sn = SerialNumber::whereOfId($of->id)->orderBy('id', 'desc')->first();
-        $serial_number = str_pad($last_sn->serial_number + 1, 3, '0', STR_PAD_LEFT);
-
-        // Create the new SerialNumber record
-        $new_sn = SerialNumber::create([
-            'of_id' => $last_sn->of_id,
-            'serial_number' => $serial_number,
-        ]);
-
-        /* -------------------------------------------------------------------------- */
-        /*                                  Printing                                  */
-        /* -------------------------------------------------------------------------- */
-        // return $this->toPrinter($printer,   $new_sn->qr);
-
-        $qrCode = $new_sn->qr;
-        return $this->sendToPrinter($printer, $qrCode);
-        // $printLabel = new PrintLabelService($printer);
-        // $printLabel->printProductLabel($qrCode);
-
-
-        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
-        // $qr = explode("#", $qrCode);
-        // $sn = $qr[3];
-        // $of_num = $qr[1];
-        // $product_name = $qr[2];
-        // $printLabel->printProductLabel($qrCode, $of_num, $product_name, $sn);
-        // Return a success message with the QR code for the new product
-        // $this->sendToPrinter($printer, $new_sn->qr);
-        // $msg = __('response-messages.printing');
-        // return $this->sendResponse($msg, $new_sn->only('qr'));
-    }
-
 
     // This method prints the QR code for a product based on the given request
-    public function PrintQrCode(Request $request)
+    public function PrintQrCode(Request $request, ProductService $productService)
     {
-        // dd($request->all());
-        // Check if the Order Form (OF) with the given ID is closed
-        $of = OF::findOrFail($request->of_id);
-        $ofStatus = $this->checkOfStatus($of);
-        if ($ofStatus['error'] == true) {
+        // Check OF status
+        $ofStatus = $productService->checkOfStatus($request->of_id);
+        if ($ofStatus['error'] === true) {
             $msg = __('response-messages.' . $ofStatus['message']);
-            return $this->sendResponse($msg, true);
+            return $this->sendResponse($msg);
         }
+
         // Check if any product exists for the given OF ID
-        $productExists = SerialNumber::whereOfId($request->of_id)->exists();
+        $productExists = SerialNumber::whereOfId($ofStatus['of']->id)->exists();
 
         // If no product exists, create the first record with serial number '001'
         if (!$productExists) {
             $request['serial_number'] = str_pad(1, 3, 0, STR_PAD_LEFT);
             $newProduct = SerialNumber::create($request->all());
 
-            // return $this->toPrinter("192.168.1.100", "TSPL", "40_20",  $newProduct->qr);
-            return $this->sendToPrinter($request->printer,  $newProduct->qr);
+            //generate qrCode
+            $qrCode = $this->generateQrCode($newProduct);
+
+            // Printing
+            return $this->sendToPrinter($request->printer,  $qrCode);
         }
-        // dd($request->printer);
-        // If a product already exists, generate a new serial number and create the record
-        // $of_quantity = Of::findOrFail($request->of_id, ["new_quantity"])->new_quantity;
-        return $this->generateNewSN($of, $request->printer);
+        return $this->createNewProduct($request);
     }
 
     /**
-     * countValidProducts
+     * createNewProduct
      *
      * @param  mixed $of_id
-     * @return Int
+     * @return \Illuminate\Http\Response
      */
-    public function countValidProducts($of_id)
+    public function createNewProduct($request)
     {
-        return SerialNumber::whereOfId($of_id)->whereValid(1)->count();
+        // Generate the serial number for the new product
+        $last_sn = SerialNumber::whereOfId($request->of_id)->orderBy('id', 'desc')->first();
+        $serial_number = str_pad($last_sn->serial_number + 1, 3, '0', STR_PAD_LEFT);
+
+        // Create the new SerialNumber record
+        $newProduct = SerialNumber::create([
+            'of_id' => $last_sn->of_id,
+            'serial_number' => $serial_number,
+        ]);
+        // Generate qrCode
+        $qrCode = $this->generateQrCode($newProduct);
+
+        // Printing
+        return $this->sendToPrinter($request->printer, $qrCode);
     }
+
 
 
 
     public function sendToPrinter($printer = null, String $productQr)
     {
-        // dd($printer);
-        // $printLabel = new PrintLabelService($printer);
-        // $printLabel->printProductLabel($productQr);
-
-        // dd($printLabel->printProductLabel($productQr));
-        // dd($productQr);
-        // $qrCode = $->qr;        // 932113600012023#001#CX1000-3#001#2023-02-13 22:17:22
-
-        // Prepare label information
-        // dd($productQr);
         if (!$printer) {
             // dd();
             $msg = __('response-messages.success');
@@ -257,5 +181,21 @@ class SerialNumberController extends Controller
             $msg = __('response-messages.success');
         }
         return $this->sendResponse($msg, $productQr);
+    }
+
+
+    public function generateQrCode(Object $newProduct): String
+    {
+        $generate_qr = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+            ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+            ->join('products', 'calibers.product_id', '=', 'products.id')
+            ->join('sections', 'products.section_id', '=', 'sections.id')
+            ->where('serial_numbers.id', $newProduct->id)
+            ->orderBy('serial_numbers.id', 'desc')
+            ->first([DB::raw("CONCAT_WS('#',ofs.of_code,ofs.of_number,calibers.caliber_name,serial_number, serial_numbers.updated_at) as qr")]);
+
+        $newProduct->update(['qr' => $generate_qr->qr]);
+
+        return $newProduct->qr;
     }
 }

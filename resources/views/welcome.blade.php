@@ -247,10 +247,11 @@
     <!-- ============================================================== -->
 @endsection
 @push('custom_js')
+    <script src="{{ asset('/dist/js/chart/chart.min.js') }}"></script>
     <script type="text/javascript">
         var form = $('#main_form');
         var table = $('#main_table');
-        url = 'api/v1/ofsBySection';
+        url = base_url + "/ofsBySection";
         $(document).ready(function() {
 
             callAjax('GET', base_url + '/pluck/sections', {
@@ -459,39 +460,38 @@
                         //legend: false,
                     }
                 });
-                $("#percent1").text(92 + ' %');
-                $("#percent2").text(90 + ' %');
-                $("#percent3").text(98 + ' %');
-                $(
-                    "#percent4").text(80 + ' %');
-                var options1 = {
-                    type: 'doughnut',
-                    data: {
-                        labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
-                        datasets: [{
-                            label: '# of Votes',
-                            data: [92, 8],
-                            backgroundColor: [
-                                'rgba(46, 204, 113, 1)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 255, 255 ,1)'
-                            ],
-                            borderWidth: 5
-                        }]
-                    },
-                    options: {
-                        rotation: 1 * Math.PI,
-                        circumference: 1 * Math.PI,
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            enabled: false
-                        },
-                        cutoutPercentage: 85
-                    }
-                }
+                // $("#percent1").text(92 + ' %');
+                // $("#percent2").text(90 + ' %');
+                // $("#percent3").text(98 + ' %');
+                // $("#percent4").text(80 + ' %');
+                // var options1 = {
+                //     type: 'doughnut',
+                //     data: {
+                //         labels: ["{{ __('  réalisé') }}", "{{ __('  à réaliser') }}"],
+                //         datasets: [{
+                //             label: '# of Votes',
+                //             data: [92, 8],
+                //             backgroundColor: [
+                //                 'rgba(46, 204, 113, 1)'
+                //             ],
+                //             borderColor: [
+                //                 'rgba(255, 255, 255 ,1)'
+                //             ],
+                //             borderWidth: 5
+                //         }]
+                //     },
+                //     options: {
+                //         rotation: 1 * Math.PI,
+                //         circumference: 1 * Math.PI,
+                //         legend: {
+                //             display: false
+                //         },
+                //         tooltip: {
+                //             enabled: false
+                //         },
+                //         cutoutPercentage: 85
+                //     }
+                // }
 
                 /*---------------------------- datatables ----------------------------*/
                 table.DataTable({

@@ -130,22 +130,9 @@ class SerialNumber extends Model
     public static function boot()
     {
         parent::boot();
-        self::created(function ($model) {
-
-            $generate_qr = SerialNumber::join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
-                ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
-                ->join('products', 'calibers.product_id', '=', 'products.id')
-                ->join('sections', 'products.section_id', '=', 'sections.id')
-                ->where('serial_numbers.of_id', $model->of_id)
-                ->select(DB::raw("CONCAT_WS('#',ofs.of_code,ofs.of_number,calibers.caliber_name,serial_number, serial_numbers.updated_at) as qr"))->orderBy('serial_numbers.id', 'desc')->first();
-            $model->qr = $generate_qr->qr;
+        self::creating(function ($model) {
             $model->created_by = Auth::user()->username;
-            $model->valid = 0;
-            // $model->updated_by = NULL;
-            // dd($model->valid);
-            $model->save();
         });
-
         self::updating(function ($model) {
             $model->updated_by = Auth::user()->username;
         });

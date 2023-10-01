@@ -33,18 +33,18 @@ class GenerateOfCodeListner implements ShouldQueue
         //
         // dd($event->of->id);
 
-        $generate_of_code = $event->of::join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
-            ->join('products', 'calibers.product_id', '=', 'products.id')
-            ->join('sections', 'products.section_id', '=', 'sections.id')
-            ->where('ofs.id', $event->of->id)
-            // ->get(['ofs.of_number', 'calibers.caliber_code', 'products.product_code', 'sections.section_name']);
-            ->select(
-                DB::raw("CONCAT(sections.section_code,products.product_code, calibers.caliber_code, ofs.of_number, year(now())) AS of_code"),
-                DB::raw("CONCAT_WS('_',products.product_name,calibers.caliber_name,ofs.of_number) AS of_name")
-            )->first();
-        // dd($generate_of_code);
-        $event->of->of_code = $generate_of_code->of_code;
-        $event->of->of_name = $generate_of_code->of_name;
-        $event->of->save();
+        // $generate_of_code = $event->of::join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+        //     ->join('products', 'calibers.product_id', '=', 'products.id')
+        //     ->join('sections', 'products.section_id', '=', 'sections.id')
+        //     ->where('ofs.id', $event->of->id)
+        //     // ->get(['ofs.of_number', 'calibers.caliber_code', 'products.product_code', 'sections.section_name']);
+        //     ->select(
+        //         DB::raw("CONCAT(sections.section_code,products.product_code, calibers.caliber_code, ofs.of_number, year(now())) AS of_code"),
+        //         DB::raw("CONCAT_WS('_',products.product_name,calibers.caliber_name,ofs.of_number) AS of_name")
+        //     )->first();
+        // // dd($generate_of_code);
+        // $event->of->of_code = $generate_of_code->of_code;
+        // $event->of->of_name = $generate_of_code->of_name;
+        // $event->of->save();
     }
 }

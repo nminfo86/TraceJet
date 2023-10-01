@@ -17,7 +17,7 @@ class PrinterController extends Controller
      */
     public function index()
     {
-        $printers = Printer::get();
+        $printers = Printer::with('section:id,section_name')->get();
 
         return  $this->sendResponse(data: $printers);
     }

@@ -17,14 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('of_id');
             $table->unsignedBigInteger('box_id')->nullable()->default(NULL);
-            $table->text('serial_number');
+            $table->string('serial_number');
             $table->string('qr')->unique()->nullable();
             $table->boolean('valid')->default(0);
             $table->string('created_by', 50)->nullable();
             $table->string('updated_by', 50)->nullable();
 
 
-
+            $table->unique(['of_id', 'serial_number']);
             $table->foreign('of_id')->references('id')->on('ofs')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreign('box_id')->references('id')->on('boxes')->restrictOnDelete()->cascadeOnUpdate();
 

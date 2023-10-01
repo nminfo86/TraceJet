@@ -9,7 +9,7 @@ use App\Traits\ResponseTrait;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
-use App\Models\{Of, Caliber, Host, PostsType, Product, Section};
+use App\Models\{Of, Caliber, Host, PostsType, Printer, Product, Section};
 
 class PluckController extends Controller
 {
@@ -28,12 +28,8 @@ class PluckController extends Controller
         // Use a switch statement for better readability
         switch ($model_name) {
             case "sections":
-                // if ($this->checkPermission($permission) !== true) {
-                //     // dd($this->checkPermission('section-list'));
-                //     return $this->checkPermission($permission);
-                // }
                 if ($request->has('has')) {
-                    // dd($request->has);
+
                     // Retrieve products with calibers
                     $data = Section::filterBySection()->has($request->has)->pluck('section_name', 'id');
                 } else
@@ -70,26 +66,20 @@ class PluckController extends Controller
                 }
                 break;
             case "ofs":
-
-                if ($request->filter == "status") {
-                    // Retrieve ofs with specific status and filtered by section
-                    $data = Of::filterBySection()->whereIn("status", ["new", "inProd"])->pluck('of_name', 'id');
-                }
-                //  else if ($request->has("section_id")) {
-                //     $data = Of::InSection($request->section_id)->pluck('of_name', 'id');
-                // }
-                else if ($request->has("caliber_id") && $request->has('has')) {
-                    $data = Of::has($request->has)->whereCaliberId($request->caliber_id)->pluck('of_name', 'id');
+                if ($request->has("filter")) {
+                    $data = $request->filter == "prod" ? Of::filterBySection()->where("status", "inProd")->pluck('of_name', 'id') : Of::filterBySection()->whereIn("status", ["new", "inProd"])->pluck('of_name', 'id');
+                } elseif ($request->has("caliber_id") && $request->has('has')) {
+                    $data = Of::filterBySection()->has($request->has)->whereCaliberId($request->caliber_id)->pluck('of_name', 'id');
                 } else {
                     // Retrieve all ofs filtered by section
                     $data = Of::pluck('of_name', 'id');
                 }
                 break;
+
             case "calibers":
-                if ($this->checkPermission($permission) !== true) {
-                    // dd($this->checkPermission('section-list'));
-                    return $this->checkPermission($permission);
-                }
+                // if ($this->checkPermission($permission) !== true) {
+                //                        return $this->checkPermission($permission);
+                // }
                 if ($request->filter !== null) {
                     // Retrieve calibers filtered by product_id
                     $data = Caliber::whereProductId($request->filter)->pluck('caliber_name', 'id');
@@ -100,6 +90,16 @@ class PluckController extends Controller
                     $data = Caliber::pluck('caliber_name', 'id');
                 }
                 break;
+
+            case "printers":
+
+                // Retrieve all ofs filtered by section
+                $data = Printer::pluck('name', 'id');
+
+                break;
+
+
+
             default:
                 // Unknown model name
                 return $this->sendResponse('Unknown error: ' . $model_name, status: false);
@@ -156,15 +156,15 @@ class PluckController extends Controller
     }
 
 
-    private function checkPermission($permission)
-    {
-        // dd($permission[0]);
-        // if (!auth()->user()->can($permission[0]) && !auth()->user()->can($permission[1])) {
-        //     // return response('User does not have the right permissions.');
-        //     //Send response with success
-        //     $msg = $this->getResponseMessage("permission");
-        //     return $this->sendResponse($msg, status: false);
-        // } else
-        return true;
-    }
+    // private function checkPermission($permission)
+    // {
+    //     // dd($permission[0]);
+    //     // if (!auth()->user()->can($permission[0]) && !auth()->user()->can($permission[1])) {
+    //     //     // return response('User does not have the right permissions.');
+    //     //     //Send response with success
+    //     //     $msg = $this->getResponseMessage("permission");
+    //     //     return $this->sendResponse($msg, status: false);
+    //     // } else
+    //     return true;
+    // }
 }
