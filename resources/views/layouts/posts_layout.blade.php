@@ -3,7 +3,7 @@
 
 @include('layouts.head')
 
-<body>
+<body style="background-color: red !important">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -62,25 +62,15 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="container-fluid bg-light" style="min-height: 100vh">
+            <div class="container-fluid" style="min-height: 100vh">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
 
-                <div style="position:fixed;top:0;right:0;z-index:1000"><a href="{{ url('logout') }}"
+                {{-- <div style="position:fixed;top:0;right:0;z-index:1000"><a href="{{ url('logout') }}"
                         class="btn btn-circle btn-danger me-2 mt-2"><i
                             class="fa fa-sign-out-alt m-r-5 m-l-5 text-white"></i></a>
                 </div>
-                {{-- <ul>
-                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        <li>
-                            <a rel="alternate" hreflang="{{ $localeCode }}"
-                                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                {{ $properties['native'] }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul> --}}
                 <div class="dropdown" style="position:fixed;top:0;right:50;z-index:1000">
                     <button class="btn btn-info btn-circle me-2 mt-2 text-white pt-1" type="button"
                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -96,11 +86,31 @@
                             </li>
                         @endforeach
                     </ul>
+                </div> --}}
+                <div style="position:fixed;top:0;right:0;z-index:1000">
+                    <span> <button class="btn btn-info btn-circle me-2 mt-2 text-white pt-1" type="button"
+                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ LaravelLocalization::getCurrentLocale() }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                <li>
+                                    <a class="ms-2" rel="alternate" hreflang="{{ $localeCode }}"
+                                        href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                        {{ $properties['native'] }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </span>
+                    <span>
+                        {{-- <a href="{{ url('logout') }}" class="btn btn-circle btn-danger me-2 mt-2"><i
+                                class="fa fa-sign-out-alt ps-1 pt-0 text-white"></i></a> --}}
+                        <a class="btn btn-danger btn-circle me-2 mt-2 text-white pt-1" href="{{ url('logout') }}">
+                            <i class="fa fa-sign-out-alt text-white mt-1 fs-4"></i>
+                        </a>
+                    </span>
                 </div>
-
-
-
-
                 <div class="row d-flex align-items-stretch">
                     <div class="col-lg-6 flex-fill">
                         <div class="row">
