@@ -103,12 +103,22 @@
                                     <strong id="color-error"></strong>
                                 </span>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <label for="ip_address">{{ __('IP address') }}</label>
                                 <input type="text" id="ip_address" name="ip_address" class="form-control"
                                     placeholder="address IP">
                                 <span class="invalid-feedback" role="alert">
                                     <strong id="ip_address-error"></strong>
+                                </span>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="printer_id">{{ __('Imprimante') }}</label>
+                                <select id="printer_id" name="printer_id"
+                                    data-placeholder="{{ __('selectionner une imprimante') }}">
+                                    <option value=" ">{{ __('------') }} </option>
+                                </select>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong id="printer_id-error"></strong>
                                 </span>
                             </div>
                             <div class=" row d-none" id="d-previous-post">
@@ -163,6 +173,17 @@
                 appendToSelect(response.data, "#posts_type_id")
             })
 
+            callAjax("GET", base_url + '/pluck/printers').done(function(response) {
+                appendToSelect(response.data, "#printer_id")
+            })
+            // $('#printer_id').on("select2:opening", function(e) {
+            //     alert();
+            //     console.log('Opening');
+            // });
+            // $('#printer_id').on("select2:selecting", function(e) {
+            //     //console.log('Selecting');
+            //     alert($(this).val());
+            // });
             /*----------------- Get of status list (Enum) --------------------*/
             // callAjax('GET', base_url + '/colors').done(function(response) {
             //     let opt = ``;
@@ -212,6 +233,7 @@
                 $(".toggle-show").toggleClass('d-none');
                 $("#section_id").val(response.data.section_id).trigger('change');
                 $("#posts_type_id").val(response.data.posts_type_id).trigger('change');
+                $("#printer_id").val(response.data.printer_id).trigger('change');
                 // $("#color").val(response.data.color).trigger('change');
                 $("#color").val(response.data.color);
                 $('#post_name').val(response.data.post_name);

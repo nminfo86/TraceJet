@@ -128,7 +128,7 @@
                                     </div>
                                     <div class="col">
                                         <select class="form-select theme-select border-0" data-maximum-selection-length="1"
-                                            id="of_id" name="of_id" aria-label="" multiple>
+                                            id="of_id" name="of_id" aria-label="">
                                             {{-- <option selected disabled>{{ __('choisir un OF') }}</option> --}}
                                         </select>
                                     </div>
