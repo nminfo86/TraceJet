@@ -176,22 +176,6 @@
             callAjax("GET", base_url + '/pluck/printers').done(function(response) {
                 appendToSelect(response.data, "#printer_id")
             })
-            // $('#printer_id').on("select2:opening", function(e) {
-            //     alert();
-            //     console.log('Opening');
-            // });
-            // $('#printer_id').on("select2:selecting", function(e) {
-            //     //console.log('Selecting');
-            //     alert($(this).val());
-            // });
-            /*----------------- Get of status list (Enum) --------------------*/
-            // callAjax('GET', base_url + '/colors').done(function(response) {
-            //     let opt = ``;
-            //     $.each(response, function(key, val) {
-            //         opt += ` <option value=${key}>${val} </option>`;
-            //     });
-            //     $('#color').append(opt);
-            // });
         });
 
         $(document).on('click', '#is_first', function(e) {

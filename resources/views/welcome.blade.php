@@ -80,27 +80,27 @@
                             </div>
                             <div class="card-body bg-light">
                                 <div class="row align-items-center">
-                                    <div class="col-auto">
+                                    <div class="col-4 col-lg-auto  mb-2 mb-lg-1">
                                         <label for="inputField" class="col-form-label">{{ __('Section') }}</label>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-8 col-lg-auto">
                                         <select class="form-select theme-select border-0" id="section_id" name="section_id"
                                             aria-label="Default select example">
                                             <option selected disabled>{{ __('selectionner une section') }}</option>
                                         </select>
                                     </div>
-                                    <div class="col-auto">
+                                    <div class="col-5 col-lg-auto mb-2 mb-lg-1">
                                         <label for="inputField" class="col-form-label">{{ __('date début et fin') }}</label>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-7 col-lg-auto">
                                         <input type="text" value="" class="form-control" id="datetimes"
                                             name="datetimes" />
                                     </div>
 
-                                    <div class="col-auto">
+                                    <div class="col-4 col-lg-auto mb-2 mb-lg-1">
                                         <label for="inputField" class="col-form-label">{{ __('Calibre') }}</label>
                                     </div>
-                                    <div class="col d-flex">
+                                    <div class="col-8 col-lg-auto d-flex mb-2 mb-lg-1">
                                         <div class="w-75">
                                             <select class="form-select theme-select border-0" id="caliber_id"
                                                 name="caliber_id" aria-label="">
@@ -194,14 +194,14 @@
             <!-- Sales chart -->
             <!-- ============================================================== -->
             <h1 class="text-center before-filter">{{ __('Filtrer pour voir les résulats') }}</h1>
-            <div class="row pt-3 d-none after-filter">
-                <div class="col-lg-6 ">
+            <div class="row  d-none after-filter">
+                <div class="col-12 col-lg-6 ">
                     <div class="card  w-100">
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
                                 <div>
-                                    <h4 class="card-title">{{ __('OF Numéro') }}</h4>
-                                    <h6 class="card-subtitle">{{ __('Statistiques de production par chaque post') }}</h6>
+                                    {{-- <h4 class="card-title">{{ __('OF Numéro') }}</h4> --}}
+                                    <h4 class="card-subtitle">{{ __('Statistiques de production par chaque post') }}</h4>
                                 </div>
                             </div>
                             <div class="amp-pxl mt-4">
@@ -212,7 +212,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 ">
+                <div class="col-12 col-lg-6 mt-3 mt-lg-2 ">
                     <div class="card  w-100 ">
                         <div class="card-body">
                             <div class="d-md-flex align-items-center">
