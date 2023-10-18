@@ -111,6 +111,7 @@ class ProductService
             $movements = Movement::distinct()
                 ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
                 ->where('serial_numbers.of_id', $of_id)
+                ->where('result', 'OK')
                 ->where('movement_post_id', request()->posts_type)
                 ->select('movements.*')
                 ->count();

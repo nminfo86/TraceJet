@@ -51,12 +51,15 @@ class OfController extends Controller
 
         if ($last_of) {
             // Check if any of in production
-            if ($last_of->status == "inProd" && $last_of->caliber_id == $request->caliber_id) {
+            // dd($last_of);
+            if ($last_of->status->value == "inProd" && $last_of->caliber_id == $request->caliber_id) {
+                // dd(2);
 
                 //Send response with message
                 $msg = __("response-messages.of_duplicate_caliber");
                 return $this->sendResponse($msg, status: false);
             }
+            // dd(1);
             $request["of_number"] =    str_pad($last_of->of_number + 1, 3, 0, STR_PAD_LEFT);
         } else {
             $request["of_number"] = "001";
