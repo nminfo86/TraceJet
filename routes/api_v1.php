@@ -115,9 +115,9 @@ Route::group(
             return OfStatusEnum::values();
         });
 
-        route::get('colors', function () {
-            return ColorEnum::values();
-        });
+        // route::get('colors', function () {
+        //     return ColorEnum::values();
+        // });
 
 
 

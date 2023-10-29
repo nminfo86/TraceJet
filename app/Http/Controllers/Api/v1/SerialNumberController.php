@@ -166,6 +166,7 @@ class SerialNumberController extends Controller
 
     public function sendToPrinter($printer = null, String $productQr)
     {
+        // dd($printer);
         if (!$printer) {
             // dd();
             $msg = __('response-messages.success');
