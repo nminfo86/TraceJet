@@ -83,16 +83,6 @@ Route::group(
             return view('pages.roles');
         })->middleware('permission:role-list');
         Route::get('serial_numbers', function () {
-            // dd(Carbon::now());
-
-            // $posts = Post::where("section_id", 2)->get();
-
-            // $containsTypeId1 = $posts->contains('posts_type_id', 1);
-
-            // if (!$containsTypeId1) {
-            //     // Code to execute if the collection contains an item with posts_type_id = 1
-            //     return redirect("logout");
-            // }
             return view('pages.serial_numbers');
         })->middleware('permission:serial_number-list');
         Route::get('packaging', function () {
@@ -100,6 +90,10 @@ Route::group(
         })->middleware('permission:packaging-list');
         Route::get('operators', function () {
             return view('pages.operators');
+        })->middleware('permission:movement-list');
+
+        Route::get('repairs', function () {
+            return view('pages.repairs');
         })->middleware('permission:movement-list');
 
         route::get("test2/['param1' => 'value1', 'param2' => 'value2']", function ($req) {
