@@ -31,37 +31,30 @@ class RepairController extends Controller
     public function index(Request $request, ProductService $productService)
     {
         // return Movement::whereResult('NOK')->get();
-        $of_id = 1;
-        $info = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
-            ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
-            ->join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
-            ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
-            ->join('products', 'calibers.product_id', '=', 'products.id')
-            ->select(
-                'of_number',
-                'ofs.status',
-                'caliber_name',
-                'serial_number',
-                'product_name',
-                'movements.result',
-                'post_name as nok_post'
-            )
-            ->where('serial_numbers.qr', $request->qr)
-            ->where('posts_type_id', '!=',4)
-            ->where('movements.result', 'NOK')
-            ->orderBy("movements.updated_at", "DESC")
-            ->first();
-
+        // $of_id = 1;
+        // $info = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+        //     ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
+        //     ->join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+        //     ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+        //     ->join('products', 'calibers.product_id', '=', 'products.id')
+        //     ->select('of_number', 'ofs.status', 'caliber_name', 'serial_number', 'product_name', 'movements.result', 'post_name as nok_post')
+        //     ->where('serial_numbers.qr', $request->qr)
+        //     ->where('posts_type_id', '!=', 4)
+        //     ->where('movements.result', 'NOK')
+        //     ->orderBy('movements.updated_at', 'DESC')
+        //     ->first();
 
         $list = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-            ->where('serial_numbers.of_id', $of_id)
+            // ->where('serial_numbers.of_id', $of_id)
             // ->where('movements.result', "NOK")
             ->where('movements.movement_post_id', 4)
-            ->get(["serial_number", "movements.updated_at", "movements.result",'observation', "movements.updated_by"]);
+            ->latest('movements.updated_at')
+            ->take(10)
+            ->get(['serial_number', 'movements.updated_at', 'movements.result', 'observation', 'movements.updated_by']);
 
-        $data = compact(["info","list"]);
+        // $data = compact(['info', 'list']);
         // Return the response
-        return $this->sendResponse(data: $data);
+        return $this->sendResponse(data: $list);
     }
 
     // /**
@@ -77,14 +70,18 @@ class RepairController extends Controller
         // Retrieve the latest movement record associated with the given serial number and order form ID
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr', $request->qr)
-            // ->where('serial_numbers.of_id', $request->of_id)
+            // ->where('movements.result', "NOK")
             ->latest('movements.updated_at')
-            ->firstOrFail(['serial_numbers.id AS sn_id', 'movement_post_id', 'result']);
-
+            ->firstOrFail(['serial_numbers.id AS sn_id', 'movement_post_id', 'result', 'movements.updated_at']);
+        if ($product->result == 'OK') {
+            // Send success response
+            $msg = __('raho mlih wech jabou twalek');
+            return $this->sendResponse($msg);
+        }
         // Prepare payload for new movement record
         $payload = [
             'serial_number_id' => $product->sn_id,
-            'movement_post_id' => 4,//$current_post_id,
+            'movement_post_id' => 4, //$current_post_id,
             'result' => $request->result,
             // 'observation' => $request->observation,
         ];
@@ -93,7 +90,7 @@ class RepairController extends Controller
         $movement = Movement::create($payload);
 
         // Send success response
-        $msg = __("response-messages.success");
+        $msg = __('response-messages.success');
         return $this->sendResponse($msg);
     }
 
@@ -104,7 +101,7 @@ class RepairController extends Controller
      * @var void $checkProductSteps
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, ProductService $productService)
+    public function show(Request $request)
     {
         // $ofStatus = $productService->checkOfStatus($request->of_id);
         // dd($ofStatus);
@@ -125,36 +122,28 @@ class RepairController extends Controller
         // // If the current_post_id does not exist, there is an error
         // return $productService->checkProductSteps($request, $product);
 
-        $of_id = 1;
-        $info = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+        //    return  $of_id = 1;
+        $data = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+            ->where('serial_numbers.qr', $request->qr)
+            // ->where('posts_type_id', '!=', 4)
+            ->where('movements.result', 'NOK')
+            ->orderBy('movements.updated_at', 'DESC')
             ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
             ->join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
             ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
             ->join('products', 'calibers.product_id', '=', 'products.id')
-            ->select(
-                'of_number',
-                'ofs.status',
-                'caliber_name',
-                'serial_number',
-                'product_name',
-                'movements.result',
-                'post_name as nok_post'
-            )
-            ->where('serial_numbers.qr', $request->qr)
-            ->where('posts_type_id', '!=',4)
-            ->where('movements.result', 'NOK')
-            ->orderBy("movements.updated_at", "DESC")
-            ->first();
+            ->select('of_number', 'ofs.status', 'caliber_name', 'serial_number', 'product_name', 'movements.result', 'post_name as nok_post')
 
+            ->firstOrFail();
 
-        $list = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-            // ->where('serial_numbers.of_id', $of_id)
-            // ->where('movements.result', "NOK")
-            ->where('movements.movement_post_id', 4)
-            ->get(["serial_number", "movements.updated_at", "movements.result",'observation', "movements.updated_by"]);
+        // $list = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+        //     // ->where('serial_numbers.of_id', $of_id)
+        //     // ->where('movements.result', "NOK")
+        //     ->where('movements.movement_post_id', 4)
+        //     ->get(['serial_number', 'movements.updated_at', 'movements.result', 'observation', 'movements.updated_by']);
 
-        $data = compact(["info","list"]);
-        // Return the response
+        // $data = compact(['info', 'list']);
+        // // Return the response
         return $this->sendResponse(data: $data);
     }
 }
