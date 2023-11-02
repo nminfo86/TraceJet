@@ -72,7 +72,7 @@ class RepairController extends Controller
     //  */
 
     /* @var checkProductSteps void */
-    public function store(Request $request, ProductService $productService)
+    public function store(Request $request)
     {
         // Retrieve the latest movement record associated with the given serial number and order form ID
         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
@@ -86,7 +86,7 @@ class RepairController extends Controller
             'serial_number_id' => $product->sn_id,
             'movement_post_id' => 4,//$current_post_id,
             'result' => $request->result,
-            'observation' => $request->observation,
+            // 'observation' => $request->observation,
         ];
 
         // Create new movement record
