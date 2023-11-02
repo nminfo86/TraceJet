@@ -104,25 +104,57 @@ class RepairController extends Controller
      * @var void $checkProductSteps
      * @return \Illuminate\Http\Response
      */
-    // public function show(Request $request, ProductService $productService)
-    // {
-    //     $ofStatus = $productService->checkOfStatus($request->of_id);
-    //     // dd($ofStatus);
+    public function show(Request $request, ProductService $productService)
+    {
+        // $ofStatus = $productService->checkOfStatus($request->of_id);
+        // dd($ofStatus);
 
-    //     if ($ofStatus['error'] !== false) {
-    //         $msg = __('response-messages.' . $ofStatus['message']);
-    //         return $this->sendResponse($msg);
-    //     }
+        // if ($ofStatus['error'] !== false) {
+        //     $msg = __('response-messages.' . $ofStatus['message']);
+        //     return $this->sendResponse($msg);
+        // }
 
-    //     // Get the last movement of a product with the specified QR and OF id
-    //     $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
-    //         ->where('serial_numbers.qr',  $request->qr)
-    //         ->where('serial_numbers.of_id', $request->of_id)
-    //         ->latest("movements.created_at")
-    //         ->firstOrFail(['movement_post_id', 'result', 'serial_number', "of_id"]);
+        // Get the last movement of a product with the specified QR and OF id
+        // $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+        //     ->where('serial_numbers.qr',  $request->qr)
+        //     // ->where('serial_numbers.of_id', $request->of_id)
+        //     ->latest("movements.updated_at")
+        //     ->firstOrFail(['movement_post_id', 'result', 'serial_number', "of_id"]);
 
-    //     // Check if there are any errors with the product steps
-    //     // If the current_post_id does not exist, there is an error
-    //     return $productService->checkProductSteps($request, $product);
-    // }
+        // // Check if there are any errors with the product steps
+        // // If the current_post_id does not exist, there is an error
+        // return $productService->checkProductSteps($request, $product);
+
+        $of_id = 1;
+        $info = Movement::join('posts', 'movements.movement_post_id', '=', 'posts.id')
+            ->join('serial_numbers', 'movements.serial_number_id', '=', 'serial_numbers.id')
+            ->join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
+            ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
+            ->join('products', 'calibers.product_id', '=', 'products.id')
+            ->select(
+                'of_number',
+                'ofs.status',
+                'caliber_name',
+                'serial_number',
+                'product_name',
+                'movements.result',
+                'post_name as nok_post'
+            )
+            ->where('serial_numbers.qr', $request->qr)
+            ->where('posts_type_id', '!=',4)
+            ->where('movements.result', 'NOK')
+            ->orderBy("movements.updated_at", "DESC")
+            ->first();
+
+
+        $list = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+            // ->where('serial_numbers.of_id', $of_id)
+            // ->where('movements.result', "NOK")
+            ->where('movements.movement_post_id', 4)
+            ->get(["serial_number", "movements.updated_at", "movements.result",'observation', "movements.updated_by"]);
+
+        $data = compact(["info","list"]);
+        // Return the response
+        return $this->sendResponse(data: $data);
+    }
 }
