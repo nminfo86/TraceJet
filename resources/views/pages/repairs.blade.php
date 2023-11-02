@@ -71,8 +71,7 @@
                                                             <strong id="qr-error"></strong>
                                                         </span>
                                                         <div class="text-center h4 pt-2" id="scanned_qr">
-                                                            {{ __("Scanner un
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                produit") }}
+                                                            {{ __('Scanner un produit') }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,6 +79,7 @@
                                             </form>
                                             <hr class="mt-2" />
                                         </div>
+
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="col-12 border-start border-secondary float-start ">
@@ -174,9 +174,103 @@
         <!-- ============================================================== -->
         <!-- All Jquery -->
         <!-- ============================================================== -->
-        <script src="{{ asset('/dist/js/chart/chart.min.js') }}"></script>
-
-        @include('layouts.script')
 </body>
+{{-- <script src="{{ asset('/dist/js/chart/chart.min.js') }}"></script> --}}
+@include('layouts.script')
+{{-- @push('custom_js') --}}
+{{-- <script src="{{ asset('dist/js/pages/posts.js') }}"></script> --}}
+<script type="text/javascript">
+    var form = $('#main_form'),
+        table = $('#main_table'),
+        url = base_url + '/repairs',
+        of_id,
+        formData = {};
+    /* -------------------------------------------------------------------------- */
+    /*                               Get OF information                           */
+    /* -------------------------------------------------------------------------- */
+    var total_quantity_of = 0;
+    var percent = 0;
+    var newPercent = 0;
+    var scanned_qr = 0;
+
+    /* -------------------------------------------------------------------------- */
+    /*                                Valid Product                               */
+    /* -------------------------------------------------------------------------- */
+    $('#main_form').on('submit', function(e) {
+        e.preventDefault();
+        // alert();
+        // return false;
+        cleanValidationAlert();
+        let qr = $("#qr").val();
+        if (scanned_qr != 0) {
+            if (scanned_qr == qr) {
+                formData.result = "OK";
+                storeQr(formData);
+            } else {
+                if (qr == "0000") {
+                    formData.result = "NOK";
+                    storeQr(formData);
+                } else {
+                    getQr(formData, qr);
+                }
+            }
+        } else {
+            getQr(formData, qr);
+        }
+    });
+
+
+    // function getSnTable(of_id) {
+    //     // getOfDetails(of_id);
+    //     postesDatatables(url, {
+    //         "of_id": of_id
+    //     }).done(function(response) {
+    //         // if (response.message !== "") {
+    //         // ajaxSuccess(response.message);
+    //         // }
+    //         $.each(response.data, function(key, value) {
+    //             if (key == "of_ok") {
+    //                 // alert(key);
+    //                 $("#" + key).text(value + ' /' + total_quantity_of);
+    //             } else
+    //                 // alert(value)
+    //                 $("#" + key).text(value);
+    //         });
+
+    //         buildChart(response.data.of_ok, total_quantity_of, ["{{ __('  réalisé') }}",
+    //             "{{ __('  à réaliser') }}"
+    //         ]);
+
+    //         buildTable(response.data.list);
+
+
+    //     });
+    // }
+
+    function getQr(formData, qr) {
+        formData.qr = qr;
+        callAjax("GET", url + '/' + qr, formData).done(function(response) {
+            $("#qr").val("");
+            ajaxSuccess(response.message);
+            $("#scanned_qr").html(
+                `<div class="alert alert-success"><span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span></div>`
+            );
+            scanned_qr = qr;
+        });
+    }
+
+    function storeQr(formData) {
+        callAjax("POST", url, formData).done(function(response) {
+            getSnTable(of_id);
+            ajaxSuccess(response.message);
+            $('#qr').val('');
+            scanned_qr = 0;
+            $("#scanned_qr").html(`<strong class="h4"> Scanner un autre QR </strong>`);
+        });
+    }
+</script>
+{{-- @endpush --}}
+
+
 
 </html>
