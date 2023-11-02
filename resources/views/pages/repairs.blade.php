@@ -70,30 +70,18 @@
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong id="qr-error"></strong>
                                                         </span>
-                                                        <div class="text-center h4 pt-2" id="scanned_qr"> Scanner un
-                                                            produit
+                                                        <div class="text-center h4 pt-2" id="scanned_qr">
+                                                            {{ __("Scanner un
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                produit") }}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <input type="submit" class="d-none">
                                             </form>
-                                            <hr class="of_number  mt-2" />
-                                            <div class="col-12 d-flex justify-content-between  of_number ">
-                                                <div class="">
-                                                    <h5 class="fw-n"> {{ __('Etat OF') }} : <span
-                                                            class="badge bg-primary fs-4 font-weight-normal"
-                                                            id="status"></span>
-                                                    </h5>
-                                                </div>
-                                                <div class="">
-                                                    <h5> {{ __('OF Numéro') }} : <span id="of_number"
-                                                            class="fs-3 font-weight-medium badge bg-primary text-white"></span>
-                                                    </h5>
-                                                </div>
-                                            </div>
+                                            <hr class="mt-2" />
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6  of_number ">
+                                            <div class="col-md-6">
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
                                                         {{ __('N° de serie') }}</h6>
@@ -101,70 +89,32 @@
                                                         id="serial_number"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6  of_number ">
+                                            <div class="col-md-6">
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
-                                                        {{ __('N° de carton') }}</h6>
+                                                        {{ __('dernier NOK poste') }}</h6>
                                                     <span class="fs-3 font-weight-medium text-info ms-2"
-                                                        id="box_number"></span>
+                                                        id="nok_poste"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6  mt-4 ">
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
-                                                        {{ __('Qt PCS/ Carton') }}</h6>
+                                                        {{ __('Nom de produit') }}</h6>
                                                     <span class="fs-3 font-weight-medium text-info ms-2"
-                                                        id="box_quantity"></span>
+                                                        id="product_name"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6  mt-4 ">
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
-                                                        {{ __('Etat carton') }}</h6>
+                                                        {{ __('Nom de calibre') }}</h6>
                                                     <span class="fs-1 font-weight-medium text-info ms-2"
-                                                        id="box_status"></span>
+                                                        id="caliber_name"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         {{-- </div> --}}
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-12 {{ request()->segment(2) == 'repairs' ? '' : 'd-none' }} of_info ">
-                                <div class="card shadow border-primary">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-
-                                            <div class="row border-bottom mt-2 gx-0 mx-0">
-                                                <div class="col-4 pb-3 border-end">
-                                                    <h6 class="fw-normal fs-5 mb-0">{{ __('Date lancement') }}</h6>
-                                                    <span class="fs-3 font-weight-medium text-primary"
-                                                        id="release_date"></span>
-                                                </div>
-                                                <div class="col-4 pb-3 border-end ps-3">
-                                                    <h6 class="fw-normal fs-5 mb-0">{{ __('Produit') }}</h6>
-                                                    <span class="fs-3 font-weight-medium text-primary"
-                                                        id="product_name"></span>
-                                                </div>
-                                                <div class="col-4 pb-3 border-end ps-3">
-                                                    <h6 class="fw-normal fs-5 mb-0">{{ __('Calibre') }}</h6>
-                                                    <span class="fs-3 font-weight-medium text-primary "
-                                                        id="caliber_name"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 mt-2 mx-0">
-                                                <div class="row col-12 text-center">
-                                                    <div class="outer mx-auto">
-                                                        <canvas id="chartJSContainer" width="auto"
-                                                            height="auto"></canvas>
-                                                        <p class="percent" id="percent"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -195,8 +145,7 @@
                 <!-- footer -->
                 <!-- ============================================================== -->
                 <div class="row ">
-                    <div
-                        class="d-flex justify-content-between fixed-bottom bg-cyan  text-white pb-1 z-index-100 fs-4 ">
+                    <div class="d-flex justify-content-between fixed-bottom bg-cyan  text-white pb-1 z-index-100 fs-4 ">
                         <div style="/*position:fixed;bottom:2%;left:1%;z-index:1000*/">
                             <span class="">{{ Auth::user()->username }} </span>
                         </div>
