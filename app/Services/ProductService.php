@@ -32,6 +32,10 @@ class ProductService
 
         // Verify that the product has not already passed through the current post
         if ($last_movement->movement_post_id == $request->host_id) {
+            if ($last_movement->result === 'NOK') {
+                return $this->sendResponse('Le produit a déjà passé par le poste actuel & NOK', status: false);
+
+            }
             // $msg = $this->getResponseMessage('exists', ['attribute' => 'product']);
             $msg = __('exception-errors.post_exists');
             return $this->sendResponse($msg, status: false);
@@ -51,11 +55,24 @@ class ProductService
 
         // Check if the product has moved from the correct previous post
         if ($last_movement->movement_post_id != $request->previous_post_id) {
-            if ($last_post->posts_type_id !== 4) {
+            if ($last_post->posts_type_id === 4) {
+                // dd($last_movement);
+                $exists = Movement::where('movement_post_id', $request->host_id)
+                ->where('result', 'NOK')
+                ->where('serial_number_id',$last_movement->serial_number_id)
+                ->exists();
+                // dd($request->host_id);
+                if(!$exists){
+                    $msg = __('exception-errors.incorrect_previous_post', ['expected_host' => $last_post->post_name]);
+                    return $this->sendResponse($msg, status: false);
+                }
+
+            } else {
                 // $msg = $this->getResponseMessage('incorrect_previous_post', ['expected_host' => $post_name]);
                 $msg = __('exception-errors.incorrect_previous_post', ['expected_host' => $last_post->post_name]);
                 return $this->sendResponse($msg, status: false);
             }
+
             // dd('raho makhdoum w raho arwah edih');
         }
 
