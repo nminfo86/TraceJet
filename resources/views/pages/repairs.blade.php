@@ -206,6 +206,7 @@
             if (scanned_qr == qr) {
                 formData.result = "OK";
                 storeQr(formData);
+                scanned_qr = 0;
             } else {
                 if (qr == "0000") {
                     formData.result = "NOK";
