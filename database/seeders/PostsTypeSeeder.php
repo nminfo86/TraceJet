@@ -20,7 +20,7 @@ class PostsTypeSeeder extends Seeder
             ["posts_type" => "Génération étiquette", "icon" => 'fas fa-barcode'],
             ["posts_type" => "Test", "icon" => 'fas fa-magic'],
             ["posts_type" => "Emballage", "icon" => 'fas fa-box-open'],
-            // ["posts_type" => "reparation", "icon" => 'SNS'],
+            ["posts_type" => "reparation", "icon" => 'fas fa-user'],
 
         ];
 
