@@ -82,15 +82,15 @@
                                                 <div class="col-12 border-start border-secondary mx-auto mb-4 ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
                                                         {{ __('OF Numéro') }}</h6>
-                                                    <span class="fs-3 font-weight-medium text-info ms-2"
-                                                        id="of_number"></span>
+                                                    <span class="fs-3 font-weight-medium text-info ms-2 informations_qr"
+                                                        id="of_number"> </span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
                                                         {{ __('N° de serie') }}</h6>
-                                                    <span class="fs-3 font-weight-medium text-info ms-2"
+                                                    <span class="fs-3 font-weight-medium text-info ms-2 informations_qr"
                                                         id="serial_number"></span>
                                                 </div>
                                             </div>
@@ -98,7 +98,7 @@
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
                                                         {{ __('dernier NOK poste') }}</h6>
-                                                    <span class="fs-3 font-weight-medium text-info ms-2"
+                                                    <span class="fs-3 font-weight-medium text-info ms-2 informations_qr"
                                                         id="nok_post"></span>
                                                 </div>
                                             </div>
@@ -106,7 +106,7 @@
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
                                                         {{ __('Nom de produit') }}</h6>
-                                                    <span class="fs-3 font-weight-medium text-info ms-2"
+                                                    <span class="fs-3 font-weight-medium text-info ms-2 informations_qr"
                                                         id="product_name"></span>
                                                 </div>
                                             </div>
@@ -114,7 +114,7 @@
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
                                                         {{ __('Nom de calibre') }}</h6>
-                                                    <span class="fs-1 font-weight-medium text-info ms-2"
+                                                    <span class="fs-1 font-weight-medium text-info ms-2 informations_qr"
                                                         id="caliber_name"></span>
                                                 </div>
                                             </div>
@@ -198,6 +198,13 @@
     var newPercent = 0;
     var scanned_qr = 0;
 
+    $(document).ready(function() {
+
+        /* -------------------------------------------------------------------------- */
+        /*                                get ofs list                                */
+        /* -------------------------------------------------------------------------- */
+
+    });
     /* -------------------------------------------------------------------------- */
     /*                                Valid Product                               */
     /* -------------------------------------------------------------------------- */
@@ -211,10 +218,12 @@
 
             if (scanned_qr == qr) {
                 formData.result = "OK";
+                formData.qr = qr;
                 storeQr(formData);
             } else {
                 if (qr == "0000") {
                     formData.result = "NOK";
+                    formData.qr = scanned_qr;
                     storeQr(formData);
                 } else {
                     getQr(formData, qr);
@@ -254,9 +263,7 @@
     // }
 
     function getQr(formData, qr) {
-        formData.qr = qr;
-
-        callAjax("GET", url + '/' + encodeURIComponent(qr), formData).done(function(response) {
+        callAjax("GET", url + '/' + encodeURIComponent(qr)).done(function(response) {
             $("#qr").val("");
             ajaxSuccess(response.message);
             $("#scanned_qr").html(
@@ -269,11 +276,32 @@
         });
     }
 
+    table = table.DataTable({
+        "ajax": ajaxCallDatatables(url),
+        columns: [{
+                data: 'serial_number'
+            },
+            {
+                data: "result",
+                render: function(data) {
+                    if (data == "NOK") {
+                        return `<label class="badge bg-danger">${data}</label>`;
+                    } else return `<label class="badge bg-success">OK</label>`;
+                },
+            },
+            {
+                data: 'updated_at',
+            }
+        ],
+    });
+
     function storeQr(formData) {
         callAjax("POST", url, formData).done(function(response) {
             //getSnTable(of_id);
             ajaxSuccess(response.message);
             $('#qr').val('');
+            $('.informations_qr').text('');
+            table.ajax.reload();
             scanned_qr = 0;
             $("#scanned_qr").html(`<strong class="h4"> Scanner un autre QR </strong>`);
         });
