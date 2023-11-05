@@ -208,6 +208,7 @@
         cleanValidationAlert();
         let qr = $("#qr").val();
         if (scanned_qr != 0) {
+
             if (scanned_qr == qr) {
                 formData.result = "OK";
                 storeQr(formData);
@@ -254,19 +255,16 @@
 
     function getQr(formData, qr) {
         formData.qr = qr;
-        callAjax("GET", url + '/' + qr, formData).done(function(response) {
+
+        callAjax("GET", url + '/' + encodeURIComponent(qr), formData).done(function(response) {
             $("#qr").val("");
             ajaxSuccess(response.message);
             $("#scanned_qr").html(
                 `<div class="alert alert-success"><span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span></div>`
             );
-            // response.data.forEach(element => {
-            //     console.log(element);
-            // });
             $.each(response.data, function(k, v) {
                 $("#" + k).text(v);
             });
-
             scanned_qr = qr;
         });
     }
