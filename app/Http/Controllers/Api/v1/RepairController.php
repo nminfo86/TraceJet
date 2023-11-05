@@ -98,7 +98,7 @@ class RepairController extends Controller
             ->join('ofs', 'serial_numbers.of_id', '=', 'ofs.id')
             ->join('calibers', 'ofs.caliber_id', '=', 'calibers.id')
             ->join('products', 'calibers.product_id', '=', 'products.id')
-            ->select('of_number', 'caliber_name', 'serial_number', 'product_name', 'post_name as nok_post')
+            ->select('of_number', 'caliber_name', 'serial_number', 'product_name', 'post_name as nok_post', 'movements.result')
 
             ->firstOrFail();
 
