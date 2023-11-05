@@ -78,6 +78,14 @@
                                         </div>
 
                                         <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-12 border-start border-secondary mx-auto mb-4 ">
+                                                    <h6 class="fw-normal text-muted mb-0 ms-2">
+                                                        {{ __('OF Numéro') }}</h6>
+                                                    <span class="fs-3 font-weight-medium text-info ms-2"
+                                                        id="of_number"></span>
+                                                </div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="col-12 border-start border-secondary float-start ">
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
@@ -203,7 +211,6 @@
             if (scanned_qr == qr) {
                 formData.result = "OK";
                 storeQr(formData);
-                scanned_qr = 0;
             } else {
                 if (qr == "0000") {
                     formData.result = "NOK";
@@ -253,10 +260,13 @@
             $("#scanned_qr").html(
                 `<div class="alert alert-success"><span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span></div>`
             );
-            $("#serial_number").text(response.data.info.serial_number);
-            $("#nok_post").text(response.data.info.nok_post);
-            $("#product_name").text(response.data.info.product_name);
-            $("#caliber_name").text(response.data.info.caliber_name);
+            // response.data.forEach(element => {
+            //     console.log(element);
+            // });
+            $.each(response.data, function(k, v) {
+                $("#" + k).text(v);
+            });
+
             scanned_qr = qr;
         });
     }
