@@ -43,8 +43,6 @@
                         </ul>
                     </span>
                     <span>
-                        {{-- <a href="{{ url('logout') }}" class="btn btn-circle btn-danger me-2 mt-2"><i
-                                class="fa fa-sign-out-alt ps-1 pt-0 text-white"></i></a> --}}
                         <a class="btn btn-danger btn-circle me-2 mt-2 text-white pt-1" href="{{ url('logout') }}">
                             <i class="fa fa-sign-out-alt text-white mt-1 fs-4"></i>
                         </a>
@@ -53,7 +51,6 @@
                 <div class="row d-flex align-items-stretch">
                     <div class="col-lg-6 flex-fill">
                         <div class="row">
-
                             {{-- Packaging --}}
                             <div class="col-12">
                                 <div class="card shadow border-primary">
@@ -94,7 +91,7 @@
                                                     <h6 class="fw-normal text-muted mb-0 ms-2">
                                                         {{ __('dernier NOK poste') }}</h6>
                                                     <span class="fs-3 font-weight-medium text-info ms-2"
-                                                        id="nok_poste"></span>
+                                                        id="nok_post"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6  mt-4 ">
@@ -256,13 +253,17 @@
             $("#scanned_qr").html(
                 `<div class="alert alert-success"><span class="font-weight-bolder h4"> vous pouvez intervenir sur le produit : ${response.data.serial_number}</span></div>`
             );
+            $("#serial_number").text(response.data.info.serial_number);
+            $("#nok_post").text(response.data.info.nok_post);
+            $("#product_name").text(response.data.info.product_name);
+            $("#caliber_name").text(response.data.info.caliber_name);
             scanned_qr = qr;
         });
     }
 
     function storeQr(formData) {
         callAjax("POST", url, formData).done(function(response) {
-            getSnTable(of_id);
+            //getSnTable(of_id);
             ajaxSuccess(response.message);
             $('#qr').val('');
             scanned_qr = 0;
