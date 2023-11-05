@@ -18,7 +18,7 @@ class RepairController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware(CheckIpClient::class . ":4"); # 2 is operator post_type id
+        $this->middleware(CheckIpClient::class . ":4"); # 2 is operator post_type id
         // Add more middleware and specify the desired methods if needed
         // $this->middleware('permission:movement-list', ['only' => ['index']]);
         // $this->middleware(['permission:movement-create', 'permission:movement-list'], ['only' => ['store']]);
@@ -28,12 +28,13 @@ class RepairController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->posts_type);
         $list = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             // ->where('serial_numbers.of_id', $of_id)
             // ->where('movements.result', "NOK")
-            ->where('movements.movement_post_id', 4)
+            ->where('movements.movement_post_id', $request->posts_type)
             ->latest('movements.updated_at')
             ->take(10)
             ->get(['serial_number', 'movements.result', 'movements.updated_at'/*, 'observation', 'movements.updated_by'*/]);
@@ -62,12 +63,12 @@ class RepairController extends Controller
         if ($product->result == 'OK') {
             // Send success response
             $msg = __('Ce produit est OK');
-            return $this->sendResponse($msg);
+            return $this->sendResponse($msg, status: false);
         }
         // Prepare payload for new movement record
         $payload = [
             'serial_number_id' => $product->sn_id,
-            'movement_post_id' => 4, //$current_post_id,
+            'movement_post_id' => $request->posts_type, //$current_post_id,
             'result' => $request->result,
             // 'observation' => $request->observation,
         ];
@@ -105,7 +106,7 @@ class RepairController extends Controller
         if ($product->result == 'OK') {
             // Send success response
             $msg = __('Ce produit est OK');
-            return $this->sendResponse($msg);
+            return $this->sendResponse($msg, status: false);
         }
         // $list = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
         //     // ->where('serial_numbers.of_id', $of_id)

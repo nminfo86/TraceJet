@@ -95,6 +95,12 @@
                                 class="hide-menu">{{ __('emballage') }}</span></a>
                     </li>
                 @endcan
+                {{-- @can('repair-list') --}}
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link text-capitalize"
+                            href="{{ url('repairs') }}" aria-expanded="false"><i class="mdi mdi-settings-box"></i><span
+                                class="hide-menu">{{ __('repair') }}</span></a>
+                    </li>
+                {{-- @endcan --}}
 
 
             </ul>

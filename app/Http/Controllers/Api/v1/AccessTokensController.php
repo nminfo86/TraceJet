@@ -28,13 +28,14 @@ class AccessTokensController extends Controller
         }
 
         $user = Auth::user();
+        $data['user'] = $user;
         // $user->setHidden(['roles']); // Hide the roles in the response
 
         // Add permissions to user
         // $permissions =  $user->getPermissionsViaRoles()->pluck('name');
 
         // Retrieve post information for user's IP address
-        // $post_information = Post::whereIpAddress($request->ip())->whereSectionId($user->section_id)->first();
+        $data['post_information'] = Post::whereIpAddress($request->ip())->whereSectionId($user->section_id)->first();
 
         // // Return error response if post information is not found
         // if (empty($post_information) && !$permissions->contains("access-all-posts")) {
@@ -44,9 +45,9 @@ class AccessTokensController extends Controller
 
 
         // if ($permissions->contains("access-all-posts")) {
-        //     $user->post_information = null;
+        // $user->post_information = null;
         // } else {
-        //     $user->post_information = $post_information;
+        // $user->post_information = $post_information;
         // }
         // Get device name or user agent from request
         $device_name = $request->post('device_name', $request->userAgent() . " with Ip address : " . $request->ip());
@@ -59,7 +60,7 @@ class AccessTokensController extends Controller
         Session::put('user_data', $user);
         $data = [
             'token' => $token,
-            'data' => $user,
+            'data' => $data,
             'status' => true
         ];
         return response($data);

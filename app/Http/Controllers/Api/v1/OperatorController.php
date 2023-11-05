@@ -99,7 +99,7 @@ class OperatorController extends Controller
             ->where('serial_numbers.qr', $request->qr)
             ->where('serial_numbers.of_id', $request->of_id)
             ->latest('movements.created_at')
-            ->first(['serial_numbers.id AS sn_id', 'movement_post_id', 'result',"serial_number_id"]);
+            ->first(['serial_numbers.id AS sn_id', 'movement_post_id', 'result', "serial_number_id"]);
 
         // Check if there were any errors in the product steps
         $checkProductSteps = $productService->checkProductSteps($request, $product)->getData();
@@ -142,12 +142,12 @@ class OperatorController extends Controller
         }
 
         // Get the last movement of a product with the specified QR and OF id
-         $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
+        $product = Movement::join('serial_numbers', 'movements.serial_number_id', 'serial_numbers.id')
             ->where('serial_numbers.qr',  $request->qr)
             ->where('serial_numbers.of_id', $request->of_id)
             // ->where('movements.movement_post_id','!=',4)
             ->latest("movements.created_at")
-            ->firstOrFail(['movement_post_id', 'result', 'serial_number', "of_id","serial_number_id"]);
+            ->firstOrFail(['movement_post_id', 'result', 'serial_number', "of_id", "serial_number_id"]);
 
         // Check if there are any errors with the product steps
         // If the current_post_id does not exist, there is an error

@@ -29,7 +29,7 @@ class WebAuthController extends AccessTokensController
                 // If login fails, redirect back with error message
                 return redirect("/")->with('error', $response["message"]);
             }
-
+            // dd($response);
             if (empty($response['data']["post_information"])) {
                 return redirect()->intended('/dashboard');
             } else {

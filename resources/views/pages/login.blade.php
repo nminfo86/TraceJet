@@ -6,7 +6,7 @@
 
 <body>
     <div class="row">
-        <div class="col-md-6 border" style="background-image:url('{{ asset('assets/images/login.png') }}');">
+        <div class="col-md-6 border" style="background-image:url('{{ asset('assets/images/pxfuel.jpg') }}');">
             {{-- <img src="{{ asset('assets/images/login.png') }}" alt="" srcset=""> --}}
         </div>
         <div class="col-md-6">
