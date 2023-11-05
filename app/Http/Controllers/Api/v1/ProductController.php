@@ -93,7 +93,7 @@ class ProductController extends Controller
 
     public function productLife($id)
     {
-        return Movement::whereSerialNumberId($id)
+        return Movement::whereSerialNumberId($id)->latest()//orderBy("movements.id","DESC")
             ->join("posts", "movement_post_id", "posts.id")
             ->get(["post_name", "color", "result", "movements.created_at", "movements.created_by"]);
     }
